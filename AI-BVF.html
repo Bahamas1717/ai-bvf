@@ -1,3 +1,25 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════════════╗
+  ║  AI BUSINESS VALUE FRAMEWORK (BVF)                                  ║
+  ║  © 2026 Craig Horton Advisory. All rights reserved.                 ║
+  ║                                                                     ║
+  ║  PROPRIETARY AND CONFIDENTIAL                                       ║
+  ║                                                                     ║
+  ║  This software, including all source code, design, methodology,     ║
+  ║  scoring algorithms, benchmark data, facilitation scripts, and      ║
+  ║  framework architecture, is the intellectual property of            ║
+  ║  Craig Horton Advisory (KVK: pending).                              ║
+  ║                                                                     ║
+  ║  Unauthorised copying, modification, distribution, reverse          ║
+  ║  engineering, or creation of derivative works is strictly            ║
+  ║  prohibited and may result in legal action.                         ║
+  ║                                                                     ║
+  ║  Licensed use is granted only under written agreement with          ║
+  ║  Craig Horton Advisory. Contact: craig@craighortonadvisory.com      ║
+  ║                                                                     ║
+  ║  Version: 2.0 | Build: March 2026                                   ║
+  ╚══════════════════════════════════════════════════════════════════════╝
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -816,6 +838,7 @@ header { transition:box-shadow 0.3s ease; }
      TAB NAVIGATION
      ══════════════════════════════════════════════ -->
 <nav id="tab-nav" style="display:none">
+  <button id="nav-back-btn" onclick="goBack()" title="Back" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.25);border-radius:4px;color:#B87333;font-size:16px;cursor:pointer;flex-shrink:0;transition:all 0.2s" onmouseover="this.style.background='rgba(184,115,51,0.15)';this.style.borderColor='#B87333'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(184,115,51,0.25)'">←</button>
   <button class="tab-btn active" onclick="switchTab('dashboard')" id="btn-dashboard">
     <span class="tab-icon">◈</span> Dashboard
   </button>
@@ -1225,7 +1248,10 @@ header { transition:box-shadow 0.3s ease; }
     <div id="tierCards" style="display:none;flex-wrap:wrap;gap:10px;margin-bottom:20px"></div>
     <!-- Initiative Form -->
     <div id="initForm" style="display:none;margin-bottom:20px;padding:22px 26px;background:rgba(184,115,51,0.07);border:1px solid var(--copper);border-radius:4px">
-      <span class="label" id="formTitle">New AI Initiative</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span class="label" id="formTitle" style="margin-bottom:0">New AI Initiative</span>
+        <button onclick="cancelForm()" style="background:transparent;border:1px solid rgba(184,115,51,0.25);border-radius:3px;padding:4px 12px;color:#B87333;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">← Back to Portfolio</button>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:10px">
         <div style="grid-column:1/3"><span class="label">Initiative Name *</span><input type="text" id="f_name" placeholder="e.g. GenAI Customer Service Agent"></div>
         <div><span class="label">BVF Function</span>
@@ -1915,12 +1941,78 @@ header { transition:box-shadow 0.3s ease; }
 </div>
 
 <!-- ══════════════════════════════════════════════
+     ACCESS GATE
+     ══════════════════════════════════════════════ -->
+<div id="access-gate" style="position:fixed;inset:0;z-index:9999;background:#1A222E;display:flex;align-items:center;justify-content:center">
+  <div style="text-align:center;max-width:420px;padding:40px">
+    <div style="width:64px;height:64px;border:3px solid #B87333;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#B87333;margin:0 auto 24px;box-shadow:0 0 24px rgba(184,115,51,0.3)">BVF</div>
+    <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#FFFFFF;margin-bottom:6px">Business Value Framework</div>
+    <div style="font-size:10px;letter-spacing:3px;color:#B87333;font-weight:600;text-transform:uppercase;margin-bottom:32px">Craig Horton Advisory · 2026</div>
+    <div style="font-size:12px;color:#CBD5E1;margin-bottom:20px;line-height:1.6">This platform contains proprietary methodology and benchmark data.<br>Enter your access code to continue.</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="password" id="gate-code" placeholder="Access code" onkeydown="if(event.key==='Enter')checkGate()" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:12px 16px;color:#FFFFFF;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;letter-spacing:2px">
+      <button onclick="checkGate()" style="padding:12px 24px;background:linear-gradient(135deg,#D4956A,#B87333);border:1px solid #B87333;border-radius:4px;color:#FFFFFF;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif">Enter</button>
+    </div>
+    <div id="gate-error" style="font-size:11px;color:#F87171;display:none;margin-bottom:12px">Invalid access code</div>
+    <div style="font-size:10px;color:#94A3B8;margin-top:20px">All data remains in your browser. Nothing is transmitted or stored.<br>
+    <a href="mailto:craig@craighortonadvisory.com" style="color:#B87333;text-decoration:none">Request access →</a></div>
+    <div style="font-size:9px;color:#64748B;margin-top:16px">© 2026 Craig Horton Advisory. All rights reserved.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
      JAVASCRIPT — SHARED DATA MODEL & NAVIGATION
      ══════════════════════════════════════════════ -->
 <script>
 // ══════════════════════════════════════════════════════════════════════════════
 // BVF UNIFIED PLATFORM — JAVASCRIPT
+// © 2026 Craig Horton Advisory. All rights reserved. PROPRIETARY & CONFIDENTIAL.
+// Unauthorised use, copying, or distribution is prohibited.
 // ══════════════════════════════════════════════════════════════════════════════
+
+// ── ACCESS GATE ─────────────────────────────────────────────────────────────
+// Codes are checked via simple hash to avoid plaintext in source.
+// To add/change codes: generate hash with hashCode('yourcode') in console.
+const VALID_HASHES = [
+  1542899, // bvf2026
+  -1097292282, // CraigBVF
+  483441413, // Advisory2026
+];
+function hashCode(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h) + s.charCodeAt(i);
+    h |= 0;
+  }
+  return h;
+}
+function checkGate() {
+  const code = document.getElementById('gate-code').value.trim();
+  if (!code) return;
+  if (VALID_HASHES.includes(hashCode(code))) {
+    document.getElementById('access-gate').style.display = 'none';
+    sessionStorage.setItem('bvf-auth', '1');
+  } else {
+    document.getElementById('gate-error').style.display = 'block';
+    document.getElementById('gate-code').style.borderColor = '#F87171';
+    setTimeout(() => {
+      document.getElementById('gate-error').style.display = 'none';
+      document.getElementById('gate-code').style.borderColor = 'rgba(255,255,255,0.12)';
+    }, 2500);
+  }
+}
+// Auto-unlock if already authenticated this session
+if (sessionStorage.getItem('bvf-auth') === '1') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const gate = document.getElementById('access-gate');
+    if (gate) gate.style.display = 'none';
+  });
+}
+// Focus the input on load
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('gate-code');
+  if (inp && document.getElementById('access-gate').style.display !== 'none') inp.focus();
+});
 
 // ── DATA CONSTANTS (from BVF v5) ──────────────────────────────────────────────
 const FUNCTIONS = [
@@ -2111,8 +2203,14 @@ function setView(view) {
   if (view === 'practitioner' && BVF.activeTab === 'dashboard') renderBVF();
 }
 
-// ── TAB SWITCHING ────────────────────────────────────────────────────────────
-function switchTab(tabId) {
+// ── TAB HISTORY & NAVIGATION ─────────────────────────────────────────────────
+let tabHistory = [];
+function switchTab(tabId, skipHistory) {
+  // Track history for back navigation (max 20 entries)
+  if (!skipHistory && BVF.activeTab && BVF.activeTab !== tabId) {
+    tabHistory.push(BVF.activeTab);
+    if (tabHistory.length > 20) tabHistory.shift();
+  }
   BVF.activeTab = tabId;
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   const activeBtn = document.getElementById('btn-' + tabId);
@@ -2120,15 +2218,46 @@ function switchTab(tabId) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const activePanel = document.getElementById('panel-' + tabId);
   if (activePanel) activePanel.classList.add('active');
+  // Close any open forms when switching tabs
+  const initForm = document.getElementById('initForm');
+  if (initForm) initForm.style.display = 'none';
+  // Reset drill-down states when leaving dashboard
+  if (tabId !== 'dashboard') { /* keep state for when they return */ }
   // Render tab content
   if (tabId === 'dashboard' && BVF.view === 'practitioner') renderBVF();
   if (tabId === 'dashboard' && BVF.view === 'executive') { renderPriorities(); updateAllExecKPIs(); }
-  if (tabId === 'dashboard') updateAllExecKPIs(); // Always refresh exec KPIs when on dashboard
+  if (tabId === 'dashboard') updateAllExecKPIs();
   if (tabId === 'portfolio') renderPortfolio();
   if (tabId === 'governance') { renderCM(); renderRegulatory(); }
   if (tabId === 'alignment') renderAlignment();
   if (tabId === 'agent') renderAgent();
   if (tabId === 'facilitate') renderFacilitate();
+  // Update back button visibility
+  updateBackButton();
+}
+function goBack() {
+  // If a form is open, close it first
+  const initForm = document.getElementById('initForm');
+  if (initForm && initForm.style.display !== 'none') { cancelForm(); return; }
+  // If drill-down is active in dashboard, reset it
+  if (BVF.activeTab === 'dashboard' && BVF.view === 'practitioner' && activeLayer) { activeLayer = null; renderBVF(); return; }
+  // Otherwise go back to previous tab
+  if (tabHistory.length > 0) {
+    const prevTab = tabHistory.pop();
+    switchTab(prevTab, true);
+  }
+}
+function updateBackButton() {
+  const btn = document.getElementById('nav-back-btn');
+  if (!btn) return;
+  const initForm = document.getElementById('initForm');
+  const formOpen = initForm && initForm.style.display !== 'none';
+  const drillDown = BVF.activeTab === 'dashboard' && BVF.view === 'practitioner' && activeLayer;
+  btn.style.display = (formOpen || drillDown || tabHistory.length > 0) ? 'flex' : 'none';
+  // Update label
+  if (formOpen) btn.title = 'Close form';
+  else if (drillDown) btn.title = 'Back to overview';
+  else btn.title = 'Back to previous tab';
 }
 
 // ── COMPANY PROFILE ──────────────────────────────────────────────────────────
@@ -2778,7 +2907,7 @@ function renderPortfolio() {
 }
 
 // ── PORTFOLIO FORM ────────────────────────────────────────────────────────────
-function openForm(type) { editingId=null; resetForm(); const isExisting = type === 'existing'; document.getElementById('formTitle').textContent=isExisting ? 'Add Existing AI Initiative' : 'New AI Initiative'; document.getElementById('f_status').value = isExisting ? 'existing' : 'proposed'; document.getElementById('initForm').style.display='block'; pilotAnswers={sponsored:'',owner:'',scaled:'',kpi:'',funded:''}; showPilot=false; document.getElementById('pilotForm').style.display='none'; document.getElementById('pilotToggleLabel').textContent='Run'; renderPilotQuestions(); }
+function openForm(type) { editingId=null; resetForm(); const isExisting = type === 'existing'; document.getElementById('formTitle').textContent=isExisting ? 'Add Existing AI Initiative' : 'New AI Initiative'; document.getElementById('f_status').value = isExisting ? 'existing' : 'proposed'; document.getElementById('initForm').style.display='block'; pilotAnswers={sponsored:'',owner:'',scaled:'',kpi:'',funded:''}; showPilot=false; document.getElementById('pilotForm').style.display='none'; document.getElementById('pilotToggleLabel').textContent='Run'; renderPilotQuestions(); updateBackButton(); document.getElementById('initForm').scrollIntoView({behavior:'smooth',block:'start'}); }
 function editInit(id) {
   const init=BVF.initiatives.find(i=>i.id===id);
   if(!init) return;
@@ -2798,8 +2927,10 @@ function editInit(id) {
   document.getElementById('initForm').style.display='block';
   updateTierHint(); updateBudgetHint(); updateCMHint();
   renderPilotQuestions();
+  updateBackButton();
+  document.getElementById('initForm').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function cancelForm() { document.getElementById('initForm').style.display='none'; editingId=null; }
+function cancelForm() { document.getElementById('initForm').style.display='none'; editingId=null; updateBackButton(); }
 function resetForm() {
   ['f_name','f_budget','f_cm','f_owner','f_outcome'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f_fn').value='it';
