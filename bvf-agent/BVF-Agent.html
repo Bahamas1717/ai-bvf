@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BVF AI Classification Agent</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  /* Exact BVF brand tokens */
+  --navy:#1C3A5C; --navy2:#254770; --navy3:#2D5585;
+  --copper:#B87333; --copperL:#D4956A;
+  --copper-dim:rgba(184,115,51,0.28); --copper-glow:rgba(184,115,51,0.15); --copper-bg:rgba(184,115,51,0.08);
+  --ice:#E8EEF5; --muted:#C8D8E8; --slate:#9BAEC8;
+  --white:#FFFFFF; --text:#E8EEF5; --text-body:#C8D8E8; --text-muted:#9BAEC8; --text-dim:#6B8099;
+  --green:#2E7D52; --greenL:#22C55E; --green-bg:rgba(34,197,94,0.1); --green-border:rgba(34,197,94,0.4);
+  --amber:#C07A1A; --amberL:#F59E0B; --amber-bg:rgba(245,158,11,0.1); --amber-border:rgba(245,158,11,0.4);
+  --red:#8B2020; --redL:#FF4444; --red-bg:rgba(255,68,68,0.1); --red-border:rgba(255,68,68,0.4);
+  --indigo:#7C6FCD; --indigo-bg:rgba(124,111,205,0.1); --indigo-border:rgba(124,111,205,0.4);
+}
+body { background:linear-gradient(160deg,var(--navy2) 0%,var(--navy) 100%); color:var(--text); font-family:Georgia,'Palatino Linotype',serif; min-height:100vh; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background-image:linear-gradient(var(--copper-dim) 1px,transparent 1px),linear-gradient(90deg,var(--copper-dim) 1px,transparent 1px); background-size:60px 60px; opacity:0.1; }
+
+/* HEADER */
+header { position:sticky; top:0; z-index:10; display:flex; align-items:center; justify-content:space-between; padding:18px 36px; border-bottom:1px solid var(--copper-dim); background:rgba(28,58,92,0.96); backdrop-filter:blur(20px); }
+.header-left { display:flex; align-items:center; gap:16px; }
+.logo { width:48px; height:48px; border-radius:3px; background:var(--navy); display:flex; align-items:center; justify-content:center; font-family:Georgia,serif; font-weight:700; font-size:12px; letter-spacing:3px; color:var(--copper); box-shadow:0 0 20px rgba(184,115,51,0.3),inset 0 0 0 1px rgba(184,115,51,0.5); border:1px solid var(--copper); flex-shrink:0; }
+.logo-title { font-size:14px; font-weight:700; color:var(--white); letter-spacing:1px; font-family:Georgia,serif; }
+.logo-sub { font-size:8px; letter-spacing:3px; color:var(--copper); font-family:'Trebuchet MS',sans-serif; font-weight:600; text-transform:uppercase; margin-top:2px; }
+.header-right { display:flex; gap:10px; align-items:center; }
+
+/* STEP INDICATOR */
+.step-indicator { display:flex; align-items:center; gap:0; margin-right:8px; }
+.step-pip { width:28px; height:28px; border-radius:50%; border:1px solid var(--copper-dim); display:flex; align-items:center; justify-content:center; font-size:11px; font-family:'Trebuchet MS',sans-serif; font-weight:700; color:var(--text-dim); transition:all 0.3s; }
+.step-pip.active { border-color:var(--copper); color:var(--copper); box-shadow:0 0 10px rgba(184,115,51,0.4); }
+.step-pip.done { background:var(--copper); border-color:var(--copper); color:#fff; }
+.step-line { width:20px; height:1px; background:var(--copper-dim); }
+
+/* BUTTONS */
+.btn { padding:9px 18px; border-radius:3px; font-size:11px; font-family:'Trebuchet MS',sans-serif; cursor:pointer; font-weight:600; letter-spacing:2px; text-transform:uppercase; transition:all 0.2s; }
+.btn-ghost { background:transparent; border:1px solid var(--copper-dim); color:var(--text-muted); }
+.btn-ghost:hover { border-color:var(--copper); color:var(--copper); }
+.btn-primary { background:linear-gradient(135deg,var(--copperL),var(--copper)); border:1px solid var(--copper); color:#fff; box-shadow:0 0 16px rgba(184,115,51,0.3); }
+.btn-primary:hover { box-shadow:0 0 28px rgba(184,115,51,0.5); }
+.btn-indigo { background:linear-gradient(135deg,#7C6FCD,#5A4FA0); border:1px solid rgba(124,111,205,0.6); color:#fff; box-shadow:0 0 16px rgba(124,111,205,0.3); }
+.btn-indigo:hover { box-shadow:0 0 28px rgba(124,111,205,0.5); }
+.btn-sample { font-size:10px; letter-spacing:1.5px; color:var(--copper); background:transparent; border:1px solid var(--copper-dim); border-radius:3px; padding:5px 12px; cursor:pointer; font-family:'Trebuchet MS',sans-serif; text-transform:uppercase; transition:all 0.2s; }
+.btn-sample:hover { border-color:var(--copper); background:var(--copper-glow); }
+
+/* MAIN */
+main { position:relative; z-index:1; padding:0 36px 80px; }
+.view { display:none; }
+.view.active { display:block; }
+
+/* INPUT VIEW */
+#view-input { max-width:780px; margin:0 auto; padding-top:64px; }
+.hero-text { text-align:center; margin-bottom:52px; }
+h1 { font-size:48px; font-weight:700; line-height:1.15; letter-spacing:-0.02em; margin-bottom:18px; color:var(--white); }
+.h1-accent { color:var(--copper); }
+.hero-sub { font-size:17px; color:var(--white); line-height:1.7; max-width:580px; margin:0 auto; }
+.input-card { background:rgba(28,58,92,0.85); border:1px solid var(--copper-dim); border-radius:4px; padding:36px; backdrop-filter:blur(20px); box-shadow:0 8px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(184,115,51,0.1); }
+.api-key-section { margin-bottom:24px; padding:18px 20px; background:var(--copper-bg); border:1px solid var(--copper-dim); border-radius:4px; }
+.api-key-note { font-size:13px; color:var(--text-body); margin-top:8px; line-height:1.5; font-family:'Trebuchet MS',sans-serif; }
+.api-key-note a { color:var(--copper); }
+.field-group { display:flex; flex-direction:column; gap:8px; margin-bottom:22px; }
+.label-row { display:flex; justify-content:space-between; align-items:center; }
+label { font-size:9px; letter-spacing:2.5px; color:var(--copper); font-family:'Trebuchet MS',sans-serif; font-weight:600; text-transform:none; }
+input[type="text"],input[type="password"],textarea,select { background:rgba(255,255,255,0.05); border:1px solid rgba(184,115,51,0.25); border-radius:3px; padding:11px 14px; color:var(--white); font-size:14px; outline:none; width:100%; font-family:Georgia,serif; transition:border-color 0.2s; }
+input[type="text"]:focus,input[type="password"]:focus,textarea:focus,select:focus { border-color:var(--copper); background:rgba(184,115,51,0.05); }
+input::placeholder,textarea::placeholder { color:rgba(255,255,255,0.45); }
+select option { background:#0D2137; color:var(--white); }
+textarea { resize:vertical; line-height:1.7; }
+.input-hint { font-size:11px; color:var(--text-muted); text-align:right; margin-top:5px; font-family:'Trebuchet MS',sans-serif; }
+.classify-btn { width:100%; padding:15px 24px; border-radius:3px; background:linear-gradient(135deg,var(--copperL),var(--copper)); border:1px solid var(--copper); color:#fff; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'Trebuchet MS',sans-serif; box-shadow:0 0 30px rgba(184,115,51,0.3); transition:all 0.2s; }
+.classify-btn:hover { box-shadow:0 0 44px rgba(184,115,51,0.5); }
+.classify-btn:disabled { opacity:0.5; cursor:not-allowed; }
+.error-msg { margin-top:14px; color:#FF9090; font-size:13px; text-align:center; padding:12px; background:rgba(232,80,80,0.1); border-radius:3px; border:1px solid rgba(232,80,80,0.3); font-family:'Trebuchet MS',sans-serif; }
+.spinner { display:inline-block; width:14px; height:14px; border-radius:50%; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; animation:spin 0.8s linear infinite; vertical-align:middle; margin-right:8px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* RESULTS VIEW */
+#view-results { padding-top:32px; }
+.summary-strip { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; background:rgba(28,58,92,0.85); border:1px solid var(--copper-dim); border-radius:4px; padding:18px 28px; margin-bottom:28px; }
+.summary-title { font-weight:700; font-size:15px; color:var(--white); }
+.summary-stats { display:flex; gap:10px; flex-wrap:wrap; }
+.stat-pill { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,0.04); border:1px solid var(--copper-dim); border-radius:20px; padding:6px 14px; font-size:13px; font-family:'Trebuchet MS',sans-serif; }
+.stat-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.stat-label { color:var(--text-body); }
+.bucket-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:22px; }
+.bucket-col { background:rgba(28,58,92,0.75); border:1px solid; border-radius:4px; overflow:hidden; }
+.bucket-header { display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid; }
+.bucket-emoji { font-size:18px; }
+.bucket-label { font-weight:700; font-size:14px; }
+.bucket-tagline { font-size:9px; letter-spacing:2px; color:var(--text-muted); margin-top:3px; text-transform:uppercase; font-family:'Trebuchet MS',sans-serif; }
+.bucket-count { margin-left:auto; font-size:28px; font-weight:700; }
+.bucket-items { padding:14px; display:flex; flex-direction:column; gap:10px; }
+.empty-bucket { color:var(--text-dim); font-size:13px; text-align:center; padding:24px 0; font-style:italic; }
+.item-card { background:rgba(255,255,255,0.04); border:1px solid rgba(184,115,51,0.15); border-radius:3px; padding:14px; cursor:pointer; transition:all 0.2s; }
+.item-card:hover { background:rgba(184,115,51,0.06); border-color:var(--copper-dim); }
+.item-card.expanded { background:rgba(184,115,51,0.06); border-color:var(--copper-dim); }
+.item-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:9px; }
+.item-name { font-weight:700; font-size:14px; color:var(--white); line-height:1.3; }
+.item-meta { display:flex; gap:6px; flex-shrink:0; align-items:center; }
+.risk-badge { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; border:1px solid; border-radius:2px; padding:3px 7px; font-family:'Trebuchet MS',sans-serif; }
+.confidence-badge { font-size:12px; font-weight:700; font-family:'Trebuchet MS',sans-serif; }
+.confidence-bar { height:3px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; }
+.confidence-fill { height:100%; border-radius:2px; }
+.item-expanded { margin-top:14px; padding-top:14px; border-top:1px solid rgba(184,115,51,0.2); display:none; }
+.item-card.expanded .item-expanded { display:block; }
+.rationale { font-size:13px; color:var(--text-body); line-height:1.75; margin-bottom:12px; }
+.risk-note { font-size:12px; color:var(--text-muted); line-height:1.65; margin-bottom:12px; font-style:italic; font-family:'Trebuchet MS',sans-serif; }
+.benchmark-section { margin-bottom:14px; }
+.benchmark-label { font-size:9px; letter-spacing:2px; color:var(--copper); font-family:'Trebuchet MS',sans-serif; font-weight:600; text-transform:uppercase; display:block; margin-bottom:8px; }
+.benchmark-item { font-size:12px; color:var(--text-body); line-height:1.65; padding:5px 10px; border-left:2px solid var(--copper-dim); margin-bottom:6px; font-family:'Trebuchet MS',sans-serif; background:rgba(184,115,51,0.04); }
+.action-box { border:1px solid; border-radius:3px; padding:10px 12px; margin-bottom:10px; }
+.action-label { font-size:9px; font-weight:600; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:6px; font-family:'Trebuchet MS',sans-serif; }
+.action-text { font-size:13px; font-weight:700; line-height:1.5; color:var(--white); }
+.savings-chip { font-size:12px; color:var(--copper); background:var(--copper-bg); border:1px solid var(--copper-dim); border-radius:3px; padding:5px 10px; display:inline-block; font-family:'Trebuchet MS',sans-serif; }
+
+/* STEP 2 CONTROL PANEL */
+#view-control { padding-top:32px; }
+.control-header { background:rgba(28,58,92,0.85); border:1px solid rgba(124,111,205,0.35); border-radius:4px; padding:24px 28px; margin-bottom:28px; }
+.control-title { font-size:22px; font-weight:700; color:var(--white); margin-bottom:6px; }
+.control-sub { font-size:14px; color:var(--text-body); line-height:1.6; margin-bottom:20px; }
+.context-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:20px; }
+.context-field { display:flex; flex-direction:column; gap:6px; }
+.context-label { font-size:9px; letter-spacing:2px; color:var(--indigo); font-family:'Trebuchet MS',sans-serif; font-weight:600; }
+.run-control-btn { width:100%; padding:14px; border-radius:3px; background:linear-gradient(135deg,#7C6FCD,#5A4FA0); border:1px solid rgba(124,111,205,0.6); color:#fff; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'Trebuchet MS',sans-serif; box-shadow:0 0 24px rgba(124,111,205,0.3); transition:all 0.2s; }
+.run-control-btn:hover { box-shadow:0 0 36px rgba(124,111,205,0.5); }
+.run-control-btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+.llm-grid { display:flex; flex-direction:column; gap:20px; }
+.llm-card { background:rgba(28,58,92,0.75); border:1px solid rgba(124,111,205,0.2); border-radius:4px; overflow:hidden; }
+.llm-card-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid rgba(124,111,205,0.15); background:rgba(124,111,205,0.05); }
+.llm-tool-name { font-weight:700; font-size:15px; color:var(--white); }
+.llm-tool-bucket { font-size:10px; font-family:'Trebuchet MS',sans-serif; letter-spacing:1.5px; padding:3px 8px; border-radius:2px; border:1px solid; font-weight:700; }
+.llm-card-body { padding:20px; }
+.llm-recommendation { margin-bottom:16px; }
+.llm-rec-label { font-size:9px; letter-spacing:2px; color:var(--indigo); font-family:'Trebuchet MS',sans-serif; font-weight:600; display:block; margin-bottom:10px; }
+.llm-options { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
+.llm-option { border:1px solid; border-radius:3px; padding:10px 12px; position:relative; }
+.llm-option.primary { border-width:2px; }
+.llm-option-badge { position:absolute; top:-8px; right:8px; font-size:9px; font-weight:700; letter-spacing:1px; padding:2px 7px; border-radius:2px; font-family:'Trebuchet MS',sans-serif; }
+.llm-name { font-weight:700; font-size:13px; color:var(--white); margin-bottom:3px; }
+.llm-use-case { font-size:11px; color:var(--text-body); line-height:1.5; font-family:'Trebuchet MS',sans-serif; }
+.llm-score { font-size:11px; font-weight:700; margin-top:6px; font-family:'Trebuchet MS',sans-serif; }
+.llm-rationale { font-size:13px; color:var(--text-body); line-height:1.75; margin-bottom:12px; }
+.llm-flags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.llm-flag { font-size:11px; font-family:'Trebuchet MS',sans-serif; padding:4px 10px; border-radius:3px; border:1px solid; }
+.llm-flag.green { color:var(--green); border-color:var(--green-border); background:var(--green-bg); }
+.llm-flag.amber { color:var(--amber); border-color:var(--amber-border); background:var(--amber-bg); }
+.llm-flag.red { color:var(--red); border-color:var(--red-border); background:var(--red-bg); }
+.llm-deploy { font-size:12px; color:var(--indigo); font-family:'Trebuchet MS',sans-serif; font-weight:600; padding:8px 12px; background:var(--indigo-bg); border:1px solid var(--indigo-border); border-radius:3px; margin-bottom:10px; }
+.llm-cost { font-size:12px; color:var(--text-muted); font-family:'Trebuchet MS',sans-serif; border-top:1px solid rgba(255,255,255,0.06); padding-top:10px; }
+
+/* REPORT VIEW */
+#view-report { max-width:820px; margin:0 auto; padding-top:40px; }
+.report-doc { background:rgba(20,45,75,0.97); border:1px solid var(--copper-dim); border-radius:4px; padding:52px 60px; box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+.report-meta { font-size:9px; font-weight:600; letter-spacing:3px; color:var(--copper); text-transform:uppercase; margin-bottom:14px; font-family:'Trebuchet MS',sans-serif; }
+.report-title { font-size:34px; font-weight:700; color:var(--white); margin-bottom:8px; }
+.report-client { font-size:14px; color:var(--text-body); font-family:'Trebuchet MS',sans-serif; }
+.report-divider { height:1px; background:linear-gradient(90deg,var(--copper),transparent); margin-top:28px; margin-bottom:40px; }
+.report-section { margin-bottom:40px; }
+.report-section-title { font-size:16px; font-weight:700; color:var(--white); margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--copper-dim); }
+.report-para { font-size:14px; color:var(--text-body); line-height:1.85; }
+.report-bucket-summary { display:flex; gap:16px; }
+.report-bucket { flex:1; padding:16px 18px; background:rgba(255,255,255,0.03); border-radius:3px; border-left:3px solid; }
+.report-bucket-name { font-size:12px; font-weight:700; margin-bottom:6px; font-family:'Trebuchet MS',sans-serif; }
+.report-bucket-count { font-size:26px; font-weight:700; color:var(--white); }
+.report-bucket-pct { font-size:12px; color:var(--text-muted); margin-top:3px; font-family:'Trebuchet MS',sans-serif; }
+.report-item { margin-bottom:28px; padding-bottom:28px; border-bottom:1px solid rgba(184,115,51,0.12); }
+.report-item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.report-item-name { font-weight:700; font-size:15px; color:var(--white); }
+.report-item-rationale { font-size:13px; color:var(--text-body); line-height:1.8; margin-bottom:10px; }
+.report-benchmarks { margin-bottom:12px; padding:14px 16px; background:rgba(184,115,51,0.05); border:1px solid var(--copper-dim); border-radius:3px; }
+.report-benchmark-label { font-size:9px; letter-spacing:2px; color:var(--copper); font-family:'Trebuchet MS',sans-serif; font-weight:600; text-transform:uppercase; display:block; margin-bottom:10px; }
+.report-benchmark-item { font-size:12px; color:var(--text-body); line-height:1.7; padding:4px 10px; border-left:2px solid var(--copper-dim); margin-bottom:6px; font-family:'Trebuchet MS',sans-serif; }
+.report-item-action { font-size:13px; font-weight:700; margin-top:4px; }
+.report-llm-box { margin-top:10px; padding:14px 16px; background:rgba(124,111,205,0.06); border:1px solid rgba(124,111,205,0.25); border-radius:3px; }
+.report-llm-label { font-size:9px; letter-spacing:2px; color:var(--indigo); font-family:'Trebuchet MS',sans-serif; font-weight:600; display:block; margin-bottom:8px; }
+.report-llm-rec { font-size:13px; color:var(--text-body); line-height:1.75; }
+.report-recs { display:flex; flex-direction:column; gap:14px; }
+.report-rec { font-size:14px; color:var(--text-body); line-height:1.8; padding-left:18px; border-left:3px solid var(--copper-dim); }
+.report-footer { margin-top:52px; padding-top:24px; border-top:1px solid var(--copper-dim); font-size:11px; color:var(--text-dim); text-align:center; font-family:'Trebuchet MS',sans-serif; letter-spacing:1.5px; text-transform:uppercase; }
+.print-btn { margin-bottom:18px; }
+
+@media print {
+  header,.header-right,.print-btn { display:none !important; }
+  body { background:white; color:black; }
+  .report-doc { border:none; padding:0; background:white; box-shadow:none; }
+  .report-title,.report-section-title,.report-item-name,.report-bucket-count { color:black; }
+  .report-para,.report-item-rationale,.report-rec,.report-benchmark-item,.report-llm-rec { color:#222; }
+  .report-meta,.report-benchmark-label,.report-llm-label { color:#8B5A1A; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo">
+      <svg width="32" height="24" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="1" y="18" font-family="Georgia, serif" font-size="15" font-weight="700" fill="#B87333" letter-spacing="2">BVF</text>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-title">Business Value Framework</div>
+      <div class="logo-sub">AI Classification Agent</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="step-indicator" id="step-indicator">
+      <div class="step-pip active" id="pip1">1</div>
+      <div class="step-line"></div>
+      <div class="step-pip" id="pip2">2</div>
+      <div class="step-line"></div>
+      <div class="step-pip" id="pip3">3</div>
+    </div>
+    <div id="header-btns"></div>
+  </div>
+</header>
+
+<main>
+  <!-- STEP 1: INPUT -->
+  <div id="view-input" class="view active">
+    <div style="max-width:780px;margin:0 auto;padding-top:64px;">
+      <div class="hero-text">
+        <h1>AI Portfolio<br><span class="h1-accent">Risk Intelligence</span></h1>
+        <p class="hero-sub">Paste your client's SaaS inventory. The BVF Agent classifies each tool against global analyst benchmarks, scores disruption risk, and recommends the optimal AI stack for replacement.</p>
+      </div>
+      <div class="input-card">
+        <div class="api-key-section">
+          <div class="field-group" style="margin-bottom:0">
+            <label>Anthropic API key</label>
+            <input type="password" id="api-key" placeholder="sk-ant-..." autocomplete="off"/>
+          </div>
+          <p class="api-key-note">Your key is used only in this session and never stored. Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+        </div>
+        <div class="field-group">
+          <label>Client name</label>
+          <input type="text" id="client-name" placeholder="e.g. Philips, ING Bank, Shell"/>
+        </div>
+        <div class="field-group">
+          <div class="label-row">
+            <label>SaaS &amp; AI initiatives inventory</label>
+            <button class="btn-sample" onclick="loadSample()">Load sample</button>
+          </div>
+          <textarea id="initiatives" rows="10" placeholder="Enter one tool per line, e.g.:&#10;Salesforce CRM - $420k/year, 200 seats&#10;ServiceNow ITSM - $350k/year, 50 seats&#10;Microsoft 365 - $180k/year, 300 seats"></textarea>
+          <div class="input-hint" id="tool-count">0 tools entered</div>
+        </div>
+        <button class="classify-btn" id="classify-btn" onclick="classify()">Step 1 — Run BVF classification</button>
+        <div id="error-msg" class="error-msg" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 1: RESULTS -->
+  <div id="view-results" class="view">
+    <div class="summary-strip">
+      <div class="summary-title" id="results-title"></div>
+      <div class="summary-stats" id="results-stats"></div>
+    </div>
+    <div class="bucket-grid" id="bucket-grid"></div>
+  </div>
+
+  <!-- STEP 2: AGENTIC CONTROL PANEL -->
+  <div id="view-control" class="view">
+    <div class="control-header">
+      <div class="control-title">⚙️ Agentic Control Panel</div>
+      <div class="control-sub">Add context about your client's environment. The BVF agent will evaluate every Agent-Replaceable and Agent-Augmented tool and recommend the optimal LLM, deployment model, and implementation approach — scored against platform fit, process type, risk profile, and business case.</div>
+      <div class="context-grid">
+        <div class="context-field">
+          <span class="context-label">Industry / sector</span>
+          <select id="ctx-industry">
+            <option value="">Select sector...</option>
+            <option>Financial services</option>
+            <option>Healthcare &amp; life sciences</option>
+            <option>Manufacturing</option>
+            <option>Retail &amp; consumer</option>
+            <option>Professional services</option>
+            <option>Energy &amp; utilities</option>
+            <option>Public sector</option>
+            <option>Technology</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="context-field">
+          <span class="context-label">Risk tolerance</span>
+          <select id="ctx-risk">
+            <option value="">Select...</option>
+            <option>Conservative — regulated, risk-averse</option>
+            <option>Moderate — balanced innovation vs stability</option>
+            <option>Aggressive — fast mover, tolerates risk</option>
+          </select>
+        </div>
+        <div class="context-field">
+          <span class="context-label">Data sovereignty requirement</span>
+          <select id="ctx-data">
+            <option value="">Select...</option>
+            <option>EU data residency required</option>
+            <option>On-premise / private cloud only</option>
+            <option>Public cloud acceptable</option>
+            <option>No specific requirement</option>
+          </select>
+        </div>
+        <div class="context-field">
+          <span class="context-label">Technical maturity</span>
+          <select id="ctx-tech">
+            <option value="">Select...</option>
+            <option>Low — limited AI/ML capability in-house</option>
+            <option>Medium — some data science / AI team</option>
+            <option>High — strong engineering, MLOps capability</option>
+          </select>
+        </div>
+        <div class="context-field">
+          <span class="context-label">Primary existing cloud platform</span>
+          <select id="ctx-cloud">
+            <option value="">Select...</option>
+            <option>Microsoft Azure</option>
+            <option>AWS</option>
+            <option>Google Cloud</option>
+            <option>Multi-cloud</option>
+            <option>On-premise</option>
+            <option>No strong preference</option>
+          </select>
+        </div>
+        <div class="context-field">
+          <span class="context-label">Annual AI budget range</span>
+          <select id="ctx-budget">
+            <option value="">Select...</option>
+            <option>Under €100k</option>
+            <option>€100k – €500k</option>
+            <option>€500k – €2M</option>
+            <option>€2M – €10M</option>
+            <option>Over €10M</option>
+          </select>
+        </div>
+      </div>
+      <button class="run-control-btn" id="control-btn" onclick="runControlPanel()">Step 2 — Run agentic control panel</button>
+      <div id="control-error" class="error-msg" style="display:none;margin-top:12px;"></div>
+    </div>
+    <div class="llm-grid" id="llm-grid"></div>
+  </div>
+
+  <!-- STEP 3: BOARD REPORT -->
+  <div id="view-report" class="view">
+    <button class="btn btn-primary print-btn" onclick="window.print()">Print / Save as PDF</button>
+    <div class="report-doc" id="report-content"></div>
+  </div>
+</main>
+
+<script>
+const SAMPLE=`Salesforce CRM - $420k/year, 200 seats
+Microsoft 365 - $180k/year, 300 seats
+ServiceNow ITSM - $350k/year, 50 seats
+Workday HCM - $280k/year, enterprise
+Zoom - $95k/year, 300 seats
+DocuSign - $48k/year, 100 seats
+Tableau - $120k/year, 80 seats
+Asana - $65k/year, 150 seats
+Grammarly Business - $32k/year, 200 seats
+Intercom - $85k/year, 25 agents`;
+
+const CLASSIFY_PROMPT=`You are the BVF (Business Value Framework) AI Classification Agent — a senior enterprise technology advisor specialising in AI disruption risk assessment.
+
+Classify each SaaS tool into one of three buckets:
+AGENT-PROOF: Systems of record, deterministic outputs, regulatory anchored, high switching costs. AI enhances from within.
+AGENT-AUGMENTED: AI enhances humans, 15-30% seat compression likely in 2-3 years, partial automation possible.
+AGENT-REPLACEABLE: Core workflows automatable today, rule-based, low switching costs, near-term displacement risk.
+
+Return a JSON array. Each item:
+- name, bucket ("AGENT-PROOF"|"AGENT-AUGMENTED"|"AGENT-REPLACEABLE"), confidence (0-100)
+- rationale: 3-4 sentence expert analysis
+- benchmarks: array of 3-4 specific analyst citations (McKinsey/Gartner/IDC/Forrester/BCG with data points)
+- annualRisk: "LOW"|"MEDIUM"|"HIGH" (12-24 month disruption velocity)
+- riskRationale: 1-2 sentences on why this annual risk level
+- action: specific recommended action
+- savingsOpportunity: % cost reduction (0-5 Proof, 10-30 Augmented, 30-80 Replaceable)
+
+IMPORTANT: annualRisk measures near-term velocity not long-term structure. Agent-Augmented tools with strong vendor AI investment (e.g. Microsoft Copilot, Salesforce Einstein) should be LOW annual risk.
+Respond ONLY with valid JSON array, no markdown. Do not use apostrophes in string values - rephrase to avoid them.`;
+
+const CONTROL_PROMPT=`You are the BVF Agentic Control Panel — an expert enterprise AI architect who recommends the optimal LLM stack for replacing or augmenting SaaS tools.
+
+You will receive: a list of tools classified as Agent-Replaceable or Agent-Augmented, plus client context (industry, risk tolerance, data sovereignty, technical maturity, cloud platform, budget).
+
+For each tool, recommend the best LLM approach across this landscape:
+- Claude (Anthropic): claude-opus-4-6, claude-sonnet-4-6, claude-haiku — best for reasoning, long-context, safety-critical
+- GPT-4o / o1 (OpenAI): best for general productivity, coding, broad capability
+- Gemini (Google): best for Google Workspace integration, multimodal, GCP-native
+- Open source (Llama 3, Mistral, Mixtral): best for on-premise, fine-tuning, cost sensitivity, data sovereignty
+- Azure OpenAI: GPT models in private Azure deployment — best for Microsoft shops, EU data residency
+- AWS Bedrock: Claude/Llama/Titan via AWS — best for AWS-native, managed deployment
+- Specialist/fine-tuned: domain-specific models (legal, medical, financial) — best for regulated industries
+
+Return a JSON array. Each item:
+- toolName: the tool name
+- bucket: the BVF bucket
+- primaryLLM: { name, model, rationale (2-3 sentences), fitScore (0-100), deploymentModel ("Public API"|"Azure OpenAI"|"AWS Bedrock"|"GCP Vertex"|"On-premise"|"Private cloud"), estimatedCostModel }
+- alternativeLLMs: array of 1-2 alternatives with { name, model, rationale, fitScore, deploymentModel }
+- processType: the primary AI process type being replaced/augmented (e.g. "Document generation", "Customer interaction", "Data analysis", "Code generation", "Decision support", "Content creation")
+- buildApproach: "Buy" | "Build" | "Embed" | "Fine-tune" — with 1 sentence rationale
+- implementationComplexity: "Low" | "Medium" | "High"
+- complianceFlags: array of strings for any compliance/risk considerations
+- roiTimeframe: estimated months to positive ROI
+- overallRecommendation: 2-3 sentence strategic recommendation combining all factors
+
+Tailor ALL recommendations to the client context provided. Regulated industries should favour private deployment and smaller/fine-tuned models. Low technical maturity should favour managed services and "Buy" approaches. EU data residency should favour Azure OpenAI or on-premise open source.
+
+Respond ONLY with valid JSON array, no markdown. Do not use apostrophes in string values - rephrase to avoid them.`;
+
+const BUCKET_CONFIG={
+  'AGENT-PROOF':      {hexColor:'#22C55E',bg:'rgba(34,197,94,0.1)',   border:'rgba(34,197,94,0.4)',   label:'Agent-Proof',      tagline:'Protect & Enhance',        emoji:'🟢'},
+  'AGENT-AUGMENTED':  {hexColor:'#F59E0B',bg:'rgba(245,158,11,0.1)',  border:'rgba(245,158,11,0.4)',  label:'Agent-Augmented',  tagline:'Renegotiate & Restructure', emoji:'🟡'},
+  'AGENT-REPLACEABLE':{hexColor:'#FF4444',bg:'rgba(255,68,68,0.1)',   border:'rgba(255,68,68,0.4)',   label:'Agent-Replaceable',tagline:'Replace or Eliminate',      emoji:'🔴'}
+};
+const RISK_COLOR={LOW:'#22C55E',MEDIUM:'#F59E0B',HIGH:'#FF4444'};
+const LLM_COLORS={'Claude':'#B87333','GPT':'#10A37F','Gemini':'#4285F4','Open source':'#9B59B6','Azure OpenAI':'#0078D4','AWS Bedrock':'#FF9900','Specialist':'#E85050'};
+
+function getLLMColor(name){
+  for(const[k,v] of Object.entries(LLM_COLORS)) if(name.toLowerCase().includes(k.toLowerCase())) return v;
+  return '#7C6FCD';
+}
+
+let results=null, controlResults=null;
+
+document.getElementById('initiatives').addEventListener('input',function(){
+  const n=this.value.split('\n').filter(l=>l.trim()).length;
+  document.getElementById('tool-count').textContent=n+' tools entered';
+});
+
+function loadSample(){
+  document.getElementById('initiatives').value=SAMPLE;
+  document.getElementById('tool-count').textContent=SAMPLE.split('\n').filter(l=>l.trim()).length+' tools entered';
+}
+
+function updateSteps(active){
+  ['pip1','pip2','pip3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.className='step-pip';
+    if(i+1<active) el.classList.add('done');
+    else if(i+1===active) el.classList.add('active');
+  });
+}
+
+function showView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  updateHeaderBtns(v);
+  window.scrollTo(0,0);
+  const stepMap={input:1,results:1,control:2,report:3};
+  updateSteps(stepMap[v]||1);
+}
+
+function updateHeaderBtns(v){
+  const c=document.getElementById('header-btns');
+  c.innerHTML='';
+  if(v==='results'){
+    const b=document.createElement('button');
+    b.className='btn btn-ghost'; b.textContent='← New analysis';
+    b.onclick=()=>{results=null;controlResults=null;showView('input');}; c.appendChild(b);
+    const b2=document.createElement('button');
+    b2.className='btn btn-indigo'; b2.textContent='Step 2: LLM recommendations →';
+    b2.onclick=()=>showView('control'); c.appendChild(b2);
+  }
+  if(v==='control'){
+    const b=document.createElement('button');
+    b.className='btn btn-ghost'; b.textContent='← Results';
+    b.onclick=()=>showView('results'); c.appendChild(b);
+    if(controlResults){
+      const b2=document.createElement('button');
+      b2.className='btn btn-primary'; b2.textContent='Board report →';
+      b2.onclick=()=>{buildReport();showView('report');}; c.appendChild(b2);
+    }
+  }
+  if(v==='report'){
+    const b=document.createElement('button');
+    b.className='btn btn-ghost'; b.textContent='← Control panel';
+    b.onclick=()=>showView('control'); c.appendChild(b);
+  }
+}
+
+function getApiKey(){return document.getElementById('api-key').value.trim();}
+
+async function callAPI(system,userMsg,maxTokens=4000){
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,system,messages:[{role:'user',content:userMsg}]})
+  });
+  const data=await res.json();
+  if(!res.ok) throw new Error('API error '+res.status+': '+(data.error?.message||JSON.stringify(data)));
+  let raw=(data.content||[]).map(b=>b.text||'').join('');
+  // Strip markdown fences
+  raw=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+  // Extract first JSON array found
+  const m=raw.match(/\[[\s\S]*\]/);
+  return m ? m[0] : raw;
+}
+
+function safeParseJSON(text){
+  // Pass 1: direct
+  try{ return JSON.parse(text); }catch(_){}
+  // Pass 2: extract array again in case of trailing text
+  try{
+    const m=text.match(/\[[\s\S]*\]/);
+    if(m) return JSON.parse(m[0]);
+  }catch(_){}
+  // Pass 3: Function eval as last resort
+  try{ return Function('"use strict";return ('+text+')')(); }catch(_){}
+  throw new Error('Could not parse API response — please try again.');
+}
+
+async function classify(){
+  const input=document.getElementById('initiatives').value.trim();
+  const client=document.getElementById('client-name').value.trim();
+  const errEl=document.getElementById('error-msg');
+  const btn=document.getElementById('classify-btn');
+  errEl.style.display='none';
+  if(!getApiKey()){errEl.textContent='Please enter your Anthropic API key.';errEl.style.display='block';return;}
+  if(!input){errEl.textContent='Please enter at least one tool.';errEl.style.display='block';return;}
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Classifying portfolio...';
+  try{
+    const text=await callAPI(CLASSIFY_PROMPT,`Classify the following SaaS portfolio for ${client||'this client'}:\n\n${input}`);
+    results=safeParseJSON(text);
+    buildResults(client);
+    showView('results');
+  }catch(e){errEl.textContent='Error: '+e.message;errEl.style.display='block';}
+  finally{btn.disabled=false;btn.textContent='Step 1 — Run BVF classification';}
+}
+
+async function runControlPanel(){
+  const btn=document.getElementById('control-btn');
+  const errEl=document.getElementById('control-error');
+  errEl.style.display='none';
+  if(!getApiKey()){errEl.textContent='Please enter your API key on the first screen.';errEl.style.display='block';return;}
+  if(!results){errEl.textContent='Please run Step 1 classification first.';errEl.style.display='block';return;}
+
+  const actionableTools=results.filter(r=>r.bucket!=='AGENT-PROOF');
+  if(actionableTools.length===0){errEl.textContent='No Agent-Augmented or Agent-Replaceable tools to analyse.';errEl.style.display='block';return;}
+
+  const ctx={
+    industry:document.getElementById('ctx-industry').value||'Not specified',
+    riskTolerance:document.getElementById('ctx-risk').value||'Not specified',
+    dataSovereignty:document.getElementById('ctx-data').value||'Not specified',
+    technicalMaturity:document.getElementById('ctx-tech').value||'Not specified',
+    cloudPlatform:document.getElementById('ctx-cloud').value||'Not specified',
+    budget:document.getElementById('ctx-budget').value||'Not specified'
+  };
+
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Analysing LLM stack options...';
+
+  try{
+    const toolList=actionableTools.map(t=>`${t.name} (${t.bucket}): ${t.rationale}`).join('\n');
+    const userMsg=`Client context:\n${JSON.stringify(ctx,null,2)}\n\nTools to analyse:\n${toolList}`;
+    const text=await callAPI(CONTROL_PROMPT,userMsg,6000);
+    controlResults=safeParseJSON(text);
+    buildControlPanel();
+    updateHeaderBtns('control');
+  }catch(e){errEl.textContent='Error: '+e.message;errEl.style.display='block';}
+  finally{btn.disabled=false;btn.textContent='Step 2 — Run agentic control panel';}
+}
+
+function buildResults(client){
+  const total=results.length,counts={};
+  results.forEach(r=>counts[r.bucket]=(counts[r.bucket]||0)+1);
+  const avg=Math.round(results.reduce((a,r)=>a+(r.savingsOpportunity||0),0)/total);
+  document.getElementById('results-title').textContent=(client||'Portfolio')+' Analysis — '+total+' initiatives classified';
+  document.getElementById('results-stats').innerHTML=
+    Object.entries(BUCKET_CONFIG).map(([k,c])=>`<div class="stat-pill"><span class="stat-dot" style="background:${c.hexColor}"></span><span style="color:${c.hexColor};font-weight:700">${counts[k]||0}</span><span class="stat-label">${c.label}</span></div>`).join('')+
+    `<div class="stat-pill" style="border-color:rgba(184,115,51,0.5)"><span style="color:var(--copper);font-weight:700">${avg}%</span><span class="stat-label">avg savings opp.</span></div>`;
+  document.getElementById('bucket-grid').innerHTML=Object.entries(BUCKET_CONFIG).map(([bk,cfg])=>{
+    const items=results.filter(r=>r.bucket===bk);
+    return `<div class="bucket-col" style="border-color:${cfg.hexColor}44">
+      <div class="bucket-header" style="background:${cfg.bg};border-color:${cfg.hexColor}33">
+        <span class="bucket-emoji">${cfg.emoji}</span>
+        <div><div class="bucket-label" style="color:${cfg.hexColor}">${cfg.label}</div><div class="bucket-tagline">${cfg.tagline}</div></div>
+        <div class="bucket-count" style="color:${cfg.hexColor}">${items.length}</div>
+      </div>
+      <div class="bucket-items">
+        ${items.length===0?'<div class="empty-bucket">No tools in this bucket</div>':items.map(item=>`
+          <div class="item-card" onclick="this.classList.toggle('expanded')">
+            <div class="item-top">
+              <div class="item-name">${item.name}</div>
+              <div class="item-meta">
+                <span class="risk-badge" style="color:${RISK_COLOR[item.annualRisk]||'#B8A88A'};border-color:${RISK_COLOR[item.annualRisk]||'#B8A88A'}55">${item.annualRisk}</span>
+                <span class="confidence-badge" style="color:${cfg.hexColor}">${item.confidence}%</span>
+              </div>
+            </div>
+            <div class="confidence-bar"><div class="confidence-fill" style="width:${item.confidence}%;background:${cfg.hexColor}"></div></div>
+            <div class="item-expanded">
+              <p class="rationale">${item.rationale}</p>
+              ${item.riskRationale?`<p class="risk-note">⚡ Risk note: ${item.riskRationale}</p>`:''}
+              ${item.benchmarks&&item.benchmarks.length?`<div class="benchmark-section"><span class="benchmark-label">Industry benchmarks</span>${item.benchmarks.map(b=>`<div class="benchmark-item">${b}</div>`).join('')}</div>`:''}
+              <div class="action-box" style="border-color:${cfg.hexColor}44;background:${cfg.bg}">
+                <span class="action-label">Recommended action</span>
+                <div class="action-text" style="color:${cfg.hexColor}">${item.action}</div>
+              </div>
+              ${item.savingsOpportunity>0?`<div class="savings-chip">💰 ${item.savingsOpportunity}% cost reduction opportunity</div>`:''}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildControlPanel(){
+  const complexityColor={Low:'#2ECC8E',Medium:'#E8A020',High:'#E85050'};
+  document.getElementById('llm-grid').innerHTML=controlResults.map(item=>{
+    const bucketCfg=BUCKET_CONFIG[item.bucket]||BUCKET_CONFIG['AGENT-AUGMENTED'];
+    const primColor=getLLMColor(item.primaryLLM?.name||'');
+    return `<div class="llm-card">
+      <div class="llm-card-header">
+        <div>
+          <div class="llm-tool-name">${item.toolName}</div>
+          <div style="font-size:11px;color:var(--text-muted);font-family:'Trebuchet MS',sans-serif;margin-top:3px">${item.processType||''}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="llm-tool-bucket" style="color:${bucketCfg.hexColor};border-color:${bucketCfg.hexColor}55;background:${bucketCfg.bg}">${item.bucket}</span>
+          <span style="font-size:11px;color:${complexityColor[item.implementationComplexity]||'#E8A020'};font-family:'Trebuchet MS',sans-serif;font-weight:700;border:1px solid ${complexityColor[item.implementationComplexity]||'#E8A020'}55;padding:3px 8px;border-radius:2px">${item.implementationComplexity||'Medium'} complexity</span>
+          <span style="font-size:11px;color:var(--text-muted);font-family:'Trebuchet MS',sans-serif">ROI ~${item.roiTimeframe||'6-12'} months</span>
+        </div>
+      </div>
+      <div class="llm-card-body">
+        <div class="llm-recommendation">
+          <span class="llm-rec-label">LLM recommendations</span>
+          <div class="llm-options">
+            <div class="llm-option primary" style="border-color:${primColor};background:${primColor}11">
+              <span class="llm-option-badge" style="background:${primColor};color:#fff">Primary</span>
+              <div class="llm-name">${item.primaryLLM?.name||'—'}</div>
+              <div class="llm-use-case">${item.primaryLLM?.model||''}</div>
+              <div class="llm-score" style="color:${primColor}">Fit: ${item.primaryLLM?.fitScore||'—'}/100</div>
+            </div>
+            ${(item.alternativeLLMs||[]).map(alt=>{const ac=getLLMColor(alt.name||'');return `<div class="llm-option" style="border-color:${ac}55;background:${ac}08">
+              <span class="llm-option-badge" style="background:rgba(255,255,255,0.1);color:var(--text-muted)">Alt</span>
+              <div class="llm-name">${alt.name||'—'}</div>
+              <div class="llm-use-case">${alt.model||''}</div>
+              <div class="llm-score" style="color:${ac}">Fit: ${alt.fitScore||'—'}/100</div>
+            </div>`}).join('')}
+          </div>
+        </div>
+        <p class="llm-rationale">${item.primaryLLM?.rationale||''}</p>
+        <div class="llm-deploy">🏗 Deployment: ${item.primaryLLM?.deploymentModel||'—'} &nbsp;·&nbsp; 📦 Approach: ${item.buildApproach||'—'} &nbsp;·&nbsp; 💰 ${item.primaryLLM?.estimatedCostModel||'—'}</div>
+        ${item.complianceFlags&&item.complianceFlags.length?`<div class="llm-flags">${item.complianceFlags.map(f=>`<span class="llm-flag amber">⚠ ${f}</span>`).join('')}</div>`:''}
+        <p class="llm-rationale" style="color:var(--white);font-weight:600">${item.overallRecommendation||''}</p>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildReport(){
+  const client=document.getElementById('client-name').value.trim();
+  const total=results.length,counts={};
+  results.forEach(r=>counts[r.bucket]=(counts[r.bucket]||0)+1);
+  const avg=Math.round(results.reduce((a,r)=>a+(r.savingsOpportunity||0),0)/total);
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  const llmSectionHTML=controlResults?`
+    <div class="report-section">
+      <h3 class="report-section-title" style="color:var(--indigo)">⚙️ Agentic Control Panel — LLM stack recommendations</h3>
+      <p class="report-para" style="margin-bottom:20px">The following LLM recommendations are tailored to the client's industry, risk profile, data sovereignty requirements, and technical maturity. Each recommendation is scored for platform fit and includes deployment model and implementation complexity guidance.</p>
+      ${controlResults.map(item=>{
+        const bc=BUCKET_CONFIG[item.bucket]||BUCKET_CONFIG['AGENT-AUGMENTED'];
+        const pc=getLLMColor(item.primaryLLM?.name||'');
+        return `<div class="report-item">
+          <div class="report-item-header">
+            <span class="report-item-name">${item.toolName}</span>
+            <span class="risk-badge" style="color:${bc.hexColor};border-color:${bc.hexColor}55">${item.bucket}</span>
+          </div>
+          <div class="report-llm-box">
+            <span class="report-llm-label">Primary recommendation</span>
+            <p class="report-llm-rec"><strong style="color:${pc}">${item.primaryLLM?.name||'—'} (${item.primaryLLM?.model||''})</strong> — Fit score: ${item.primaryLLM?.fitScore||'—'}/100 · ${item.primaryLLM?.deploymentModel||''} · ${item.buildApproach||''} approach</p>
+            <p class="report-llm-rec" style="margin-top:8px">${item.primaryLLM?.rationale||''}</p>
+            ${item.complianceFlags&&item.complianceFlags.length?`<p class="report-llm-rec" style="margin-top:8px;color:var(--amber)">⚠ ${item.complianceFlags.join(' · ')}</p>`:''}
+          </div>
+          <p class="report-item-action" style="color:var(--indigo);margin-top:10px">→ ${item.overallRecommendation||''}</p>
+        </div>`;
+      }).join('')}
+    </div>`:
+    `<div class="report-section"><h3 class="report-section-title" style="color:var(--indigo)">⚙️ Agentic Control Panel</h3><p class="report-para">LLM stack recommendations not yet generated. Run Step 2 from the Control Panel to include these in the report.</p></div>`;
+
+  document.getElementById('report-content').innerHTML=`
+    <div class="report-meta">Confidential — Board Briefing</div>
+    <h2 class="report-title">AI Portfolio Risk Assessment</h2>
+    <div class="report-client">${client||'Client'} &nbsp;·&nbsp; ${date} &nbsp;·&nbsp; Prepared by Craig Horton, BVF</div>
+    <div class="report-divider"></div>
+    <div class="report-section">
+      <h3 class="report-section-title">Executive summary</h3>
+      <p class="report-para">This assessment applies the Business Value Framework (BVF) to classify ${total} SaaS tools and AI initiatives across three strategic risk categories, and recommends the optimal LLM and deployment architecture for each replacement or augmentation opportunity. Drawing on benchmarks from McKinsey, Gartner, IDC, Forrester, and BCG, the analysis quantifies disruption exposure, identifies cost optimisation opportunities, and provides a board-ready AI stack roadmap.</p>
+    </div>
+    <div class="report-section">
+      <h3 class="report-section-title">Portfolio classification summary</h3>
+      <div class="report-bucket-summary">
+        ${Object.entries(BUCKET_CONFIG).map(([k,c])=>`<div class="report-bucket" style="border-left-color:${c.hexColor}"><div class="report-bucket-name" style="color:${c.hexColor}">${c.label}</div><div class="report-bucket-count">${counts[k]||0} tools</div><div class="report-bucket-pct">${total?Math.round(((counts[k]||0)/total)*100):0}% of portfolio</div></div>`).join('')}
+      </div>
+    </div>
+    ${Object.entries(BUCKET_CONFIG).map(([bk,cfg])=>{
+      const items=results.filter(r=>r.bucket===bk);
+      if(!items.length) return '';
+      return `<div class="report-section">
+        <h3 class="report-section-title" style="color:${cfg.hexColor}">${cfg.emoji} ${cfg.label} — ${cfg.tagline}</h3>
+        ${items.map(item=>`<div class="report-item">
+          <div class="report-item-header"><span class="report-item-name">${item.name}</span><span class="risk-badge" style="color:${RISK_COLOR[item.annualRisk]};border-color:${RISK_COLOR[item.annualRisk]}66">${item.annualRisk} annual risk</span></div>
+          <p class="report-item-rationale">${item.rationale}</p>
+          ${item.riskRationale?`<p class="report-item-rationale" style="color:#B8A88A;font-style:italic;font-size:12px">⚡ ${item.riskRationale}</p>`:''}
+          ${item.benchmarks&&item.benchmarks.length?`<div class="report-benchmarks"><span class="report-benchmark-label">Supporting benchmarks</span>${item.benchmarks.map(b=>`<div class="report-benchmark-item">${b}</div>`).join('')}</div>`:''}
+          <p class="report-item-action" style="color:${cfg.hexColor}">→ ${item.action}</p>
+        </div>`).join('')}
+      </div>`;
+    }).join('')}
+    ${llmSectionHTML}
+    <div class="report-section">
+      <h3 class="report-section-title">Strategic recommendations</h3>
+      <div class="report-recs">
+        ${counts['AGENT-REPLACEABLE']>0?`<div class="report-rec"><span style="color:#FF4444;font-weight:700">Immediate (0–90 days): </span>Do not auto-renew ${counts['AGENT-REPLACEABLE']} Agent-Replaceable tool${counts['AGENT-REPLACEABLE']>1?'s':''}. Initiate AI agent proof-of-concept within 60 days using recommended LLM stack.</div>`:''}
+        ${counts['AGENT-AUGMENTED']>0?`<div class="report-rec"><span style="color:#F59E0B;font-weight:700">Near-term (90–180 days): </span>Renegotiate ${counts['AGENT-AUGMENTED']} Agent-Augmented contract${counts['AGENT-AUGMENTED']>1?'s':''}. Model 15–30% seat compression. Deploy recommended LLM augmentation layer in parallel.</div>`:''}
+        ${counts['AGENT-PROOF']>0?`<div class="report-rec"><span style="color:#22C55E;font-weight:700">Strategic (next renewal): </span>Activate native AI in ${counts['AGENT-PROOF']} Agent-Proof platform${counts['AGENT-PROOF']>1?'s':''}. Negotiate AI bundling rather than separate Copilot licensing.</div>`:''}
+        <div class="report-rec"><span style="color:var(--copper);font-weight:700">Portfolio-wide: </span>Average savings opportunity of ${avg}% identified. A full BVF engagement will quantify Organisational Drag Cost and produce a board-ready investment reallocation model.</div>
+      </div>
+    </div>
+    <div class="report-footer">Business Value Framework (BVF) &nbsp;·&nbsp; Craig Horton &nbsp;·&nbsp; ${new Date().getFullYear()} &nbsp;·&nbsp; Confidential</div>`;
+}
+</script>
+</body>
+</html>

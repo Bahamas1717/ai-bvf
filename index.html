@@ -59,7 +59,7 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: linear-gradient(160deg, #1A2A42 0%, #0F1E35 100%);
+  background: #1E3048;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -67,13 +67,13 @@ body {
   line-height: 1.6;
 }
 
-/* Subtle grid overlay */
+/* Subtle grid overlay — very faint */
 body::before {
   content: '';
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-image:
-    linear-gradient(rgba(184,115,51,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184,115,51,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(184,115,51,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,115,51,0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -115,13 +115,13 @@ h3 { font-size: 16px; }
 
 /* ── FORMS ── */
 input[type="text"], input[type="password"], textarea, select {
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(184,115,51,0.2);
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.12);
   border-radius: 4px; padding: 10px 14px; color: var(--white);
   font-size: 13px; outline: none; width: 100%;
   font-family: 'DM Sans', sans-serif; transition: border-color 0.2s;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: var(--copper); background: rgba(255,255,255,0.1);
+  border-color: var(--copper); background: rgba(255,255,255,0.16);
 }
 input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.35); }
 select { cursor: pointer; }
@@ -129,13 +129,13 @@ select option { background: var(--navy-mid); color: var(--white); }
 
 /* ── CARDS ── */
 .card {
-  padding: 20px 24px; background: rgba(255,255,255,0.06);
-  border: 1px solid var(--copper-border); border-radius: 6px;
+  padding: 22px 26px; background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
 }
 .card-dark {
-  background: rgba(20,40,64,0.75); border: 1px solid var(--copper-border);
+  background: rgba(30,50,72,0.8); border: 1px solid rgba(255,255,255,0.08);
   border-radius: 6px; backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
 /* ── RAG BADGES ── */
@@ -147,9 +147,9 @@ select option { background: var(--navy-mid); color: var(--white); }
 /* ── MIRROR QUOTE ── */
 .mirror {
   margin-top: 32px; padding: 24px 28px;
-  background: rgba(184,115,51,0.07);
-  border: 1px solid rgba(184,115,51,0.28);
-  border-left: 4px solid var(--copper); border-radius: 3px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(184,115,51,0.2);
+  border-left: 4px solid var(--copper); border-radius: 6px;
 }
 .mirror blockquote {
   font-family: 'Playfair Display', serif;
@@ -166,9 +166,9 @@ th {
   color: var(--copper); font-weight: 600; white-space: nowrap;
   border-bottom: 1px solid var(--copper-border); text-transform: uppercase;
 }
-td { padding: 10px 12px; font-size: 13px; }
-tr:nth-child(even) td { background: rgba(255,255,255,0.04); }
-tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
+td { padding: 11px 12px; font-size: 13px; }
+tr:nth-child(even) td { background: rgba(255,255,255,0.06); }
+tr td { border-bottom: 1px solid rgba(255,255,255,0.08); }
 
 /* ══════════════════════════════════════════════
    LAYOUT: HEADER
@@ -177,8 +177,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
   position: sticky; top: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 36px; height: var(--header-h);
-  border-bottom: 1px solid var(--copper-border);
-  background: rgba(15,30,53,0.96); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(22,38,58,0.97); backdrop-filter: blur(20px);
 }
 
 .header-brand {
@@ -245,7 +245,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 #profile-panel {
   max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
   border-bottom: 1px solid transparent;
-  background: rgba(18,32,52,0.92); backdrop-filter: blur(12px);
+  background: rgba(26,42,66,0.95); backdrop-filter: blur(12px);
 }
 #profile-panel.open {
   max-height: 200px;
@@ -262,8 +262,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 .profile-grid input, .profile-grid select { padding: 6px 8px; font-size: 12px; }
 .profile-summary {
   display: none; gap: 16px; flex-wrap: wrap; align-items: center;
-  padding: 8px 36px; background: rgba(0,0,0,0.2);
-  border-bottom: 1px solid rgba(184,115,51,0.12);
+  padding: 8px 36px; background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .profile-summary.visible { display: flex; }
 .profile-chip {
@@ -277,8 +277,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
    ══════════════════════════════════════════════ */
 #tab-nav {
   display: flex; padding: 0 36px; overflow-x: auto;
-  border-bottom: 1px solid rgba(184,115,51,0.18);
-  background: rgba(15,30,53,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(20,36,56,0.6);
 }
 .tab-btn {
   padding: 14px 20px; background: transparent; border: none;
@@ -304,11 +304,13 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
    ══════════════════════════════════════════════ */
 #main {
   position: relative; z-index: 1;
-  padding: 36px 40px 80px;
+  padding: 36px 44px 80px;
   max-width: 1280px;
   margin: 0 auto;
-  background: rgba(255,255,255,0.025);
+  background: rgba(255,255,255,0.07);
   min-height: calc(100vh - var(--header-h) - 48px);
+  border-left: 1px solid rgba(255,255,255,0.06);
+  border-right: 1px solid rgba(255,255,255,0.06);
 }
 
 .tab-panel { display: none; }
@@ -420,7 +422,7 @@ header { transition:box-shadow 0.3s ease; }
   display: flex; flex-direction: column; align-items: center;
   justify-content: center; min-height: calc(100vh - var(--header-h) - 120px);
   text-align: center; padding: 40px 20px;
-  background: radial-gradient(ellipse at 50% 40%, rgba(27,52,86,0.7) 0%, rgba(20,40,64,0.4) 40%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 40%, rgba(40,65,100,0.5) 0%, rgba(30,48,72,0.3) 40%, transparent 70%);
 }
 .welcome-eyebrow {
   font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
@@ -439,12 +441,12 @@ header { transition:box-shadow 0.3s ease; }
   max-width: 640px; width: 100%;
 }
 .path-card {
-  padding: 32px 28px; background: rgba(20,40,64,0.85);
-  border: 1px solid var(--copper-border); border-radius: 4px;
+  padding: 32px 28px; background: rgba(30,50,75,0.8);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
   cursor: pointer; transition: all 0.3s; text-align: left;
 }
 .path-card:hover {
-  border-color: var(--copper); background: rgba(184,115,51,0.06);
+  border-color: var(--copper); background: rgba(40,60,85,0.9);
   box-shadow: 0 0 32px rgba(184,115,51,0.15);
   transform: translateY(-2px);
 }
@@ -464,7 +466,7 @@ header { transition:box-shadow 0.3s ease; }
   overflow: hidden; margin-top: 48px; max-width: 640px; width: 100%;
 }
 .stat-cell {
-  background: var(--navy-mid); padding: 20px 24px; text-align: center;
+  background: rgba(30,48,72,0.9); padding: 20px 24px; text-align: center;
 }
 .stat-num {
   font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700;
@@ -485,15 +487,15 @@ header { transition:box-shadow 0.3s ease; }
 }
 .role-tab {
   flex: 1; min-width: 90px; padding: 12px 14px;
-  background: rgba(255,255,255,0.04); border: none;
-  border-right: 1px solid var(--copper-border);
+  background: rgba(255,255,255,0.06); border: none;
+  border-right: 1px solid rgba(255,255,255,0.06);
   color: var(--slate); font-size: 10px; font-weight: 600;
   letter-spacing: 1.5px; text-transform: uppercase;
   cursor: pointer; transition: all 0.2s; text-align: center;
   font-family: 'DM Sans', sans-serif;
 }
 .role-tab:last-child { border-right: none; }
-.role-tab:hover { background: rgba(255,255,255,0.08); color: var(--text-body); }
+.role-tab:hover { background: rgba(255,255,255,0.12); color: var(--text-body); }
 .role-tab.active { background: var(--copper); color: var(--white); }
 
 .role-panel { display: none; }
@@ -505,11 +507,11 @@ header { transition:box-shadow 0.3s ease; }
   gap: 16px; margin-top: 24px;
 }
 .kpi-card {
-  padding: 20px 22px; background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(184,115,51,0.2); border-radius: 6px;
+  padding: 22px 24px; background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
   transition: all 0.2s;
 }
-.kpi-card:hover { background: rgba(255,255,255,0.09); border-color: var(--copper); }
+.kpi-card:hover { background: rgba(255,255,255,0.14); border-color: var(--copper); }
 .kpi-value {
   font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700;
   color: var(--copper); margin-bottom: 4px;
@@ -557,7 +559,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-summary-strip { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; background:rgba(20,40,64,0.85); border:1px solid var(--copper-border); border-radius:4px; padding:18px 24px; margin-bottom:24px; }
 .agent-summary-title { font-weight:700; font-size:15px; color:var(--white); }
 .agent-summary-stats { display:flex; gap:10px; flex-wrap:wrap; }
-.agent-stat-pill { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,0.04); border:1px solid var(--copper-border); border-radius:20px; padding:6px 14px; font-size:12px; }
+.agent-stat-pill { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,0.08); border:1px solid var(--copper-border); border-radius:20px; padding:6px 14px; font-size:12px; }
 .agent-stat-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .agent-bucket-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; }
 .agent-bucket-col { background:rgba(20,40,64,0.75); border:1px solid; border-radius:4px; overflow:hidden; }
@@ -568,7 +570,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-bucket-count { margin-left:auto; font-size:26px; font-weight:700; font-family:'Playfair Display',serif; }
 .agent-bucket-items { padding:12px; display:flex; flex-direction:column; gap:10px; }
 .agent-empty-bucket { color:var(--text-dim); font-size:13px; text-align:center; padding:24px 0; font-style:italic; }
-.agent-item-card { background:rgba(255,255,255,0.04); border:1px solid rgba(184,115,51,0.15); border-radius:3px; padding:12px; cursor:pointer; transition:all 0.2s; }
+.agent-item-card { background:rgba(255,255,255,0.08); border:1px solid rgba(184,115,51,0.15); border-radius:3px; padding:12px; cursor:pointer; transition:all 0.2s; }
 .agent-item-card:hover { background:rgba(184,115,51,0.06); border-color:var(--copper-border); }
 .agent-item-card.expanded { background:rgba(184,115,51,0.06); border-color:var(--copper-border); }
 .agent-item-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px; }
@@ -628,7 +630,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-report-section-title { font-size:16px; font-weight:700; color:var(--white); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--copper-border); font-family:'Playfair Display',serif; }
 .agent-report-para { font-size:13px; color:var(--text-body); line-height:1.85; }
 .agent-report-bucket-summary { display:flex; gap:14px; }
-.agent-report-bucket { flex:1; padding:14px 16px; background:rgba(255,255,255,0.03); border-radius:3px; border-left:3px solid; }
+.agent-report-bucket { flex:1; padding:14px 16px; background:rgba(255,255,255,0.08); border-radius:3px; border-left:3px solid; }
 .agent-report-item { margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid rgba(184,115,51,0.12); }
 .agent-report-item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 .agent-report-recs { display:flex; flex-direction:column; gap:12px; }
@@ -1077,19 +1079,19 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Enter company name, revenue, cost base, EBITDA, and org readiness</div>
             <div id="qs-step1-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step2" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.02);cursor:pointer" onclick="switchTab('portfolio')">
+          <div id="qs-step2" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.07);cursor:pointer" onclick="switchTab('portfolio')">
             <div style="font-size:18px;margin-bottom:6px">②</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">AI Portfolio</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Map existing AI initiatives with budgets, risk levels, and change management</div>
             <div id="qs-step2-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step3" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.02);cursor:pointer" onclick="switchTab('governance')">
+          <div id="qs-step3" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.07);cursor:pointer" onclick="switchTab('governance')">
             <div style="font-size:18px;margin-bottom:6px">③</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Governance</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Set CM benchmarks and activate regulatory frameworks (EU AI Act, DORA)</div>
             <div id="qs-step3-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step4" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.02);cursor:pointer" onclick="setView('executive');switchTab('dashboard')">
+          <div id="qs-step4" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.07);cursor:pointer" onclick="setView('executive');switchTab('dashboard')">
             <div style="font-size:18px;margin-bottom:6px">④</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Executive View</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Switch to Executive for board-ready KPIs, the Boardroom Sentence, and role views</div>
@@ -1101,7 +1103,7 @@ header { transition:box-shadow 0.3s ease; }
       <!-- Strategic Priorities (practitioner view) -->
       <div id="practitioner-priorities" style="display:none;margin-bottom:20px"></div>
 
-      <div id="bvfScorecard" style="display:none;margin-bottom:24px;padding:18px 24px;background:rgba(0,0,0,0.2);border:1px solid rgba(184,115,51,0.2);border-radius:4px">
+      <div id="bvfScorecard" style="display:none;margin-bottom:24px;padding:18px 24px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-radius:4px">
         <span class="label" id="bvfScorecardTitle">Total AI Value Potential</span>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px" id="bvfScorecardCards"></div>
       </div>
@@ -1114,7 +1116,7 @@ header { transition:box-shadow 0.3s ease; }
         <div id="bvfFnMetrics" style="display:flex;gap:14px;flex-wrap:wrap"></div>
         <button onclick="toggleSource()" style="margin-left:auto;background:transparent;border:1px solid var(--copper-border);border-radius:3px;padding:4px 10px;color:var(--text-dim);font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif">📖 <span id="sourceLabel">Show</span> Source</button>
       </div>
-      <div id="sourcePanel" style="display:none;margin-bottom:14px;padding:14px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.15);border-left:4px solid rgba(184,115,51,0.4);border-radius:3px">
+      <div id="sourcePanel" style="display:none;margin-bottom:14px;padding:14px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.15);border-left:4px solid rgba(184,115,51,0.4);border-radius:3px">
         <span class="label" style="margin-bottom:4px">Benchmark Methodology</span>
         <div id="sourceContent" style="font-size:11px;color:var(--text-body);line-height:1.6"></div>
       </div>
@@ -1213,7 +1215,7 @@ header { transition:box-shadow 0.3s ease; }
         <span class="label" style="margin-bottom:4px">Pilot Trap Diagnostic — 5 Questions</span>
         <div style="font-size:10px;color:var(--text-dim);font-style:italic;margin-bottom:12px">42% of companies abandoned most AI projects in 2025 citing unclear value. Answer honestly.</div>
         <div id="pilotQuestions"></div>
-        <div id="pilotResult" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(0,0,0,0.2);border-radius:3px;align-items:center;gap:12px"></div>
+        <div id="pilotResult" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(255,255,255,0.06);border-radius:3px;align-items:center;gap:12px"></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:14px">
         <button class="btn btn-primary" onclick="saveInit()">Save Initiative</button>
@@ -1436,9 +1438,9 @@ header { transition:box-shadow 0.3s ease; }
     </div>
     <div id="cmContent" style="display:none">
       <div id="cmRagBanner" style="margin-bottom:22px;padding:18px 22px;border-radius:4px;display:flex;align-items:center;gap:18px;flex-wrap:wrap"></div>
-      <div style="margin-bottom:22px;padding:18px 22px;background:rgba(0,0,0,0.2);border:1px solid rgba(184,115,51,0.18);border-radius:4px">
+      <div style="margin-bottom:22px;padding:18px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.18);border-radius:4px">
         <span class="label">CM Allocation vs Prosci Benchmark</span>
-        <div style="margin-top:12px;position:relative;height:40px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden">
+        <div style="margin-top:12px;position:relative;height:40px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden">
           <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(224,82,82,0.1);border-right:1px dashed rgba(224,82,82,0.35)"></div>
           <div style="position:absolute;left:33.3%;top:0;width:33.3%;height:100%;background:rgba(245,166,35,0.08);border-right:1px dashed rgba(245,166,35,0.35)"></div>
           <div style="position:absolute;left:66.6%;top:0;width:33.4%;height:100%;background:rgba(76,175,128,0.08)"></div>
@@ -1477,7 +1479,7 @@ header { transition:box-shadow 0.3s ease; }
       <div style="font-size:13px;color:var(--text-body)" id="regSubtitle">Select applicable regulations. Compliance costs calculated against your revenue profile.</div>
     </div>
     <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap" id="regToggles"></div>
-    <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:18px 22px;background:rgba(0,0,0,0.2);border:1px solid rgba(184,115,51,0.2);border-radius:4px"></div>
+    <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:18px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-radius:4px"></div>
     <div id="regDetails" style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px"></div>
     <div id="regNoCost" style="display:none;padding:20px;background:rgba(192,122,26,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:3px;text-align:center">
       <div style="font-size:13px;color:var(--amber-light)">Enter your annual revenue in the Company Profile to see compliance costs in your currency.</div>
@@ -1505,8 +1507,8 @@ header { transition:box-shadow 0.3s ease; }
     </div>
     <div id="amPriorities" style="display:none;margin-bottom:16px;padding:20px 24px;background:linear-gradient(135deg,rgba(184,115,51,0.06),rgba(184,115,51,0.02));border:1px solid rgba(184,115,51,0.25);border-radius:4px"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" id="amSummaryCards"></div>
-    <div id="amTopFns" style="display:none;margin-bottom:16px;padding:16px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
-    <div id="amInvestment" style="display:none;margin-bottom:16px;padding:16px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
+    <div id="amTopFns" style="display:none;margin-bottom:16px;padding:16px 20px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
+    <div id="amInvestment" style="display:none;margin-bottom:16px;padding:16px 20px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
     <div class="mirror" style="margin-top:20px">
       <span class="label" style="margin-bottom:8px">Holding Up The Mirror</span>
       <blockquote>"What percentage of the ROI for this AI programme relies on people actually adopting and implementing the change?"</blockquote>
@@ -1585,7 +1587,7 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
               <div style="margin-bottom:8px">Four organisational readiness levels with base drag rates:</div>
-              <div style="padding:10px 14px;background:rgba(0,0,0,0.15);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:1.8;font-family:monospace">
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.05);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:1.8;font-family:monospace">
                 Bureaucratic&nbsp;&nbsp;&nbsp;40% drag<br>
                 Traditional&nbsp;&nbsp;&nbsp;&nbsp;25% drag<br>
                 Mixed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15% drag<br>
@@ -1620,7 +1622,7 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
               <div style="margin-bottom:8px">RAG (Red-Amber-Green) thresholds for CM as % of initiative budget:</div>
-              <div style="padding:10px 14px;background:rgba(0,0,0,0.15);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2">
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.05);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2">
                 <span style="color:#E05252;font-weight:700">RED</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;5% — Significant adoption risk<br>
                 <span style="color:#F59E0B;font-weight:700">AMBER</span>&nbsp;&nbsp;5–10% — Below recommended level<br>
                 <span style="color:#22C55E;font-weight:700">GREEN</span>&nbsp;&nbsp;&ge;10% — Aligned with Prosci benchmark
@@ -1681,7 +1683,7 @@ header { transition:box-shadow 0.3s ease; }
           <div>
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
-              <div style="padding:10px 14px;background:rgba(0,0,0,0.15);border-radius:4px;font-size:11px;line-height:2">
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.05);border-radius:4px;font-size:11px;line-height:2">
                 <span style="color:#4CAF80;font-weight:700">Gen 1 — Automation</span><br>
                 RPA, rules-based, ML classification, predictive models<br><br>
                 <span style="color:#F59E0B;font-weight:700">Gen 2 — Generative AI</span><br>
@@ -2059,7 +2061,7 @@ function renderPriorities() {
     const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
     const col = catColors[p.category] || '#B87333';
     const mappedInits = BVF.initiatives.length; // future: real mapping
-    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.15);border-left:3px solid ${col};border-radius:0 4px 4px 0">
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.15);border-left:3px solid ${col};border-radius:0 4px 4px 0">
       <div style="flex:1">
         <div style="font-size:13px;font-weight:600;color:var(--ice);line-height:1.4">${p.description}</div>
         <div style="display:flex;gap:10px;margin-top:4px;align-items:center">
@@ -2347,7 +2349,7 @@ function renderBVF() {
               if(p.category==='risk'&&(i.risk==='High'||iFn==='risk')) return true;
               return false;
             });
-            return `<div style="flex:1;min-width:180px;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
+            return `<div style="flex:1;min-width:180px;padding:10px 14px;background:rgba(255,255,255,0.08);border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
               <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:3px">${p.description}</div>
               <div style="display:flex;justify-content:space-between;align-items:center">
                 <span style="font-size:9px;letter-spacing:1px;color:${col};font-weight:600;text-transform:uppercase">${label}</span>
@@ -2424,7 +2426,7 @@ function renderBVF() {
           const iRAG=rag(cm,bud);
           const ps=pilotScore(ini.pilotAnswers);
           const riskCol=ini.risk==='Low'?'#4CAF80':ini.risk==='High'?'#E05252':'#F5A623';
-          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.12);border-left:3px solid ${tier?tier.color:'#B87333'};border-radius:3px;margin-bottom:5px">
+          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.12);border-left:3px solid ${tier?tier.color:'#B87333'};border-radius:3px;margin-bottom:5px">
             <div style="flex:1;min-width:0">
               <div style="font-size:12px;font-weight:700;color:#E8EEF5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ini.name}</div>
               <div style="font-size:10px;color:#6B7E9A;margin-top:2px">${tier?`<span style="color:${tier.color};font-weight:600">${tier.short}</span> · `:''}${ini.horizon} · <span style="color:${riskCol}">${ini.risk} risk</span>${ini.owner?` · ${ini.owner}`:''}</div>
@@ -2536,7 +2538,7 @@ function renderPortfolio() {
     tierCards.innerHTML=AI_TIERS.map(t=>{
       const count=inits.filter(i=>i.tier===t.id).length;
       const bud=inits.filter(i=>i.tier===t.id).reduce((s,i)=>s+parseNum(i.budget),0);
-      return `<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-top:3px solid ${t.color};border-radius:3px">
+      return `<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.08);border-top:3px solid ${t.color};border-radius:3px">
         <div style="font-size:9px;letter-spacing:1.5px;color:${t.color};font-weight:700;margin-bottom:5px">${t.short}</div>
         <div style="font-size:18px;font-weight:700;color:#E8EEF5;font-family:'Playfair Display',serif">${count} <span style="font-size:11px;color:#6B7E9A;font-weight:400">initiatives</span></div>
         <div style="font-size:11px;color:#6B7E9A">${fmt(bud)}</div>
@@ -2589,7 +2591,7 @@ function renderPortfolio() {
       {l:'Total CM Allocated',v:fmt(totCM),sub:`${pct(totCM,totBudget)} of portfolio`,col:totBudget>0&&totCM/totBudget>=.10?'#4CAF80':totCM/totBudget>=.05?'#F5A623':'#E05252'},
       {l:'Gen 3 Agentic Share',v:totBudget>0?pct(gen3bud,totBudget):'—',sub:'of portfolio budget',col:'#8B5CF6'},
       {l:'Pilot Trap Issues',v:pilotIssues||'—',sub:'initiatives with <2 readiness indicators',col:'#F5A623'},
-    ].map(s=>`<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.18);border-radius:3px">
+    ].map(s=>`<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.18);border-radius:3px">
       <div style="font-size:9px;letter-spacing:1.5px;color:#6B7E9A;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:18px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.v}</div>
       ${s.sub?`<div style="font-size:10px;color:#6B7E9A;margin-top:2px;font-style:italic">${s.sub}</div>`:''}
@@ -2746,7 +2748,7 @@ function renderCM() {
     {l:'Prosci Recommended (15%)',v:fmt(prosciHigh),col:'#4CAF80'},
     {l:'Gap to Minimum',v:gapLow>0?fmt(gapLow):'✓ Met',col:gapLow>0?'#E05252':'#4CAF80'},
     {l:'Gap to Recommended',v:gapHigh>0?fmt(gapHigh):'✓ Met',col:gapHigh>0?'#F5A623':'#4CAF80'},
-  ].map(s=>`<div style="padding:14px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.15);border-radius:3px">
+  ].map(s=>`<div style="padding:14px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.15);border-radius:3px">
     <div style="font-size:9px;letter-spacing:1.5px;color:#6B7E9A;margin-bottom:6px">${s.l.toUpperCase()}</div>
     <div style="font-size:17px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif;margin-bottom:2px">${s.v}</div>
     ${s.sub?`<div style="font-size:10px;color:#6B7E9A;font-style:italic">${s.sub}</div>`:''}
@@ -2761,7 +2763,7 @@ function renderCM() {
     const p2=bud>0?(cm/bud)*100:0;
     const iBarW=Math.min(100,p2/15*100);
     const ps=pilotScore(init.pilotAnswers);
-    return `<div style="padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.12);border-left:4px solid ${irc?irc.border:'rgba(184,115,51,0.2)'};border-radius:3px;margin-bottom:7px">
+    return `<div style="padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.12);border-left:4px solid ${irc?irc.border:'rgba(184,115,51,0.2)'};border-radius:3px;margin-bottom:7px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px">
         <div>
           <div style="font-size:12px;font-weight:700;color:#E8EEF5">${init.name||'Unnamed'}</div>
@@ -2771,7 +2773,7 @@ function renderCM() {
           <div style="text-align:right"><div style="font-size:9px;color:#6B7E9A">Budget</div><div style="font-size:13px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(bud)}</div></div>
           <div style="text-align:right"><div style="font-size:9px;color:#6B7E9A">CM</div><div style="font-size:13px;font-weight:700;color:${irc?.text||'#6B7E9A'};font-family:'Playfair Display',serif">${fmt(cm)}</div></div>
           ${irc?`<span class="rag rag-${r2}">${irc.label}</span>`:''}
-          ${ps?`<span class="rag" style="background:rgba(0,0,0,0.2);color:${ps.color};border-color:${ps.color}">PILOT ${ps.label}</span>`:''}
+          ${ps?`<span class="rag" style="background:rgba(255,255,255,0.06);color:${ps.color};border-color:${ps.color}">PILOT ${ps.label}</span>`:''}
         </div>
       </div>
       ${bud>0?`<div style="height:4px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden"><div style="height:100%;width:${iBarW}%;background:${irc?irc.border:'#6B7E9A'};border-radius:3px"></div></div>
@@ -2807,7 +2809,7 @@ function renderRegulatory() {
         <div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totalLo)} – ${fmt(totalHi)}</div>
         <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
       </div>
-      ${activeRegs.map(r=>`<div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(255,255,255,0.03);border-top:3px solid ${r.color};border-radius:3px">
+      ${activeRegs.map(r=>`<div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(255,255,255,0.08);border-top:3px solid ${r.color};border-radius:3px">
         <div style="font-size:9px;color:${r.color};font-weight:700;letter-spacing:1px;margin-bottom:5px">${r.shortLabel}</div>
         <div style="font-size:17px;font-weight:700;color:#E8EEF5;font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)}–${fmt(rev*r.costRange.hi)}</div>
         <div style="font-size:10px;color:#6B7E9A;margin-top:2px;font-style:italic">${(r.costRange.lo*100).toFixed(2)}–${(r.costRange.hi*100).toFixed(2)}% of rev</div>
@@ -2820,7 +2822,7 @@ function renderRegulatory() {
   } else { costBanner.style.display='none'; document.getElementById('regNoCost').style.display='none'; }
 
   document.getElementById('regDetails').innerHTML=activeRegs.map(r=>`
-    <div style="padding:18px 22px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${r.color};border-radius:3px">
+    <div style="padding:18px 22px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${r.color};border-radius:3px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div>
           <div style="font-size:14px;font-weight:700;color:#E8EEF5">${r.icon} ${r.label} — ${r.risk}</div>
@@ -2872,21 +2874,21 @@ function renderAlignment() {
   document.getElementById('amDate').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
   document.getElementById('amSummaryCards').innerHTML=`
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #B87333;border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #B87333;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Value Potential</div>
       ${complete?`<div style="font-size:20px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif;margin-bottom:4px">${fmt(sc.totL)} – ${fmt(sc.totH)}</div>
       <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
       ${[{l:'Revenue uplift',lo:sc.rL,hi:sc.rH,col:'#4CAF80'},{l:'Cost reduction',lo:sc.cL,hi:sc.cH,col:'#D4956A'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#6B7E9A">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col}">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:'—'}</span></div>`).join('')}`
       :`<div style="font-size:12px;color:#6B7E9A;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
     </div>
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||'#6B7E9A'};border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||'#6B7E9A'};border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">Portfolio Health</div>
       ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:${rc?.text||'#6B7E9A'};font-family:'Playfair Display',serif;margin-bottom:4px">${rc?.label||'—'}</div>
       <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
       ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#F5A623':'#4CAF80'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#6B7E9A">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#E8EEF5'}">${s.v}</span></div>`).join('')}`
       :`<div style="font-size:12px;color:#6B7E9A;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #8B5CF6;border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #8B5CF6;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Generation Mix</div>
       ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:#8B5CF6;font-family:'Playfair Display',serif;margin-bottom:4px">${tierCounts.find(t=>t.id==='gen3')?.pct||0}% Agentic</div>
       <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
@@ -2959,7 +2961,7 @@ function renderAlignment() {
           const col=catColors[p.category]||'#B87333';
           const label=catLabels[p.category]||p.category;
           const budget=p.initiatives.reduce((s,i)=>s+parseNum(i.budget),0);
-          return `<div style="padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
+          return `<div style="padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
               <div style="font-size:13px;font-weight:600;color:var(--ice)">${p.description}</div>
               <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:2px;background:${col}15;color:${col};border:1px solid ${col}33;text-transform:uppercase">${label}</span>
