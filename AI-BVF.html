@@ -11,43 +11,43 @@
    ══════════════════════════════════════════════ */
 :root {
   /* Brand */
-  --navy: #F8FAFC;
-  --navy-mid: #F1F5F9;
-  --navy-light: #E2E8F0;
-  --navy-deep: #FFFFFF;
+  --navy: #1C2433;
+  --navy-mid: #212B3A;
+  --navy-light: #2A3545;
+  --navy-deep: #151C28;
   --copper: #B87333;
   --copper-light: #D4956A;
-  --copper-dim: rgba(184,115,51,0.10);
-  --copper-glow: rgba(184,115,51,0.06);
-  --copper-border: rgba(184,115,51,0.30);
+  --copper-dim: rgba(184,115,51,0.15);
+  --copper-glow: rgba(184,115,51,0.08);
+  --copper-border: rgba(184,115,51,0.25);
 
   /* Text — dark on light */
-  --white: #1E293B;
-  --ice: #1E293B;
-  --text: #334155;
-  --text-body: #475569;
-  --text-muted: #64748B;
-  --text-dim: #94A3B8;
-  --slate: #64748B;
+  --white: #FFFFFF;
+  --ice: #EDF2F7;
+  --text: #E2E8F0;
+  --text-body: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-dim: #7B8CA0;
+  --slate: #8899AB;
 
   /* RAG */
-  --green: #16A34A;
-  --green-light: #15803D;
-  --green-bg: rgba(22,163,74,0.08);
-  --green-border: rgba(22,163,74,0.3);
-  --amber: #D97706;
-  --amber-light: #B45309;
-  --amber-bg: rgba(217,119,6,0.08);
-  --amber-border: rgba(217,119,6,0.3);
-  --red: #DC2626;
-  --red-light: #B91C1C;
-  --red-bg: rgba(220,38,38,0.08);
-  --red-border: rgba(220,38,38,0.3);
+  --green: #22C55E;
+  --green-light: #34D399;
+  --green-bg: rgba(34,211,153,0.1);
+  --green-border: rgba(34,211,153,0.3);
+  --amber: #F59E0B;
+  --amber-light: #FBBF24;
+  --amber-bg: rgba(251,191,36,0.1);
+  --amber-border: rgba(251,191,36,0.3);
+  --red: #EF4444;
+  --red-light: #F87171;
+  --red-bg: rgba(248,113,113,0.1);
+  --red-border: rgba(248,113,113,0.3);
 
   /* Agent/Agentic */
-  --indigo: #6D5FC7;
-  --indigo-bg: rgba(109,95,199,0.08);
-  --indigo-border: rgba(109,95,199,0.3);
+  --indigo: #7C6FCD;
+  --indigo-bg: rgba(124,111,205,0.1);
+  --indigo-border: rgba(124,111,205,0.4);
 
   /* Layout */
   --header-h: 64px;
@@ -59,7 +59,7 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: #F8FAFC;
+  background: #1A222E;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -110,31 +110,31 @@ h3 { font-size: 16px; }
 .btn-indigo {
   background: linear-gradient(135deg, #7C6FCD, #5A4FA0);
   border: 1px solid rgba(124,111,205,0.6); color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(124,111,205,0.2);
+  box-shadow: 0 0 16px rgba(124,111,205,0.3);
 }
 
 /* ── FORMS ── */
 input[type="text"], input[type="password"], textarea, select {
-  background: #FFFFFF; border: 1px solid #D1D5DB;
-  border-radius: 4px; padding: 10px 14px; color: #1E293B;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px; padding: 10px 14px; color: #EDF2F7;
   font-size: 13px; outline: none; width: 100%;
   font-family: 'DM Sans', sans-serif; transition: border-color 0.2s;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: var(--copper); background: #FFFFFF; box-shadow: 0 0 0 3px rgba(184,115,51,0.1);
+  border-color: var(--copper); background: rgba(255,255,255,0.12); box-shadow: 0 0 0 3px rgba(184,115,51,0.1);
 }
-input::placeholder, textarea::placeholder { color: #94A3B8; }
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.35); }
 select { cursor: pointer; }
-select option { background: #FFFFFF; color: #1E293B; }
+select option { background: #212B3A; color: #FFFFFF; }
 
 /* ── CARDS ── */
 .card {
-  padding: 22px 26px; background: #FFFFFF;
-  border: 1px solid #E2E8F0; border-radius: 6px;
+  padding: 22px 26px; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 .card-dark {
-  background: #FFFFFF; border: 1px solid #E2E8F0;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
@@ -148,13 +148,13 @@ select option { background: #FFFFFF; color: #1E293B; }
 /* ── MIRROR QUOTE ── */
 .mirror {
   margin-top: 32px; padding: 24px 28px;
-  background: #FFF7ED;
+  background: rgba(184,115,51,0.06);
   border: 1px solid rgba(184,115,51,0.15);
   border-left: 4px solid var(--copper); border-radius: 6px;
 }
 .mirror blockquote {
   font-family: 'Playfair Display', serif;
-  font-size: 16px; font-style: italic; color: #44403C; line-height: 1.65;
+  font-size: 16px; font-style: italic; color: #EDF2F7; line-height: 1.65;
 }
 .mirror .attribution {
   margin-top: 8px; font-size: 11px; color: var(--text-dim); font-style: italic;
@@ -168,8 +168,8 @@ th {
   border-bottom: 1px solid var(--copper-border); text-transform: uppercase;
 }
 td { padding: 11px 12px; font-size: 13px; }
-tr:nth-child(even) td { background: #F8FAFC; }
-tr td { border-bottom: 1px solid #E2E8F0; }
+tr:nth-child(even) td { background: #1A222E; }
+tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 
 /* ══════════════════════════════════════════════
    LAYOUT: HEADER
@@ -178,8 +178,8 @@ tr td { border-bottom: 1px solid #E2E8F0; }
   position: sticky; top: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 36px; height: var(--header-h);
-  border-bottom: 1px solid #E2E8F0;
-  background: #FFFFFF; backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.06); backdrop-filter: blur(20px);
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
@@ -195,7 +195,7 @@ tr td { border-bottom: 1px solid #E2E8F0; }
 }
 .brand-title {
   font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700;
-  color: #1E293B; letter-spacing: 0.5px;
+  color: #EDF2F7; letter-spacing: 0.5px;
 }
 .brand-sub {
   font-size: 9px; letter-spacing: 3px; color: var(--copper);
@@ -212,7 +212,7 @@ tr td { border-bottom: 1px solid #E2E8F0; }
 }
 .view-toggle button {
   padding: 7px 16px; background: transparent; border: none;
-  color: #64748B; font-size: 10px; font-weight: 600;
+  color: #8899AB; font-size: 10px; font-weight: 600;
   letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
   font-family: 'DM Sans', sans-serif; transition: all 0.2s;
 }
@@ -247,7 +247,7 @@ tr td { border-bottom: 1px solid #E2E8F0; }
 #profile-panel {
   max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
   border-bottom: 1px solid transparent;
-  background: #F8FAFC; backdrop-filter: blur(12px);
+  background: #1A222E; backdrop-filter: blur(12px);
 }
 #profile-panel.open {
   max-height: 200px;
@@ -264,23 +264,23 @@ tr td { border-bottom: 1px solid #E2E8F0; }
 .profile-grid input, .profile-grid select { padding: 6px 8px; font-size: 12px; }
 .profile-summary {
   display: none; gap: 16px; flex-wrap: wrap; align-items: center;
-  padding: 8px 36px; background: #F1F5F9;
-  border-bottom: 1px solid #E2E8F0;
+  padding: 8px 36px; background: rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .profile-summary.visible { display: flex; }
 .profile-chip {
   font-size: 11px; color: var(--text-muted);
   display: flex; align-items: center; gap: 6px;
 }
-.profile-chip strong { color: #1E293B; font-weight: 600; }
+.profile-chip strong { color: #EDF2F7; font-weight: 600; }
 
 /* ══════════════════════════════════════════════
    LAYOUT: TAB NAVIGATION
    ══════════════════════════════════════════════ */
 #tab-nav {
   display: flex; padding: 0 36px; overflow-x: auto;
-  border-bottom: 1px solid #E2E8F0;
-  background: #FFFFFF;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.06);
 }
 .tab-btn {
   padding: 14px 20px; background: transparent; border: none;
@@ -309,7 +309,7 @@ tr td { border-bottom: 1px solid #E2E8F0; }
   padding: 36px 44px 80px;
   max-width: 1280px;
   margin: 0 auto;
-  background: #FFFFFF;
+  background: rgba(255,255,255,0.06);
   min-height: calc(100vh - var(--header-h) - 48px);
   border-left: 1px solid #E2E8F0;
   border-right: 1px solid #E2E8F0;
@@ -372,9 +372,9 @@ tr td { border-bottom: 1px solid #E2E8F0; }
 
 /* ── TAB PROGRESS BADGES ── */
 .tab-progress { display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px; border-radius:9px; font-size:9px; font-weight:700; margin-left:6px; padding:0 5px; }
-.tab-progress.complete { background:var(--green); color:#1E293B; }
-.tab-progress.partial { background:var(--amber); color:#1E293B; }
-.tab-progress.empty { background:#F1F5F9; color:var(--text-dim); }
+.tab-progress.complete { background:var(--green); color:#EDF2F7; }
+.tab-progress.partial { background:var(--amber); color:#EDF2F7; }
+.tab-progress.empty { background:rgba(255,255,255,0.06); color:var(--text-dim); }
 
 /* ── TRUST STRIP (welcome) ── */
 .welcome-trust { display:flex; align-items:center; justify-content:center; gap:24px; margin-top:32px; padding:16px 24px; border-radius:4px; background:rgba(184,115,51,0.05); border:1px solid rgba(184,115,51,0.12); }
@@ -465,10 +465,10 @@ header { transition:box-shadow 0.3s ease; }
   /* Labels and text overrides */
   .label { color:#B87333 !important; }
   h2 { color:#1a1a1a !important; font-size:16px !important; }
-  [style*="color:var(--ice)"], [style*="color:#1E293B"] { color:#1a1a1a !important; }
+  [style*="color:var(--ice)"], [style*="color:#EDF2F7"] { color:#1a1a1a !important; }
   [style*="color:var(--text-body)"], [style*="color:#C8D8E8"] { color:#333 !important; }
-  [style*="color:var(--text-muted)"], [style*="color:#64748B"] { color:#666 !important; }
-  [style*="color:var(--text-dim)"], [style*="color:#475569"] { color:#888 !important; }
+  [style*="color:var(--text-muted)"], [style*="color:#8899AB"] { color:#666 !important; }
+  [style*="color:var(--text-dim)"], [style*="color:#7B8CA0"] { color:#888 !important; }
 
   /* Alignment map for page 2 */
   #panel-alignment [style*="background:linear-gradient"] { background:#f0ebe4 !important; border:1px solid #ddd !important; }
@@ -508,7 +508,7 @@ header { transition:box-shadow 0.3s ease; }
 }
 .path-card {
   padding: 32px 28px; background: rgba(30,50,75,0.8);
-  border: 1px solid #E2E8F0; border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
   cursor: pointer; transition: all 0.3s; text-align: left;
 }
 .path-card:hover {
@@ -553,7 +553,7 @@ header { transition:box-shadow 0.3s ease; }
 }
 .role-tab {
   flex: 1; min-width: 90px; padding: 12px 14px;
-  background: #F8FAFC; border: none;
+  background: #1A222E; border: none;
   border-right: 1px solid #F1F5F9;
   color: var(--slate); font-size: 10px; font-weight: 600;
   letter-spacing: 1.5px; text-transform: uppercase;
@@ -573,11 +573,11 @@ header { transition:box-shadow 0.3s ease; }
   gap: 16px; margin-top: 24px;
 }
 .kpi-card {
-  padding: 22px 24px; background: #FFFFFF;
-  border: 1px solid #E2E8F0; border-radius: 6px;
+  padding: 22px 24px; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
   transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
-.kpi-card:hover { background: #FFF7ED; border-color: var(--copper); }
+.kpi-card:hover { background: rgba(184,115,51,0.06); border-color: var(--copper); }
 .kpi-value {
   font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700;
   color: var(--copper); margin-bottom: 4px;
@@ -616,7 +616,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-classify-btn:hover { box-shadow:0 0 44px rgba(184,115,51,0.5); }
 .agent-classify-btn:disabled { opacity:0.5; cursor:not-allowed; }
 .agent-error { margin-top:14px; color:#FF9090; font-size:13px; text-align:center; padding:12px; background:rgba(232,80,80,0.1); border-radius:3px; border:1px solid rgba(232,80,80,0.3); }
-.agent-spinner { display:inline-block; width:14px; height:14px; border-radius:50%; border:2px solid #94A3B8; border-top-color:#1E293B; animation:spin 0.8s linear infinite; vertical-align:middle; margin-right:8px; }
+.agent-spinner { display:inline-block; width:14px; height:14px; border-radius:50%; border:2px solid #94A3B8; border-top-color:#EDF2F7; animation:spin 0.8s linear infinite; vertical-align:middle; margin-right:8px; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .agent-sample-btn { font-size:10px; letter-spacing:1.5px; color:var(--copper); background:transparent; border:1px solid var(--copper-border); border-radius:3px; padding:5px 12px; cursor:pointer; font-family:'DM Sans',sans-serif; text-transform:uppercase; transition:all 0.2s; }
 .agent-sample-btn:hover { border-color:var(--copper); background:var(--copper-glow); }
@@ -625,7 +625,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-summary-strip { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; background:rgba(20,40,64,0.85); border:1px solid var(--copper-border); border-radius:4px; padding:18px 24px; margin-bottom:24px; }
 .agent-summary-title { font-weight:700; font-size:15px; color:var(--white); }
 .agent-summary-stats { display:flex; gap:10px; flex-wrap:wrap; }
-.agent-stat-pill { display:flex; align-items:center; gap:7px; background:#F1F5F9; border:1px solid var(--copper-border); border-radius:20px; padding:6px 14px; font-size:12px; }
+.agent-stat-pill { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,0.06); border:1px solid var(--copper-border); border-radius:20px; padding:6px 14px; font-size:12px; }
 .agent-stat-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .agent-bucket-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; }
 .agent-bucket-col { background:rgba(20,40,64,0.75); border:1px solid; border-radius:4px; overflow:hidden; }
@@ -636,13 +636,13 @@ header { transition:box-shadow 0.3s ease; }
 .agent-bucket-count { margin-left:auto; font-size:26px; font-weight:700; font-family:'Playfair Display',serif; }
 .agent-bucket-items { padding:12px; display:flex; flex-direction:column; gap:10px; }
 .agent-empty-bucket { color:var(--text-dim); font-size:13px; text-align:center; padding:24px 0; font-style:italic; }
-.agent-item-card { background:#F1F5F9; border:1px solid rgba(184,115,51,0.15); border-radius:3px; padding:12px; cursor:pointer; transition:all 0.2s; }
+.agent-item-card { background:rgba(255,255,255,0.06); border:1px solid rgba(184,115,51,0.15); border-radius:3px; padding:12px; cursor:pointer; transition:all 0.2s; }
 .agent-item-card:hover { background:rgba(184,115,51,0.06); border-color:var(--copper-border); }
 .agent-item-card.expanded { background:rgba(184,115,51,0.06); border-color:var(--copper-border); }
 .agent-item-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px; }
 .agent-item-name { font-weight:700; font-size:13px; color:var(--white); line-height:1.3; }
 .agent-item-meta { display:flex; gap:6px; flex-shrink:0; align-items:center; }
-.agent-confidence-bar { height:3px; background:#F1F5F9; border-radius:2px; overflow:hidden; }
+.agent-confidence-bar { height:3px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
 .agent-confidence-fill { height:100%; border-radius:2px; }
 .agent-item-expanded { margin-top:12px; padding-top:12px; border-top:1px solid rgba(184,115,51,0.2); display:none; }
 .agent-item-card.expanded .agent-item-expanded { display:block; }
@@ -696,7 +696,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-report-section-title { font-size:16px; font-weight:700; color:var(--white); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--copper-border); font-family:'Playfair Display',serif; }
 .agent-report-para { font-size:13px; color:var(--text-body); line-height:1.85; }
 .agent-report-bucket-summary { display:flex; gap:14px; }
-.agent-report-bucket { flex:1; padding:14px 16px; background:#F1F5F9; border-radius:3px; border-left:3px solid; }
+.agent-report-bucket { flex:1; padding:14px 16px; background:rgba(255,255,255,0.06); border-radius:3px; border-left:3px solid; }
 .agent-report-item { margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid rgba(184,115,51,0.12); }
 .agent-report-item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 .agent-report-recs { display:flex; flex-direction:column; gap:12px; }
@@ -1145,19 +1145,19 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Enter company name, revenue, cost base, EBITDA, and org readiness</div>
             <div id="qs-step1-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step2" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:#F1F5F9;cursor:pointer" onclick="switchTab('portfolio')">
+          <div id="qs-step2" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.06);cursor:pointer" onclick="switchTab('portfolio')">
             <div style="font-size:18px;margin-bottom:6px">②</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">AI Portfolio</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Map existing AI initiatives with budgets, risk levels, and change management</div>
             <div id="qs-step2-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step3" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:#F1F5F9;cursor:pointer" onclick="switchTab('governance')">
+          <div id="qs-step3" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.06);cursor:pointer" onclick="switchTab('governance')">
             <div style="font-size:18px;margin-bottom:6px">③</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Governance</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Set CM benchmarks and activate regulatory frameworks (EU AI Act, DORA)</div>
             <div id="qs-step3-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step4" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:#F1F5F9;cursor:pointer" onclick="setView('executive');switchTab('dashboard')">
+          <div id="qs-step4" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.06);cursor:pointer" onclick="setView('executive');switchTab('dashboard')">
             <div style="font-size:18px;margin-bottom:6px">④</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Executive View</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Switch to Executive for board-ready KPIs, the Boardroom Sentence, and role views</div>
@@ -1169,7 +1169,7 @@ header { transition:box-shadow 0.3s ease; }
       <!-- Strategic Priorities (practitioner view) -->
       <div id="practitioner-priorities" style="display:none;margin-bottom:20px"></div>
 
-      <div id="bvfScorecard" style="display:none;margin-bottom:24px;padding:18px 24px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.2);border-radius:4px">
+      <div id="bvfScorecard" style="display:none;margin-bottom:24px;padding:18px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:4px">
         <span class="label" id="bvfScorecardTitle">Total AI Value Potential</span>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px" id="bvfScorecardCards"></div>
       </div>
@@ -1182,7 +1182,7 @@ header { transition:box-shadow 0.3s ease; }
         <div id="bvfFnMetrics" style="display:flex;gap:14px;flex-wrap:wrap"></div>
         <button onclick="toggleSource()" style="margin-left:auto;background:transparent;border:1px solid var(--copper-border);border-radius:3px;padding:4px 10px;color:var(--text-dim);font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif">📖 <span id="sourceLabel">Show</span> Source</button>
       </div>
-      <div id="sourcePanel" style="display:none;margin-bottom:14px;padding:14px 18px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.15);border-left:4px solid rgba(184,115,51,0.4);border-radius:3px">
+      <div id="sourcePanel" style="display:none;margin-bottom:14px;padding:14px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.15);border-left:4px solid rgba(184,115,51,0.4);border-radius:3px">
         <span class="label" style="margin-bottom:4px">Benchmark Methodology</span>
         <div id="sourceContent" style="font-size:11px;color:var(--text-body);line-height:1.6"></div>
       </div>
@@ -1281,7 +1281,7 @@ header { transition:box-shadow 0.3s ease; }
         <span class="label" style="margin-bottom:4px">Pilot Trap Diagnostic — 5 Questions</span>
         <div style="font-size:10px;color:var(--text-dim);font-style:italic;margin-bottom:12px">42% of companies abandoned most AI projects in 2025 citing unclear value. Answer honestly.</div>
         <div id="pilotQuestions"></div>
-        <div id="pilotResult" style="display:none;margin-top:10px;padding:10px 14px;background:#F8FAFC;border-radius:3px;align-items:center;gap:12px"></div>
+        <div id="pilotResult" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:3px;align-items:center;gap:12px"></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:14px">
         <button class="btn btn-primary" onclick="saveInit()">Save Initiative</button>
@@ -1504,9 +1504,9 @@ header { transition:box-shadow 0.3s ease; }
     </div>
     <div id="cmContent" style="display:none">
       <div id="cmRagBanner" style="margin-bottom:22px;padding:18px 22px;border-radius:4px;display:flex;align-items:center;gap:18px;flex-wrap:wrap"></div>
-      <div style="margin-bottom:22px;padding:18px 22px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.18);border-radius:4px">
+      <div style="margin-bottom:22px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.18);border-radius:4px">
         <span class="label">CM Allocation vs Prosci Benchmark</span>
-        <div style="margin-top:12px;position:relative;height:40px;background:#F1F5F9;border-radius:3px;overflow:hidden">
+        <div style="margin-top:12px;position:relative;height:40px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden">
           <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(224,82,82,0.1);border-right:1px dashed rgba(224,82,82,0.35)"></div>
           <div style="position:absolute;left:33.3%;top:0;width:33.3%;height:100%;background:rgba(245,166,35,0.08);border-right:1px dashed rgba(245,166,35,0.35)"></div>
           <div style="position:absolute;left:66.6%;top:0;width:33.4%;height:100%;background:rgba(76,175,128,0.08)"></div>
@@ -1545,7 +1545,7 @@ header { transition:box-shadow 0.3s ease; }
       <div style="font-size:13px;color:var(--text-body)" id="regSubtitle">Select applicable regulations. Compliance costs calculated against your revenue profile.</div>
     </div>
     <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap" id="regToggles"></div>
-    <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:18px 22px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.2);border-radius:4px"></div>
+    <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:4px"></div>
     <div id="regDetails" style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px"></div>
     <div id="regNoCost" style="display:none;padding:20px;background:rgba(192,122,26,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:3px;text-align:center">
       <div style="font-size:13px;color:var(--amber-light)">Enter your annual revenue in the Company Profile to see compliance costs in your currency.</div>
@@ -1573,8 +1573,8 @@ header { transition:box-shadow 0.3s ease; }
     </div>
     <div id="amPriorities" style="display:none;margin-bottom:16px;padding:20px 24px;background:linear-gradient(135deg,rgba(184,115,51,0.06),rgba(184,115,51,0.02));border:1px solid rgba(184,115,51,0.25);border-radius:4px"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" id="amSummaryCards"></div>
-    <div id="amTopFns" style="display:none;margin-bottom:16px;padding:16px 20px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
-    <div id="amInvestment" style="display:none;margin-bottom:16px;padding:16px 20px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
+    <div id="amTopFns" style="display:none;margin-bottom:16px;padding:16px 20px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
+    <div id="amInvestment" style="display:none;margin-bottom:16px;padding:16px 20px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
     <div class="mirror" style="margin-top:20px">
       <span class="label" style="margin-bottom:8px">Holding Up The Mirror</span>
       <blockquote>"What percentage of the ROI for this AI programme relies on people actually adopting and implementing the change?"</blockquote>
@@ -1602,7 +1602,7 @@ header { transition:box-shadow 0.3s ease; }
     <div style="display:flex;flex-direction:column;gap:16px" id="benchmarkSources">
 
       <!-- 1. Value Potential Rates -->
-      <div style="padding:20px 24px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">AI Value Potential by Function</div>
@@ -1631,7 +1631,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 2. Drag Cost / Org Readiness -->
-      <div style="padding:20px 24px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Organisational Drag Cost Model</div>
@@ -1653,7 +1653,7 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
               <div style="margin-bottom:8px">Four organisational readiness levels with base drag rates:</div>
-              <div style="padding:10px 14px;background:#F8FAFC;border-radius:4px;margin-bottom:8px;font-size:11px;line-height:1.8;font-family:monospace">
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:1.8;font-family:monospace">
                 Bureaucratic&nbsp;&nbsp;&nbsp;40% drag<br>
                 Traditional&nbsp;&nbsp;&nbsp;&nbsp;25% drag<br>
                 Mixed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15% drag<br>
@@ -1667,7 +1667,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 3. Change Management Benchmarks -->
-      <div style="padding:20px 24px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Change Management Allocation Benchmarks</div>
@@ -1688,7 +1688,7 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
               <div style="margin-bottom:8px">RAG (Red-Amber-Green) thresholds for CM as % of initiative budget:</div>
-              <div style="padding:10px 14px;background:#F8FAFC;border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2">
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2">
                 <span style="color:#E05252;font-weight:700">RED</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;5% — Significant adoption risk<br>
                 <span style="color:#F59E0B;font-weight:700">AMBER</span>&nbsp;&nbsp;5–10% — Below recommended level<br>
                 <span style="color:#22C55E;font-weight:700">GREEN</span>&nbsp;&nbsp;&ge;10% — Aligned with Prosci benchmark
@@ -1700,7 +1700,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 4. Pilot Trap Diagnostic -->
-      <div style="padding:20px 24px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Pilot Trap Diagnostic</div>
@@ -1729,7 +1729,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 5. AI Generation Tiers -->
-      <div style="padding:20px 24px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">AI Generation Tier Classification</div>
@@ -1749,7 +1749,7 @@ header { transition:box-shadow 0.3s ease; }
           <div>
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
-              <div style="padding:10px 14px;background:#F8FAFC;border-radius:4px;font-size:11px;line-height:2">
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;font-size:11px;line-height:2">
                 <span style="color:#4CAF80;font-weight:700">Gen 1 — Automation</span><br>
                 RPA, rules-based, ML classification, predictive models<br><br>
                 <span style="color:#F59E0B;font-weight:700">Gen 2 — Generative AI</span><br>
@@ -1763,7 +1763,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 6. Regulatory Frameworks -->
-      <div style="padding:20px 24px;background:#F8FAFC;border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Regulatory Compliance Frameworks</div>
@@ -1811,13 +1811,13 @@ header { transition:box-shadow 0.3s ease; }
     <!-- ═══ PREP MODE ═══ -->
     <div id="fac-prep">
       <!-- Readiness Check -->
-      <div style="margin-bottom:24px;padding:18px 22px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px">
+      <div style="margin-bottom:24px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
         <div style="font-size:13px;font-weight:600;color:var(--ice);margin-bottom:12px">Pre-Session Readiness Check</div>
         <div id="fac-readiness" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
 
       <!-- Session Plan -->
-      <div style="margin-bottom:24px;padding:18px 22px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px">
+      <div style="margin-bottom:24px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
           <div style="font-size:13px;font-weight:600;color:var(--ice)">Workshop Session Plan</div>
           <div style="font-size:11px;color:var(--text-muted)">Recommended: 90–120 minutes</div>
@@ -1829,49 +1829,49 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">DURATION</div>
             <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">TAB</div>
           </div>
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:#F8FAFC;border-bottom:1px solid #E2E8F0">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">0:00</div>
             <div><div style="font-size:12px;color:var(--ice);font-weight:600">Welcome & Context Setting</div><div style="font-size:11px;color:var(--text-muted)">Introductions, BVF purpose, what the client will leave with</div></div>
             <div style="font-size:11px;color:var(--text-muted)">10 min</div>
             <div style="font-size:10px;color:var(--copper)">Welcome</div>
           </div>
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:#F8FAFC;border-bottom:1px solid #E2E8F0">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">0:10</div>
             <div><div style="font-size:12px;color:var(--ice);font-weight:600">Company Profile & Priorities</div><div style="font-size:11px;color:var(--text-muted)">Enter financials, set org readiness, define board priorities</div></div>
             <div style="font-size:11px;color:var(--text-muted)">15 min</div>
             <div style="font-size:10px;color:var(--copper)">Dashboard</div>
           </div>
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:#F8FAFC;border-bottom:1px solid #E2E8F0">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">0:25</div>
             <div><div style="font-size:12px;color:var(--ice);font-weight:600">AI Portfolio Mapping</div><div style="font-size:11px;color:var(--text-muted)">Map existing initiatives first, then identify new opportunities. Run Pilot Trap on each.</div></div>
             <div style="font-size:11px;color:var(--text-muted)">25 min</div>
             <div style="font-size:10px;color:var(--copper)">Portfolio</div>
           </div>
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:#F8FAFC;border-bottom:1px solid #E2E8F0">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">0:50</div>
             <div><div style="font-size:12px;color:var(--ice);font-weight:600">🪞 Mirror Moment #1</div><div style="font-size:11px;color:var(--copper)">"What percentage of the ROI for this AI programme relies on people actually adopting and implementing the change?"</div></div>
             <div style="font-size:11px;color:var(--text-muted)">5 min</div>
             <div style="font-size:10px;color:var(--copper)">Pause</div>
           </div>
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:#F8FAFC;border-bottom:1px solid #E2E8F0">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">0:55</div>
             <div><div style="font-size:12px;color:var(--ice);font-weight:600">Governance & CM Assessment</div><div style="font-size:11px;color:var(--text-muted)">Review CM allocation RAG status, activate EU AI Act / DORA compliance</div></div>
             <div style="font-size:11px;color:var(--text-muted)">15 min</div>
             <div style="font-size:10px;color:var(--copper)">Governance</div>
           </div>
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:#F8FAFC;border-bottom:1px solid #E2E8F0">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">1:10</div>
             <div><div style="font-size:12px;color:var(--ice);font-weight:600">Executive Readout</div><div style="font-size:11px;color:var(--text-muted)">Switch to Executive view. Walk through CEO, CFO, CDO perspectives. Show Boardroom Sentence.</div></div>
             <div style="font-size:11px;color:var(--text-muted)">15 min</div>
             <div style="font-size:10px;color:var(--copper)">Dashboard</div>
           </div>
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:#F8FAFC;border-bottom:1px solid #E2E8F0">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">1:25</div>
             <div><div style="font-size:12px;color:var(--ice);font-weight:600">🪞 Mirror Moment #2</div><div style="font-size:11px;color:var(--copper)">"Look at the drag cost number. That's the tax your organisation pays for not investing in people. Is that a number you're willing to present to the board?"</div></div>
             <div style="font-size:11px;color:var(--text-muted)">5 min</div>
             <div style="font-size:10px;color:var(--copper)">Pause</div>
           </div>
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:#F8FAFC;border-radius:0 0 4px 4px">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:0 0 4px 4px">
             <div style="font-size:12px;color:var(--ice);font-weight:600">1:30</div>
             <div><div style="font-size:12px;color:var(--ice);font-weight:600">Alignment Map & Next Steps</div><div style="font-size:11px;color:var(--text-muted)">Review board summary. Print Executive Readout. Agree actions and follow-up schedule.</div></div>
             <div style="font-size:11px;color:var(--text-muted)">10 min</div>
@@ -1881,7 +1881,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- Facilitator Notes -->
-      <div style="padding:18px 22px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px">
+      <div style="padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
         <div style="font-size:13px;font-weight:600;color:var(--ice);margin-bottom:12px">Facilitator Tips</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div style="font-size:12px;color:var(--text-body);line-height:1.8">
@@ -2237,7 +2237,7 @@ function renderPriorities() {
     const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
     const col = catColors[p.category] || '#B87333';
     const mappedInits = BVF.initiatives.length; // future: real mapping
-    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.15);border-left:3px solid ${col};border-radius:0 4px 4px 0">
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.15);border-left:3px solid ${col};border-radius:0 4px 4px 0">
       <div style="flex:1">
         <div style="font-size:13px;font-weight:600;color:var(--ice);line-height:1.4">${p.description}</div>
         <div style="display:flex;gap:10px;margin-top:4px;align-items:center">
@@ -2490,9 +2490,9 @@ function renderBVF() {
       {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#D4956A",base:cost,baseL:"cost base"},
       {l:"Combined EBITDA Impact",lo:sc.totL,hi:sc.totH,col:"#B87333",base:ebt,baseL:"vs current EBITDA",bold:true},
     ].map(s=>`<div style="flex:1;min-width:150px;padding:12px 16px;background:${s.bold?"rgba(184,115,51,0.1)":"#F8FAFC"};border:1px solid ${s.bold?"#B87333":"rgba(184,115,51,0.15)"};border-radius:3px">
-      <div style="font-size:9px;letter-spacing:1.5px;color:#475569;margin-bottom:5px">${s.l.toUpperCase()}</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:#7B8CA0;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:${s.bold?'20':'17'}px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.lo>0?`${fmt(s.lo)} – ${fmt(s.hi)}`:'—'}</div>
-      ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#475569;margin-top:2px;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:''}
+      ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#7B8CA0;margin-top:2px;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:''}
     </div>`).join('');
   } else { scorecardEl.style.display='none'; }
 
@@ -2525,7 +2525,7 @@ function renderBVF() {
               if(p.category==='risk'&&(i.risk==='High'||iFn==='risk')) return true;
               return false;
             });
-            return `<div style="flex:1;min-width:180px;padding:10px 14px;background:#F1F5F9;border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
+            return `<div style="flex:1;min-width:180px;padding:10px 14px;background:rgba(255,255,255,0.06);border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
               <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:3px">${p.description}</div>
               <div style="display:flex;justify-content:space-between;align-items:center">
                 <span style="font-size:9px;letter-spacing:1px;color:${col};font-weight:600;text-transform:uppercase">${label}</span>
@@ -2551,8 +2551,8 @@ function renderBVF() {
     fnCard.style.display='flex';
     document.getElementById('bvfFnTitle').textContent=`${FUNCTIONS.find(f=>f.id===activeFn).icon} ${FUNCTIONS.find(f=>f.id===activeFn).label}`;
     let metrics='';
-    if(r.rev.hi>0&&rev>0) metrics+=`<div><div style="font-size:9px;color:#475569;letter-spacing:1px">REVENUE UPLIFT</div><div style="font-size:15px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(rev*r.rev.lo)} – ${fmt(rev*r.rev.hi)}</div><div style="font-size:10px;color:#475569;font-style:italic">${(r.rev.lo*100).toFixed(1)}–${(r.rev.hi*100).toFixed(1)}% of ${fmt(rev)}</div></div>`;
-    if(r.cost.hi>0&&cost>0) metrics+=`<div><div style="font-size:9px;color:#475569;letter-spacing:1px">COST REDUCTION</div><div style="font-size:15px;font-weight:700;color:#D4956A;font-family:'Playfair Display',serif">${fmt(cost*r.cost.lo)} – ${fmt(cost*r.cost.hi)}</div><div style="font-size:10px;color:#475569;font-style:italic">${(r.cost.lo*100).toFixed(1)}–${(r.cost.hi*100).toFixed(1)}% of ${fmt(cost)}</div></div>`;
+    if(r.rev.hi>0&&rev>0) metrics+=`<div><div style="font-size:9px;color:#7B8CA0;letter-spacing:1px">REVENUE UPLIFT</div><div style="font-size:15px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(rev*r.rev.lo)} – ${fmt(rev*r.rev.hi)}</div><div style="font-size:10px;color:#7B8CA0;font-style:italic">${(r.rev.lo*100).toFixed(1)}–${(r.rev.hi*100).toFixed(1)}% of ${fmt(rev)}</div></div>`;
+    if(r.cost.hi>0&&cost>0) metrics+=`<div><div style="font-size:9px;color:#7B8CA0;letter-spacing:1px">COST REDUCTION</div><div style="font-size:15px;font-weight:700;color:#D4956A;font-family:'Playfair Display',serif">${fmt(cost*r.cost.lo)} – ${fmt(cost*r.cost.hi)}</div><div style="font-size:10px;color:#7B8CA0;font-style:italic">${(r.cost.lo*100).toFixed(1)}–${(r.cost.hi*100).toFixed(1)}% of ${fmt(cost)}</div></div>`;
     document.getElementById('bvfFnMetrics').innerHTML=metrics;
   } else { fnCard.style.display='none'; }
 
@@ -2560,7 +2560,7 @@ function renderBVF() {
   document.getElementById('layerButtons').innerHTML = LAYERS.map((layer,i)=>`
     <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'linear-gradient(135deg,#B87333,#D4956A)':'#F1F5F9'):'#F8FAFC'};border:1px solid ${activeLayer===layer.id?'#B87333':'rgba(184,115,51,0.12)'};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
       <div style="font-size:8px;letter-spacing:1.5px;color:#B87333;margin-bottom:3px">${layer.note}</div>
-      <div style="font-size:11px;font-weight:700;color:#1E293B;line-height:1.3">${layer.label}</div>
+      <div style="font-size:11px;font-weight:700;color:#EDF2F7;line-height:1.3">${layer.label}</div>
     </button>
   `).join('');
 
@@ -2576,7 +2576,7 @@ function renderBVF() {
     if(isActive&&isLast) {
       extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(184,115,51,0.2)">
         <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">Value Drivers · ${FUNCTIONS.find(f=>f.id===activeFn).label}</div>
-        ${r.drivers.map(d=>`<div style="display:flex;gap:8px;margin-bottom:5px"><span style="color:#B87333;font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:12px;color:#64748B;line-height:1.5">${d}</span></div>`).join('')}
+        ${r.drivers.map(d=>`<div style="display:flex;gap:8px;margin-bottom:5px"><span style="color:#B87333;font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:12px;color:#8899AB;line-height:1.5">${d}</span></div>`).join('')}
       </div>`;
     }
 
@@ -2602,14 +2602,14 @@ function renderBVF() {
           const iRAG=rag(cm,bud);
           const ps=pilotScore(ini.pilotAnswers);
           const riskCol=ini.risk==='Low'?'#4CAF80':ini.risk==='High'?'#E05252':'#F5A623';
-          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.12);border-left:3px solid ${tier?tier.color:'#B87333'};border-radius:3px;margin-bottom:5px">
+          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.12);border-left:3px solid ${tier?tier.color:'#B87333'};border-radius:3px;margin-bottom:5px">
             <div style="flex:1;min-width:0">
-              <div style="font-size:12px;font-weight:700;color:#1E293B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ini.name}</div>
-              <div style="font-size:10px;color:#475569;margin-top:2px">${tier?`<span style="color:${tier.color};font-weight:600">${tier.short}</span> · `:''}${ini.horizon} · <span style="color:${riskCol}">${ini.risk} risk</span>${ini.owner?` · ${ini.owner}`:''}</div>
-              ${ini.outcome?`<div style="font-size:10px;color:#64748B;margin-top:2px;font-style:italic">${ini.outcome}</div>`:''}
+              <div style="font-size:12px;font-weight:700;color:#EDF2F7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ini.name}</div>
+              <div style="font-size:10px;color:#7B8CA0;margin-top:2px">${tier?`<span style="color:${tier.color};font-weight:600">${tier.short}</span> · `:''}${ini.horizon} · <span style="color:${riskCol}">${ini.risk} risk</span>${ini.owner?` · ${ini.owner}`:''}</div>
+              ${ini.outcome?`<div style="font-size:10px;color:#8899AB;margin-top:2px;font-style:italic">${ini.outcome}</div>`:''}
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;margin-left:12px">
-              <div style="text-align:right"><div style="font-size:9px;color:#475569">Budget</div><div style="font-size:12px;font-weight:700;color:#B87333">${fmt(bud)}</div></div>
+              <div style="text-align:right"><div style="font-size:9px;color:#7B8CA0">Budget</div><div style="font-size:12px;font-weight:700;color:#B87333">${fmt(bud)}</div></div>
               ${iRAG?`<span class="rag rag-${iRAG}" style="font-size:8px">${pct(cm,bud)}</span>`:''}
               ${ps?`<span style="font-size:9px;font-weight:700;color:${ps.color}">${ps.score}/${ps.total}</span>`:''}
             </div>
@@ -2621,7 +2621,7 @@ function renderBVF() {
     // Initiatives layer — prompt to add if empty and expanded
     else if(isActive&&isInitiatives&&fnInits.length===0) {
       extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(184,115,51,0.2)">
-        <div style="font-size:11px;color:#475569;font-style:italic;margin-bottom:8px">No AI initiatives mapped to ${FUNCTIONS.find(f=>f.id===activeFn).label} yet.</div>
+        <div style="font-size:11px;color:#7B8CA0;font-style:italic;margin-bottom:8px">No AI initiatives mapped to ${FUNCTIONS.find(f=>f.id===activeFn).label} yet.</div>
         <button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(184,115,51,0.3);border-radius:3px;padding:6px 14px;color:#B87333;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Go to Portfolio → Add Initiative</button>
       </div>`;
     }
@@ -2634,7 +2634,7 @@ function renderBVF() {
     }
 
     return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?'rgba(184,115,51,0.1)':hasData?'rgba(184,115,51,0.06)':'#F1F5F9'):(hasData?'rgba(184,115,51,0.03)':'#FAFBFC')};border:1px solid ${isActive?'#B87333':(hasData?'rgba(184,115,51,0.2)':'rgba(184,115,51,0.1)')};border-left:${isLast?'4px solid #B87333':isActive?'4px solid rgba(184,115,51,0.5)':(hasData?'4px solid rgba(184,115,51,0.3)':'4px solid rgba(184,115,51,0.1)')};border-radius:3px;cursor:pointer;min-height:58px">
-      <div style="font-size:13px;font-weight:600;color:#1E293B;line-height:1.45">${mainContent}</div>
+      <div style="font-size:13px;font-weight:600;color:#EDF2F7;line-height:1.45">${mainContent}</div>
       ${extra}
     </div>`;
   }).join('');
@@ -2714,11 +2714,11 @@ function renderPortfolio() {
     tierCards.innerHTML=AI_TIERS.map(t=>{
       const count=inits.filter(i=>i.tier===t.id).length;
       const bud=inits.filter(i=>i.tier===t.id).reduce((s,i)=>s+parseNum(i.budget),0);
-      return `<div style="flex:1;min-width:130px;padding:12px 16px;background:#F1F5F9;border:1px solid #E2E8F0;border-top:3px solid ${t.color};border-radius:3px">
+      return `<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-top:3px solid ${t.color};border-radius:3px">
         <div style="font-size:9px;letter-spacing:1.5px;color:${t.color};font-weight:700;margin-bottom:5px">${t.short}</div>
-        <div style="font-size:18px;font-weight:700;color:#1E293B;font-family:'Playfair Display',serif">${count} <span style="font-size:11px;color:#475569;font-weight:400">initiatives</span></div>
-        <div style="font-size:11px;color:#475569">${fmt(bud)}</div>
-        <div style="font-size:10px;color:#475569;font-style:italic;margin-top:3px">${t.desc}</div>
+        <div style="font-size:18px;font-weight:700;color:#EDF2F7;font-family:'Playfair Display',serif">${count} <span style="font-size:11px;color:#7B8CA0;font-weight:400">initiatives</span></div>
+        <div style="font-size:11px;color:#7B8CA0">${fmt(bud)}</div>
+        <div style="font-size:10px;color:#7B8CA0;font-style:italic;margin-top:3px">${t.desc}</div>
       </div>`;
     }).join('');
   } else { tierCards.style.display='none'; }
@@ -2742,18 +2742,18 @@ function renderPortfolio() {
         const statusCfg={existing:{l:'Live',c:'#4CAF80'},pilot:{l:'Pilot',c:'#F59E0B'},approved:{l:'Approved',c:'#3B82F6'},proposed:{l:'New',c:'#8B5CF6'}};
         const st=statusCfg[init.status||'proposed']||statusCfg.proposed;
         return `<tr>
-          <td style="color:#1E293B;font-weight:600;max-width:150px;font-size:12px">${init.name||'—'}</td>
+          <td style="color:#EDF2F7;font-weight:600;max-width:150px;font-size:12px">${init.name||'—'}</td>
           <td style="white-space:nowrap"><span style="font-size:9px;font-weight:700;letter-spacing:0.5px;padding:2px 6px;border-radius:2px;background:${st.c}18;color:${st.c};border:1px solid ${st.c}33">${st.l}</span></td>
-          <td style="color:#64748B;white-space:nowrap">${fn?.icon||''} ${fn?.label||''}</td>
+          <td style="color:#8899AB;white-space:nowrap">${fn?.icon||''} ${fn?.label||''}</td>
           <td style="white-space:nowrap">${tier?`<span style="color:${tier.color};font-weight:700;font-size:11px">${tier.short}</span>`:'—'}</td>
-          <td style="color:#1E293B;white-space:nowrap">${fmt(bud)}</td>
-          <td style="color:#475569;white-space:nowrap">${rev>0?pct(bud,rev):'—'}</td>
-          <td style="color:#1E293B;white-space:nowrap">${fmt(cm)}</td>
+          <td style="color:#EDF2F7;white-space:nowrap">${fmt(bud)}</td>
+          <td style="color:#7B8CA0;white-space:nowrap">${rev>0?pct(bud,rev):'—'}</td>
+          <td style="color:#EDF2F7;white-space:nowrap">${fmt(cm)}</td>
           <td style="white-space:nowrap">${rc?`<span class="rag rag-${r}">${pct(cm,bud)}</span>`:'—'}</td>
-          <td style="color:#64748B;white-space:nowrap">${init.horizon}</td>
-          <td style="color:#64748B">${init.owner||'—'}</td>
+          <td style="color:#8899AB;white-space:nowrap">${init.horizon}</td>
+          <td style="color:#8899AB">${init.owner||'—'}</td>
           <td style="white-space:nowrap"><span style="color:${riskCol};font-weight:700">${init.risk}</span></td>
-          <td style="white-space:nowrap">${ps?`<span style="color:${ps.color};font-size:10px;font-weight:700">${ps.score}/${ps.total}</span>`:`<span style="color:#475569;font-size:10px">—</span>`}</td>
+          <td style="white-space:nowrap">${ps?`<span style="color:${ps.color};font-size:10px;font-weight:700">${ps.score}/${ps.total}</span>`:`<span style="color:#7B8CA0;font-size:10px">—</span>`}</td>
           <td style="white-space:nowrap"><button class="btn btn-sm btn-ghost" onclick="editInit('${init.id}')">Edit</button> <button class="btn btn-sm btn-ghost" onclick="removeInit('${init.id}')" style="padding:4px 10px">✕</button></td>
         </tr>`;
       }).join('')}</tbody>
@@ -2767,10 +2767,10 @@ function renderPortfolio() {
       {l:'Total CM Allocated',v:fmt(totCM),sub:`${pct(totCM,totBudget)} of portfolio`,col:totBudget>0&&totCM/totBudget>=.10?'#4CAF80':totCM/totBudget>=.05?'#F5A623':'#E05252'},
       {l:'Gen 3 Agentic Share',v:totBudget>0?pct(gen3bud,totBudget):'—',sub:'of portfolio budget',col:'#8B5CF6'},
       {l:'Pilot Trap Issues',v:pilotIssues||'—',sub:'initiatives with <2 readiness indicators',col:'#F5A623'},
-    ].map(s=>`<div style="flex:1;min-width:130px;padding:12px 16px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.18);border-radius:3px">
-      <div style="font-size:9px;letter-spacing:1.5px;color:#475569;margin-bottom:5px">${s.l.toUpperCase()}</div>
+    ].map(s=>`<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.18);border-radius:3px">
+      <div style="font-size:9px;letter-spacing:1.5px;color:#7B8CA0;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:18px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.v}</div>
-      ${s.sub?`<div style="font-size:10px;color:#475569;margin-top:2px;font-style:italic">${s.sub}</div>`:''}
+      ${s.sub?`<div style="font-size:10px;color:#7B8CA0;margin-top:2px;font-style:italic">${s.sub}</div>`:''}
     </div>`).join('');
   }
   // Update dashboard KPIs
@@ -2870,8 +2870,8 @@ function togglePilot() {
 }
 function renderPilotQuestions() {
   document.getElementById('pilotQuestions').innerHTML=PILOT_QS.map(q=>`
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #E2E8F0">
-      <span style="font-size:12px;color:#64748B;flex:1;padding-right:16px">${q.q}</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <span style="font-size:12px;color:#8899AB;flex:1;padding-right:16px">${q.q}</span>
       <div style="display:flex;gap:6px;flex-shrink:0">
         ${['yes','no','partial'].map(v=>`<button onclick="setPilot('${q.key}','${v}')" style="padding:4px 10px;background:${pilotAnswers[q.key]===v?(v==='yes'?'#2E7D52':v==='no'?'#8B2020':'#C07A1A'):'#F8FAFC'};border:none;border-radius:2px;color:white;font-size:10px;cursor:pointer;font-weight:${pilotAnswers[q.key]===v?'700':'400'};font-family:'DM Sans',sans-serif">${v}</button>`).join('')}
       </div>
@@ -2885,7 +2885,7 @@ function updatePilotResult() {
   const el=document.getElementById('pilotResult');
   if(ps) {
     el.style.display='flex';
-    el.innerHTML=`<span style="font-size:13px;font-weight:700;color:${ps.color}">${ps.label}</span><span style="font-size:11px;color:#475569">${ps.score}/${ps.total} readiness indicators met</span>`;
+    el.innerHTML=`<span style="font-size:13px;font-weight:700;color:${ps.color}">${ps.label}</span><span style="font-size:11px;color:#7B8CA0">${ps.score}/${ps.total} readiness indicators met</span>`;
   } else { el.style.display='none'; }
 }
 
@@ -2910,7 +2910,7 @@ function renderCM() {
   if(rc) {
     const banner=document.getElementById('cmRagBanner');
     banner.style.background=rc.bg; banner.style.border=`1px solid ${rc.border}`;
-    banner.innerHTML=`<div style="font-size:24px;font-weight:700;color:${rc.text};font-family:'Playfair Display',serif">${rc.label}</div><div style="flex:1"><div style="font-size:13px;color:#1E293B;margin-bottom:2px">${rc.desc}</div><div style="font-size:11px;color:#475569;font-style:italic">Portfolio CM: ${cmPct.toFixed(1)}% · Prosci min: 10% · Recommended: 15%${rev>0?` · Gap = ${pct(gapLow,rev)}–${pct(gapHigh,rev)} of revenue`:''}</div></div>`;
+    banner.innerHTML=`<div style="font-size:24px;font-weight:700;color:${rc.text};font-family:'Playfair Display',serif">${rc.label}</div><div style="flex:1"><div style="font-size:13px;color:#EDF2F7;margin-bottom:2px">${rc.desc}</div><div style="font-size:11px;color:#7B8CA0;font-style:italic">Portfolio CM: ${cmPct.toFixed(1)}% · Prosci min: 10% · Recommended: 15%${rev>0?` · Gap = ${pct(gapLow,rev)}–${pct(gapHigh,rev)} of revenue`:''}</div></div>`;
   }
   const cmBar=document.getElementById('cmBar');
   cmBar.style.width=barW+'%';
@@ -2924,10 +2924,10 @@ function renderCM() {
     {l:'Prosci Recommended (15%)',v:fmt(prosciHigh),col:'#4CAF80'},
     {l:'Gap to Minimum',v:gapLow>0?fmt(gapLow):'✓ Met',col:gapLow>0?'#E05252':'#4CAF80'},
     {l:'Gap to Recommended',v:gapHigh>0?fmt(gapHigh):'✓ Met',col:gapHigh>0?'#F5A623':'#4CAF80'},
-  ].map(s=>`<div style="padding:14px 16px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.15);border-radius:3px">
-    <div style="font-size:9px;letter-spacing:1.5px;color:#475569;margin-bottom:6px">${s.l.toUpperCase()}</div>
+  ].map(s=>`<div style="padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.15);border-radius:3px">
+    <div style="font-size:9px;letter-spacing:1.5px;color:#7B8CA0;margin-bottom:6px">${s.l.toUpperCase()}</div>
     <div style="font-size:17px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif;margin-bottom:2px">${s.v}</div>
-    ${s.sub?`<div style="font-size:10px;color:#475569;font-style:italic">${s.sub}</div>`:''}
+    ${s.sub?`<div style="font-size:10px;color:#7B8CA0;font-style:italic">${s.sub}</div>`:''}
   </div>`).join('');
 
   document.getElementById('cmInitList').innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:10px;text-transform:uppercase">Initiative-Level CM Status</div>`+
@@ -2939,21 +2939,21 @@ function renderCM() {
     const p2=bud>0?(cm/bud)*100:0;
     const iBarW=Math.min(100,p2/15*100);
     const ps=pilotScore(init.pilotAnswers);
-    return `<div style="padding:12px 16px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.12);border-left:4px solid ${irc?irc.border:'rgba(184,115,51,0.2)'};border-radius:3px;margin-bottom:7px">
+    return `<div style="padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.12);border-left:4px solid ${irc?irc.border:'rgba(184,115,51,0.2)'};border-radius:3px;margin-bottom:7px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px">
         <div>
-          <div style="font-size:12px;font-weight:700;color:#1E293B">${init.name||'Unnamed'}</div>
-          <div style="font-size:10px;color:#475569;margin-top:2px">${fn?.icon} ${fn?.label}${tier?`<span style="color:${tier.color}"> · ${tier.short}</span>`:''} · ${init.horizon}</div>
+          <div style="font-size:12px;font-weight:700;color:#EDF2F7">${init.name||'Unnamed'}</div>
+          <div style="font-size:10px;color:#7B8CA0;margin-top:2px">${fn?.icon} ${fn?.label}${tier?`<span style="color:${tier.color}"> · ${tier.short}</span>`:''} · ${init.horizon}</div>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <div style="text-align:right"><div style="font-size:9px;color:#475569">Budget</div><div style="font-size:13px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(bud)}</div></div>
-          <div style="text-align:right"><div style="font-size:9px;color:#475569">CM</div><div style="font-size:13px;font-weight:700;color:${irc?.text||'#A0B4C8'};font-family:'Playfair Display',serif">${fmt(cm)}</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:#7B8CA0">Budget</div><div style="font-size:13px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(bud)}</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:#7B8CA0">CM</div><div style="font-size:13px;font-weight:700;color:${irc?.text||'#A0B4C8'};font-family:'Playfair Display',serif">${fmt(cm)}</div></div>
           ${irc?`<span class="rag rag-${r2}">${irc.label}</span>`:''}
-          ${ps?`<span class="rag" style="background:#F8FAFC;color:${ps.color};border-color:${ps.color}">PILOT ${ps.label}</span>`:''}
+          ${ps?`<span class="rag" style="background:rgba(255,255,255,0.04);color:${ps.color};border-color:${ps.color}">PILOT ${ps.label}</span>`:''}
         </div>
       </div>
-      ${bud>0?`<div style="height:4px;background:#F8FAFC;border-radius:3px;overflow:hidden"><div style="height:100%;width:${iBarW}%;background:${irc?irc.border:'#A0B4C8'};border-radius:3px"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:3px;font-size:9px;color:#475569"><span>CM: ${p2.toFixed(1)}%</span>${cm<bud*.10?`<span style="color:#E05252">Gap to 10%: ${fmt(bud*.10-cm)}</span>`:cm>=bud*.15?`<span style="color:#4CAF80">✓ Recommended met</span>`:''}</div>`:''}
+      ${bud>0?`<div style="height:4px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden"><div style="height:100%;width:${iBarW}%;background:${irc?irc.border:'#A0B4C8'};border-radius:3px"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:3px;font-size:9px;color:#7B8CA0"><span>CM: ${p2.toFixed(1)}%</span>${cm<bud*.10?`<span style="color:#E05252">Gap to 10%: ${fmt(bud*.10-cm)}</span>`:cm>=bud*.15?`<span style="color:#4CAF80">✓ Recommended met</span>`:''}</div>`:''}
     </div>`;
   }).join('');
 }
@@ -2967,7 +2967,7 @@ function renderRegulatory() {
   document.getElementById('regToggles').innerHTML=REG_FRAMEWORKS.map(r=>`
     <button onclick="toggleReg('${r.id}')" style="padding:10px 16px;background:${selectedRegs.includes(r.id)?`rgba(${r.id==='euai'?'224,82,82':r.id==='dora'?'245,166,35':r.id==='csrd'?'76,175,128':'139,92,246'},0.15)`:'#F8FAFC'};border:1px solid ${selectedRegs.includes(r.id)?r.color:'#E2E8F0'};border-radius:3px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif">
       <div style="font-size:11px;font-weight:700;color:${selectedRegs.includes(r.id)?r.color:'#A0B4C8'}">${r.icon} ${r.label}</div>
-      <div style="font-size:10px;color:#475569;margin-top:2px">${r.risk} · ${r.timeline}</div>
+      <div style="font-size:10px;color:#7B8CA0;margin-top:2px">${r.risk} · ${r.timeline}</div>
     </button>
   `).join('');
 
@@ -2981,14 +2981,14 @@ function renderRegulatory() {
     costBanner.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:8px;text-transform:uppercase">Estimated Regulatory Compliance Investment${BVF.profile.company?` — ${BVF.profile.company}`:''}</div>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
       <div style="flex:1;min-width:160px;padding:12px 16px;background:rgba(184,115,51,0.08);border:1px solid #B87333;border-radius:3px">
-        <div style="font-size:9px;color:#475569;letter-spacing:1.5px;margin-bottom:5px">TOTAL COMPLIANCE COST RANGE</div>
+        <div style="font-size:9px;color:#7B8CA0;letter-spacing:1.5px;margin-bottom:5px">TOTAL COMPLIANCE COST RANGE</div>
         <div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totalLo)} – ${fmt(totalHi)}</div>
-        <div style="font-size:10px;color:#475569;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
+        <div style="font-size:10px;color:#7B8CA0;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
       </div>
-      ${activeRegs.map(r=>`<div style="flex:1;min-width:120px;padding:12px 16px;background:#F1F5F9;border-top:3px solid ${r.color};border-radius:3px">
+      ${activeRegs.map(r=>`<div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(255,255,255,0.06);border-top:3px solid ${r.color};border-radius:3px">
         <div style="font-size:9px;color:${r.color};font-weight:700;letter-spacing:1px;margin-bottom:5px">${r.shortLabel}</div>
-        <div style="font-size:17px;font-weight:700;color:#1E293B;font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)}–${fmt(rev*r.costRange.hi)}</div>
-        <div style="font-size:10px;color:#475569;margin-top:2px;font-style:italic">${(r.costRange.lo*100).toFixed(2)}–${(r.costRange.hi*100).toFixed(2)}% of rev</div>
+        <div style="font-size:17px;font-weight:700;color:#EDF2F7;font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)}–${fmt(rev*r.costRange.hi)}</div>
+        <div style="font-size:10px;color:#7B8CA0;margin-top:2px;font-style:italic">${(r.costRange.lo*100).toFixed(2)}–${(r.costRange.hi*100).toFixed(2)}% of rev</div>
       </div>`).join('')}
     </div>`;
     document.getElementById('regNoCost').style.display='none';
@@ -2998,24 +2998,24 @@ function renderRegulatory() {
   } else { costBanner.style.display='none'; document.getElementById('regNoCost').style.display='none'; }
 
   document.getElementById('regDetails').innerHTML=activeRegs.map(r=>`
-    <div style="padding:18px 22px;background:#F1F5F9;border:1px solid #E2E8F0;border-left:4px solid ${r.color};border-radius:3px">
+    <div style="padding:18px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${r.color};border-radius:3px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div>
-          <div style="font-size:14px;font-weight:700;color:#1E293B">${r.icon} ${r.label} — ${r.risk}</div>
-          <div style="font-size:11px;color:#475569;margin-top:2px">Effective: ${r.timeline}</div>
+          <div style="font-size:14px;font-weight:700;color:#EDF2F7">${r.icon} ${r.label} — ${r.risk}</div>
+          <div style="font-size:11px;color:#7B8CA0;margin-top:2px">Effective: ${r.timeline}</div>
         </div>
-        ${rev>0?`<div style="text-align:right"><div style="font-size:9px;color:#475569">Estimated Cost</div><div style="font-size:16px;font-weight:700;color:${r.color};font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)} – ${fmt(rev*r.costRange.hi)}</div></div>`:''}
+        ${rev>0?`<div style="text-align:right"><div style="font-size:9px;color:#7B8CA0">Estimated Cost</div><div style="font-size:16px;font-weight:700;color:${r.color};font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)} – ${fmt(rev*r.costRange.hi)}</div></div>`:''}
       </div>
-      <p style="margin:0 0 10px;font-size:12px;color:#64748B;line-height:1.6">${r.desc}</p>
+      <p style="margin:0 0 10px;font-size:12px;color:#8899AB;line-height:1.6">${r.desc}</p>
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:4px;text-transform:uppercase">Key Obligations</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:5px;margin-bottom:8px">
-        ${r.obligations.map(o=>`<div style="display:flex;gap:7px;padding:5px 0"><span style="color:${r.color};font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:11px;color:#64748B;line-height:1.5">${o}</span></div>`).join('')}
+        ${r.obligations.map(o=>`<div style="display:flex;gap:7px;padding:5px 0"><span style="color:${r.color};font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:11px;color:#8899AB;line-height:1.5">${o}</span></div>`).join('')}
       </div>
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:4px;text-transform:uppercase">Cost Drivers</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-        ${r.costDrivers.map(d=>`<span style="padding:3px 9px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:2px;font-size:10px;color:#64748B">${d}</span>`).join('')}
+        ${r.costDrivers.map(d=>`<span style="padding:3px 9px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:2px;font-size:10px;color:#8899AB">${d}</span>`).join('')}
       </div>
-      <div style="font-size:10px;color:#475569;font-style:italic">Source: ${r.source}</div>
+      <div style="font-size:10px;color:#7B8CA0;font-style:italic">Source: ${r.source}</div>
     </div>
   `).join('');
 }
@@ -3050,26 +3050,26 @@ function renderAlignment() {
   document.getElementById('amDate').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
   document.getElementById('amSummaryCards').innerHTML=`
-    <div style="padding:16px 18px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.2);border-top:3px solid #B87333;border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #B87333;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Value Potential</div>
       ${complete?`<div style="font-size:20px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif;margin-bottom:4px">${fmt(sc.totL)} – ${fmt(sc.totH)}</div>
-      <div style="font-size:10px;color:#475569;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
-      ${[{l:'Revenue uplift',lo:sc.rL,hi:sc.rH,col:'#4CAF80'},{l:'Cost reduction',lo:sc.cL,hi:sc.cH,col:'#D4956A'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#475569">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col}">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:'—'}</span></div>`).join('')}`
-      :`<div style="font-size:12px;color:#475569;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
+      <div style="font-size:10px;color:#7B8CA0;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
+      ${[{l:'Revenue uplift',lo:sc.rL,hi:sc.rH,col:'#4CAF80'},{l:'Cost reduction',lo:sc.cL,hi:sc.cH,col:'#D4956A'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#7B8CA0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col}">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:'—'}</span></div>`).join('')}`
+      :`<div style="font-size:12px;color:#7B8CA0;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
     </div>
-    <div style="padding:16px 18px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||'#A0B4C8'};border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||'#A0B4C8'};border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">Portfolio Health</div>
       ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:${rc?.text||'#A0B4C8'};font-family:'Playfair Display',serif;margin-bottom:4px">${rc?.label||'—'}</div>
-      <div style="font-size:10px;color:#475569;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
-      ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#F5A623':'#4CAF80'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#475569">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#F0F4FA'}">${s.v}</span></div>`).join('')}`
-      :`<div style="font-size:12px;color:#475569;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
+      <div style="font-size:10px;color:#7B8CA0;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
+      ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#F5A623':'#4CAF80'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#7B8CA0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#F0F4FA'}">${s.v}</span></div>`).join('')}`
+      :`<div style="font-size:12px;color:#7B8CA0;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
-    <div style="padding:16px 18px;background:#F1F5F9;border:1px solid rgba(184,115,51,0.2);border-top:3px solid #8B5CF6;border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #8B5CF6;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Generation Mix</div>
       ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:#8B5CF6;font-family:'Playfair Display',serif;margin-bottom:4px">${tierCounts.find(t=>t.id==='gen3')?.pct||0}% Agentic</div>
-      <div style="font-size:10px;color:#475569;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
-      ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:#F1F5F9;border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#475569;width:28px;text-align:right">${t.pct}%</span></div></div>`).join('')}`
-      :`<div style="font-size:12px;color:#475569;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
+      <div style="font-size:10px;color:#7B8CA0;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
+      ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#7B8CA0;width:28px;text-align:right">${t.pct}%</span></div></div>`).join('')}`
+      :`<div style="font-size:12px;color:#7B8CA0;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
   `;
 
@@ -3080,9 +3080,9 @@ function renderAlignment() {
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:12px 14px;background:${i===0?'rgba(184,115,51,0.08)':'#F8FAFC'};border:1px solid ${i===0?'#B87333':'rgba(184,115,51,0.15)'};border-radius:3px">
         <div style="font-size:9px;letter-spacing:1.5px;color:#B87333;margin-bottom:5px">#${i+1} PRIORITY</div>
-        <div style="font-size:14px;font-weight:700;color:#1E293B;margin-bottom:4px">${fn.icon} ${fn.label}</div>
+        <div style="font-size:14px;font-weight:700;color:#EDF2F7;margin-bottom:4px">${fn.icon} ${fn.label}</div>
         <div style="font-size:15px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(lo)} – ${fmt(hi)}</div>
-        <div style="font-size:10px;color:#475569;font-style:italic;margin-top:2px">estimated annual impact</div>
+        <div style="font-size:10px;color:#7B8CA0;font-style:italic;margin-top:2px">estimated annual impact</div>
       </div>`;}).join('')}
     </div>`;
   } else { topFnsEl.style.display='none'; }
@@ -3092,11 +3092,11 @@ function renderAlignment() {
     amInvEl.style.display='block';
     amInvEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:8px;text-transform:uppercase">Investment vs Value Potential</div>
     <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
-      <div style="text-align:center"><div style="font-size:9px;color:#475569;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totBudget)}</div></div>
-      <div style="font-size:24px;color:#475569">→</div>
-      <div style="text-align:center"><div style="font-size:9px;color:#475569;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
-      <div style="font-size:24px;color:#475569">→</div>
-      <div style="text-align:center"><div style="font-size:9px;color:#475569;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
+      <div style="text-align:center"><div style="font-size:9px;color:#7B8CA0;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totBudget)}</div></div>
+      <div style="font-size:24px;color:#7B8CA0">→</div>
+      <div style="text-align:center"><div style="font-size:9px;color:#7B8CA0;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
+      <div style="font-size:24px;color:#7B8CA0">→</div>
+      <div style="text-align:center"><div style="font-size:9px;color:#7B8CA0;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
       <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #4CAF80;border-radius:3px;text-align:center"><div style="font-size:9px;color:#4CAF80;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
     </div>`;
   } else { amInvEl.style.display='none'; }
@@ -3137,7 +3137,7 @@ function renderAlignment() {
           const col=catColors[p.category]||'#B87333';
           const label=catLabels[p.category]||p.category;
           const budget=p.initiatives.reduce((s,i)=>s+parseNum(i.budget),0);
-          return `<div style="padding:12px 16px;background:#F1F5F9;border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
+          return `<div style="padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
               <div style="font-size:13px;font-weight:600;color:var(--ice)">${p.description}</div>
               <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:2px;background:${col}15;color:${col};border:1px solid ${col}33;text-transform:uppercase">${label}</span>
@@ -3504,13 +3504,13 @@ function agentBuildControlPanel(){
           <span class="agent-llm-rec-label">LLM recommendations</span>
           <div class="agent-llm-options">
             <div class="agent-llm-option primary" style="border-color:${pc};background:${pc}11">
-              <span class="agent-llm-option-badge" style="background:${pc};color:#1E293B">Primary</span>
+              <span class="agent-llm-option-badge" style="background:${pc};color:#EDF2F7">Primary</span>
               <div class="agent-llm-option-name">${item.primaryLLM?.name||'—'}</div>
               <div class="agent-llm-option-model">${item.primaryLLM?.model||''}</div>
               <div class="agent-llm-option-score" style="color:${pc}">Fit: ${item.primaryLLM?.fitScore||'—'}/100</div>
             </div>
             ${(item.alternativeLLMs||[]).map(alt=>{const ac=agentLLMColor(alt.name||'');return `<div class="agent-llm-option" style="border-color:${ac}55;background:${ac}08">
-              <span class="agent-llm-option-badge" style="background:#F1F5F9;color:var(--text-muted)">Alt</span>
+              <span class="agent-llm-option-badge" style="background:rgba(255,255,255,0.06);color:var(--text-muted)">Alt</span>
               <div class="agent-llm-option-name">${alt.name||'—'}</div>
               <div class="agent-llm-option-model">${alt.model||''}</div>
               <div class="agent-llm-option-score" style="color:${ac}">Fit: ${alt.fitScore||'—'}/100</div>
@@ -3875,7 +3875,7 @@ function renderFacStep() {
   const s = FAC_STEPS[facStep];
   const total = FAC_STEPS.length;
   document.getElementById('fac-live-steps').innerHTML = `
-    <div style="padding:28px 32px;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px">
+    <div style="padding:28px 32px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
         <div>
           <div style="font-size:10px;letter-spacing:2px;color:var(--copper);font-weight:600;margin-bottom:4px">STEP ${facStep+1} OF ${total}</div>
@@ -3891,7 +3891,7 @@ function renderFacStep() {
           <div style="font-size:9px;letter-spacing:2px;color:var(--copper);font-weight:600;margin-bottom:8px">💬 SAY</div>
           <div style="font-size:13px;color:var(--ice);line-height:1.7;font-style:italic">"${s.say}"</div>
         </div>
-        <div style="padding:16px 18px;background:#F8FAFC;border:1px solid #E2E8F0;border-left:3px solid var(--green-light);border-radius:0 6px 6px 0">
+        <div style="padding:16px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-left:3px solid var(--green-light);border-radius:0 6px 6px 0">
           <div style="font-size:9px;letter-spacing:2px;color:var(--green-light);font-weight:600;margin-bottom:8px">✓ DO</div>
           <div style="font-size:13px;color:var(--text-body);line-height:1.7">${s.do}</div>
         </div>
