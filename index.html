@@ -311,9 +311,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
   margin: 0 auto;
   background: rgba(255,255,255,0.06);
   min-height: calc(100vh - var(--header-h) - 48px);
-  border-left: 1px solid #E2E8F0;
-  border-right: 1px solid #E2E8F0;
-  box-shadow: 0 0 20px rgba(0,0,0,0.04);
+  border-left: 1px solid rgba(255,255,255,0.05);
+  border-right: 1px solid rgba(255,255,255,0.05);
 }
 
 .tab-panel { display: none; }
@@ -554,14 +553,14 @@ header { transition:box-shadow 0.3s ease; }
 .role-tab {
   flex: 1; min-width: 90px; padding: 12px 14px;
   background: #1A222E; border: none;
-  border-right: 1px solid #F1F5F9;
+  border-right: 1px solid rgba(255,255,255,0.06);
   color: var(--slate); font-size: 10px; font-weight: 600;
   letter-spacing: 1.5px; text-transform: uppercase;
   cursor: pointer; transition: all 0.2s; text-align: center;
   font-family: 'DM Sans', sans-serif;
 }
 .role-tab:last-child { border-right: none; }
-.role-tab:hover { background: #EFF2F7; color: var(--text-body); }
+.role-tab:hover { background: rgba(255,255,255,0.08); color: var(--text-body); }
 .role-tab.active { background: var(--copper); color: var(--white); }
 
 .role-panel { display: none; }
@@ -2489,7 +2488,7 @@ function renderBVF() {
       {l:"Revenue Uplift",lo:sc.rL,hi:sc.rH,col:"#4CAF80",base:rev,baseL:"revenue"},
       {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#D4956A",base:cost,baseL:"cost base"},
       {l:"Combined EBITDA Impact",lo:sc.totL,hi:sc.totH,col:"#B87333",base:ebt,baseL:"vs current EBITDA",bold:true},
-    ].map(s=>`<div style="flex:1;min-width:150px;padding:12px 16px;background:${s.bold?"rgba(184,115,51,0.1)":"#F8FAFC"};border:1px solid ${s.bold?"#B87333":"rgba(184,115,51,0.15)"};border-radius:3px">
+    ].map(s=>`<div style="flex:1;min-width:150px;padding:12px 16px;background:${s.bold?"rgba(184,115,51,0.1)":"rgba(255,255,255,0.04)"};border:1px solid ${s.bold?"#B87333":"rgba(184,115,51,0.15)"};border-radius:3px">
       <div style="font-size:9px;letter-spacing:1.5px;color:#7B8CA0;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:${s.bold?'20':'17'}px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.lo>0?`${fmt(s.lo)} – ${fmt(s.hi)}`:'—'}</div>
       ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#7B8CA0;margin-top:2px;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:''}
@@ -2541,7 +2540,7 @@ function renderBVF() {
 
   // Function buttons
   document.getElementById('fnButtons').innerHTML = FUNCTIONS.map(fn=>`
-    <button onclick="selectFn('${fn.id}')" style="padding:7px 13px;background:${activeFn===fn.id?'linear-gradient(135deg,#B87333,#D4956A)':'#F8FAFC'};border:${activeFn===fn.id?'none':'1px solid rgba(184,115,51,0.18)'};border-radius:3px;color:${activeFn===fn.id?'#FFFFFF':'#475569'};font-size:12px;font-weight:${activeFn===fn.id?'700':'400'};cursor:pointer;font-family:'DM Sans',sans-serif">${fn.icon} ${fn.label}</button>
+    <button onclick="selectFn('${fn.id}')" style="padding:7px 13px;background:${activeFn===fn.id?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.04)'};border:${activeFn===fn.id?'none':'1px solid rgba(184,115,51,0.18)'};border-radius:3px;color:${activeFn===fn.id?'#FFFFFF':'#CBD5E1'};font-size:12px;font-weight:${activeFn===fn.id?'700':'400'};cursor:pointer;font-family:'DM Sans',sans-serif">${fn.icon} ${fn.label}</button>
   `).join('');
 
   // Active function card
@@ -2558,7 +2557,7 @@ function renderBVF() {
 
   // Layer buttons
   document.getElementById('layerButtons').innerHTML = LAYERS.map((layer,i)=>`
-    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'linear-gradient(135deg,#B87333,#D4956A)':'#F1F5F9'):'#F8FAFC'};border:1px solid ${activeLayer===layer.id?'#B87333':'rgba(184,115,51,0.12)'};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
+    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.06)'):'rgba(255,255,255,0.04)'};border:1px solid ${activeLayer===layer.id?'#B87333':'rgba(184,115,51,0.12)'};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
       <div style="font-size:8px;letter-spacing:1.5px;color:#B87333;margin-bottom:3px">${layer.note}</div>
       <div style="font-size:11px;font-weight:700;color:#EDF2F7;line-height:1.3">${layer.label}</div>
     </button>
@@ -2633,7 +2632,7 @@ function renderBVF() {
       mainContent = `<span style="display:flex;justify-content:space-between;align-items:center"><span>${cell.c}</span><span style="font-size:10px;font-weight:700;color:#B87333;background:rgba(184,115,51,0.15);padding:2px 8px;border-radius:2px">${fnInits.length} initiative${fnInits.length>1?'s':''}</span></span>`;
     }
 
-    return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?'rgba(184,115,51,0.1)':hasData?'rgba(184,115,51,0.06)':'#F1F5F9'):(hasData?'rgba(184,115,51,0.03)':'#FAFBFC')};border:1px solid ${isActive?'#B87333':(hasData?'rgba(184,115,51,0.2)':'rgba(184,115,51,0.1)')};border-left:${isLast?'4px solid #B87333':isActive?'4px solid rgba(184,115,51,0.5)':(hasData?'4px solid rgba(184,115,51,0.3)':'4px solid rgba(184,115,51,0.1)')};border-radius:3px;cursor:pointer;min-height:58px">
+    return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?'rgba(184,115,51,0.1)':hasData?'rgba(184,115,51,0.06)':'rgba(255,255,255,0.06)'):(hasData?'rgba(184,115,51,0.03)':'rgba(255,255,255,0.03)')};border:1px solid ${isActive?'#B87333':(hasData?'rgba(184,115,51,0.2)':'rgba(184,115,51,0.1)')};border-left:${isLast?'4px solid #B87333':isActive?'4px solid rgba(184,115,51,0.5)':(hasData?'4px solid rgba(184,115,51,0.3)':'4px solid rgba(184,115,51,0.1)')};border-radius:3px;cursor:pointer;min-height:58px">
       <div style="font-size:13px;font-weight:600;color:#EDF2F7;line-height:1.45">${mainContent}</div>
       ${extra}
     </div>`;
@@ -2873,7 +2872,7 @@ function renderPilotQuestions() {
     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
       <span style="font-size:12px;color:#8899AB;flex:1;padding-right:16px">${q.q}</span>
       <div style="display:flex;gap:6px;flex-shrink:0">
-        ${['yes','no','partial'].map(v=>`<button onclick="setPilot('${q.key}','${v}')" style="padding:4px 10px;background:${pilotAnswers[q.key]===v?(v==='yes'?'#2E7D52':v==='no'?'#8B2020':'#C07A1A'):'#F8FAFC'};border:none;border-radius:2px;color:white;font-size:10px;cursor:pointer;font-weight:${pilotAnswers[q.key]===v?'700':'400'};font-family:'DM Sans',sans-serif">${v}</button>`).join('')}
+        ${['yes','no','partial'].map(v=>`<button onclick="setPilot('${q.key}','${v}')" style="padding:4px 10px;background:${pilotAnswers[q.key]===v?(v==='yes'?'#2E7D52':v==='no'?'#8B2020':'#C07A1A'):'rgba(255,255,255,0.04)'};border:none;border-radius:2px;color:white;font-size:10px;cursor:pointer;font-weight:${pilotAnswers[q.key]===v?'700':'400'};font-family:'DM Sans',sans-serif">${v}</button>`).join('')}
       </div>
     </div>
   `).join('');
@@ -2965,7 +2964,7 @@ function renderRegulatory() {
   const rev=parseNum(BVF.profile.revenue);
   const selectedRegs = BVF.regulations;
   document.getElementById('regToggles').innerHTML=REG_FRAMEWORKS.map(r=>`
-    <button onclick="toggleReg('${r.id}')" style="padding:10px 16px;background:${selectedRegs.includes(r.id)?`rgba(${r.id==='euai'?'224,82,82':r.id==='dora'?'245,166,35':r.id==='csrd'?'76,175,128':'139,92,246'},0.15)`:'#F8FAFC'};border:1px solid ${selectedRegs.includes(r.id)?r.color:'#E2E8F0'};border-radius:3px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif">
+    <button onclick="toggleReg('${r.id}')" style="padding:10px 16px;background:${selectedRegs.includes(r.id)?`rgba(${r.id==='euai'?'224,82,82':r.id==='dora'?'245,166,35':r.id==='csrd'?'76,175,128':'139,92,246'},0.15)`:'rgba(255,255,255,0.04)'};border:1px solid ${selectedRegs.includes(r.id)?r.color:'rgba(255,255,255,0.08)'};border-radius:3px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif">
       <div style="font-size:11px;font-weight:700;color:${selectedRegs.includes(r.id)?r.color:'#A0B4C8'}">${r.icon} ${r.label}</div>
       <div style="font-size:10px;color:#7B8CA0;margin-top:2px">${r.risk} · ${r.timeline}</div>
     </button>
@@ -3078,7 +3077,7 @@ function renderAlignment() {
     topFnsEl.style.display='block';
     topFnsEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:10px;text-transform:uppercase">Top 3 Value Functions — ${BVF.profile.company||'Your Enterprise'}</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
-      ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:12px 14px;background:${i===0?'rgba(184,115,51,0.08)':'#F8FAFC'};border:1px solid ${i===0?'#B87333':'rgba(184,115,51,0.15)'};border-radius:3px">
+      ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:12px 14px;background:${i===0?'rgba(184,115,51,0.08)':'rgba(255,255,255,0.04)'};border:1px solid ${i===0?'#B87333':'rgba(184,115,51,0.15)'};border-radius:3px">
         <div style="font-size:9px;letter-spacing:1.5px;color:#B87333;margin-bottom:5px">#${i+1} PRIORITY</div>
         <div style="font-size:14px;font-weight:700;color:#EDF2F7;margin-bottom:4px">${fn.icon} ${fn.label}</div>
         <div style="font-size:15px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(lo)} – ${fmt(hi)}</div>
@@ -3923,7 +3922,7 @@ function renderFacilitate() {
   ];
   const allReady = checks.every(c => c.done);
   document.getElementById('fac-readiness').innerHTML = checks.map(c =>
-    `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.done?'rgba(22,163,74,0.06)':'#F8FAFC'};border:1px solid ${c.done?'rgba(22,163,74,0.15)':'#F1F5F9'};border-radius:4px">
+    `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.done?'rgba(22,163,74,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${c.done?'rgba(22,163,74,0.15)':'rgba(255,255,255,0.06)'};border-radius:4px">
       <span style="font-size:16px;flex-shrink:0">${c.done?'✅':'⬜'}</span>
       <div style="flex:1">
         <div style="font-size:12px;font-weight:600;color:${c.done?'var(--green-light)':'var(--ice)'}">${c.label}</div>
