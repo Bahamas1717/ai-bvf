@@ -1794,10 +1794,119 @@ header { transition:box-shadow 0.3s ease; }
 
   <!-- ── FACILITATE TAB (Phase 5) ── -->
   <div class="tab-panel" id="panel-facilitate">
-    <div class="coming-soon">
-      <h2>🎯 Facilitator Mode</h2>
-      <p>Workshop session planner. Tab-by-tab facilitation scripts. Mirror moment guide.<br>
-      <strong>Phase 5</strong> — final polish.</p>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <div>
+        <span class="label">Facilitator Mode</span>
+        <div style="font-size:13px;color:var(--text-body);max-width:600px;line-height:1.7">Prepare for your workshop, then switch to Live Mode to guide the session step by step.</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost fac-mode-btn active" id="fac-btn-prep" onclick="setFacMode('prep')" style="font-size:10px;padding:8px 16px">📋 Prep Mode</button>
+        <button class="btn btn-primary fac-mode-btn" id="fac-btn-live" onclick="setFacMode('live')" style="font-size:10px;padding:8px 16px">🎯 Live Session</button>
+      </div>
+    </div>
+
+    <!-- ═══ PREP MODE ═══ -->
+    <div id="fac-prep">
+      <!-- Readiness Check -->
+      <div style="margin-bottom:24px;padding:18px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
+        <div style="font-size:13px;font-weight:600;color:var(--ice);margin-bottom:12px">Pre-Session Readiness Check</div>
+        <div id="fac-readiness" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
+      <!-- Session Plan -->
+      <div style="margin-bottom:24px;padding:18px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div style="font-size:13px;font-weight:600;color:var(--ice)">Workshop Session Plan</div>
+          <div style="font-size:11px;color:var(--text-muted)">Recommended: 90–120 minutes</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:8px 12px;background:rgba(184,115,51,0.08);border-radius:4px 4px 0 0">
+            <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">TIME</div>
+            <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">SECTION</div>
+            <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">DURATION</div>
+            <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">TAB</div>
+          </div>
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="font-size:12px;color:var(--ice);font-weight:600">0:00</div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Welcome & Context Setting</div><div style="font-size:11px;color:var(--text-muted)">Introductions, BVF purpose, what the client will leave with</div></div>
+            <div style="font-size:11px;color:var(--text-muted)">10 min</div>
+            <div style="font-size:10px;color:var(--copper)">Welcome</div>
+          </div>
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="font-size:12px;color:var(--ice);font-weight:600">0:10</div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Company Profile & Priorities</div><div style="font-size:11px;color:var(--text-muted)">Enter financials, set org readiness, define board priorities</div></div>
+            <div style="font-size:11px;color:var(--text-muted)">15 min</div>
+            <div style="font-size:10px;color:var(--copper)">Dashboard</div>
+          </div>
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="font-size:12px;color:var(--ice);font-weight:600">0:25</div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">AI Portfolio Mapping</div><div style="font-size:11px;color:var(--text-muted)">Map existing initiatives first, then identify new opportunities. Run Pilot Trap on each.</div></div>
+            <div style="font-size:11px;color:var(--text-muted)">25 min</div>
+            <div style="font-size:10px;color:var(--copper)">Portfolio</div>
+          </div>
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="font-size:12px;color:var(--ice);font-weight:600">0:50</div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">🪞 Mirror Moment #1</div><div style="font-size:11px;color:var(--copper)">"What percentage of the ROI for this AI programme relies on people actually adopting and implementing the change?"</div></div>
+            <div style="font-size:11px;color:var(--text-muted)">5 min</div>
+            <div style="font-size:10px;color:var(--copper)">Pause</div>
+          </div>
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="font-size:12px;color:var(--ice);font-weight:600">0:55</div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Governance & CM Assessment</div><div style="font-size:11px;color:var(--text-muted)">Review CM allocation RAG status, activate EU AI Act / DORA compliance</div></div>
+            <div style="font-size:11px;color:var(--text-muted)">15 min</div>
+            <div style="font-size:10px;color:var(--copper)">Governance</div>
+          </div>
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="font-size:12px;color:var(--ice);font-weight:600">1:10</div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Executive Readout</div><div style="font-size:11px;color:var(--text-muted)">Switch to Executive view. Walk through CEO, CFO, CDO perspectives. Show Boardroom Sentence.</div></div>
+            <div style="font-size:11px;color:var(--text-muted)">15 min</div>
+            <div style="font-size:10px;color:var(--copper)">Dashboard</div>
+          </div>
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="font-size:12px;color:var(--ice);font-weight:600">1:25</div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">🪞 Mirror Moment #2</div><div style="font-size:11px;color:var(--copper)">"Look at the drag cost number. That's the tax your organisation pays for not investing in people. Is that a number you're willing to present to the board?"</div></div>
+            <div style="font-size:11px;color:var(--text-muted)">5 min</div>
+            <div style="font-size:10px;color:var(--copper)">Pause</div>
+          </div>
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.06);border-radius:0 0 4px 4px">
+            <div style="font-size:12px;color:var(--ice);font-weight:600">1:30</div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Alignment Map & Next Steps</div><div style="font-size:11px;color:var(--text-muted)">Review board summary. Print Executive Readout. Agree actions and follow-up schedule.</div></div>
+            <div style="font-size:11px;color:var(--text-muted)">10 min</div>
+            <div style="font-size:10px;color:var(--copper)">Alignment</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Facilitator Notes -->
+      <div style="padding:18px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
+        <div style="font-size:13px;font-weight:600;color:var(--ice);margin-bottom:12px">Facilitator Tips</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div style="font-size:12px;color:var(--text-body);line-height:1.8">
+            <div style="font-weight:600;color:var(--copper);margin-bottom:6px">BEFORE THE SESSION</div>
+            <div style="margin-bottom:4px">• Pre-load the Company Profile if you have the data — saves 10 minutes</div>
+            <div style="margin-bottom:4px">• Ask the client to share their AI strategy doc beforehand — use the Agent tab to extract initiatives</div>
+            <div style="margin-bottom:4px">• Know the client's org readiness level — ask about decision-making speed and cross-functional collaboration</div>
+            <div>• Have the Benchmarks tab ready to answer "where do these numbers come from?"</div>
+          </div>
+          <div style="font-size:12px;color:var(--text-body);line-height:1.8">
+            <div style="font-weight:600;color:var(--copper);margin-bottom:6px">DURING THE SESSION</div>
+            <div style="margin-bottom:4px">• Start with existing initiatives — never imply the client has done nothing right</div>
+            <div style="margin-bottom:4px">• Let the Mirror Moments land. Don't rush past silence — it's where the thinking happens</div>
+            <div style="margin-bottom:4px">• When someone pushes back on drag costs, go to Benchmarks tab and show the Hamel/Prosci sources</div>
+            <div>• End with the Boardroom Sentence — read it aloud, ask "would you sign this?"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LIVE MODE ═══ -->
+    <div id="fac-live" style="display:none">
+      <div id="fac-live-steps"></div>
+      <div style="display:flex;justify-content:center;gap:12px;margin-top:24px">
+        <button class="btn btn-ghost" onclick="facPrevStep()" id="fac-prev-btn" style="font-size:10px;padding:8px 18px">← Previous</button>
+        <div id="fac-step-indicator" style="display:flex;align-items:center;gap:6px"></div>
+        <button class="btn btn-primary" onclick="facNextStep()" id="fac-next-btn" style="font-size:10px;padding:8px 18px">Next →</button>
+      </div>
     </div>
   </div>
 
@@ -2017,6 +2126,7 @@ function switchTab(tabId) {
   if (tabId === 'governance') { renderCM(); renderRegulatory(); }
   if (tabId === 'alignment') renderAlignment();
   if (tabId === 'agent') renderAgent();
+  if (tabId === 'facilitate') renderFacilitate();
 }
 
 // ── COMPANY PROFILE ──────────────────────────────────────────────────────────
@@ -3670,6 +3780,155 @@ removeInit = function(id) {
   updateTabProgress();
   updateAllExecKPIs();
 };
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FACILITATE TAB — Prep + Live Session Mode
+// ══════════════════════════════════════════════════════════════════════════════
+let facStep = 0;
+const FAC_STEPS = [
+  {
+    title: 'Welcome & Context Setting',
+    time: '10 min', tab: null,
+    say: 'Welcome everyone. Today we\'re going to map your AI portfolio against board-level outcomes. By the end of this session, you\'ll have a clear picture of what your AI investments are actually worth — and where the gaps are.',
+    do: 'Introduce the BVF purpose. Explain that this is collaborative — we\'re not auditing, we\'re building clarity together.',
+    ask: '"What does success look like for AI in your organisation by end of next year?"'
+  },
+  {
+    title: 'Company Profile',
+    time: '10 min', tab: 'dashboard',
+    say: 'Let\'s start with the basics. I need your top-line financials — revenue, cost base, EBITDA. These let the framework calculate realistic value ranges, not theoretical ones.',
+    do: 'Open the Company Profile. Enter data. Set the Organisational Readiness level — ask about decision speed and cross-functional collaboration.',
+    ask: '"On a scale from bureaucratic to agile — how quickly can your organisation make and implement a technology decision?"'
+  },
+  {
+    title: 'Strategic Priorities',
+    time: '5 min', tab: 'dashboard',
+    say: 'Before we look at initiatives, I need to understand what the board cares about. What are the top 2–3 strategic priorities that AI should serve?',
+    do: 'Switch to Executive view. Add priorities with categories. These will drive the alignment analysis later.',
+    ask: '"If the CEO had to name three things AI must deliver in the next 18 months, what would they be?"'
+  },
+  {
+    title: 'Map Existing Initiatives',
+    time: '15 min', tab: 'portfolio',
+    say: 'Now let\'s map what you\'ve already built. Every AI initiative currently live, in pilot, or approved. We\'re not here to judge — we\'re here to get the full picture.',
+    do: 'Use "Add Existing Initiative" for each one. Capture: name, function, tier, budget, CM allocation, risk, owner. Don\'t skip CM budget — even if it\'s zero, that\'s important data.',
+    ask: '"Walk me through your active AI programmes. What\'s live today? What\'s in pilot? What\'s been approved but not started?"'
+  },
+  {
+    title: 'Identify New Opportunities',
+    time: '10 min', tab: 'portfolio',
+    say: 'Now that we see the current landscape — where are the gaps? Are there functions with no AI investment? Priorities with no aligned initiatives?',
+    do: 'Use "Add New Initiative" for proposed programmes. Look at the practitioner dashboard — which BVF functions show the biggest value potential with no current initiatives?',
+    ask: '"Looking at these value ranges, which business function feels most underserved by your current AI portfolio?"'
+  },
+  {
+    title: '🪞 Mirror Moment #1',
+    time: '5 min', tab: null,
+    say: '"What percentage of the ROI for this AI programme relies on people actually adopting and implementing the change?"',
+    do: 'Pause. Let the room sit with the question. Don\'t fill the silence. Count to 10. The discomfort is the point — it reveals the gap between technical ambition and organisational reality.',
+    ask: 'Wait for the room to respond. Then: "And what percentage of your budget is allocated to making that adoption happen?"'
+  },
+  {
+    title: 'Governance & Change Management',
+    time: '15 min', tab: 'governance',
+    say: 'Let\'s look at how your CM investment compares to what the research says works. Prosci data shows projects with well-funded CM are 6x more likely to deliver.',
+    do: 'Review CM allocation RAG status for each initiative. Activate relevant regulatory frameworks (EU AI Act, DORA). Discuss compliance risk for high-risk AI systems.',
+    ask: '"Which of these initiatives would be classified as high-risk under the EU AI Act? How confident are you in the compliance position?"'
+  },
+  {
+    title: 'Executive Readout',
+    time: '15 min', tab: 'dashboard',
+    say: 'Now let\'s see what this looks like through the eyes of your executive team. I\'m switching to the Executive view — this is what a board presentation would show.',
+    do: 'Switch to Executive view. Walk through CEO (strategic alignment), CFO (financial model, drag costs), CDO (data readiness). Read the Boardroom Sentence aloud.',
+    ask: '"Would you sign this Boardroom Sentence? Is this something you\'d present to your board next week?"'
+  },
+  {
+    title: '🪞 Mirror Moment #2',
+    time: '5 min', tab: null,
+    say: '"Look at the drag cost number. That\'s the tax your organisation pays for not investing in people. Is that a number you\'re willing to present to the board?"',
+    do: 'Point to the drag cost in the CFO view. Let the number speak. If there\'s pushback, open the Benchmarks tab and show the Hamel/Prosci methodology.',
+    ask: '"What would it take to move your organisation one level on the readiness scale? What\'s the first thing that would have to change?"'
+  },
+  {
+    title: 'Alignment Map & Next Steps',
+    time: '10 min', tab: 'alignment',
+    say: 'This is your board summary — everything on one page. Priorities, value potential, portfolio health, and the gaps. Let\'s agree on what happens next.',
+    do: 'Show the Alignment Map. Print the Executive Readout (🖨 button). Agree on 3 specific follow-up actions with owners and dates.',
+    ask: '"What are the three things that need to happen in the next 30 days based on what we\'ve seen today?"'
+  }
+];
+
+function setFacMode(mode) {
+  document.getElementById('fac-prep').style.display = mode === 'prep' ? 'block' : 'none';
+  document.getElementById('fac-live').style.display = mode === 'live' ? 'block' : 'none';
+  document.getElementById('fac-btn-prep').classList.toggle('active', mode === 'prep');
+  document.getElementById('fac-btn-live').classList.toggle('active', mode === 'live');
+  document.getElementById('fac-btn-prep').className = mode === 'prep' ? 'btn btn-primary fac-mode-btn' : 'btn btn-ghost fac-mode-btn';
+  document.getElementById('fac-btn-live').className = mode === 'live' ? 'btn btn-primary fac-mode-btn' : 'btn btn-ghost fac-mode-btn';
+  if (mode === 'live') renderFacStep();
+}
+
+function renderFacStep() {
+  const s = FAC_STEPS[facStep];
+  const total = FAC_STEPS.length;
+  document.getElementById('fac-live-steps').innerHTML = `
+    <div style="padding:28px 32px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <div style="font-size:10px;letter-spacing:2px;color:var(--copper);font-weight:600;margin-bottom:4px">STEP ${facStep+1} OF ${total}</div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white)">${s.title}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:11px;color:var(--text-muted)">⏱ ${s.time}</span>
+          ${s.tab ? `<button class="btn btn-sm btn-ghost" onclick="switchTab('${s.tab}')" style="font-size:9px">Go to ${s.tab} →</button>` : ''}
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+        <div style="padding:16px 18px;background:rgba(184,115,51,0.06);border:1px solid rgba(184,115,51,0.15);border-left:3px solid var(--copper);border-radius:0 6px 6px 0">
+          <div style="font-size:9px;letter-spacing:2px;color:var(--copper);font-weight:600;margin-bottom:8px">💬 SAY</div>
+          <div style="font-size:13px;color:var(--ice);line-height:1.7;font-style:italic">"${s.say}"</div>
+        </div>
+        <div style="padding:16px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-left:3px solid var(--green-light);border-radius:0 6px 6px 0">
+          <div style="font-size:9px;letter-spacing:2px;color:var(--green-light);font-weight:600;margin-bottom:8px">✓ DO</div>
+          <div style="font-size:13px;color:var(--text-body);line-height:1.7">${s.do}</div>
+        </div>
+        <div style="padding:16px 18px;background:rgba(124,111,205,0.06);border:1px solid rgba(124,111,205,0.15);border-left:3px solid var(--indigo);border-radius:0 6px 6px 0">
+          <div style="font-size:9px;letter-spacing:2px;color:var(--indigo);font-weight:600;margin-bottom:8px">❓ ASK</div>
+          <div style="font-size:13px;color:var(--ice);line-height:1.7;font-style:italic">${s.ask}</div>
+        </div>
+      </div>
+    </div>`;
+  // Step indicator dots
+  document.getElementById('fac-step-indicator').innerHTML = FAC_STEPS.map((_, i) =>
+    `<div style="width:${i===facStep?'24px':'8px'};height:8px;border-radius:4px;background:${i===facStep?'var(--copper)':i<facStep?'var(--green-light)':'rgba(255,255,255,0.15)'};transition:all 0.3s;cursor:pointer" onclick="facStep=${i};renderFacStep()"></div>`
+  ).join('');
+  document.getElementById('fac-prev-btn').style.visibility = facStep === 0 ? 'hidden' : 'visible';
+  document.getElementById('fac-next-btn').textContent = facStep === total - 1 ? '✓ Complete' : 'Next →';
+}
+function facNextStep() { if (facStep < FAC_STEPS.length - 1) { facStep++; renderFacStep(); } else { showToast('Session complete! Print the Executive Readout for your client.', 'success', 4000); } }
+function facPrevStep() { if (facStep > 0) { facStep--; renderFacStep(); } }
+
+function renderFacilitate() {
+  // Readiness check
+  const p = BVF.profile;
+  const checks = [
+    { label: 'Company Profile complete', done: p.company && parseNum(p.revenue) > 0 && parseNum(p.costBase) > 0 && parseNum(p.ebitda) > 0, tip: 'Enter company name, revenue, cost base, and EBITDA in the Company Profile' },
+    { label: 'Org Readiness level set', done: p.orgReadiness && p.orgReadiness !== '', tip: 'Set the organisational readiness level in Company Profile' },
+    { label: 'Strategic priorities defined', done: (BVF.priorities || []).length > 0, tip: 'Add at least one strategic priority in Executive view' },
+    { label: 'At least one initiative mapped', done: BVF.initiatives.length > 0, tip: 'Add at least one AI initiative in the Portfolio tab' },
+    { label: 'Regulatory frameworks activated', done: (BVF.regulations || []).length > 0, tip: 'Activate EU AI Act or DORA in the Governance tab' },
+  ];
+  const allReady = checks.every(c => c.done);
+  document.getElementById('fac-readiness').innerHTML = checks.map(c =>
+    `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.done?'rgba(34,197,94,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${c.done?'rgba(34,197,94,0.15)':'rgba(255,255,255,0.06)'};border-radius:4px">
+      <span style="font-size:16px;flex-shrink:0">${c.done?'✅':'⬜'}</span>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:600;color:${c.done?'var(--green-light)':'var(--ice)'}">${c.label}</div>
+        ${!c.done?`<div style="font-size:11px;color:var(--text-muted)">${c.tip}</div>`:''}
+      </div>
+    </div>`
+  ).join('') + (allReady ? `<div style="padding:10px 14px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:4px;font-size:12px;color:var(--green-light);font-weight:600;text-align:center">✓ All checks passed — you're ready to run the session</div>` : '');
+}
 
 // ══════════════════════════════════════════════════════════════════════════════
 // PRINT / EXPORT for Executive Dashboard
