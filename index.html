@@ -405,14 +405,77 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.08); }
 .btn:active, .agent-classify-btn:active, .agent-run-btn:active, .empty-state-action:active { transform:scale(0.97); }
 header { transition:box-shadow 0.3s ease; }
 
-/* ── PRINT STYLES ── */
+/* ── PRINT STYLES — Executive Readout ── */
 @media print {
-  body { background:#fff !important; color:#000 !important; }
-  header, #tab-nav, .header-controls, .profile-trigger, .view-toggle, .btn, button { display:none !important; }
-  #main { padding:0 !important; }
-  .tab-panel { display:block !important; opacity:1 !important; }
-  .kpi-card { border:1px solid #ddd !important; background:#f9f9f9 !important; color:#000 !important; }
-  .kpi-card .kpi-val { color:#333 !important; }
+  * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  body { background:#fff !important; color:#1a1a1a !important; font-size:11px !important; }
+  body::before { display:none !important; }
+
+  /* Hide chrome */
+  #app-header, #tab-nav, #welcome-screen, .profile-summary,
+  #profile-panel, #toast-container, .btn, button,
+  .view-toggle, .profile-trigger, .header-controls,
+  #practitioner-quickstart, .mirror, .empty-state,
+  #panel-portfolio, #panel-agent, #panel-governance, #panel-facilitate, #panel-benchmarks,
+  #dash-practitioner { display:none !important; }
+
+  /* Show exec dashboard + alignment */
+  #main { padding:20px !important; max-width:100% !important; background:#fff !important; border:none !important; }
+  .tab-panel { display:none !important; }
+  #panel-dashboard { display:block !important; opacity:1 !important; }
+  #panel-alignment { display:block !important; opacity:1 !important; page-break-before:always; }
+  #dash-executive { display:block !important; }
+
+  /* Print header */
+  #panel-dashboard::before {
+    content:'AI Business Value Framework — Executive Readout';
+    display:block; font-family:'Playfair Display',serif; font-size:22px; font-weight:700;
+    color:#1a1a1a; margin-bottom:4px; padding-bottom:12px; border-bottom:2px solid #B87333;
+  }
+  #panel-dashboard::after {
+    content:'Craig Horton Advisory · Confidential';
+    display:block; font-size:9px; color:#888; letter-spacing:2px; text-transform:uppercase;
+    margin-top:-8px; margin-bottom:20px;
+  }
+
+  /* KPI cards */
+  .kpi-card { background:#f8f6f3 !important; border:1px solid #ddd !important; border-radius:4px !important; padding:14px 16px !important; }
+  .kpi-value { color:#B87333 !important; font-size:22px !important; }
+  .kpi-label { color:#333 !important; }
+  .kpi-sub { color:#666 !important; }
+
+  /* Show ALL role panels, hide role tab bar */
+  .role-tabs { display:none !important; }
+  .role-panel { display:block !important; page-break-inside:avoid; margin-bottom:20px !important; border:1px solid #eee; padding:16px !important; border-radius:4px; }
+  .role-panel::before { font-size:12px; font-weight:700; color:#B87333; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:8px; }
+  #role-ceo::before { content:'CEO VIEW'; }
+  #role-cfo::before { content:'CFO VIEW'; }
+  #role-cdo::before { content:'CDO VIEW'; }
+  #role-cio::before { content:'CIO VIEW'; }
+  #role-chro::before { content:'CHRO VIEW'; }
+  #role-cro::before { content:'CRO VIEW'; }
+
+  /* Boardroom sentence */
+  #exec-boardroom-sentence { display:block !important; background:#f8f6f3 !important; border-color:#B87333 !important; border-left:4px solid #B87333 !important; }
+  #boardroom-text { color:#1a1a1a !important; }
+
+  /* Labels and text overrides */
+  .label { color:#B87333 !important; }
+  h2 { color:#1a1a1a !important; font-size:16px !important; }
+  [style*="color:var(--ice)"], [style*="color:#E8EEF5"] { color:#1a1a1a !important; }
+  [style*="color:var(--text-body)"], [style*="color:#C8D8E8"] { color:#333 !important; }
+  [style*="color:var(--text-muted)"], [style*="color:#9BAEC8"] { color:#666 !important; }
+  [style*="color:var(--text-dim)"], [style*="color:#6B7E9A"] { color:#888 !important; }
+
+  /* Alignment map for page 2 */
+  #panel-alignment [style*="background:linear-gradient"] { background:#f0ebe4 !important; border:1px solid #ddd !important; }
+
+  /* RAG badges keep colour */
+  .rag-green { color:#1a7a3e !important; border-color:#1a7a3e !important; background:#e8f5e9 !important; }
+  .rag-amber { color:#b8860b !important; border-color:#b8860b !important; background:#fff8e1 !important; }
+  .rag-red { color:#c62828 !important; border-color:#c62828 !important; background:#ffebee !important; }
+
+  @page { margin:12mm; size:A4 landscape; }
 }
 
 /* ══════════════════════════════════════════════
@@ -3612,8 +3675,13 @@ removeInit = function(id) {
 // PRINT / EXPORT for Executive Dashboard
 // ══════════════════════════════════════════════════════════════════════════════
 function printExecDashboard() {
-  showToast('Preparing print view...', 'info', 2000);
-  setTimeout(() => window.print(), 500);
+  showToast('Preparing Executive Readout...', 'info', 2000);
+  // Ensure all exec KPIs are current
+  updateAllExecKPIs();
+  // Make all role panels visible temporarily for print (CSS handles display)
+  // Ensure alignment map is rendered
+  renderAlignment();
+  setTimeout(() => window.print(), 600);
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
