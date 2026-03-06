@@ -21,14 +21,14 @@
   --copper-glow: rgba(184,115,51,0.08);
   --copper-border: rgba(184,115,51,0.25);
 
-  /* Text */
+  /* Text — high contrast for readability */
   --white: #FFFFFF;
-  --ice: #E8EEF5;
-  --text: #E8EEF5;
-  --text-body: #C8D8E8;
-  --text-muted: #9BAEC8;
-  --text-dim: #6B8099;
-  --slate: #5A7A9A;
+  --ice: #F0F4FA;
+  --text: #F0F4FA;
+  --text-body: #DDE6F0;
+  --text-muted: #B8C8DC;
+  --text-dim: #94AABE;
+  --slate: #8CA0B8;
 
   /* RAG */
   --green: #2E7D52;
@@ -462,10 +462,10 @@ header { transition:box-shadow 0.3s ease; }
   /* Labels and text overrides */
   .label { color:#B87333 !important; }
   h2 { color:#1a1a1a !important; font-size:16px !important; }
-  [style*="color:var(--ice)"], [style*="color:#E8EEF5"] { color:#1a1a1a !important; }
+  [style*="color:var(--ice)"], [style*="color:#F0F4FA"] { color:#1a1a1a !important; }
   [style*="color:var(--text-body)"], [style*="color:#C8D8E8"] { color:#333 !important; }
-  [style*="color:var(--text-muted)"], [style*="color:#9BAEC8"] { color:#666 !important; }
-  [style*="color:var(--text-dim)"], [style*="color:#6B7E9A"] { color:#888 !important; }
+  [style*="color:var(--text-muted)"], [style*="color:#B8CADC"] { color:#666 !important; }
+  [style*="color:var(--text-dim)"], [style*="color:#A0B4C8"] { color:#888 !important; }
 
   /* Alignment map for page 2 */
   #panel-alignment [style*="background:linear-gradient"] { background:#f0ebe4 !important; border:1px solid #ddd !important; }
@@ -580,7 +580,7 @@ header { transition:box-shadow 0.3s ease; }
   color: var(--copper); margin-bottom: 4px;
 }
 .kpi-label { font-size: 11px; color: var(--text-body); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
-.kpi-sub { font-size: 11px; color: var(--text-dim); margin-top: 6px; line-height: 1.5; }
+.kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
 
 /* ══════════════════════════════════════════════
    PLACEHOLDER PANELS (for Phase 2+)
@@ -1830,7 +1830,7 @@ const LAYERS = [
   {id:"ai",label:"AI Capabilities",note:"SOUTH ↓"},
 ];
 const AI_TIERS = [
-  {id:"gen1",label:"Gen 1 — Automation",short:"Gen 1",color:"#9BAEC8",desc:"RPA, rule-based automation, workflow triggers"},
+  {id:"gen1",label:"Gen 1 — Automation",short:"Gen 1",color:"#B8CADC",desc:"RPA, rule-based automation, workflow triggers"},
   {id:"gen2",label:"Gen 2 — GenAI",short:"Gen 2",color:"#B87333",desc:"LLM-powered assistants, content generation, semantic search"},
   {id:"gen3",label:"Gen 3 — Agentic",short:"Gen 3",color:"#8B5CF6",desc:"Autonomous multi-step agents, decision-making, self-orchestration"},
 ];
@@ -2377,9 +2377,9 @@ function renderBVF() {
       {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#D4956A",base:cost,baseL:"cost base"},
       {l:"Combined EBITDA Impact",lo:sc.totL,hi:sc.totH,col:"#B87333",base:ebt,baseL:"vs current EBITDA",bold:true},
     ].map(s=>`<div style="flex:1;min-width:150px;padding:12px 16px;background:${s.bold?"rgba(184,115,51,0.1)":"rgba(255,255,255,0.03)"};border:1px solid ${s.bold?"#B87333":"rgba(184,115,51,0.15)"};border-radius:3px">
-      <div style="font-size:9px;letter-spacing:1.5px;color:#6B7E9A;margin-bottom:5px">${s.l.toUpperCase()}</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:#A0B4C8;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:${s.bold?'20':'17'}px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.lo>0?`${fmt(s.lo)} – ${fmt(s.hi)}`:'—'}</div>
-      ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#6B7E9A;margin-top:2px;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:''}
+      ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#A0B4C8;margin-top:2px;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:''}
     </div>`).join('');
   } else { scorecardEl.style.display='none'; }
 
@@ -2428,7 +2428,7 @@ function renderBVF() {
 
   // Function buttons
   document.getElementById('fnButtons').innerHTML = FUNCTIONS.map(fn=>`
-    <button onclick="selectFn('${fn.id}')" style="padding:7px 13px;background:${activeFn===fn.id?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.04)'};border:${activeFn===fn.id?'none':'1px solid rgba(184,115,51,0.18)'};border-radius:3px;color:${activeFn===fn.id?'#FFFFFF':'#9BAEC8'};font-size:12px;font-weight:${activeFn===fn.id?'700':'400'};cursor:pointer;font-family:'DM Sans',sans-serif">${fn.icon} ${fn.label}</button>
+    <button onclick="selectFn('${fn.id}')" style="padding:7px 13px;background:${activeFn===fn.id?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.04)'};border:${activeFn===fn.id?'none':'1px solid rgba(184,115,51,0.18)'};border-radius:3px;color:${activeFn===fn.id?'#FFFFFF':'#B8CADC'};font-size:12px;font-weight:${activeFn===fn.id?'700':'400'};cursor:pointer;font-family:'DM Sans',sans-serif">${fn.icon} ${fn.label}</button>
   `).join('');
 
   // Active function card
@@ -2438,8 +2438,8 @@ function renderBVF() {
     fnCard.style.display='flex';
     document.getElementById('bvfFnTitle').textContent=`${FUNCTIONS.find(f=>f.id===activeFn).icon} ${FUNCTIONS.find(f=>f.id===activeFn).label}`;
     let metrics='';
-    if(r.rev.hi>0&&rev>0) metrics+=`<div><div style="font-size:9px;color:#6B7E9A;letter-spacing:1px">REVENUE UPLIFT</div><div style="font-size:15px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(rev*r.rev.lo)} – ${fmt(rev*r.rev.hi)}</div><div style="font-size:10px;color:#6B7E9A;font-style:italic">${(r.rev.lo*100).toFixed(1)}–${(r.rev.hi*100).toFixed(1)}% of ${fmt(rev)}</div></div>`;
-    if(r.cost.hi>0&&cost>0) metrics+=`<div><div style="font-size:9px;color:#6B7E9A;letter-spacing:1px">COST REDUCTION</div><div style="font-size:15px;font-weight:700;color:#D4956A;font-family:'Playfair Display',serif">${fmt(cost*r.cost.lo)} – ${fmt(cost*r.cost.hi)}</div><div style="font-size:10px;color:#6B7E9A;font-style:italic">${(r.cost.lo*100).toFixed(1)}–${(r.cost.hi*100).toFixed(1)}% of ${fmt(cost)}</div></div>`;
+    if(r.rev.hi>0&&rev>0) metrics+=`<div><div style="font-size:9px;color:#A0B4C8;letter-spacing:1px">REVENUE UPLIFT</div><div style="font-size:15px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(rev*r.rev.lo)} – ${fmt(rev*r.rev.hi)}</div><div style="font-size:10px;color:#A0B4C8;font-style:italic">${(r.rev.lo*100).toFixed(1)}–${(r.rev.hi*100).toFixed(1)}% of ${fmt(rev)}</div></div>`;
+    if(r.cost.hi>0&&cost>0) metrics+=`<div><div style="font-size:9px;color:#A0B4C8;letter-spacing:1px">COST REDUCTION</div><div style="font-size:15px;font-weight:700;color:#D4956A;font-family:'Playfair Display',serif">${fmt(cost*r.cost.lo)} – ${fmt(cost*r.cost.hi)}</div><div style="font-size:10px;color:#A0B4C8;font-style:italic">${(r.cost.lo*100).toFixed(1)}–${(r.cost.hi*100).toFixed(1)}% of ${fmt(cost)}</div></div>`;
     document.getElementById('bvfFnMetrics').innerHTML=metrics;
   } else { fnCard.style.display='none'; }
 
@@ -2447,7 +2447,7 @@ function renderBVF() {
   document.getElementById('layerButtons').innerHTML = LAYERS.map((layer,i)=>`
     <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.09)'):'rgba(255,255,255,0.03)'};border:1px solid ${activeLayer===layer.id?'#B87333':'rgba(184,115,51,0.12)'};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
       <div style="font-size:8px;letter-spacing:1.5px;color:#B87333;margin-bottom:3px">${layer.note}</div>
-      <div style="font-size:11px;font-weight:700;color:#E8EEF5;line-height:1.3">${layer.label}</div>
+      <div style="font-size:11px;font-weight:700;color:#F0F4FA;line-height:1.3">${layer.label}</div>
     </button>
   `).join('');
 
@@ -2463,7 +2463,7 @@ function renderBVF() {
     if(isActive&&isLast) {
       extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(184,115,51,0.2)">
         <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">Value Drivers · ${FUNCTIONS.find(f=>f.id===activeFn).label}</div>
-        ${r.drivers.map(d=>`<div style="display:flex;gap:8px;margin-bottom:5px"><span style="color:#B87333;font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:12px;color:#9BAEC8;line-height:1.5">${d}</span></div>`).join('')}
+        ${r.drivers.map(d=>`<div style="display:flex;gap:8px;margin-bottom:5px"><span style="color:#B87333;font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:12px;color:#B8CADC;line-height:1.5">${d}</span></div>`).join('')}
       </div>`;
     }
 
@@ -2491,12 +2491,12 @@ function renderBVF() {
           const riskCol=ini.risk==='Low'?'#4CAF80':ini.risk==='High'?'#E05252':'#F5A623';
           return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.12);border-left:3px solid ${tier?tier.color:'#B87333'};border-radius:3px;margin-bottom:5px">
             <div style="flex:1;min-width:0">
-              <div style="font-size:12px;font-weight:700;color:#E8EEF5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ini.name}</div>
-              <div style="font-size:10px;color:#6B7E9A;margin-top:2px">${tier?`<span style="color:${tier.color};font-weight:600">${tier.short}</span> · `:''}${ini.horizon} · <span style="color:${riskCol}">${ini.risk} risk</span>${ini.owner?` · ${ini.owner}`:''}</div>
-              ${ini.outcome?`<div style="font-size:10px;color:#9BAEC8;margin-top:2px;font-style:italic">${ini.outcome}</div>`:''}
+              <div style="font-size:12px;font-weight:700;color:#F0F4FA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ini.name}</div>
+              <div style="font-size:10px;color:#A0B4C8;margin-top:2px">${tier?`<span style="color:${tier.color};font-weight:600">${tier.short}</span> · `:''}${ini.horizon} · <span style="color:${riskCol}">${ini.risk} risk</span>${ini.owner?` · ${ini.owner}`:''}</div>
+              ${ini.outcome?`<div style="font-size:10px;color:#B8CADC;margin-top:2px;font-style:italic">${ini.outcome}</div>`:''}
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;margin-left:12px">
-              <div style="text-align:right"><div style="font-size:9px;color:#6B7E9A">Budget</div><div style="font-size:12px;font-weight:700;color:#B87333">${fmt(bud)}</div></div>
+              <div style="text-align:right"><div style="font-size:9px;color:#A0B4C8">Budget</div><div style="font-size:12px;font-weight:700;color:#B87333">${fmt(bud)}</div></div>
               ${iRAG?`<span class="rag rag-${iRAG}" style="font-size:8px">${pct(cm,bud)}</span>`:''}
               ${ps?`<span style="font-size:9px;font-weight:700;color:${ps.color}">${ps.score}/${ps.total}</span>`:''}
             </div>
@@ -2508,7 +2508,7 @@ function renderBVF() {
     // Initiatives layer — prompt to add if empty and expanded
     else if(isActive&&isInitiatives&&fnInits.length===0) {
       extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(184,115,51,0.2)">
-        <div style="font-size:11px;color:#6B7E9A;font-style:italic;margin-bottom:8px">No AI initiatives mapped to ${FUNCTIONS.find(f=>f.id===activeFn).label} yet.</div>
+        <div style="font-size:11px;color:#A0B4C8;font-style:italic;margin-bottom:8px">No AI initiatives mapped to ${FUNCTIONS.find(f=>f.id===activeFn).label} yet.</div>
         <button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(184,115,51,0.3);border-radius:3px;padding:6px 14px;color:#B87333;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Go to Portfolio → Add Initiative</button>
       </div>`;
     }
@@ -2521,7 +2521,7 @@ function renderBVF() {
     }
 
     return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?'rgba(184,115,51,0.1)':hasData?'rgba(184,115,51,0.06)':'rgba(255,255,255,0.06)'):(hasData?'rgba(184,115,51,0.03)':'rgba(255,255,255,0.02)')};border:1px solid ${isActive?'#B87333':(hasData?'rgba(184,115,51,0.2)':'rgba(184,115,51,0.1)')};border-left:${isLast?'4px solid #B87333':isActive?'4px solid rgba(184,115,51,0.5)':(hasData?'4px solid rgba(184,115,51,0.3)':'4px solid rgba(184,115,51,0.1)')};border-radius:3px;cursor:pointer;min-height:58px">
-      <div style="font-size:13px;font-weight:600;color:#E8EEF5;line-height:1.45">${mainContent}</div>
+      <div style="font-size:13px;font-weight:600;color:#F0F4FA;line-height:1.45">${mainContent}</div>
       ${extra}
     </div>`;
   }).join('');
@@ -2603,9 +2603,9 @@ function renderPortfolio() {
       const bud=inits.filter(i=>i.tier===t.id).reduce((s,i)=>s+parseNum(i.budget),0);
       return `<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.08);border-top:3px solid ${t.color};border-radius:3px">
         <div style="font-size:9px;letter-spacing:1.5px;color:${t.color};font-weight:700;margin-bottom:5px">${t.short}</div>
-        <div style="font-size:18px;font-weight:700;color:#E8EEF5;font-family:'Playfair Display',serif">${count} <span style="font-size:11px;color:#6B7E9A;font-weight:400">initiatives</span></div>
-        <div style="font-size:11px;color:#6B7E9A">${fmt(bud)}</div>
-        <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-top:3px">${t.desc}</div>
+        <div style="font-size:18px;font-weight:700;color:#F0F4FA;font-family:'Playfair Display',serif">${count} <span style="font-size:11px;color:#A0B4C8;font-weight:400">initiatives</span></div>
+        <div style="font-size:11px;color:#A0B4C8">${fmt(bud)}</div>
+        <div style="font-size:10px;color:#A0B4C8;font-style:italic;margin-top:3px">${t.desc}</div>
       </div>`;
     }).join('');
   } else { tierCards.style.display='none'; }
@@ -2629,18 +2629,18 @@ function renderPortfolio() {
         const statusCfg={existing:{l:'Live',c:'#4CAF80'},pilot:{l:'Pilot',c:'#F59E0B'},approved:{l:'Approved',c:'#3B82F6'},proposed:{l:'New',c:'#8B5CF6'}};
         const st=statusCfg[init.status||'proposed']||statusCfg.proposed;
         return `<tr>
-          <td style="color:#E8EEF5;font-weight:600;max-width:150px;font-size:12px">${init.name||'—'}</td>
+          <td style="color:#F0F4FA;font-weight:600;max-width:150px;font-size:12px">${init.name||'—'}</td>
           <td style="white-space:nowrap"><span style="font-size:9px;font-weight:700;letter-spacing:0.5px;padding:2px 6px;border-radius:2px;background:${st.c}18;color:${st.c};border:1px solid ${st.c}33">${st.l}</span></td>
-          <td style="color:#9BAEC8;white-space:nowrap">${fn?.icon||''} ${fn?.label||''}</td>
+          <td style="color:#B8CADC;white-space:nowrap">${fn?.icon||''} ${fn?.label||''}</td>
           <td style="white-space:nowrap">${tier?`<span style="color:${tier.color};font-weight:700;font-size:11px">${tier.short}</span>`:'—'}</td>
-          <td style="color:#E8EEF5;white-space:nowrap">${fmt(bud)}</td>
-          <td style="color:#6B7E9A;white-space:nowrap">${rev>0?pct(bud,rev):'—'}</td>
-          <td style="color:#E8EEF5;white-space:nowrap">${fmt(cm)}</td>
+          <td style="color:#F0F4FA;white-space:nowrap">${fmt(bud)}</td>
+          <td style="color:#A0B4C8;white-space:nowrap">${rev>0?pct(bud,rev):'—'}</td>
+          <td style="color:#F0F4FA;white-space:nowrap">${fmt(cm)}</td>
           <td style="white-space:nowrap">${rc?`<span class="rag rag-${r}">${pct(cm,bud)}</span>`:'—'}</td>
-          <td style="color:#9BAEC8;white-space:nowrap">${init.horizon}</td>
-          <td style="color:#9BAEC8">${init.owner||'—'}</td>
+          <td style="color:#B8CADC;white-space:nowrap">${init.horizon}</td>
+          <td style="color:#B8CADC">${init.owner||'—'}</td>
           <td style="white-space:nowrap"><span style="color:${riskCol};font-weight:700">${init.risk}</span></td>
-          <td style="white-space:nowrap">${ps?`<span style="color:${ps.color};font-size:10px;font-weight:700">${ps.score}/${ps.total}</span>`:`<span style="color:#6B7E9A;font-size:10px">—</span>`}</td>
+          <td style="white-space:nowrap">${ps?`<span style="color:${ps.color};font-size:10px;font-weight:700">${ps.score}/${ps.total}</span>`:`<span style="color:#A0B4C8;font-size:10px">—</span>`}</td>
           <td style="white-space:nowrap"><button class="btn btn-sm btn-ghost" onclick="editInit('${init.id}')">Edit</button> <button class="btn btn-sm btn-ghost" onclick="removeInit('${init.id}')" style="padding:4px 10px">✕</button></td>
         </tr>`;
       }).join('')}</tbody>
@@ -2655,9 +2655,9 @@ function renderPortfolio() {
       {l:'Gen 3 Agentic Share',v:totBudget>0?pct(gen3bud,totBudget):'—',sub:'of portfolio budget',col:'#8B5CF6'},
       {l:'Pilot Trap Issues',v:pilotIssues||'—',sub:'initiatives with <2 readiness indicators',col:'#F5A623'},
     ].map(s=>`<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.18);border-radius:3px">
-      <div style="font-size:9px;letter-spacing:1.5px;color:#6B7E9A;margin-bottom:5px">${s.l.toUpperCase()}</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:#A0B4C8;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:18px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.v}</div>
-      ${s.sub?`<div style="font-size:10px;color:#6B7E9A;margin-top:2px;font-style:italic">${s.sub}</div>`:''}
+      ${s.sub?`<div style="font-size:10px;color:#A0B4C8;margin-top:2px;font-style:italic">${s.sub}</div>`:''}
     </div>`).join('');
   }
   // Update dashboard KPIs
@@ -2758,7 +2758,7 @@ function togglePilot() {
 function renderPilotQuestions() {
   document.getElementById('pilotQuestions').innerHTML=PILOT_QS.map(q=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
-      <span style="font-size:12px;color:#9BAEC8;flex:1;padding-right:16px">${q.q}</span>
+      <span style="font-size:12px;color:#B8CADC;flex:1;padding-right:16px">${q.q}</span>
       <div style="display:flex;gap:6px;flex-shrink:0">
         ${['yes','no','partial'].map(v=>`<button onclick="setPilot('${q.key}','${v}')" style="padding:4px 10px;background:${pilotAnswers[q.key]===v?(v==='yes'?'#2E7D52':v==='no'?'#8B2020':'#C07A1A'):'rgba(255,255,255,0.05)'};border:none;border-radius:2px;color:white;font-size:10px;cursor:pointer;font-weight:${pilotAnswers[q.key]===v?'700':'400'};font-family:'DM Sans',sans-serif">${v}</button>`).join('')}
       </div>
@@ -2772,7 +2772,7 @@ function updatePilotResult() {
   const el=document.getElementById('pilotResult');
   if(ps) {
     el.style.display='flex';
-    el.innerHTML=`<span style="font-size:13px;font-weight:700;color:${ps.color}">${ps.label}</span><span style="font-size:11px;color:#6B7E9A">${ps.score}/${ps.total} readiness indicators met</span>`;
+    el.innerHTML=`<span style="font-size:13px;font-weight:700;color:${ps.color}">${ps.label}</span><span style="font-size:11px;color:#A0B4C8">${ps.score}/${ps.total} readiness indicators met</span>`;
   } else { el.style.display='none'; }
 }
 
@@ -2797,7 +2797,7 @@ function renderCM() {
   if(rc) {
     const banner=document.getElementById('cmRagBanner');
     banner.style.background=rc.bg; banner.style.border=`1px solid ${rc.border}`;
-    banner.innerHTML=`<div style="font-size:24px;font-weight:700;color:${rc.text};font-family:'Playfair Display',serif">${rc.label}</div><div style="flex:1"><div style="font-size:13px;color:#E8EEF5;margin-bottom:2px">${rc.desc}</div><div style="font-size:11px;color:#6B7E9A;font-style:italic">Portfolio CM: ${cmPct.toFixed(1)}% · Prosci min: 10% · Recommended: 15%${rev>0?` · Gap = ${pct(gapLow,rev)}–${pct(gapHigh,rev)} of revenue`:''}</div></div>`;
+    banner.innerHTML=`<div style="font-size:24px;font-weight:700;color:${rc.text};font-family:'Playfair Display',serif">${rc.label}</div><div style="flex:1"><div style="font-size:13px;color:#F0F4FA;margin-bottom:2px">${rc.desc}</div><div style="font-size:11px;color:#A0B4C8;font-style:italic">Portfolio CM: ${cmPct.toFixed(1)}% · Prosci min: 10% · Recommended: 15%${rev>0?` · Gap = ${pct(gapLow,rev)}–${pct(gapHigh,rev)} of revenue`:''}</div></div>`;
   }
   const cmBar=document.getElementById('cmBar');
   cmBar.style.width=barW+'%';
@@ -2812,9 +2812,9 @@ function renderCM() {
     {l:'Gap to Minimum',v:gapLow>0?fmt(gapLow):'✓ Met',col:gapLow>0?'#E05252':'#4CAF80'},
     {l:'Gap to Recommended',v:gapHigh>0?fmt(gapHigh):'✓ Met',col:gapHigh>0?'#F5A623':'#4CAF80'},
   ].map(s=>`<div style="padding:14px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.15);border-radius:3px">
-    <div style="font-size:9px;letter-spacing:1.5px;color:#6B7E9A;margin-bottom:6px">${s.l.toUpperCase()}</div>
+    <div style="font-size:9px;letter-spacing:1.5px;color:#A0B4C8;margin-bottom:6px">${s.l.toUpperCase()}</div>
     <div style="font-size:17px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif;margin-bottom:2px">${s.v}</div>
-    ${s.sub?`<div style="font-size:10px;color:#6B7E9A;font-style:italic">${s.sub}</div>`:''}
+    ${s.sub?`<div style="font-size:10px;color:#A0B4C8;font-style:italic">${s.sub}</div>`:''}
   </div>`).join('');
 
   document.getElementById('cmInitList').innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:10px;text-transform:uppercase">Initiative-Level CM Status</div>`+
@@ -2829,18 +2829,18 @@ function renderCM() {
     return `<div style="padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.12);border-left:4px solid ${irc?irc.border:'rgba(184,115,51,0.2)'};border-radius:3px;margin-bottom:7px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px">
         <div>
-          <div style="font-size:12px;font-weight:700;color:#E8EEF5">${init.name||'Unnamed'}</div>
-          <div style="font-size:10px;color:#6B7E9A;margin-top:2px">${fn?.icon} ${fn?.label}${tier?`<span style="color:${tier.color}"> · ${tier.short}</span>`:''} · ${init.horizon}</div>
+          <div style="font-size:12px;font-weight:700;color:#F0F4FA">${init.name||'Unnamed'}</div>
+          <div style="font-size:10px;color:#A0B4C8;margin-top:2px">${fn?.icon} ${fn?.label}${tier?`<span style="color:${tier.color}"> · ${tier.short}</span>`:''} · ${init.horizon}</div>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <div style="text-align:right"><div style="font-size:9px;color:#6B7E9A">Budget</div><div style="font-size:13px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(bud)}</div></div>
-          <div style="text-align:right"><div style="font-size:9px;color:#6B7E9A">CM</div><div style="font-size:13px;font-weight:700;color:${irc?.text||'#6B7E9A'};font-family:'Playfair Display',serif">${fmt(cm)}</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:#A0B4C8">Budget</div><div style="font-size:13px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(bud)}</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:#A0B4C8">CM</div><div style="font-size:13px;font-weight:700;color:${irc?.text||'#A0B4C8'};font-family:'Playfair Display',serif">${fmt(cm)}</div></div>
           ${irc?`<span class="rag rag-${r2}">${irc.label}</span>`:''}
           ${ps?`<span class="rag" style="background:rgba(255,255,255,0.06);color:${ps.color};border-color:${ps.color}">PILOT ${ps.label}</span>`:''}
         </div>
       </div>
-      ${bud>0?`<div style="height:4px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden"><div style="height:100%;width:${iBarW}%;background:${irc?irc.border:'#6B7E9A'};border-radius:3px"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:3px;font-size:9px;color:#6B7E9A"><span>CM: ${p2.toFixed(1)}%</span>${cm<bud*.10?`<span style="color:#E05252">Gap to 10%: ${fmt(bud*.10-cm)}</span>`:cm>=bud*.15?`<span style="color:#4CAF80">✓ Recommended met</span>`:''}</div>`:''}
+      ${bud>0?`<div style="height:4px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden"><div style="height:100%;width:${iBarW}%;background:${irc?irc.border:'#A0B4C8'};border-radius:3px"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:3px;font-size:9px;color:#A0B4C8"><span>CM: ${p2.toFixed(1)}%</span>${cm<bud*.10?`<span style="color:#E05252">Gap to 10%: ${fmt(bud*.10-cm)}</span>`:cm>=bud*.15?`<span style="color:#4CAF80">✓ Recommended met</span>`:''}</div>`:''}
     </div>`;
   }).join('');
 }
@@ -2853,8 +2853,8 @@ function renderRegulatory() {
   const selectedRegs = BVF.regulations;
   document.getElementById('regToggles').innerHTML=REG_FRAMEWORKS.map(r=>`
     <button onclick="toggleReg('${r.id}')" style="padding:10px 16px;background:${selectedRegs.includes(r.id)?`rgba(${r.id==='euai'?'224,82,82':r.id==='dora'?'245,166,35':r.id==='csrd'?'76,175,128':'139,92,246'},0.15)`:'rgba(255,255,255,0.04)'};border:1px solid ${selectedRegs.includes(r.id)?r.color:'rgba(255,255,255,0.1)'};border-radius:3px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif">
-      <div style="font-size:11px;font-weight:700;color:${selectedRegs.includes(r.id)?r.color:'#6B7E9A'}">${r.icon} ${r.label}</div>
-      <div style="font-size:10px;color:#6B7E9A;margin-top:2px">${r.risk} · ${r.timeline}</div>
+      <div style="font-size:11px;font-weight:700;color:${selectedRegs.includes(r.id)?r.color:'#A0B4C8'}">${r.icon} ${r.label}</div>
+      <div style="font-size:10px;color:#A0B4C8;margin-top:2px">${r.risk} · ${r.timeline}</div>
     </button>
   `).join('');
 
@@ -2868,14 +2868,14 @@ function renderRegulatory() {
     costBanner.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:8px;text-transform:uppercase">Estimated Regulatory Compliance Investment${BVF.profile.company?` — ${BVF.profile.company}`:''}</div>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
       <div style="flex:1;min-width:160px;padding:12px 16px;background:rgba(184,115,51,0.08);border:1px solid #B87333;border-radius:3px">
-        <div style="font-size:9px;color:#6B7E9A;letter-spacing:1.5px;margin-bottom:5px">TOTAL COMPLIANCE COST RANGE</div>
+        <div style="font-size:9px;color:#A0B4C8;letter-spacing:1.5px;margin-bottom:5px">TOTAL COMPLIANCE COST RANGE</div>
         <div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totalLo)} – ${fmt(totalHi)}</div>
-        <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
+        <div style="font-size:10px;color:#A0B4C8;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
       </div>
       ${activeRegs.map(r=>`<div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(255,255,255,0.08);border-top:3px solid ${r.color};border-radius:3px">
         <div style="font-size:9px;color:${r.color};font-weight:700;letter-spacing:1px;margin-bottom:5px">${r.shortLabel}</div>
-        <div style="font-size:17px;font-weight:700;color:#E8EEF5;font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)}–${fmt(rev*r.costRange.hi)}</div>
-        <div style="font-size:10px;color:#6B7E9A;margin-top:2px;font-style:italic">${(r.costRange.lo*100).toFixed(2)}–${(r.costRange.hi*100).toFixed(2)}% of rev</div>
+        <div style="font-size:17px;font-weight:700;color:#F0F4FA;font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)}–${fmt(rev*r.costRange.hi)}</div>
+        <div style="font-size:10px;color:#A0B4C8;margin-top:2px;font-style:italic">${(r.costRange.lo*100).toFixed(2)}–${(r.costRange.hi*100).toFixed(2)}% of rev</div>
       </div>`).join('')}
     </div>`;
     document.getElementById('regNoCost').style.display='none';
@@ -2888,21 +2888,21 @@ function renderRegulatory() {
     <div style="padding:18px 22px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${r.color};border-radius:3px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div>
-          <div style="font-size:14px;font-weight:700;color:#E8EEF5">${r.icon} ${r.label} — ${r.risk}</div>
-          <div style="font-size:11px;color:#6B7E9A;margin-top:2px">Effective: ${r.timeline}</div>
+          <div style="font-size:14px;font-weight:700;color:#F0F4FA">${r.icon} ${r.label} — ${r.risk}</div>
+          <div style="font-size:11px;color:#A0B4C8;margin-top:2px">Effective: ${r.timeline}</div>
         </div>
-        ${rev>0?`<div style="text-align:right"><div style="font-size:9px;color:#6B7E9A">Estimated Cost</div><div style="font-size:16px;font-weight:700;color:${r.color};font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)} – ${fmt(rev*r.costRange.hi)}</div></div>`:''}
+        ${rev>0?`<div style="text-align:right"><div style="font-size:9px;color:#A0B4C8">Estimated Cost</div><div style="font-size:16px;font-weight:700;color:${r.color};font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)} – ${fmt(rev*r.costRange.hi)}</div></div>`:''}
       </div>
-      <p style="margin:0 0 10px;font-size:12px;color:#9BAEC8;line-height:1.6">${r.desc}</p>
+      <p style="margin:0 0 10px;font-size:12px;color:#B8CADC;line-height:1.6">${r.desc}</p>
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:4px;text-transform:uppercase">Key Obligations</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:5px;margin-bottom:8px">
-        ${r.obligations.map(o=>`<div style="display:flex;gap:7px;padding:5px 0"><span style="color:${r.color};font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:11px;color:#9BAEC8;line-height:1.5">${o}</span></div>`).join('')}
+        ${r.obligations.map(o=>`<div style="display:flex;gap:7px;padding:5px 0"><span style="color:${r.color};font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:11px;color:#B8CADC;line-height:1.5">${o}</span></div>`).join('')}
       </div>
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:4px;text-transform:uppercase">Cost Drivers</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-        ${r.costDrivers.map(d=>`<span style="padding:3px 9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:2px;font-size:10px;color:#9BAEC8">${d}</span>`).join('')}
+        ${r.costDrivers.map(d=>`<span style="padding:3px 9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:2px;font-size:10px;color:#B8CADC">${d}</span>`).join('')}
       </div>
-      <div style="font-size:10px;color:#6B7E9A;font-style:italic">Source: ${r.source}</div>
+      <div style="font-size:10px;color:#A0B4C8;font-style:italic">Source: ${r.source}</div>
     </div>
   `).join('');
 }
@@ -2940,23 +2940,23 @@ function renderAlignment() {
     <div style="padding:16px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #B87333;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Value Potential</div>
       ${complete?`<div style="font-size:20px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif;margin-bottom:4px">${fmt(sc.totL)} – ${fmt(sc.totH)}</div>
-      <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
-      ${[{l:'Revenue uplift',lo:sc.rL,hi:sc.rH,col:'#4CAF80'},{l:'Cost reduction',lo:sc.cL,hi:sc.cH,col:'#D4956A'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#6B7E9A">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col}">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:'—'}</span></div>`).join('')}`
-      :`<div style="font-size:12px;color:#6B7E9A;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
+      <div style="font-size:10px;color:#A0B4C8;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
+      ${[{l:'Revenue uplift',lo:sc.rL,hi:sc.rH,col:'#4CAF80'},{l:'Cost reduction',lo:sc.cL,hi:sc.cH,col:'#D4956A'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#A0B4C8">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col}">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:'—'}</span></div>`).join('')}`
+      :`<div style="font-size:12px;color:#A0B4C8;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
     </div>
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||'#6B7E9A'};border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||'#A0B4C8'};border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">Portfolio Health</div>
-      ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:${rc?.text||'#6B7E9A'};font-family:'Playfair Display',serif;margin-bottom:4px">${rc?.label||'—'}</div>
-      <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
-      ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#F5A623':'#4CAF80'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#6B7E9A">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#E8EEF5'}">${s.v}</span></div>`).join('')}`
-      :`<div style="font-size:12px;color:#6B7E9A;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
+      ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:${rc?.text||'#A0B4C8'};font-family:'Playfair Display',serif;margin-bottom:4px">${rc?.label||'—'}</div>
+      <div style="font-size:10px;color:#A0B4C8;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
+      ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#F5A623':'#4CAF80'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#A0B4C8">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#F0F4FA'}">${s.v}</span></div>`).join('')}`
+      :`<div style="font-size:12px;color:#A0B4C8;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
     <div style="padding:16px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #8B5CF6;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Generation Mix</div>
       ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:#8B5CF6;font-family:'Playfair Display',serif;margin-bottom:4px">${tierCounts.find(t=>t.id==='gen3')?.pct||0}% Agentic</div>
-      <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
-      ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#6B7E9A;width:28px;text-align:right">${t.pct}%</span></div></div>`).join('')}`
-      :`<div style="font-size:12px;color:#6B7E9A;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
+      <div style="font-size:10px;color:#A0B4C8;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
+      ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#A0B4C8;width:28px;text-align:right">${t.pct}%</span></div></div>`).join('')}`
+      :`<div style="font-size:12px;color:#A0B4C8;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
   `;
 
@@ -2967,9 +2967,9 @@ function renderAlignment() {
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:12px 14px;background:${i===0?'rgba(184,115,51,0.08)':'rgba(255,255,255,0.03)'};border:1px solid ${i===0?'#B87333':'rgba(184,115,51,0.15)'};border-radius:3px">
         <div style="font-size:9px;letter-spacing:1.5px;color:#B87333;margin-bottom:5px">#${i+1} PRIORITY</div>
-        <div style="font-size:14px;font-weight:700;color:#E8EEF5;margin-bottom:4px">${fn.icon} ${fn.label}</div>
+        <div style="font-size:14px;font-weight:700;color:#F0F4FA;margin-bottom:4px">${fn.icon} ${fn.label}</div>
         <div style="font-size:15px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(lo)} – ${fmt(hi)}</div>
-        <div style="font-size:10px;color:#6B7E9A;font-style:italic;margin-top:2px">estimated annual impact</div>
+        <div style="font-size:10px;color:#A0B4C8;font-style:italic;margin-top:2px">estimated annual impact</div>
       </div>`;}).join('')}
     </div>`;
   } else { topFnsEl.style.display='none'; }
@@ -2979,11 +2979,11 @@ function renderAlignment() {
     amInvEl.style.display='block';
     amInvEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:8px;text-transform:uppercase">Investment vs Value Potential</div>
     <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
-      <div style="text-align:center"><div style="font-size:9px;color:#6B7E9A;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totBudget)}</div></div>
-      <div style="font-size:24px;color:#6B7E9A">→</div>
-      <div style="text-align:center"><div style="font-size:9px;color:#6B7E9A;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
-      <div style="font-size:24px;color:#6B7E9A">→</div>
-      <div style="text-align:center"><div style="font-size:9px;color:#6B7E9A;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
+      <div style="text-align:center"><div style="font-size:9px;color:#A0B4C8;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totBudget)}</div></div>
+      <div style="font-size:24px;color:#A0B4C8">→</div>
+      <div style="text-align:center"><div style="font-size:9px;color:#A0B4C8;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
+      <div style="font-size:24px;color:#A0B4C8">→</div>
+      <div style="text-align:center"><div style="font-size:9px;color:#A0B4C8;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
       <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #4CAF80;border-radius:3px;text-align:center"><div style="font-size:9px;color:#4CAF80;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
     </div>`;
   } else { amInvEl.style.display='none'; }
