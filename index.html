@@ -506,15 +506,18 @@ header { transition:box-shadow 0.3s ease; }
   [style*="font-size:13px"] { font-size:15px !important; }
   [style*="font-size:14px"] { font-size:15px !important; }
 
-  /* Alignment map — match exec dashboard sizing */
+  /* Alignment map — force ALL text to match exec dashboard */
   #panel-alignment { font-size:15px !important; }
+  #panel-alignment * { font-size:inherit !important; }
   #panel-alignment [style*="background:linear-gradient"] { background:#f0ebe4 !important; border:1px solid #ddd !important; }
-  #panel-alignment [style*="font-size:20px"] { font-size:22px !important; }
-  #panel-alignment [style*="font-size:22px"] { font-size:24px !important; }
+  #panel-alignment [style*="letter-spacing"] { font-size:13px !important; }
+  #panel-alignment [style*="font-size:20px"], #panel-alignment [style*="font-size:22px"] { font-size:24px !important; }
+  #panel-alignment [style*="font-size:24px"] { font-size:26px !important; }
   #panel-alignment [style*="font-size:18px"] { font-size:20px !important; }
-  #panel-alignment [style*="letter-spacing:2.5px"] { font-size:13px !important; }
-  #panel-alignment [style*="letter-spacing:1.5px"] { font-size:13px !important; }
-  #panel-alignment [style*="letter-spacing:1px"] { font-size:13px !important; }
+  #panel-alignment [style*="font-size:15px"], #panel-alignment [style*="font-size:14px"],
+  #panel-alignment [style*="font-size:13px"] { font-size:15px !important; }
+  #panel-alignment [style*="font-size:12px"], #panel-alignment [style*="font-size:11px"],
+  #panel-alignment [style*="font-size:10px"], #panel-alignment [style*="font-size:9px"] { font-size:14px !important; }
 
   /* RAG badges keep colour */
   .rag-green { color:#1a7a3e !important; border-color:#1a7a3e !important; background:#e8f5e9 !important; }
@@ -1806,7 +1809,7 @@ header { transition:box-shadow 0.3s ease; }
                 RPA, rules-based, ML classification, predictive models<br><br>
                 <span style="color:#F59E0B;font-weight:700">Gen 2 — Generative AI</span><br>
                 LLM-powered assistants, content generation, semantic search<br><br>
-                <span style="color:#8B5CF6;font-weight:700">Gen 3 — Agentic AI</span><br>
+                <span style="color:#3B82F6;font-weight:700">Gen 3 — Agentic AI</span><br>
                 Autonomous agents, multi-step reasoning, tool use, decision-making
               </div>
             </div>
@@ -2062,7 +2065,7 @@ const LAYERS = [
 const AI_TIERS = [
   {id:"gen1",label:"Gen 1 — Automation",short:"Gen 1",color:"#B8CADC",desc:"RPA, rule-based automation, workflow triggers"},
   {id:"gen2",label:"Gen 2 — GenAI",short:"Gen 2",color:"#C4894A",desc:"LLM-powered assistants, content generation, semantic search"},
-  {id:"gen3",label:"Gen 3 — Agentic",short:"Gen 3",color:"#8B5CF6",desc:"Autonomous multi-step agents, decision-making, self-orchestration"},
+  {id:"gen3",label:"Gen 3 — Agentic",short:"Gen 3",color:"#3B82F6",desc:"Autonomous multi-step agents, decision-making, self-orchestration"},
 ];
 const BASE_RATES = {
   finance:{rev:{lo:0,hi:0},cost:{lo:.030,hi:.060},ebt:{lo:0,hi:0},drivers:["Automated financial close (–40% cycle time)","AI-powered FP&A & forecasting","Anomaly detection reducing write-offs"],source:"McKinsey Global Institute — finance automation benchmark"},
@@ -2096,7 +2099,7 @@ const REG_FRAMEWORKS = [
   {id:"euai",label:"EU AI Act",color:"#E05252",icon:"⚖",shortLabel:"EU AI Act",risk:"High Risk",timeline:"Aug 2026 — Feb 2027",obligations:["High-risk AI systems must register in EU database","Mandatory conformity assessments for high-risk use cases","Human oversight requirements for automated decisions","Incident reporting to national authorities within 15 days"],costDrivers:["Compliance audit & gap assessment","Technical documentation & logging infrastructure","Human oversight staffing","Registration & conformity process"],costRange:{lo:.0005,hi:.002},desc:"The EU AI Act classifies AI systems by risk. High-risk categories include HR, credit scoring, critical infrastructure, and law enforcement. Full compliance mandatory by August 2026.",source:"EU AI Act — Regulation 2024/1689, Aug 2024"},
   {id:"dora",label:"DORA",color:"#F5A623",icon:"🛡",shortLabel:"DORA",risk:"Financial Services",timeline:"Jan 2025",obligations:["ICT risk management framework with AI oversight","Third-party AI provider risk assessments","Digital operational resilience testing (TLPT)","Incident classification & reporting within 4 hours"],costDrivers:["ICT risk framework uplift for AI systems","Third-party provider due diligence","Resilience testing programme","Reporting infrastructure"],costRange:{lo:.001,hi:.003},desc:"DORA applies to all financial entities in the EU including banks, insurers, investment firms, and crypto-asset service providers. AI systems must be included in ICT risk frameworks.",source:"DORA — Regulation 2022/2554, in force Jan 2025"},
   {id:"csrd",label:"CSRD",color:"#4CAF80",icon:"🌱",shortLabel:"CSRD",risk:"ESG Reporting",timeline:"2024–2028 phased",obligations:["Mandatory AI-assisted ESG data collection & reporting","Third-party verification of sustainability claims","Double materiality assessment including AI impact","Value chain emissions including AI energy consumption"],costDrivers:["ESG data platform & AI tooling","Third-party assurance engagement","Internal ESG reporting capability","Technology carbon footprint measurement"],costRange:{lo:.0003,hi:.0015},desc:"CSRD requires large companies to report on environmental and social impact including AI-related energy consumption. AI can both assist reporting and must be reported on.",source:"CSRD — Directive 2022/2464, phased 2024–2028"},
-  {id:"gdpr",label:"GDPR / AI",color:"#8B5CF6",icon:"🔒",shortLabel:"GDPR AI",risk:"Data Privacy",timeline:"Ongoing",obligations:["Automated decision-making rights (Art. 22) for AI","Data minimisation requirements in model training","Privacy impact assessments for AI use cases","Right to explanation for AI-driven decisions"],costDrivers:["Privacy-by-design AI development uplift","Data governance & lineage tooling","DPO capacity for AI assessments","Explainability layer development"],costRange:{lo:.0002,hi:.001},desc:"GDPR's Article 22 restricts solely automated decisions with legal effects. AI deployments in HR, credit, and customer service face the highest exposure.",source:"GDPR Art. 22 — as applied to AI systems, EDPB Guidelines 2023"},
+  {id:"gdpr",label:"GDPR / AI",color:"#3B82F6",icon:"🔒",shortLabel:"GDPR AI",risk:"Data Privacy",timeline:"Ongoing",obligations:["Automated decision-making rights (Art. 22) for AI","Data minimisation requirements in model training","Privacy impact assessments for AI use cases","Right to explanation for AI-driven decisions"],costDrivers:["Privacy-by-design AI development uplift","Data governance & lineage tooling","DPO capacity for AI assessments","Explainability layer development"],costRange:{lo:.0002,hi:.001},desc:"GDPR's Article 22 restricts solely automated decisions with legal effects. AI deployments in HR, credit, and customer service face the highest exposure.",source:"GDPR Art. 22 — as applied to AI systems, EDPB Guidelines 2023"},
 ];
 const PILOT_QS = [
   {key:"sponsored",q:"Does this initiative have named C-suite sponsorship?"},
@@ -2388,7 +2391,7 @@ function renderPriorities() {
   document.getElementById('btn-add-priority').style.display = priors.length >= 5 ? 'none' : '';
 
   list.innerHTML = priors.map((p, i) => {
-    const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#7C6FCD',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#8B5CF6',risk:'#E05252'};
+    const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#3B82F6',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#3B82F6',risk:'#E05252'};
     const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
     const col = catColors[p.category] || '#C4894A';
     const mappedInits = BVF.initiatives.length; // future: real mapping
@@ -2472,7 +2475,7 @@ function renderBoardroomSentence() {
   const complete = rev > 0 && cost > 0;
 
   let sentence = `We are running <strong style="color:var(--copper)">${inits.length} AI initiative${inits.length>1?'s':''}</strong>`;
-  if (gen3Count > 0) sentence += ` including <strong style="color:#8B5CF6">${gen3Count} Agentic programme${gen3Count>1?'s':''}</strong>`;
+  if (gen3Count > 0) sentence += ` including <strong style="color:#3B82F6">${gen3Count} Agentic programme${gen3Count>1?'s':''}</strong>`;
   if (totalBudget > 0) sentence += `, with a combined investment of <strong style="color:var(--copper)">${fmt(totalBudget)}</strong>`;
   if (complete && sc.rH > 0) sentence += `, projecting <strong style="color:#4CAF80">${fmt(sc.rL)}–${fmt(sc.rH)}</strong> in revenue uplift`;
   if (complete && sc.totH > 0) sentence += ` and <strong style="color:var(--copper)">${fmt(sc.totL)}–${fmt(sc.totH)}</strong> in combined EBITDA impact`;
@@ -2656,7 +2659,7 @@ function renderBVF() {
   const priors = BVF.priorities || [];
   if (priEl) {
     if (priors.length > 0) {
-      const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#7C6FCD',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#8B5CF6',risk:'#E05252'};
+      const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#3B82F6',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#3B82F6',risk:'#E05252'};
       const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
       priEl.style.display = 'block';
       priEl.innerHTML = `
@@ -2894,7 +2897,7 @@ function renderPortfolio() {
         const tier=AI_TIERS.find(t=>t.id===init.tier);
         const ps=pilotScore(init.pilotAnswers);
         const riskCol=init.risk==='Low'?'#4CAF80':init.risk==='High'?'#E05252':'#F5A623';
-        const statusCfg={existing:{l:'Live',c:'#4CAF80'},pilot:{l:'Pilot',c:'#F59E0B'},approved:{l:'Approved',c:'#3B82F6'},proposed:{l:'New',c:'#8B5CF6'}};
+        const statusCfg={existing:{l:'Live',c:'#4CAF80'},pilot:{l:'Pilot',c:'#F59E0B'},approved:{l:'Approved',c:'#3B82F6'},proposed:{l:'New',c:'#3B82F6'}};
         const st=statusCfg[init.status||'proposed']||statusCfg.proposed;
         return `<tr>
           <td style="color:#EDF2F7;font-weight:600;max-width:150px;font-size:12px">${init.name||'—'}</td>
@@ -2920,7 +2923,7 @@ function renderPortfolio() {
     totals.innerHTML=[
       {l:'Total AI Investment',v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:'',col:'#C4894A'},
       {l:'Total CM Allocated',v:fmt(totCM),sub:`${pct(totCM,totBudget)} of portfolio`,col:totBudget>0&&totCM/totBudget>=.10?'#4CAF80':totCM/totBudget>=.05?'#F5A623':'#E05252'},
-      {l:'Gen 3 Agentic Share',v:totBudget>0?pct(gen3bud,totBudget):'—',sub:'of portfolio budget',col:'#8B5CF6'},
+      {l:'Gen 3 Agentic Share',v:totBudget>0?pct(gen3bud,totBudget):'—',sub:'of portfolio budget',col:'#3B82F6'},
       {l:'Pilot Trap Issues',v:pilotIssues||'—',sub:'initiatives with <2 readiness indicators',col:'#F5A623'},
     ].map(s=>`<div style="flex:1;min-width:130px;padding:14px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px">
       <div style="font-size:9px;letter-spacing:1.5px;color:#D0D8E0;margin-bottom:5px">${s.l.toUpperCase()}</div>
@@ -3221,9 +3224,9 @@ function renderAlignment() {
       ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#F5A623':'#4CAF80'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#D0D8E0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#F0F4FA'}">${s.v}</span></div>`).join('')}`
       :`<div style="font-size:12px;color:#D0D8E0;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-top:3px solid #8B5CF6;border-radius:10px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-top:3px solid #3B82F6;border-radius:10px">
       <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Generation Mix</div>
-      ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:#8B5CF6;font-family:'Playfair Display',serif;margin-bottom:4px">${tierCounts.find(t=>t.id==='gen3')?.pct||0}% Agentic</div>
+      ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:#3B82F6;font-family:'Playfair Display',serif;margin-bottom:4px">${tierCounts.find(t=>t.id==='gen3')?.pct||0}% Agentic</div>
       <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
       ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#D0D8E0;width:28px;text-align:right">${t.pct}%</span></div></div>`).join('')}`
       :`<div style="font-size:12px;color:#D0D8E0;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
@@ -3262,7 +3265,7 @@ function renderAlignment() {
   const amPriEl=document.getElementById('amPriorities');
   if(BVF.priorities&&BVF.priorities.length>0){
     const catLabels={revenue:'Revenue Growth',cost:'Cost Reduction',ebitda:'EBITDA Impact',compliance:'Regulatory Compliance',cx:'Customer Experience',workforce:'Workforce Transformation',innovation:'Innovation',risk:'Risk Management'};
-    const catColors={revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#F59E0B',cx:'#7C6FCD',workforce:'#22C55E',innovation:'#8B5CF6',risk:'#E05252'};
+    const catColors={revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#F59E0B',cx:'#3B82F6',workforce:'#22C55E',innovation:'#3B82F6',risk:'#E05252'};
     // Map priorities to initiatives
     const priWithInit=BVF.priorities.map(p=>{
       const mapped=inits.filter(i=>{
@@ -3381,7 +3384,7 @@ const AGENT_LLM_COL={'Claude':'#C4894A','GPT':'#10A37F','Gemini':'#4285F4','Open
 
 function agentLLMColor(name){
   for(const[k,v] of Object.entries(AGENT_LLM_COL)) if((name||'').toLowerCase().includes(k.toLowerCase())) return v;
-  return '#7C6FCD';
+  return '#3B82F6';
 }
 
 let agentResults=null, agentControlResults=null;
