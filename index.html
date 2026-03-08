@@ -1546,10 +1546,27 @@ header { transition:box-shadow 0.3s ease; }
       <!-- STEP 1: INPUT -->
       <div class="agent-view active" id="agent-input">
         <div style="max-width:720px;margin:0 auto">
-          <div style="text-align:center;margin-bottom:36px">
+
+          <!-- MODE TOGGLE -->
+          <div style="display:flex;justify-content:center;margin-bottom:28px">
+            <div style="display:inline-flex;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;overflow:hidden">
+              <button id="agent-mode-saas" onclick="agentSetMode('saas')" style="padding:11px 22px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;background:var(--copper);color:#fff">SaaS Classification</button>
+              <button id="agent-mode-strategy" onclick="agentSetMode('strategy')" style="padding:11px 22px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;background:transparent;color:var(--text-muted)">Strategy Extraction</button>
+            </div>
+          </div>
+
+          <!-- SAAS MODE HEADER -->
+          <div id="agent-header-saas" style="text-align:center;margin-bottom:36px">
             <h1 style="font-size:clamp(26px,3vw,38px)">AI Portfolio<br><span style="color:var(--copper)">Risk Intelligence</span></h1>
             <p style="font-size:14px;color:var(--text-body);max-width:540px;margin:14px auto 0;line-height:1.7">Paste your client's SaaS inventory. The BVF Agent classifies each tool against global analyst benchmarks, scores disruption risk, and recommends the optimal AI stack for replacement.</p>
           </div>
+
+          <!-- STRATEGY MODE HEADER -->
+          <div id="agent-header-strategy" style="text-align:center;margin-bottom:36px;display:none">
+            <h1 style="font-size:clamp(26px,3vw,38px)">Strategy<br><span style="color:var(--copper)">Document Extraction</span></h1>
+            <p style="font-size:14px;color:var(--text-body);max-width:540px;margin:14px auto 0;line-height:1.7">Paste an AI strategy document, board paper or initiative list. The BVF Agent extracts every initiative and maps it into your portfolio automatically — budget, CM, generation tier, function and risk.</p>
+          </div>
+
           <div class="agent-input-card">
             <div class="agent-api-section">
               <div class="agent-field" style="margin-bottom:0">
@@ -1570,26 +1587,44 @@ header { transition:box-shadow 0.3s ease; }
               </div>
               <p style="font-size:12px;color:var(--text-body);margin-top:8px;line-height:1.5">Get a key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--copper)">console.anthropic.com</a> · Keys use Anthropic's standard pay-per-use pricing</p>
             </div>
-            <div class="agent-field">
-              <span class="label">Client name</span>
-              <input type="text" id="agent-client" placeholder="e.g. Philips, ING Bank, Shell"/>
-            </div>
-            <div class="agent-field">
-              <div class="agent-label-row">
-                <span class="label">SaaS & AI initiatives inventory</span>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <button class="agent-sample-btn" onclick="document.getElementById('agent-csv-upload').click()">
-                    <span style="margin-right:4px">📂</span> Upload CSV
-                  </button>
-                  <button class="agent-sample-btn" onclick="agentLoadSample()">Load sample</button>
-                </div>
+
+            <!-- SAAS FIELDS -->
+            <div id="agent-fields-saas">
+              <div class="agent-field">
+                <span class="label">Client name</span>
+                <input type="text" id="agent-client" placeholder="e.g. Philips, ING Bank, Shell"/>
               </div>
-              <input type="file" id="agent-csv-upload" accept=".csv,.tsv,.txt,.xlsx" style="display:none" onchange="agentHandleFileUpload(event)"/>
-              <div id="agent-upload-status" style="display:none;margin-bottom:10px;padding:10px 14px;border-radius:4px;font-size:13px;line-height:1.5"></div>
-              <textarea id="agent-inventory" rows="8" placeholder="Upload a CSV / Excel file above, or paste manually — one tool per line, e.g.:&#10;Salesforce CRM - $420k/year, 200 seats&#10;ServiceNow ITSM - $350k/year, 50 seats&#10;Microsoft 365 - $180k/year, 300 seats"></textarea>
-              <div class="agent-hint" id="agent-tool-count">0 tools entered</div>
+              <div class="agent-field">
+                <div class="agent-label-row">
+                  <span class="label">SaaS & AI initiatives inventory</span>
+                  <div style="display:flex;gap:8px;align-items:center">
+                    <button class="agent-sample-btn" onclick="document.getElementById('agent-csv-upload').click()">
+                      <span style="margin-right:4px">📂</span> Upload CSV
+                    </button>
+                    <button class="agent-sample-btn" onclick="agentLoadSample()">Load sample</button>
+                  </div>
+                </div>
+                <input type="file" id="agent-csv-upload" accept=".csv,.tsv,.txt,.xlsx" style="display:none" onchange="agentHandleFileUpload(event)"/>
+                <div id="agent-upload-status" style="display:none;margin-bottom:10px;padding:10px 14px;border-radius:4px;font-size:13px;line-height:1.5"></div>
+                <textarea id="agent-inventory" rows="8" placeholder="Upload a CSV / Excel file above, or paste manually — one tool per line, e.g.:&#10;Salesforce CRM - $420k/year, 200 seats&#10;ServiceNow ITSM - $350k/year, 50 seats&#10;Microsoft 365 - $180k/year, 300 seats"></textarea>
+                <div class="agent-hint" id="agent-tool-count">0 tools entered</div>
+              </div>
+              <button class="agent-classify-btn" id="agent-classify-btn" onclick="agentClassify()">Step 1 — Run BVF classification</button>
             </div>
-            <button class="agent-classify-btn" id="agent-classify-btn" onclick="agentClassify()">Step 1 — Run BVF classification</button>
+
+            <!-- STRATEGY FIELDS -->
+            <div id="agent-fields-strategy" style="display:none">
+              <div class="agent-field">
+                <div class="agent-label-row">
+                  <span class="label">Strategy document</span>
+                  <button class="agent-sample-btn" onclick="agentLoadStrategySample()">Load sample</button>
+                </div>
+                <textarea id="agent-strategy-text" rows="14" placeholder="Paste your AI strategy document, board paper, or initiative list here...&#10;&#10;The agent will extract:&#10;  - Initiative names and descriptions&#10;  - Budgets and CM allocations&#10;  - AI generation tier (Gen 1/2/3)&#10;  - Business function mapping&#10;  - Risk levels and status&#10;  - Company profile (if included)"></textarea>
+                <div class="agent-hint" id="agent-strategy-hint">Paste a strategy document above</div>
+              </div>
+              <button class="agent-classify-btn" id="agent-extract-btn" onclick="agentExtractStrategy()">Extract Initiatives & Build Portfolio</button>
+            </div>
+
             <div id="agent-error" class="agent-error" style="display:none"></div>
           </div>
         </div>
@@ -3756,6 +3791,204 @@ async function agentClassify(){
   }catch(e){errEl.textContent='Error: '+e.message;errEl.style.display='block';showToast('Classification failed — check your API key','error');}
   finally{btn.disabled=false;btn.textContent='Step 1 — Run BVF classification';}
 }
+
+// ── AGENT MODE TOGGLE ──
+let agentMode='saas';
+function agentSetMode(mode){
+  agentMode=mode;
+  document.getElementById('agent-mode-saas').style.background=mode==='saas'?'var(--copper)':'transparent';
+  document.getElementById('agent-mode-saas').style.color=mode==='saas'?'#fff':'var(--text-muted)';
+  document.getElementById('agent-mode-strategy').style.background=mode==='strategy'?'var(--copper)':'transparent';
+  document.getElementById('agent-mode-strategy').style.color=mode==='strategy'?'#fff':'var(--text-muted)';
+  document.getElementById('agent-header-saas').style.display=mode==='saas'?'block':'none';
+  document.getElementById('agent-header-strategy').style.display=mode==='strategy'?'block':'none';
+  document.getElementById('agent-fields-saas').style.display=mode==='saas'?'block':'none';
+  document.getElementById('agent-fields-strategy').style.display=mode==='strategy'?'block':'none';
+  document.getElementById('agent-error').style.display='none';
+}
+
+function agentLoadStrategySample(){
+  document.getElementById('agent-strategy-text').value=`AI Transformation Strategy 2026-2028 — Advisory Holdings Group
+
+Revenue: €850M | Cost Base: €520M | EBITDA: €195M | Industry: Financial Services | Employees: 4,200
+
+Initiative 1: GenAI Service Desk. Function: Technology. Budget: €2.8M. CM Budget: €180K. Status: Pilot. Gen 2. Deploy a generative AI-powered internal service desk handling Tier 1 and Tier 2 IT support tickets. Target: 45% ticket deflection within 6 months.
+
+Initiative 2: Sales Agentic Agent. Function: Sales & Revenue. Budget: €4.5M. CM Budget: €650K. Status: Approved. Gen 3. Build an autonomous sales intelligence agent that monitors CRM activity, identifies cross-sell opportunities, generates personalised outreach sequences.
+
+Initiative 3: AI-Powered Fraud Detection. Function: Risk & Compliance. Budget: €3.2M. CM Budget: €280K. Status: Existing. Gen 1. Existing ML-based fraud detection system processing 2.3M transactions/month. DORA compliance review underway.
+
+Initiative 4: Customer Experience Personalisation Engine. Function: Customer Experience. Budget: €5.1M. CM Budget: €420K. Status: Approved. Gen 2. Hyper-personalisation engine for digital channels. Expected uplift: 12-18% conversion rate improvement.
+
+Initiative 5: AI Scope — Regulatory Compliance Automation. Function: Legal & Compliance. Budget: €1.9M. CM Budget: €350K. Status: Proposed. Gen 2. Automate regulatory horizon scanning, policy impact assessment, and compliance reporting.
+
+Initiative 6: Intelligent Document Processing. Function: Operations / Finance. Budget: €1.4M. CM Budget: €90K. Status: Pilot. Gen 1. OCR and NLP pipeline for processing invoices, contracts, and client onboarding documents.
+
+Initiative 7: Workforce Planning AI. Function: People / HR. Budget: €1.8M. CM Budget: €320K. Status: Proposed. Gen 2. Predictive workforce planning tool using GenAI to model attrition risk, skills gap analysis, and hiring demand forecasting.
+
+Initiative 8: Gen AI for CX — Conversational Banking Assistant. Function: Customer Experience. Budget: €2.3M. CM Budget: €180K. Status: Approved. Gen 3. Agentic conversational AI for retail banking customers. Target: 35% reduction in contact centre volume.
+
+Board Priorities: 1) Reduce operational costs by 35% by 2027. 2) Drive €50M incremental revenue through AI-enabled channels. 3) Achieve full EU AI Act and DORA compliance by Q3 2026. 4) Adjust EBITDA 14-15% to €500M by 2027.`;
+  document.getElementById('agent-strategy-hint').textContent='Sample strategy document loaded — ready to extract';
+  document.getElementById('agent-strategy-hint').style.color='var(--copper)';
+}
+
+const AGENT_STRATEGY_PROMPT=`You are the BVF Strategy Extraction Agent. Your job is to read an AI strategy document and extract structured data.
+
+Extract ALL AI initiatives mentioned in the document. For each initiative, return a JSON object with these fields:
+- name: Initiative name (string)
+- fn: Business function — MUST be one of: "finance", "hr", "sales", "supply", "cx", "risk", "it", "rd" (string)
+- tier: AI generation — MUST be one of: "gen1", "gen2", "gen3" (string)
+- budget: Budget as entered, e.g. "2.8M" or "€2.8M" (string)
+- cmBudget: Change management budget, e.g. "180K" or "€180K" (string)
+- status: MUST be one of: "existing", "pilot", "approved", "proposed" (string)
+- risk: MUST be one of: "Low", "Medium", "High" (string, infer from context)
+- outcome: One-line description of expected outcome (string)
+
+Also extract company profile if present:
+- company: Company name
+- revenue: Revenue figure
+- costBase: Cost base figure
+- ebitda: EBITDA figure
+- industry: MUST be one of: "universal", "financial", "healthcare", "manufacturing", "retail", "technology", "energy", "public"
+- employees: Employee count
+
+Also extract board priorities if present. Each priority:
+- description: Priority text
+- category: MUST be one of: "revenue", "cost", "ebitda", "compliance", "cx", "workforce", "innovation", "risk"
+
+Return a single JSON object with this structure:
+{
+  "profile": { company, revenue, costBase, ebitda, industry, employees },
+  "initiatives": [ array of initiative objects ],
+  "priorities": [ array of priority objects ]
+}
+
+Function mapping guide:
+- Technology/IT/Platform → "it"
+- Sales/Revenue/Commercial → "sales"
+- Customer Experience/CX/Marketing → "cx"
+- Risk/Compliance/Legal/Regulatory → "risk"
+- Finance/CFO/Accounting → "finance"
+- HR/People/Workforce → "hr"
+- Operations/Supply Chain/Logistics → "supply"
+- R&D/Innovation/Product → "rd"
+
+Status mapping guide:
+- Live/Existing/Production → "existing"
+- Pilot/Testing/PoC → "pilot"
+- Approved/Funded/Planned → "approved"
+- Proposed/Under review/New → "proposed"
+
+Tier mapping guide:
+- Gen 1: RPA, ML, predictive analytics, rules-based → "gen1"
+- Gen 2: Generative AI, LLM assistants, content generation → "gen2"
+- Gen 3: Agentic AI, autonomous agents, multi-step reasoning → "gen3"
+
+Return ONLY the JSON object. No explanation or markdown.`;
+
+async function agentExtractStrategy(){
+  const text=document.getElementById('agent-strategy-text').value.trim();
+  const errEl=document.getElementById('agent-error');
+  const btn=document.getElementById('agent-extract-btn');
+  errEl.style.display='none';
+  if(!agentGetKey()){errEl.textContent='Please enter your Anthropic API key.';errEl.style.display='block';return;}
+  if(!text||text.length<50){errEl.textContent='Please paste a strategy document (minimum 50 characters).';errEl.style.display='block';return;}
+  btn.disabled=true; btn.innerHTML='<span class="agent-spinner"></span> Extracting initiatives...';
+  try{
+    const raw=await agentCallAPI(AGENT_STRATEGY_PROMPT,'Extract initiatives from this strategy document:\\n\\n'+text,6000);
+    // Parse — could be JSON object (not array)
+    let parsed;
+    try{ parsed=JSON.parse(raw); }catch(_){
+      const m=raw.match(/\\{[\\s\\S]*\\}/);
+      if(m) parsed=JSON.parse(m[0]);
+      else throw new Error('Could not parse extraction results.');
+    }
+
+    // Import profile
+    if(parsed.profile){
+      const p=parsed.profile;
+      if(p.company){ BVF.profile.company=p.company; const el=document.getElementById('p_company'); if(el) el.value=p.company; }
+      if(p.revenue){ BVF.profile.revenue=p.revenue; const el=document.getElementById('p_revenue'); if(el) el.value=p.revenue; }
+      if(p.costBase){ BVF.profile.costBase=p.costBase; const el=document.getElementById('p_cost'); if(el) el.value=p.costBase; }
+      if(p.ebitda){ BVF.profile.ebitda=p.ebitda; const el=document.getElementById('p_ebitda'); if(el) el.value=p.ebitda; }
+      if(p.industry){ BVF.profile.industry=p.industry; const el=document.getElementById('p_industry'); if(el) el.value=p.industry; }
+      if(p.employees){ BVF.profile.employees=p.employees; const el=document.getElementById('p_employees'); if(el) el.value=p.employees; }
+    }
+
+    // Import initiatives
+    let imported=0;
+    if(parsed.initiatives&&Array.isArray(parsed.initiatives)){
+      parsed.initiatives.forEach(ini=>{
+        const exists=BVF.initiatives.some(i=>i.name.toLowerCase()===ini.name.toLowerCase());
+        if(!exists){
+          BVF.initiatives.push({
+            id:String(Date.now())+'-'+Math.random().toString(36).slice(2,6),
+            name:ini.name||'Unnamed',
+            fn:ini.fn||'it',
+            tier:ini.tier||'gen2',
+            budget:ini.budget||'',
+            cmBudget:ini.cmBudget||'',
+            horizon:'Now (0–90 days)',
+            owner:'',
+            risk:ini.risk||'Medium',
+            outcome:ini.outcome||'',
+            status:ini.status||'proposed',
+            pilotAnswers:{},
+            source:'agent-strategy'
+          });
+          imported++;
+        }
+      });
+    }
+
+    // Import priorities
+    if(parsed.priorities&&Array.isArray(parsed.priorities)){
+      parsed.priorities.forEach(pri=>{
+        const exists=BVF.priorities&&BVF.priorities.some(p=>p.description.toLowerCase()===pri.description.toLowerCase());
+        if(!exists){
+          if(!BVF.priorities) BVF.priorities=[];
+          BVF.priorities.push({
+            id:String(Date.now())+'-'+Math.random().toString(36).slice(2,6),
+            description:pri.description||'',
+            category:pri.category||'revenue'
+          });
+        }
+      });
+    }
+
+    // Save and refresh
+    saveState();
+    renderPortfolio();
+    if(typeof renderPriorities==='function') renderPriorities();
+    if(typeof updateAllExecKPIs==='function') updateAllExecKPIs();
+    if(typeof renderAlignment==='function') renderAlignment();
+
+    // Show success and switch to dashboard
+    const profileMsg=parsed.profile?.company?` Company profile set to ${parsed.profile.company}.`:'';
+    const priMsg=parsed.priorities?.length?` ${parsed.priorities.length} board priorities imported.`:'';
+    showToast(`${imported} initiatives extracted and added to portfolio.${profileMsg}${priMsg}`,'success',6000);
+
+    // Switch to dashboard to show results
+    setTimeout(()=>{
+      switchTab('dashboard');
+      if(BVF.view!=='executive') setView('executive');
+    },1500);
+
+  }catch(e){errEl.textContent='Error: '+e.message;errEl.style.display='block';showToast('Extraction failed — check your API key','error');}
+  finally{btn.disabled=false;btn.textContent='Extract Initiatives & Build Portfolio';}
+}
+
+// Update strategy text hint on input
+document.addEventListener('DOMContentLoaded',()=>{
+  const ta=document.getElementById('agent-strategy-text');
+  if(ta) ta.addEventListener('input',()=>{
+    const len=ta.value.trim().length;
+    const hint=document.getElementById('agent-strategy-hint');
+    if(len>50) { hint.textContent=`${len} characters — ready to extract`; hint.style.color='var(--copper)'; }
+    else { hint.textContent='Paste a strategy document above'; hint.style.color=''; }
+  });
+});
 
 async function agentRunControl(){
   const btn=document.getElementById('agent-control-btn');
