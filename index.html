@@ -425,8 +425,11 @@ header { transition:box-shadow 0.3s ease; }
 /* ── PRINT STYLES — Executive Readout ── */
 @media print {
   * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-  body { background:#fff !important; color:#1a1a1a !important; font-size:11px !important; }
+  body { background:#fff !important; color:#1a1a1a !important; font-size:13px !important; line-height:1.5 !important; }
   body::before { display:none !important; }
+
+  /* ── KILL ALL ITALICS ── */
+  *, *::before, *::after { font-style:normal !important; }
 
   /* Hide chrome */
   #app-header, #tab-nav, #welcome-screen, .profile-summary,
@@ -437,7 +440,7 @@ header { transition:box-shadow 0.3s ease; }
   #dash-practitioner { display:none !important; }
 
   /* Show exec dashboard + alignment */
-  #main { padding:20px !important; max-width:100% !important; background:#fff !important; border:none !important; }
+  #main { padding:16px !important; max-width:100% !important; background:#fff !important; border:none !important; }
   .tab-panel { display:none !important; }
   #panel-dashboard { display:block !important; opacity:1 !important; }
   #panel-alignment { display:block !important; opacity:1 !important; page-break-before:always; }
@@ -446,25 +449,25 @@ header { transition:box-shadow 0.3s ease; }
   /* Print header */
   #panel-dashboard::before {
     content:'AI Business Value Framework — Executive Readout';
-    display:block; font-family:'Playfair Display',serif; font-size:22px; font-weight:700;
-    color:#1a1a1a; margin-bottom:4px; padding-bottom:12px; border-bottom:2px solid #C4894A;
+    display:block; font-family:'Playfair Display',serif; font-size:24px; font-weight:700;
+    color:#1a1a1a; margin-bottom:4px; padding-bottom:10px; border-bottom:2px solid #C4894A;
   }
   #panel-dashboard::after {
     content:'Craig Horton Advisory · Confidential';
-    display:block; font-size:9px; color:#888; letter-spacing:2px;
-    margin-top:-8px; margin-bottom:20px;
+    display:block; font-size:11px; color:#666; letter-spacing:2px;
+    margin-top:-4px; margin-bottom:16px;
   }
 
-  /* KPI cards */
-  .kpi-card { background:#f8f6f3 !important; border:1px solid #ddd !important; border-radius:4px !important; padding:14px 16px !important; }
-  .kpi-value { color:#C4894A !important; font-size:22px !important; }
-  .kpi-label { color:#333 !important; }
-  .kpi-sub { color:#666 !important; }
+  /* KPI cards — bigger text */
+  .kpi-card { background:#f8f6f3 !important; border:1px solid #ddd !important; border-radius:6px !important; padding:16px 18px !important; }
+  .kpi-value { color:#C4894A !important; font-size:26px !important; font-weight:700 !important; }
+  .kpi-label { color:#333 !important; font-size:13px !important; font-weight:600 !important; }
+  .kpi-sub { color:#555 !important; font-size:11px !important; }
 
-  /* Show ALL role panels, hide role tab bar */
+  /* Show ALL role panels, hide role tab bar — tighter spacing to avoid blank pages */
   .role-tabs { display:none !important; }
-  .role-panel { display:block !important; page-break-inside:avoid; margin-bottom:20px !important; border:1px solid #eee; padding:16px !important; border-radius:4px; }
-  .role-panel::before { font-size:12px; font-weight:700; color:#C4894A; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:8px; }
+  .role-panel { display:block !important; page-break-inside:avoid; margin-bottom:14px !important; border:1px solid #ddd; padding:14px 16px !important; border-radius:6px; }
+  .role-panel::before { font-size:14px; font-weight:700; color:#C4894A; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:6px; }
   #role-ceo::before { content:'CEO VIEW'; }
   #role-cfo::before { content:'CFO VIEW'; }
   #role-cdo::before { content:'CDO VIEW'; }
@@ -472,17 +475,29 @@ header { transition:box-shadow 0.3s ease; }
   #role-chro::before { content:'CHRO VIEW'; }
   #role-cro::before { content:'CRO VIEW'; }
 
-  /* Boardroom sentence */
-  #exec-boardroom-sentence { display:block !important; background:#f8f6f3 !important; border-color:#C4894A !important; border-left:4px solid #C4894A !important; }
-  #boardroom-text { color:#1a1a1a !important; }
+  /* Role panel inner text — bigger and bolder */
+  .role-panel .label { font-size:11px !important; font-weight:700 !important; }
+  .role-panel div[style*="font-size:13px"], .role-panel div[style*="font-size:12px"],
+  .role-panel div[style*="font-size:11px"], .role-panel div[style*="font-size:10px"] { font-size:13px !important; }
 
-  /* Labels and text overrides */
-  .label { color:#C4894A !important; }
-  h2 { color:#1a1a1a !important; font-size:16px !important; }
+  /* Boardroom sentence — prominent, no italic */
+  #exec-boardroom-sentence { display:block !important; background:#f8f6f3 !important; border-color:#C4894A !important; border-left:4px solid #C4894A !important; padding:16px 20px !important; margin-bottom:16px !important; }
+  #boardroom-text { color:#1a1a1a !important; font-size:16px !important; font-weight:500 !important; line-height:1.6 !important; font-family:'DM Sans',sans-serif !important; }
+
+  /* Strategic priorities section */
+  #exec-priorities { margin-bottom:12px !important; }
+
+  /* Labels and text overrides — bumped sizes */
+  .label { color:#C4894A !important; font-size:11px !important; font-weight:700 !important; }
+  h2 { color:#1a1a1a !important; font-size:18px !important; }
   [style*="color:var(--ice)"], [style*="color:#EDF2F7"] { color:#1a1a1a !important; }
   [style*="color:var(--text-body)"], [style*="color:#C8D8E8"] { color:#333 !important; }
-  [style*="color:var(--text-muted)"], [style*="color:#C0CCD6"] { color:#666 !important; }
-  [style*="color:var(--text-dim)"], [style*="color:#D0D8E0"] { color:#888 !important; }
+  [style*="color:var(--text-muted)"], [style*="color:#C0CCD6"] { color:#555 !important; }
+  [style*="color:var(--text-dim)"], [style*="color:#D0D8E0"] { color:#666 !important; }
+
+  /* Inline font-size overrides for JS-generated content */
+  [style*="font-size:9px"] { font-size:11px !important; }
+  [style*="font-size:10px"] { font-size:12px !important; }
 
   /* Alignment map for page 2 */
   #panel-alignment [style*="background:linear-gradient"] { background:#f0ebe4 !important; border:1px solid #ddd !important; }
@@ -492,7 +507,11 @@ header { transition:box-shadow 0.3s ease; }
   .rag-amber { color:#b8860b !important; border-color:#b8860b !important; background:#fff8e1 !important; }
   .rag-red { color:#c62828 !important; border-color:#c62828 !important; background:#ffebee !important; }
 
-  @page { margin:12mm; size:A4 landscape; }
+  /* Compact spacing to prevent blank pages */
+  #dash-executive > div { margin-bottom:12px !important; }
+  .kpi-grid, [style*="display:grid"] { gap:10px !important; }
+
+  @page { margin:10mm; size:A4 landscape; }
 }
 
 /* ══════════════════════════════════════════════
