@@ -32,47 +32,47 @@
    BVF UNIFIED DESIGN SYSTEM
    ══════════════════════════════════════════════ */
 :root {
-  /* Brand */
-  --navy: #1C2433;
-  --navy-mid: #212B3A;
-  --navy-light: #2A3545;
-  --navy-deep: #151C28;
-  --copper: #B87333;
-  --copper-light: #D4956A;
-  --copper-dim: rgba(184,115,51,0.15);
-  --copper-glow: rgba(184,115,51,0.08);
-  --copper-border: rgba(184,115,51,0.25);
+  /* Brand — softer dark palette */
+  --navy: #1E2536;
+  --navy-mid: #252D3E;
+  --navy-light: #2E3748;
+  --navy-deep: #181E2C;
+  --copper: #C4894A;
+  --copper-light: #D9A672;
+  --copper-dim: rgba(196,137,74,0.12);
+  --copper-glow: rgba(196,137,74,0.06);
+  --copper-border: rgba(196,137,74,0.18);
 
-  /* Text — dark on light */
-  --white: #FFFFFF;
-  --ice: #EDF2F7;
-  --text: #E2E8F0;
-  --text-body: #CBD5E1;
-  --text-muted: #D0D8E0;
-  --text-dim: #B8C8D4;
-  --slate: #9AACBB;
+  /* Text — simplified 3-tier hierarchy */
+  --white: #F8FAFC;
+  --ice: #F1F5F9;
+  --text: #E8EDF3;
+  --text-body: #B8C5D4;
+  --text-muted: #8D9DB0;
+  --text-dim: #8D9DB0;
+  --slate: #6B7D92;
 
-  /* RAG */
+  /* RAG — slightly muted for softer feel */
   --green: #22C55E;
-  --green-light: #34D399;
-  --green-bg: rgba(34,211,153,0.1);
-  --green-border: rgba(34,211,153,0.3);
+  --green-light: #4ADE80;
+  --green-bg: rgba(74,222,128,0.08);
+  --green-border: rgba(74,222,128,0.22);
   --amber: #F59E0B;
   --amber-light: #FBBF24;
-  --amber-bg: rgba(251,191,36,0.1);
-  --amber-border: rgba(251,191,36,0.3);
+  --amber-bg: rgba(251,191,36,0.08);
+  --amber-border: rgba(251,191,36,0.22);
   --red: #EF4444;
   --red-light: #F87171;
-  --red-bg: rgba(248,113,113,0.1);
-  --red-border: rgba(248,113,113,0.3);
+  --red-bg: rgba(248,113,113,0.08);
+  --red-border: rgba(248,113,113,0.22);
 
   /* Agent/Agentic */
-  --indigo: #7C6FCD;
-  --indigo-bg: rgba(124,111,205,0.1);
-  --indigo-border: rgba(124,111,205,0.4);
+  --indigo: #8B7FD9;
+  --indigo-bg: rgba(139,127,217,0.08);
+  --indigo-border: rgba(139,127,217,0.3);
 
   /* Layout */
-  --header-h: 64px;
+  --header-h: 68px;
   --profile-h: 0px;
   --sidebar-w: 0px;
 }
@@ -81,98 +81,90 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: #1A222E;
+  background: #1B2231;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* Subtle grid overlay — very faint */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background-image:
-    linear-gradient(rgba(184,115,51,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184,115,51,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ── TYPOGRAPHY ── */
 h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--white); }
-h1 { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; letter-spacing: -0.02em; }
-h2 { font-size: 22px; }
-h3 { font-size: 16px; }
+h1 { font-size: clamp(28px, 3.5vw, 40px); line-height: 1.2; letter-spacing: -0.01em; }
+h2 { font-size: 21px; line-height: 1.3; }
+h3 { font-size: 16px; line-height: 1.4; }
 
 .label {
-  font-size: 9px; letter-spacing: 2.5px; color: var(--copper);
-  font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 6px;
+  font-size: 10px; letter-spacing: 2px; color: var(--copper);
+  font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;
 }
 
 /* ── BUTTONS ── */
 .btn {
-  padding: 10px 20px; border-radius: 3px; font-size: 11px;
-  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-  cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  padding: 11px 22px; border-radius: 6px; font-size: 11px;
+  font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s ease; font-family: 'DM Sans', sans-serif;
   border: none;
 }
 .btn-primary {
-  background: linear-gradient(135deg, var(--copper-light), var(--copper));
-  border: 1px solid var(--copper); color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(184,115,51,0.2);
+  background: var(--copper);
+  border: 1px solid transparent; color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(196,137,74,0.15);
 }
-.btn-primary:hover { box-shadow: 0 4px 16px rgba(184,115,51,0.35); }
+.btn-primary:hover { background: var(--copper-light); box-shadow: 0 4px 16px rgba(196,137,74,0.25); }
 .btn-ghost {
-  background: transparent; border: 1px solid var(--copper-border);
-  color: var(--text-muted);
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-body);
 }
-.btn-ghost:hover { border-color: var(--copper); color: var(--copper); }
-.btn-sm { padding: 6px 14px; font-size: 10px; letter-spacing: 1.5px; }
+.btn-ghost:hover { border-color: var(--copper-border); color: var(--copper); background: rgba(255,255,255,0.06); }
+.btn-sm { padding: 7px 16px; font-size: 10px; letter-spacing: 1.5px; }
 .btn-indigo {
-  background: linear-gradient(135deg, #7C6FCD, #5A4FA0);
-  border: 1px solid rgba(124,111,205,0.6); color: #FFFFFF;
-  box-shadow: 0 0 16px rgba(124,111,205,0.3);
+  background: linear-gradient(135deg, #8B7FD9, #6558B5);
+  border: 1px solid rgba(139,127,217,0.4); color: #FFFFFF;
+  box-shadow: 0 2px 12px rgba(139,127,217,0.2);
 }
 
 /* ── FORMS ── */
 input[type="text"], input[type="password"], textarea, select {
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 4px; padding: 10px 14px; color: #EDF2F7;
-  font-size: 13px; outline: none; width: 100%;
-  font-family: 'DM Sans', sans-serif; transition: border-color 0.2s;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 11px 16px; color: var(--ice);
+  font-size: 14px; outline: none; width: 100%;
+  font-family: 'DM Sans', sans-serif; transition: all 0.2s ease;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: var(--copper); background: rgba(255,255,255,0.12); box-shadow: 0 0 0 3px rgba(184,115,51,0.1);
+  border-color: rgba(196,137,74,0.5); background: rgba(255,255,255,0.08); box-shadow: 0 0 0 3px rgba(196,137,74,0.08);
 }
-input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.35); }
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
 select { cursor: pointer; }
-select option { background: #212B3A; color: #FFFFFF; }
+select option { background: var(--navy-mid); color: #FFFFFF; }
 
 /* ── CARDS ── */
 .card {
-  padding: 22px 26px; background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  padding: 26px 30px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07); border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 .card-dark {
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 /* ── RAG BADGES ── */
-.rag { padding: 3px 8px; border-radius: 2px; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; }
+.rag { padding: 4px 10px; border-radius: 5px; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; }
 .rag-green { color: var(--green-light); border-color: var(--green-border); background: var(--green-bg); }
 .rag-amber { color: var(--amber-light); border-color: var(--amber-border); background: var(--amber-bg); }
 .rag-red { color: var(--red-light); border-color: var(--red-border); background: var(--red-bg); }
 
 /* ── MIRROR QUOTE ── */
 .mirror {
-  margin-top: 32px; padding: 24px 28px;
-  background: rgba(184,115,51,0.06);
-  border: 1px solid rgba(184,115,51,0.15);
-  border-left: 4px solid var(--copper); border-radius: 6px;
+  margin-top: 36px; padding: 28px 32px;
+  background: rgba(196,137,74,0.04);
+  border: 1px solid rgba(196,137,74,0.1);
+  border-left: 3px solid var(--copper); border-radius: 10px;
 }
 .mirror blockquote {
   font-family: 'Playfair Display', serif;
@@ -185,13 +177,13 @@ select option { background: #212B3A; color: #FFFFFF; }
 /* ── TABLE ── */
 table { width: 100%; border-collapse: collapse; }
 th {
-  padding: 10px; text-align: left; font-size: 9px; letter-spacing: 1.5px;
-  color: var(--copper); font-weight: 600; white-space: nowrap;
-  border-bottom: 1px solid var(--copper-border); text-transform: uppercase;
+  padding: 12px 14px; text-align: left; font-size: 10px; letter-spacing: 1.5px;
+  color: var(--text-muted); font-weight: 600; white-space: nowrap;
+  border-bottom: 1px solid rgba(255,255,255,0.08); text-transform: uppercase;
 }
-td { padding: 11px 12px; font-size: 13px; }
-tr:nth-child(even) td { background: #1A222E; }
-tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
+td { padding: 13px 14px; font-size: 14px; }
+tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
 
 /* ══════════════════════════════════════════════
    LAYOUT: HEADER
@@ -199,21 +191,21 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 #app-header {
   position: sticky; top: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 36px; height: var(--header-h);
+  padding: 0 40px; height: var(--header-h);
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.06); backdrop-filter: blur(20px);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  background: rgba(27,34,49,0.85); backdrop-filter: blur(24px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
 
 .header-brand {
   display: flex; align-items: center; gap: 14px;
 }
 .brand-mark {
-  width: 40px; height: 40px; border: 2px solid var(--copper); border-radius: 4px;
+  width: 40px; height: 40px; border: 1.5px solid var(--copper); border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700;
   color: var(--copper); flex-shrink: 0;
-  box-shadow: 0 0 16px rgba(184,115,51,0.25);
+  background: rgba(196,137,74,0.06);
 }
 .brand-title {
   font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700;
@@ -221,7 +213,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 }
 .brand-sub {
   font-size: 9px; letter-spacing: 3px; color: var(--copper);
-  font-weight: 600; text-transform: uppercase; margin-top: 1px;
+  font-weight: 600; margin-top: 1px;
 }
 
 .header-controls {
@@ -230,30 +222,31 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 
 /* View Toggle */
 .view-toggle {
-  display: flex; border: 1px solid var(--copper-border); border-radius: 3px; overflow: hidden;
+  display: flex; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden;
+  background: rgba(255,255,255,0.04);
 }
 .view-toggle button {
-  padding: 7px 16px; background: transparent; border: none;
-  color: #8899AB; font-size: 10px; font-weight: 600;
+  padding: 8px 18px; background: transparent; border: none;
+  color: var(--text-muted); font-size: 10px; font-weight: 600;
   letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
   font-family: 'DM Sans', sans-serif; transition: all 0.2s;
 }
 .view-toggle button.active {
-  background: var(--copper); color: #FFFFFF;
+  background: var(--copper); color: #FFFFFF; border-radius: 6px;
 }
 .view-toggle button:not(.active):hover {
-  background: rgba(184,115,51,0.1); color: var(--copper);
+  color: var(--text);
 }
 
 /* Profile trigger */
 .profile-trigger {
   display: flex; align-items: center; gap: 8px;
-  padding: 7px 14px; background: transparent;
-  border: 1px solid var(--copper-border); border-radius: 3px;
-  color: var(--text-muted); font-size: 11px; cursor: pointer;
+  padding: 8px 16px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+  color: var(--text-body); font-size: 12px; cursor: pointer;
   font-family: 'DM Sans', sans-serif; transition: all 0.2s;
 }
-.profile-trigger:hover { border-color: var(--copper); color: var(--copper); }
+.profile-trigger:hover { border-color: var(--copper-border); color: var(--copper); }
 .profile-dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--amber-light); box-shadow: 0 0 6px var(--amber-light);
@@ -269,7 +262,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 #profile-panel {
   max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
   border-bottom: 1px solid transparent;
-  background: #1A222E; backdrop-filter: blur(12px);
+  background: var(--navy-deep); backdrop-filter: blur(12px);
 }
 #profile-panel.open {
   max-height: 200px;
@@ -286,8 +279,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 .profile-grid input, .profile-grid select { padding: 6px 8px; font-size: 12px; }
 .profile-summary {
   display: none; gap: 16px; flex-wrap: wrap; align-items: center;
-  padding: 8px 36px; background: rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 10px 40px; background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .profile-summary.visible { display: flex; }
 .profile-chip {
@@ -300,20 +293,20 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
    LAYOUT: TAB NAVIGATION
    ══════════════════════════════════════════════ */
 #tab-nav {
-  display: flex; padding: 0 36px; overflow-x: auto;
+  display: flex; padding: 0 40px; overflow-x: auto;
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
 }
 .tab-btn {
-  padding: 14px 20px; background: transparent; border: none;
+  padding: 16px 22px; background: transparent; border: none;
   border-bottom: 2px solid transparent;
-  color: var(--text-dim); font-size: 11px; font-weight: 600;
+  color: var(--text-muted); font-size: 11px; font-weight: 600;
   letter-spacing: 1.5px; text-transform: uppercase;
   cursor: pointer; white-space: nowrap; transition: all 0.2s;
   font-family: 'DM Sans', sans-serif;
-  display: flex; align-items: center; gap: 7px;
+  display: flex; align-items: center; gap: 8px;
 }
-.tab-btn:hover { color: var(--text-muted); }
+.tab-btn:hover { color: var(--text); }
 .tab-btn.active {
   border-bottom-color: var(--copper); color: var(--copper);
 }
@@ -328,13 +321,13 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
    ══════════════════════════════════════════════ */
 #main {
   position: relative; z-index: 1;
-  padding: 36px 44px 80px;
+  padding: 44px 52px 90px;
   max-width: 1280px;
   margin: 0 auto;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.025);
   min-height: calc(100vh - var(--header-h) - 48px);
-  border-left: 1px solid rgba(255,255,255,0.05);
-  border-right: 1px solid rgba(255,255,255,0.05);
+  border-left: 1px solid rgba(255,255,255,0.03);
+  border-right: 1px solid rgba(255,255,255,0.03);
 }
 
 .tab-panel { display: none; }
@@ -357,8 +350,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
   100% { background-position:200% center; }
 }
 @keyframes pulseGlow {
-  0%,100% { box-shadow:0 0 20px rgba(184,115,51,0.15); }
-  50% { box-shadow:0 0 40px rgba(184,115,51,0.35); }
+  0%,100% { box-shadow:0 2px 16px rgba(0,0,0,0.15); }
+  50% { box-shadow:0 4px 24px rgba(0,0,0,0.2); }
 }
 @keyframes toastIn {
   from { opacity:0; transform:translateX(100%); }
@@ -376,12 +369,12 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 #welcome-screen .path-cards { animation:fadeInUp 0.6s ease 0.55s both; }
 #welcome-screen .stats-strip { animation:fadeInUp 0.6s ease 0.7s both; }
 #welcome-screen .welcome-trust { animation:fadeInUp 0.6s ease 0.85s both; }
-.path-card { animation:pulseGlow 3s ease infinite; }
-.path-card:hover { transform:translateY(-4px) scale(1.01); box-shadow:0 12px 48px rgba(184,115,51,0.25),inset 0 1px 0 rgba(184,115,51,0.15); }
+.path-card { animation:none; }
+.path-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.25); }
 
 /* ── TOAST SYSTEM ── */
 #toast-container { position:fixed; top:80px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
-.toast { pointer-events:auto; display:flex; align-items:center; gap:10px; padding:12px 20px; border-radius:4px; font-size:12px; font-weight:500; font-family:'DM Sans',sans-serif; backdrop-filter:blur(20px); border:1px solid; min-width:280px; max-width:400px; animation:toastIn 0.35s ease; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+.toast { pointer-events:auto; display:flex; align-items:center; gap:10px; padding:14px 22px; border-radius:10px; font-size:13px; font-weight:500; font-family:'DM Sans',sans-serif; backdrop-filter:blur(20px); border:1px solid; min-width:280px; max-width:400px; animation:toastIn 0.35s ease; box-shadow:0 8px 32px rgba(0,0,0,0.3); }
 .toast.success { background:rgba(34,100,60,0.92); border-color:var(--green-border); color:var(--green-light); }
 .toast.warning { background:rgba(120,80,10,0.92); border-color:var(--amber-border); color:var(--amber-light); }
 .toast.error { background:rgba(100,30,30,0.92); border-color:var(--red-border); color:var(--red-light); }
@@ -398,8 +391,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 .tab-progress.empty { background:rgba(255,255,255,0.06); color:var(--text-dim); }
 
 /* ── TRUST STRIP (welcome) ── */
-.welcome-trust { display:flex; align-items:center; justify-content:center; gap:24px; margin-top:32px; padding:16px 24px; border-radius:4px; background:rgba(184,115,51,0.05); border:1px solid rgba(184,115,51,0.12); }
-.trust-item { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--text-muted); letter-spacing:0.5px; }
+.welcome-trust { display:flex; align-items:center; justify-content:center; gap:24px; margin-top:36px; padding:18px 28px; border-radius:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); }
+.trust-item { display:flex; align-items:center; gap:8px; font-size:12px; color:#FFFFFF; letter-spacing:0.5px; }
 .trust-item .trust-icon { font-size:14px; }
 
 /* ── API KEY SECURITY UX ── */
@@ -409,7 +402,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 .api-key-toggle, .api-key-save { font-size:13px; background:none; border:none; cursor:pointer; padding:4px; color:var(--text-dim); transition:color 0.2s; }
 .api-key-toggle:hover, .api-key-save:hover { color:var(--copper); }
 .api-security-badge { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--green-light); margin-top:8px; padding:8px 12px; background:rgba(22,163,74,0.06); border:1px solid rgba(22,163,74,0.15); border-radius:3px; }
-.api-facilitator-bar { display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(184,115,51,0.06); border:1px solid rgba(184,115,51,0.15); border-radius:3px; margin-top:10px; font-size:11px; color:var(--text-body); }
+.api-facilitator-bar { display:flex; align-items:center; gap:10px; padding:12px 16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px; font-size:12px; color:var(--text-body); }
 .api-facilitator-bar label { display:flex; align-items:center; gap:6px; cursor:pointer; }
 .api-facilitator-bar input[type="checkbox"] { accent-color:var(--copper); }
 
@@ -418,8 +411,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 .empty-state-icon { font-size:40px; margin-bottom:16px; opacity:0.5; }
 .empty-state-title { font-size:15px; font-weight:600; color:var(--text); margin-bottom:8px; }
 .empty-state-text { font-size:13px; color:var(--text-muted); line-height:1.7; max-width:420px; margin:0 auto 20px; }
-.empty-state-action { display:inline-flex; align-items:center; gap:8px; padding:10px 20px; border-radius:3px; background:linear-gradient(135deg,var(--copper-light),var(--copper)); border:1px solid var(--copper); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:1.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
-.empty-state-action:hover { transform:translateY(-1px); box-shadow:0 4px 20px rgba(184,115,51,0.3); }
+.empty-state-action { display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:8px; background:var(--copper); border:1px solid transparent; color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:1.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+.empty-state-action:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(196,137,74,0.2); }
 
 /* ── PANEL TRANSITIONS ── */
 .tab-panel { transition:opacity 0.3s ease; }
@@ -454,24 +447,24 @@ header { transition:box-shadow 0.3s ease; }
   #panel-dashboard::before {
     content:'AI Business Value Framework — Executive Readout';
     display:block; font-family:'Playfair Display',serif; font-size:22px; font-weight:700;
-    color:#1a1a1a; margin-bottom:4px; padding-bottom:12px; border-bottom:2px solid #B87333;
+    color:#1a1a1a; margin-bottom:4px; padding-bottom:12px; border-bottom:2px solid #C4894A;
   }
   #panel-dashboard::after {
     content:'Craig Horton Advisory · Confidential';
-    display:block; font-size:9px; color:#888; letter-spacing:2px; text-transform:uppercase;
+    display:block; font-size:9px; color:#888; letter-spacing:2px;
     margin-top:-8px; margin-bottom:20px;
   }
 
   /* KPI cards */
   .kpi-card { background:#f8f6f3 !important; border:1px solid #ddd !important; border-radius:4px !important; padding:14px 16px !important; }
-  .kpi-value { color:#B87333 !important; font-size:22px !important; }
+  .kpi-value { color:#C4894A !important; font-size:22px !important; }
   .kpi-label { color:#333 !important; }
   .kpi-sub { color:#666 !important; }
 
   /* Show ALL role panels, hide role tab bar */
   .role-tabs { display:none !important; }
   .role-panel { display:block !important; page-break-inside:avoid; margin-bottom:20px !important; border:1px solid #eee; padding:16px !important; border-radius:4px; }
-  .role-panel::before { font-size:12px; font-weight:700; color:#B87333; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:8px; }
+  .role-panel::before { font-size:12px; font-weight:700; color:#C4894A; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:8px; }
   #role-ceo::before { content:'CEO VIEW'; }
   #role-cfo::before { content:'CFO VIEW'; }
   #role-cdo::before { content:'CDO VIEW'; }
@@ -480,11 +473,11 @@ header { transition:box-shadow 0.3s ease; }
   #role-cro::before { content:'CRO VIEW'; }
 
   /* Boardroom sentence */
-  #exec-boardroom-sentence { display:block !important; background:#f8f6f3 !important; border-color:#B87333 !important; border-left:4px solid #B87333 !important; }
+  #exec-boardroom-sentence { display:block !important; background:#f8f6f3 !important; border-color:#C4894A !important; border-left:4px solid #C4894A !important; }
   #boardroom-text { color:#1a1a1a !important; }
 
   /* Labels and text overrides */
-  .label { color:#B87333 !important; }
+  .label { color:#C4894A !important; }
   h2 { color:#1a1a1a !important; font-size:16px !important; }
   [style*="color:var(--ice)"], [style*="color:#EDF2F7"] { color:#1a1a1a !important; }
   [style*="color:var(--text-body)"], [style*="color:#C8D8E8"] { color:#333 !important; }
@@ -508,11 +501,11 @@ header { transition:box-shadow 0.3s ease; }
 #welcome-screen {
   display: flex; flex-direction: column; align-items: center;
   justify-content: center; min-height: calc(100vh - var(--header-h) - 120px);
-  text-align: center; padding: 40px 20px;
-  background: radial-gradient(ellipse at 50% 40%, rgba(40,65,100,0.5) 0%, rgba(30,48,72,0.3) 40%, transparent 70%);
+  text-align: center; padding: 48px 24px;
+  background: radial-gradient(ellipse at 50% 40%, rgba(40,60,90,0.3) 0%, rgba(30,45,68,0.15) 40%, transparent 70%);
 }
 .welcome-eyebrow {
-  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+  font-size: 13px; letter-spacing: 4px; text-transform: uppercase;
   color: var(--copper); font-weight: 600; margin-bottom: 20px;
   display: flex; align-items: center; gap: 12px;
 }
@@ -528,13 +521,13 @@ header { transition:box-shadow 0.3s ease; }
   max-width: 640px; width: 100%;
 }
 .path-card {
-  padding: 32px 28px; background: rgba(30,50,75,0.8);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
-  cursor: pointer; transition: all 0.3s; text-align: left;
+  padding: 36px 32px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+  cursor: pointer; transition: all 0.3s ease; text-align: left;
 }
 .path-card:hover {
-  border-color: var(--copper); background: rgba(40,60,85,0.9);
-  box-shadow: 0 0 32px rgba(184,115,51,0.15);
+  border-color: rgba(196,137,74,0.3); background: rgba(255,255,255,0.06);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   transform: translateY(-2px);
 }
 .path-card .path-icon { font-size: 28px; margin-bottom: 14px; }
@@ -548,42 +541,43 @@ header { transition:box-shadow 0.3s ease; }
 /* Stats strip on welcome */
 .stats-strip {
   display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: var(--copper-border);
-  border: 1px solid var(--copper-border); border-radius: 4px;
-  overflow: hidden; margin-top: 48px; max-width: 640px; width: 100%;
+  gap: 1px; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.07); border-radius: 12px;
+  overflow: hidden; margin-top: 52px; max-width: 640px; width: 100%;
 }
 .stat-cell {
-  background: rgba(30,48,72,0.9); padding: 20px 24px; text-align: center;
+  background: rgba(255,255,255,0.03); padding: 24px 24px; text-align: center;
 }
 .stat-num {
   font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700;
   color: var(--copper); display: block; line-height: 1; margin-bottom: 6px;
 }
 .stat-label {
-  font-size: 10px; color: var(--text-body); text-transform: uppercase;
-  letter-spacing: 1px; font-weight: 500;
+  font-size: 11px; color: #FFFFFF; text-transform: uppercase;
+  letter-spacing: 1px; font-weight: 500; display: block;
 }
-.stat-source { font-size: 8px; color: var(--text-dim); font-style: italic; margin-top: 3px; }
+.stat-source { font-size: 11px; color: #FFFFFF; font-style: italic; margin-top: 5px; opacity: 0.7; display: block; }
 
 /* ══════════════════════════════════════════════
    DASHBOARD TAB — Executive Role Selector
    ══════════════════════════════════════════════ */
 .role-tabs {
-  display: flex; gap: 0; border: 1px solid var(--copper-border);
-  border-radius: 4px; overflow: hidden; margin-bottom: 32px; flex-wrap: wrap;
+  display: flex; gap: 0; border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; overflow: hidden; margin-bottom: 36px; flex-wrap: wrap;
+  background: rgba(255,255,255,0.03);
 }
 .role-tab {
-  flex: 1; min-width: 90px; padding: 12px 14px;
-  background: #1A222E; border: none;
+  flex: 1; min-width: 90px; padding: 13px 14px;
+  background: transparent; border: none;
   border-right: 1px solid rgba(255,255,255,0.06);
-  color: var(--slate); font-size: 10px; font-weight: 600;
+  color: var(--text-muted); font-size: 11px; font-weight: 600;
   letter-spacing: 1.5px; text-transform: uppercase;
   cursor: pointer; transition: all 0.2s; text-align: center;
   font-family: 'DM Sans', sans-serif;
 }
 .role-tab:last-child { border-right: none; }
-.role-tab:hover { background: rgba(255,255,255,0.08); color: var(--text-body); }
-.role-tab.active { background: var(--copper); color: var(--white); }
+.role-tab:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.role-tab.active { background: var(--copper); color: #FFFFFF; }
 
 .role-panel { display: none; }
 .role-panel.active { display: block; animation: fadeIn 0.3s ease; }
@@ -591,14 +585,14 @@ header { transition:box-shadow 0.3s ease; }
 /* KPI cards grid */
 .kpi-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px; margin-top: 24px;
+  gap: 18px; margin-top: 28px;
 }
 .kpi-card {
-  padding: 22px 24px; background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
-  transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  padding: 26px 28px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07); border-radius: 12px;
+  transition: all 0.25s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
-.kpi-card:hover { background: rgba(184,115,51,0.06); border-color: var(--copper); }
+.kpi-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
 .kpi-value {
   font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700;
   color: var(--copper); margin-bottom: 4px;
@@ -611,7 +605,7 @@ header { transition:box-shadow 0.3s ease; }
    ══════════════════════════════════════════════ */
 .coming-soon {
   text-align: center; padding: 80px 20px;
-  border: 1px dashed var(--copper-border); border-radius: 4px;
+  border: 1px dashed rgba(255,255,255,0.1); border-radius: 12px;
 }
 .coming-soon h2 { margin-bottom: 12px; color: var(--text-muted); font-size: 20px; }
 .coming-soon p { color: var(--text-dim); font-size: 13px; }
@@ -623,33 +617,33 @@ header { transition:box-shadow 0.3s ease; }
 .agent-views .agent-view.active { display:block; animation:fadeIn 0.3s ease; }
 
 .agent-step-indicator { display:flex; align-items:center; gap:0; margin-bottom:28px; justify-content:center; }
-.agent-pip { width:32px; height:32px; border-radius:50%; border:1px solid var(--copper-border); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--text-dim); transition:all 0.3s; font-family:'DM Sans',sans-serif; }
-.agent-pip.active { border-color:var(--copper); color:var(--copper); box-shadow:0 0 10px rgba(184,115,51,0.4); }
+.agent-pip { width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--text-muted); transition:all 0.3s; font-family:'DM Sans',sans-serif; }
+.agent-pip.active { border-color:var(--copper); color:var(--copper); box-shadow:0 0 8px rgba(196,137,74,0.2); }
 .agent-pip.done { background:var(--copper); border-color:var(--copper); color:#FFFFFF; }
 .agent-step-line { width:28px; height:1px; background:var(--copper-border); }
 
-.agent-input-card { background:rgba(20,40,64,0.85); border:1px solid var(--copper-border); border-radius:4px; padding:32px; backdrop-filter:blur(20px); box-shadow:0 8px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(184,115,51,0.1); }
-.agent-api-section { margin-bottom:20px; padding:16px 18px; background:var(--copper-glow); border:1px solid var(--copper-border); border-radius:4px; }
+.agent-input-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:36px; backdrop-filter:blur(20px); box-shadow:0 4px 24px rgba(0,0,0,0.15); }
+.agent-api-section { margin-bottom:20px; padding:18px 20px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; }
 .agent-field { display:flex; flex-direction:column; gap:7px; margin-bottom:18px; }
 .agent-label-row { display:flex; justify-content:space-between; align-items:center; }
 .agent-hint { font-size:11px; color:var(--text-muted); text-align:right; margin-top:4px; }
-.agent-classify-btn { width:100%; padding:14px 24px; border-radius:3px; background:linear-gradient(135deg,var(--copper-light),var(--copper)); border:1px solid var(--copper); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 0 30px rgba(184,115,51,0.3); transition:all 0.2s; }
-.agent-classify-btn:hover { box-shadow:0 0 44px rgba(184,115,51,0.5); }
+.agent-classify-btn { width:100%; padding:14px 24px; border-radius:10px; background:var(--copper); border:1px solid transparent; color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 2px 12px rgba(196,137,74,0.2); transition:all 0.2s; }
+.agent-classify-btn:hover { background:var(--copper-light); box-shadow:0 4px 20px rgba(196,137,74,0.3); }
 .agent-classify-btn:disabled { opacity:0.5; cursor:not-allowed; }
 .agent-error { margin-top:14px; color:#FF9090; font-size:13px; text-align:center; padding:12px; background:rgba(232,80,80,0.1); border-radius:3px; border:1px solid rgba(232,80,80,0.3); }
 .agent-spinner { display:inline-block; width:14px; height:14px; border-radius:50%; border:2px solid #94A3B8; border-top-color:#EDF2F7; animation:spin 0.8s linear infinite; vertical-align:middle; margin-right:8px; }
 @keyframes spin { to { transform:rotate(360deg); } }
-.agent-sample-btn { font-size:10px; letter-spacing:1.5px; color:var(--copper); background:transparent; border:1px solid var(--copper-border); border-radius:3px; padding:5px 12px; cursor:pointer; font-family:'DM Sans',sans-serif; text-transform:uppercase; transition:all 0.2s; }
-.agent-sample-btn:hover { border-color:var(--copper); background:var(--copper-glow); }
+.agent-sample-btn { font-size:10px; letter-spacing:1.5px; color:var(--copper); background:transparent; border:1px solid var(--copper-border); border-radius:6px; padding:6px 14px; cursor:pointer; font-family:'DM Sans',sans-serif; text-transform:uppercase; transition:all 0.2s; }
+.agent-sample-btn:hover { border-color:var(--copper); background:rgba(196,137,74,0.06); }
 
 /* Agent results */
-.agent-summary-strip { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; background:rgba(20,40,64,0.85); border:1px solid var(--copper-border); border-radius:4px; padding:18px 24px; margin-bottom:24px; }
+.agent-summary-strip { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:20px 28px; margin-bottom:28px; }
 .agent-summary-title { font-weight:700; font-size:15px; color:var(--white); }
 .agent-summary-stats { display:flex; gap:10px; flex-wrap:wrap; }
-.agent-stat-pill { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,0.06); border:1px solid var(--copper-border); border-radius:20px; padding:6px 14px; font-size:12px; }
+.agent-stat-pill { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:7px 16px; font-size:12px; }
 .agent-stat-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .agent-bucket-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; }
-.agent-bucket-col { background:rgba(20,40,64,0.75); border:1px solid; border-radius:4px; overflow:hidden; }
+.agent-bucket-col { background:rgba(255,255,255,0.03); border:1px solid; border-radius:12px; overflow:hidden; }
 .agent-bucket-header { display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid; }
 .agent-bucket-emoji { font-size:18px; }
 .agent-bucket-label { font-weight:700; font-size:14px; }
@@ -657,38 +651,38 @@ header { transition:box-shadow 0.3s ease; }
 .agent-bucket-count { margin-left:auto; font-size:26px; font-weight:700; font-family:'Playfair Display',serif; }
 .agent-bucket-items { padding:12px; display:flex; flex-direction:column; gap:10px; }
 .agent-empty-bucket { color:var(--text-dim); font-size:13px; text-align:center; padding:24px 0; font-style:italic; }
-.agent-item-card { background:rgba(255,255,255,0.06); border:1px solid rgba(184,115,51,0.15); border-radius:3px; padding:12px; cursor:pointer; transition:all 0.2s; }
-.agent-item-card:hover { background:rgba(184,115,51,0.06); border-color:var(--copper-border); }
-.agent-item-card.expanded { background:rgba(184,115,51,0.06); border-color:var(--copper-border); }
+.agent-item-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:14px; cursor:pointer; transition:all 0.2s; }
+.agent-item-card:hover { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.12); }
+.agent-item-card.expanded { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.12); }
 .agent-item-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px; }
 .agent-item-name { font-weight:700; font-size:13px; color:var(--white); line-height:1.3; }
 .agent-item-meta { display:flex; gap:6px; flex-shrink:0; align-items:center; }
 .agent-confidence-bar { height:3px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
 .agent-confidence-fill { height:100%; border-radius:2px; }
-.agent-item-expanded { margin-top:12px; padding-top:12px; border-top:1px solid rgba(184,115,51,0.2); display:none; }
+.agent-item-expanded { margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08); display:none; }
 .agent-item-card.expanded .agent-item-expanded { display:block; }
 .agent-rationale { font-size:12px; color:var(--text-body); line-height:1.75; margin-bottom:10px; }
 .agent-risk-note { font-size:11px; color:var(--text-muted); line-height:1.65; margin-bottom:10px; font-style:italic; }
 .agent-benchmark-section { margin-bottom:12px; }
 .agent-benchmark-label { font-size:9px; letter-spacing:2px; color:var(--copper); font-weight:600; text-transform:uppercase; display:block; margin-bottom:6px; }
-.agent-benchmark-item { font-size:11px; color:var(--text-body); line-height:1.65; padding:4px 8px; border-left:2px solid var(--copper-border); margin-bottom:5px; background:rgba(184,115,51,0.04); }
+.agent-benchmark-item { font-size:11px; color:var(--text-body); line-height:1.65; padding:5px 10px; border-left:2px solid var(--copper-border); margin-bottom:5px; background:rgba(255,255,255,0.03); }
 .agent-action-box { border:1px solid; border-radius:3px; padding:8px 10px; margin-bottom:8px; }
 .agent-action-label { font-size:9px; font-weight:600; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:5px; }
 .agent-action-text { font-size:12px; font-weight:700; line-height:1.5; color:var(--white); }
 .agent-savings-chip { font-size:11px; color:var(--copper); background:var(--copper-glow); border:1px solid var(--copper-border); border-radius:3px; padding:4px 9px; display:inline-block; }
 
 /* Agent control panel */
-.agent-control-header { background:rgba(20,40,64,0.85); border:1px solid var(--indigo-border); border-radius:4px; padding:24px; margin-bottom:24px; }
+.agent-control-header { background:rgba(255,255,255,0.04); border:1px solid var(--indigo-border); border-radius:12px; padding:28px; margin-bottom:28px; }
 .agent-control-title { font-size:20px; font-weight:700; color:var(--white); margin-bottom:6px; font-family:'Playfair Display',serif; }
 .agent-control-sub { font-size:13px; color:var(--text-body); line-height:1.6; margin-bottom:18px; }
 .agent-context-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:18px; }
 .agent-context-field { display:flex; flex-direction:column; gap:5px; }
 .agent-context-label { font-size:9px; letter-spacing:2px; color:var(--indigo); font-weight:600; text-transform:uppercase; }
-.agent-run-btn { width:100%; padding:14px; border-radius:3px; background:linear-gradient(135deg,#7C6FCD,#5A4FA0); border:1px solid rgba(124,111,205,0.6); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 0 24px rgba(124,111,205,0.3); transition:all 0.2s; }
-.agent-run-btn:hover { box-shadow:0 0 36px rgba(124,111,205,0.5); }
+.agent-run-btn { width:100%; padding:14px; border-radius:10px; background:linear-gradient(135deg,#8B7FD9,#6558B5); border:1px solid rgba(139,127,217,0.3); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 2px 12px rgba(139,127,217,0.2); transition:all 0.2s; }
+.agent-run-btn:hover { box-shadow:0 4px 20px rgba(139,127,217,0.3); }
 .agent-run-btn:disabled { opacity:0.5; cursor:not-allowed; }
 .agent-llm-grid { display:flex; flex-direction:column; gap:18px; }
-.agent-llm-card { background:rgba(20,40,64,0.75); border:1px solid rgba(124,111,205,0.2); border-radius:4px; overflow:hidden; }
+.agent-llm-card { background:rgba(255,255,255,0.03); border:1px solid rgba(139,127,217,0.15); border-radius:12px; overflow:hidden; }
 .agent-llm-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(124,111,205,0.15); background:rgba(124,111,205,0.05); flex-wrap:wrap; gap:8px; }
 .agent-llm-name { font-weight:700; font-size:14px; color:var(--white); }
 .agent-llm-bucket { font-size:10px; letter-spacing:1.5px; padding:3px 8px; border-radius:2px; border:1px solid; font-weight:700; }
@@ -708,7 +702,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-llm-overall { font-size:12px; color:var(--white); font-weight:600; line-height:1.7; }
 
 /* Agent report */
-.agent-report-doc { background:rgba(20,45,75,0.97); border:1px solid var(--copper-border); border-radius:4px; padding:48px 52px; box-shadow:0 20px 60px rgba(0,0,0,0.5); max-width:820px; margin:0 auto; }
+.agent-report-doc { background:rgba(30,37,54,0.97); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:52px 56px; box-shadow:0 16px 48px rgba(0,0,0,0.3); max-width:820px; margin:0 auto; }
 .agent-report-meta { font-size:9px; font-weight:600; letter-spacing:3px; color:var(--copper); text-transform:uppercase; margin-bottom:14px; }
 .agent-report-title { font-size:30px; font-weight:700; color:var(--white); margin-bottom:8px; font-family:'Playfair Display',serif; }
 .agent-report-client { font-size:13px; color:var(--text-body); }
@@ -717,15 +711,15 @@ header { transition:box-shadow 0.3s ease; }
 .agent-report-section-title { font-size:16px; font-weight:700; color:var(--white); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--copper-border); font-family:'Playfair Display',serif; }
 .agent-report-para { font-size:13px; color:var(--text-body); line-height:1.85; }
 .agent-report-bucket-summary { display:flex; gap:14px; }
-.agent-report-bucket { flex:1; padding:14px 16px; background:rgba(255,255,255,0.06); border-radius:3px; border-left:3px solid; }
-.agent-report-item { margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid rgba(184,115,51,0.12); }
+.agent-report-bucket { flex:1; padding:16px 18px; background:rgba(255,255,255,0.04); border-radius:8px; border-left:3px solid; }
+.agent-report-item { margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.06); }
 .agent-report-item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 .agent-report-recs { display:flex; flex-direction:column; gap:12px; }
 .agent-report-rec { font-size:13px; color:var(--text-body); line-height:1.8; padding-left:16px; border-left:3px solid var(--copper-border); }
 .agent-report-footer { margin-top:44px; padding-top:20px; border-top:1px solid var(--copper-border); font-size:10px; color:var(--text-dim); text-align:center; letter-spacing:1.5px; text-transform:uppercase; }
 
 .agent-nav-btns { display:flex; gap:10px; justify-content:center; margin-top:24px; }
-.agent-merge-section { margin-top:28px; padding:20px 24px; background:rgba(22,163,74,0.06); border:1px solid var(--green-border); border-radius:4px; }
+.agent-merge-section { margin-top:28px; padding:22px 28px; background:rgba(22,163,74,0.05); border:1px solid var(--green-border); border-radius:12px; }
 
 @media (max-width:768px) {
   .agent-bucket-grid { grid-template-columns:1fr; }
@@ -738,15 +732,15 @@ header { transition:box-shadow 0.3s ease; }
    RESPONSIVE
    ══════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  #app-header { padding: 0 16px; }
-  #tab-nav { padding: 0 16px; }
-  #main { padding: 24px 16px 60px; }
-  .profile-inner { padding: 16px; }
+  #app-header { padding: 0 18px; }
+  #tab-nav { padding: 0 18px; }
+  #main { padding: 28px 18px 60px; }
+  .profile-inner { padding: 18px; }
   .path-cards { grid-template-columns: 1fr; }
   .stats-strip { grid-template-columns: 1fr; }
   .brand-title { font-size: 13px; }
   .brand-sub { display: none; }
-  .view-toggle button { padding: 6px 10px; font-size: 9px; }
+  .view-toggle button { padding: 6px 12px; font-size: 9px; }
 }
 </style>
 </head>
@@ -838,7 +832,7 @@ header { transition:box-shadow 0.3s ease; }
      TAB NAVIGATION
      ══════════════════════════════════════════════ -->
 <nav id="tab-nav" style="display:none">
-  <button id="nav-back-btn" onclick="goBack()" title="Back" style="display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.25);border-radius:4px;color:#B87333;font-size:16px;cursor:pointer;flex-shrink:0;transition:all 0.2s" onmouseover="this.style.background='rgba(184,115,51,0.15)';this.style.borderColor='#B87333'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(184,115,51,0.25)'">←</button>
+  <button id="nav-back-btn" onclick="goBack()" title="Back" style="display:none;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--copper);font-size:16px;cursor:pointer;flex-shrink:0;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.1)'">←</button>
   <button class="tab-btn active" onclick="switchTab('dashboard')" id="btn-dashboard">
     <span class="tab-icon">◈</span> Dashboard
   </button>
@@ -955,7 +949,7 @@ header { transition:box-shadow 0.3s ease; }
           </div>
         </div>
         <!-- Boardroom Sentence Summary -->
-        <div id="exec-boardroom-sentence" style="display:none;padding:20px 24px;background:rgba(184,115,51,0.06);border:1px solid var(--copper-border);border-left:4px solid var(--copper);border-radius:0 4px 4px 0;margin-bottom:8px">
+        <div id="exec-boardroom-sentence" style="display:none;padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0;margin-bottom:8px">
           <span class="label" style="margin-bottom:8px">The Boardroom Sentence</span>
           <p id="boardroom-text" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--ice);line-height:1.65;font-style:italic"></p>
         </div>
@@ -984,7 +978,7 @@ header { transition:box-shadow 0.3s ease; }
               The BVF maps every AI initiative against your board-level priorities, quantifies the governance gap,
               and delivers a Decision Confidence Score that tells you which investments to accelerate, fix, or stop.
             </p>
-            <div style="margin-top:20px;padding:18px 22px;background:var(--copper-dim);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:13px;color:var(--ice);line-height:1.65" id="ceo-answer">
                 Complete the Company Profile and build your Portfolio to see live strategic alignment metrics.
@@ -1026,7 +1020,7 @@ header { transition:box-shadow 0.3s ease; }
               Real ROI calculation inclusive of change management, training, and organisational drag costs
               that vendors never include in their projections. EBITDA impact per initiative.
             </p>
-            <div style="margin-top:20px;padding:18px 22px;background:var(--copper-dim);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:13px;color:var(--ice);line-height:1.65" id="cfo-answer">
                 Complete the Company Profile and build your Portfolio to see financial governance metrics.
@@ -1051,7 +1045,7 @@ header { transition:box-shadow 0.3s ease; }
             <p style="color:var(--text-body);line-height:1.75;font-weight:300">
               Gen 1/2/3 AI maturity assessment. Agent Skills Directory. Regulatory mapping across the portfolio.
             </p>
-            <div style="margin-top:20px;padding:18px 22px;background:var(--copper-dim);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:13px;color:var(--ice);line-height:1.65" id="cdo-answer">
                 Complete the Company Profile and build your Portfolio to see AI maturity and scaling metrics.
@@ -1076,7 +1070,7 @@ header { transition:box-shadow 0.3s ease; }
             <p style="color:var(--text-body);line-height:1.75;font-weight:300">
               Cross-functional governance framework. Integration complexity scoring. Technical risk posture across the AI portfolio.
             </p>
-            <div style="margin-top:20px;padding:18px 22px;background:var(--copper-dim);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:13px;color:var(--ice);line-height:1.65" id="cio-answer">
                 Complete the Company Profile and build your Portfolio to see technical governance and deployment readiness.
@@ -1102,7 +1096,7 @@ header { transition:box-shadow 0.3s ease; }
               Change readiness assessment. Prosci benchmark alignment. Reskilling investment calculation.
               The people side of every AI initiative.
             </p>
-            <div style="margin-top:20px;padding:18px 22px;background:var(--copper-dim);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:13px;color:var(--ice);line-height:1.65" id="chro-answer">
                 Complete the Company Profile and build your Portfolio to see change management and workforce readiness metrics.
@@ -1127,7 +1121,7 @@ header { transition:box-shadow 0.3s ease; }
             <p style="color:var(--text-body);line-height:1.75;font-weight:300">
               EU AI Act classification. DORA compliance posture. GDPR and AML exposure mapping across every initiative.
             </p>
-            <div style="margin-top:20px;padding:18px 22px;background:var(--copper-dim);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:13px;color:var(--ice);line-height:1.65" id="cro-answer">
                 Complete the Company Profile and build your Portfolio to see regulatory exposure and compliance posture.
@@ -1155,31 +1149,31 @@ header { transition:box-shadow 0.3s ease; }
     <div id="dash-practitioner" style="display:none">
 
       <!-- Quick-Start Guide -->
-      <div id="practitioner-quickstart" style="margin-bottom:24px;padding:20px 24px;background:linear-gradient(135deg,rgba(184,115,51,0.08),rgba(184,115,51,0.02));border:1px solid var(--copper-border);border-radius:4px">
+      <div id="practitioner-quickstart" style="margin-bottom:28px;padding:24px 28px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
           <span class="label" style="margin-bottom:0">Quick Start — 4 Steps to Board-Ready Intelligence</span>
           <button onclick="document.getElementById('practitioner-quickstart').style.display='none'" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px" title="Dismiss">✕</button>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-          <div id="qs-step1" style="padding:12px 14px;border-radius:3px;border:1px solid var(--copper-border);background:rgba(184,115,51,0.06);cursor:pointer" onclick="toggleProfile()">
+          <div id="qs-step1" style="padding:14px 16px;border-radius:10px;border:1px solid rgba(196,137,74,0.2);background:rgba(196,137,74,0.04);cursor:pointer" onclick="toggleProfile()">
             <div style="font-size:18px;margin-bottom:6px">①</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Company Profile</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Enter company name, revenue, cost base, EBITDA, and org readiness</div>
             <div id="qs-step1-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step2" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.06);cursor:pointer" onclick="switchTab('portfolio')">
+          <div id="qs-step2" style="padding:14px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);cursor:pointer" onclick="switchTab('portfolio')">
             <div style="font-size:18px;margin-bottom:6px">②</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">AI Portfolio</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Map existing AI initiatives with budgets, risk levels, and change management</div>
             <div id="qs-step2-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step3" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.06);cursor:pointer" onclick="switchTab('governance')">
+          <div id="qs-step3" style="padding:14px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);cursor:pointer" onclick="switchTab('governance')">
             <div style="font-size:18px;margin-bottom:6px">③</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Governance</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Set CM benchmarks and activate regulatory frameworks (EU AI Act, DORA)</div>
             <div id="qs-step3-status" style="margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase"></div>
           </div>
-          <div id="qs-step4" style="padding:12px 14px;border-radius:3px;border:1px solid rgba(184,115,51,0.15);background:rgba(255,255,255,0.06);cursor:pointer" onclick="setView('executive');switchTab('dashboard')">
+          <div id="qs-step4" style="padding:14px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);cursor:pointer" onclick="setView('executive');switchTab('dashboard')">
             <div style="font-size:18px;margin-bottom:6px">④</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Executive View</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Switch to Executive for board-ready KPIs, the Boardroom Sentence, and role views</div>
@@ -1191,7 +1185,7 @@ header { transition:box-shadow 0.3s ease; }
       <!-- Strategic Priorities (practitioner view) -->
       <div id="practitioner-priorities" style="display:none;margin-bottom:20px"></div>
 
-      <div id="bvfScorecard" style="display:none;margin-bottom:24px;padding:18px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:4px">
+      <div id="bvfScorecard" style="display:none;margin-bottom:28px;padding:20px 28px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <span class="label" id="bvfScorecardTitle">Total AI Value Potential</span>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px" id="bvfScorecardCards"></div>
       </div>
@@ -1199,12 +1193,12 @@ header { transition:box-shadow 0.3s ease; }
         <span class="label">← East · Select Function · West →</span>
         <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px" id="fnButtons"></div>
       </div>
-      <div id="bvfFnCard" style="display:none;margin-bottom:14px;padding:14px 18px;background:linear-gradient(135deg,rgba(184,115,51,0.12),rgba(184,115,51,0.04));border:1px solid var(--copper);border-radius:3px;flex-wrap:wrap;align-items:center;gap:16px">
+      <div id="bvfFnCard" style="display:none;margin-bottom:14px;padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid var(--copper-border);border-radius:10px;flex-wrap:wrap;align-items:center;gap:16px">
         <div id="bvfFnTitle" style="font-size:12px;font-weight:700;color:var(--ice);flex-shrink:0"></div>
         <div id="bvfFnMetrics" style="display:flex;gap:14px;flex-wrap:wrap"></div>
         <button onclick="toggleSource()" style="margin-left:auto;background:transparent;border:1px solid var(--copper-border);border-radius:3px;padding:4px 10px;color:var(--text-dim);font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif">📖 <span id="sourceLabel">Show</span> Source</button>
       </div>
-      <div id="sourcePanel" style="display:none;margin-bottom:14px;padding:14px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.15);border-left:4px solid rgba(184,115,51,0.4);border-radius:3px">
+      <div id="sourcePanel" style="display:none;margin-bottom:14px;padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
         <span class="label" style="margin-bottom:4px">Benchmark Methodology</span>
         <div id="sourceContent" style="font-size:11px;color:var(--text-body);line-height:1.6"></div>
       </div>
@@ -1241,16 +1235,16 @@ header { transition:box-shadow 0.3s ease; }
       </div>
     </div>
     <!-- Trust-building context banner -->
-    <div id="portfolioContext" style="margin-bottom:18px;padding:14px 18px;background:linear-gradient(135deg,rgba(184,115,51,0.06),rgba(124,111,205,0.04));border:1px solid rgba(184,115,51,0.15);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
+    <div id="portfolioContext" style="margin-bottom:20px;padding:16px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
       <div style="font-size:12px;color:var(--ice);font-weight:600;margin-bottom:6px">Why map your AI portfolio?</div>
       <div style="font-size:11px;color:var(--text-body);line-height:1.7">Most organisations already have AI initiatives in flight — some delivering value, others stuck in pilot. This isn't about starting over. It's about getting a <span style="color:var(--copper);font-weight:600">complete picture</span> of what you've invested, what's working, and where the gaps are. Add your existing programmes first, then layer in new opportunities. The BVF will show you how each initiative connects to board-level outcomes.</div>
     </div>
     <div id="tierCards" style="display:none;flex-wrap:wrap;gap:10px;margin-bottom:20px"></div>
     <!-- Initiative Form -->
-    <div id="initForm" style="display:none;margin-bottom:20px;padding:22px 26px;background:rgba(184,115,51,0.07);border:1px solid var(--copper);border-radius:4px">
+    <div id="initForm" style="display:none;margin-bottom:20px;padding:26px 30px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,137,74,0.2);border-radius:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
         <span class="label" id="formTitle" style="margin-bottom:0">New AI Initiative</span>
-        <button onclick="cancelForm()" style="background:transparent;border:1px solid rgba(184,115,51,0.25);border-radius:3px;padding:4px 12px;color:#B87333;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">← Back to Portfolio</button>
+        <button onclick="cancelForm()" style="background:transparent;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 14px;color:var(--copper);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">← Back to Portfolio</button>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:10px">
         <div style="grid-column:1/3"><span class="label">Initiative Name *</span><input type="text" id="f_name" placeholder="e.g. GenAI Customer Service Agent"></div>
@@ -1313,13 +1307,13 @@ header { transition:box-shadow 0.3s ease; }
         <button class="btn btn-ghost" onclick="cancelForm()">Cancel</button>
       </div>
     </div>
-    <div id="emptyPortfolio" style="padding:36px 32px;border:1px dashed var(--copper-border);border-radius:4px;background:rgba(184,115,51,0.03)">
+    <div id="emptyPortfolio" style="padding:40px 36px;border:1px dashed rgba(255,255,255,0.1);border-radius:14px;background:rgba(255,255,255,0.02)">
       <div style="text-align:center;margin-bottom:24px">
         <div style="font-size:15px;color:var(--ice);font-weight:600;margin-bottom:6px">Start by mapping what you already have</div>
         <div style="font-size:12px;color:var(--text-muted);max-width:480px;margin:0 auto;line-height:1.6">The best AI strategies build on existing investments. Add your current programmes first — even if they're early-stage or underperforming. Then add planned initiatives to see the full picture.</div>
       </div>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <div onclick="openForm('existing')" style="flex:1;max-width:220px;padding:16px;border:1px solid var(--copper-border);border-radius:4px;cursor:pointer;text-align:center;background:rgba(184,115,51,0.05);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--copper)'" onmouseout="this.style.borderColor='var(--copper-border)'">
+        <div onclick="openForm('existing')" style="flex:1;max-width:220px;padding:18px;border:1px solid rgba(196,137,74,0.2);border-radius:12px;cursor:pointer;text-align:center;background:rgba(196,137,74,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--copper)'" onmouseout="this.style.borderColor='rgba(196,137,74,0.2)'">
           <div style="font-size:22px;margin-bottom:8px">📋</div>
           <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Add Existing Initiative</div>
           <div style="font-size:10px;color:var(--text-muted);line-height:1.5">A programme already in flight — deployed, in pilot, or approved</div>
@@ -1524,12 +1518,12 @@ header { transition:box-shadow 0.3s ease; }
       <span class="label" id="cmTitle">Change Management Health Check</span>
       <div style="font-size:13px;color:var(--text-body)">Prosci: a minimum of <strong style="color:var(--copper)">10–15%</strong> of project budget must fund change management for AI value to land.</div>
     </div>
-    <div id="cmEmpty" style="text-align:center;padding:48px;border:1px dashed var(--copper-border);border-radius:4px">
+    <div id="cmEmpty" style="text-align:center;padding:48px;border:1px dashed rgba(255,255,255,0.1);border-radius:12px">
       <div style="font-size:14px;color:var(--text-dim);font-style:italic">Add initiatives in the Portfolio tab to generate your CM Health Check.</div>
     </div>
     <div id="cmContent" style="display:none">
       <div id="cmRagBanner" style="margin-bottom:22px;padding:18px 22px;border-radius:4px;display:flex;align-items:center;gap:18px;flex-wrap:wrap"></div>
-      <div style="margin-bottom:22px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.18);border-radius:4px">
+      <div style="margin-bottom:22px;padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <span class="label">CM Allocation vs Prosci Benchmark</span>
         <div style="margin-top:12px;position:relative;height:40px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden">
           <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(224,82,82,0.1);border-right:1px dashed rgba(224,82,82,0.35)"></div>
@@ -1549,7 +1543,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
       <div id="cmMetrics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:22px"></div>
       <div id="cmInitList" style="margin-bottom:22px"></div>
-      <div style="padding:20px 24px;background:rgba(184,115,51,0.06);border:1px solid rgba(184,115,51,0.25);border-left:4px solid var(--copper);border-radius:3px">
+      <div style="padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
         <span class="label">The Prosci Principle</span>
         <p style="margin:8px 0;font-size:13px;color:var(--text-body);line-height:1.7;font-style:italic">"Organisations that invest in change management are six times more likely to meet project objectives. A minimum of 10–15% of total project budget should be allocated to the people side."</p>
         <div style="font-size:10px;color:var(--text-dim)">Prosci Best Practices in Change Management · 11th Edition</div>
@@ -1562,7 +1556,7 @@ header { transition:box-shadow 0.3s ease; }
     </div>
 
     <!-- DIVIDER -->
-    <div style="margin:40px 0;border-top:1px solid var(--copper-border)"></div>
+    <div style="margin:44px 0;border-top:1px solid rgba(255,255,255,0.06)"></div>
 
     <!-- REGULATORY READINESS SECTION -->
     <div style="margin-bottom:18px">
@@ -1570,7 +1564,7 @@ header { transition:box-shadow 0.3s ease; }
       <div style="font-size:13px;color:var(--text-body)" id="regSubtitle">Select applicable regulations. Compliance costs calculated against your revenue profile.</div>
     </div>
     <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap" id="regToggles"></div>
-    <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:4px"></div>
+    <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px"></div>
     <div id="regDetails" style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px"></div>
     <div id="regNoCost" style="display:none;padding:20px;background:rgba(192,122,26,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:3px;text-align:center">
       <div style="font-size:13px;color:var(--amber-light)">Enter your annual revenue in the Company Profile to see compliance costs in your currency.</div>
@@ -1588,18 +1582,18 @@ header { transition:box-shadow 0.3s ease; }
       <span class="label">AI Alignment Map — Board Summary</span>
       <div style="font-size:13px;color:var(--text-body)">One-page board-ready view. Complete the Company Profile and build your Portfolio to activate all sections.</div>
     </div>
-    <div style="padding:18px 24px;background:linear-gradient(135deg,rgba(13,31,60,0.8),rgba(22,45,78,0.8));border:1px solid rgba(184,115,51,0.3);border-radius:4px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div style="padding:22px 28px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
       <div>
-        <div style="font-size:9px;letter-spacing:3px;color:var(--copper);font-weight:600;margin-bottom:6px">AI ALIGNMENT MAP · CRAIG HORTON ADVISORY · 2026</div>
+        <div style="font-size:9px;letter-spacing:3px;color:var(--copper);font-weight:600;margin-bottom:6px">AI Alignment Map · Craig Horton Advisory · 2026</div>
         <div id="amCompany" style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white)">[Company Name]</div>
         <div id="amMeta" style="font-size:12px;color:var(--text-dim);margin-top:2px">Universal / Other</div>
       </div>
       <div id="amDate" style="font-size:11px;color:var(--text-dim);text-align:right"></div>
     </div>
-    <div id="amPriorities" style="display:none;margin-bottom:16px;padding:20px 24px;background:linear-gradient(135deg,rgba(184,115,51,0.06),rgba(184,115,51,0.02));border:1px solid rgba(184,115,51,0.25);border-radius:4px"></div>
+    <div id="amPriorities" style="display:none;margin-bottom:18px;padding:22px 28px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" id="amSummaryCards"></div>
-    <div id="amTopFns" style="display:none;margin-bottom:16px;padding:16px 20px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
-    <div id="amInvestment" style="display:none;margin-bottom:16px;padding:16px 20px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.18);border-radius:3px"></div>
+    <div id="amTopFns" style="display:none;margin-bottom:18px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px"></div>
+    <div id="amInvestment" style="display:none;margin-bottom:18px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px"></div>
     <div class="mirror" style="margin-top:20px">
       <span class="label" style="margin-bottom:8px">Holding Up The Mirror</span>
       <blockquote>"What percentage of the ROI for this AI programme relies on people actually adopting and implementing the change?"</blockquote>
@@ -1627,13 +1621,13 @@ header { transition:box-shadow 0.3s ease; }
     <div style="display:flex;flex-direction:column;gap:16px" id="benchmarkSources">
 
       <!-- 1. Value Potential Rates -->
-      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">AI Value Potential by Function</div>
             <div style="font-size:11px;color:var(--text-muted)">Revenue uplift & cost reduction ranges per business function</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.1);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.2)">CORE MODEL</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.15)">CORE MODEL</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -1656,13 +1650,13 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 2. Drag Cost / Org Readiness -->
-      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Organisational Drag Cost Model</div>
             <div style="font-size:11px;color:var(--text-muted)">Adoption friction that erodes AI ROI based on organisational readiness</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.1);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.2)">DRAG MODEL</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.15)">DRAG MODEL</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -1692,13 +1686,13 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 3. Change Management Benchmarks -->
-      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Change Management Allocation Benchmarks</div>
             <div style="font-size:11px;color:var(--text-muted)">RAG thresholds for CM investment as percentage of programme budget</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.1);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.2)">CM MODEL</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.15)">CM MODEL</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -1725,7 +1719,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 4. Pilot Trap Diagnostic -->
-      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Pilot Trap Diagnostic</div>
@@ -1754,7 +1748,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 5. AI Generation Tiers -->
-      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">AI Generation Tier Classification</div>
@@ -1788,7 +1782,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- 6. Regulatory Frameworks -->
-      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:6px">
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Regulatory Compliance Frameworks</div>
@@ -1806,7 +1800,7 @@ header { transition:box-shadow 0.3s ease; }
     </div>
 
     <!-- Update Protocol -->
-    <div style="margin-top:24px;padding:16px 20px;background:rgba(184,115,51,0.05);border:1px solid rgba(184,115,51,0.15);border-radius:6px">
+    <div style="margin-top:24px;padding:18px 22px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
       <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:8px">Update & Review Protocol</div>
       <div style="font-size:12px;color:var(--text-body);line-height:1.8">
         All benchmark data undergoes a structured review cycle. Major source publications (McKinsey State of AI, Gartner Hype Cycle, Prosci Best Practices) are released annually; the BVF model is updated within 30 days of each new edition. Industry multipliers are recalibrated when Gartner IT Key Metrics data refreshes (typically Q1). Regulatory compliance mappings are updated as enforcement deadlines pass or guidance is published. The "Benchmarks current as of" date at the top of this page always reflects the most recent review.
@@ -1836,19 +1830,19 @@ header { transition:box-shadow 0.3s ease; }
     <!-- ═══ PREP MODE ═══ -->
     <div id="fac-prep">
       <!-- Readiness Check -->
-      <div style="margin-bottom:24px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
+      <div style="margin-bottom:24px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="font-size:13px;font-weight:600;color:var(--ice);margin-bottom:12px">Pre-Session Readiness Check</div>
         <div id="fac-readiness" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
 
       <!-- Session Plan -->
-      <div style="margin-bottom:24px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
+      <div style="margin-bottom:24px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
           <div style="font-size:13px;font-weight:600;color:var(--ice)">Workshop Session Plan</div>
           <div style="font-size:11px;color:var(--text-muted)">Recommended: 90–120 minutes</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:2px">
-          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:8px 12px;background:rgba(184,115,51,0.08);border-radius:4px 4px 0 0">
+          <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:8px 8px 0 0">
             <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">TIME</div>
             <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">SECTION</div>
             <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);font-weight:600">DURATION</div>
@@ -1906,7 +1900,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
 
       <!-- Facilitator Notes -->
-      <div style="padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px">
+      <div style="padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <div style="font-size:13px;font-weight:600;color:var(--ice);margin-bottom:12px">Facilitator Tips</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div style="font-size:12px;color:var(--text-body);line-height:1.8">
@@ -1943,19 +1937,19 @@ header { transition:box-shadow 0.3s ease; }
 <!-- ══════════════════════════════════════════════
      ACCESS GATE
      ══════════════════════════════════════════════ -->
-<div id="access-gate" style="position:fixed;inset:0;z-index:9999;background:#1A222E;display:flex;align-items:center;justify-content:center">
+<div id="access-gate" style="position:fixed;inset:0;z-index:9999;background:#1B2231;display:flex;align-items:center;justify-content:center">
   <div style="text-align:center;max-width:420px;padding:40px">
-    <div style="width:64px;height:64px;border:3px solid #B87333;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#B87333;margin:0 auto 24px;box-shadow:0 0 24px rgba(184,115,51,0.3)">BVF</div>
+    <div style="width:64px;height:64px;border:3px solid var(--copper);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--copper);margin:0 auto 24px">BVF</div>
     <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#FFFFFF;margin-bottom:6px">Business Value Framework</div>
-    <div style="font-size:10px;letter-spacing:3px;color:#B87333;font-weight:600;text-transform:uppercase;margin-bottom:32px">Craig Horton Advisory · 2026</div>
+    <div style="font-size:13px;letter-spacing:3px;color:var(--copper);font-weight:600;margin-bottom:32px">Craig Horton Advisory · 2026</div>
     <div style="font-size:12px;color:#CBD5E1;margin-bottom:20px;line-height:1.6">This platform contains proprietary methodology and benchmark data.<br>Enter your access code to continue.</div>
     <div style="display:flex;gap:8px;margin-bottom:12px">
       <input type="password" id="gate-code" placeholder="Access code" onkeydown="if(event.key==='Enter')checkGate()" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:12px 16px;color:#FFFFFF;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;letter-spacing:2px">
-      <button onclick="checkGate()" style="padding:12px 24px;background:linear-gradient(135deg,#D4956A,#B87333);border:1px solid #B87333;border-radius:4px;color:#FFFFFF;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif">Enter</button>
+      <button onclick="checkGate()" style="padding:12px 24px;background:var(--copper);border:none;border-radius:8px;color:#FFFFFF;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif">Enter</button>
     </div>
     <div id="gate-error" style="font-size:11px;color:#F87171;display:none;margin-bottom:12px">Invalid access code</div>
     <div style="font-size:10px;color:#94A3B8;margin-top:20px">All data remains in your browser. Nothing is transmitted or stored.<br>
-    <a href="mailto:craig@craighortonadvisory.com" style="color:#B87333;text-decoration:none">Request access →</a></div>
+    <a href="mailto:craig@craighortonadvisory.com" style="color:var(--copper);text-decoration:none">Request access →</a></div>
     <div style="font-size:9px;color:#64748B;margin-top:16px">© 2026 Craig Horton Advisory. All rights reserved.</div>
   </div>
 </div>
@@ -2034,7 +2028,7 @@ const LAYERS = [
 ];
 const AI_TIERS = [
   {id:"gen1",label:"Gen 1 — Automation",short:"Gen 1",color:"#B8CADC",desc:"RPA, rule-based automation, workflow triggers"},
-  {id:"gen2",label:"Gen 2 — GenAI",short:"Gen 2",color:"#B87333",desc:"LLM-powered assistants, content generation, semantic search"},
+  {id:"gen2",label:"Gen 2 — GenAI",short:"Gen 2",color:"#C4894A",desc:"LLM-powered assistants, content generation, semantic search"},
   {id:"gen3",label:"Gen 3 — Agentic",short:"Gen 3",color:"#8B5CF6",desc:"Autonomous multi-step agents, decision-making, self-orchestration"},
 ];
 const BASE_RATES = {
@@ -2361,11 +2355,11 @@ function renderPriorities() {
   document.getElementById('btn-add-priority').style.display = priors.length >= 5 ? 'none' : '';
 
   list.innerHTML = priors.map((p, i) => {
-    const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#B87333',compliance:'#7C6FCD',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#8B5CF6',risk:'#E05252'};
+    const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#7C6FCD',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#8B5CF6',risk:'#E05252'};
     const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
-    const col = catColors[p.category] || '#B87333';
+    const col = catColors[p.category] || '#C4894A';
     const mappedInits = BVF.initiatives.length; // future: real mapping
-    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.15);border-left:3px solid ${col};border-radius:0 4px 4px 0">
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:3px solid ${col};border-radius:0 8px 8px 0">
       <div style="flex:1">
         <div style="font-size:13px;font-weight:600;color:var(--ice);line-height:1.4">${p.description}</div>
         <div style="display:flex;gap:10px;margin-top:4px;align-items:center">
@@ -2448,7 +2442,7 @@ function renderBoardroomSentence() {
   if (gen3Count > 0) sentence += ` including <strong style="color:#8B5CF6">${gen3Count} Agentic programme${gen3Count>1?'s':''}</strong>`;
   if (totalBudget > 0) sentence += `, with a combined investment of <strong style="color:var(--copper)">${fmt(totalBudget)}</strong>`;
   if (complete && sc.rH > 0) sentence += `, projecting <strong style="color:#4CAF80">${fmt(sc.rL)}–${fmt(sc.rH)}</strong> in revenue uplift`;
-  if (complete && sc.totH > 0) sentence += ` and <strong style="color:#B87333">${fmt(sc.totL)}–${fmt(sc.totH)}</strong> in combined EBITDA impact`;
+  if (complete && sc.totH > 0) sentence += ` and <strong style="color:var(--copper)">${fmt(sc.totL)}–${fmt(sc.totH)}</strong> in combined EBITDA impact`;
   if (complete && cost > 0 && sc.cH > 0) {
     const costPctLo = ((sc.cL / cost) * 100).toFixed(0);
     const costPctHi = ((sc.cH / cost) * 100).toFixed(0);
@@ -2616,8 +2610,8 @@ function renderBVF() {
     document.getElementById('bvfScorecardCards').innerHTML=[
       {l:"Revenue Uplift",lo:sc.rL,hi:sc.rH,col:"#4CAF80",base:rev,baseL:"revenue"},
       {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#D4956A",base:cost,baseL:"cost base"},
-      {l:"Combined EBITDA Impact",lo:sc.totL,hi:sc.totH,col:"#B87333",base:ebt,baseL:"vs current EBITDA",bold:true},
-    ].map(s=>`<div style="flex:1;min-width:150px;padding:12px 16px;background:${s.bold?"rgba(184,115,51,0.1)":"rgba(255,255,255,0.04)"};border:1px solid ${s.bold?"#B87333":"rgba(184,115,51,0.15)"};border-radius:3px">
+      {l:"Combined EBITDA Impact",lo:sc.totL,hi:sc.totH,col:"#C4894A",base:ebt,baseL:"vs current EBITDA",bold:true},
+    ].map(s=>`<div style="flex:1;min-width:150px;padding:14px 18px;background:${s.bold?"rgba(196,137,74,0.08)":"rgba(255,255,255,0.04)"};border:1px solid ${s.bold?"rgba(196,137,74,0.25)":"rgba(255,255,255,0.08)"};border-radius:10px">
       <div style="font-size:9px;letter-spacing:1.5px;color:#D0D8E0;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:${s.bold?'20':'17'}px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.lo>0?`${fmt(s.lo)} – ${fmt(s.hi)}`:'—'}</div>
       ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#D0D8E0;margin-top:2px;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:''}
@@ -2629,7 +2623,7 @@ function renderBVF() {
   const priors = BVF.priorities || [];
   if (priEl) {
     if (priors.length > 0) {
-      const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#B87333',compliance:'#7C6FCD',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#8B5CF6',risk:'#E05252'};
+      const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#7C6FCD',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#8B5CF6',risk:'#E05252'};
       const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
       priEl.style.display = 'block';
       priEl.innerHTML = `
@@ -2639,7 +2633,7 @@ function renderBVF() {
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           ${priors.map(p => {
-            const col = catColors[p.category] || '#B87333';
+            const col = catColors[p.category] || '#C4894A';
             const label = catLabels[p.category] || p.category;
             const aligned = BVF.initiatives.filter(i => {
               const iFn = (i.fn||'').toLowerCase();
@@ -2669,7 +2663,7 @@ function renderBVF() {
 
   // Function buttons
   document.getElementById('fnButtons').innerHTML = FUNCTIONS.map(fn=>`
-    <button onclick="selectFn('${fn.id}')" style="padding:7px 13px;background:${activeFn===fn.id?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.04)'};border:${activeFn===fn.id?'none':'1px solid rgba(184,115,51,0.18)'};border-radius:3px;color:${activeFn===fn.id?'#FFFFFF':'#CBD5E1'};font-size:12px;font-weight:${activeFn===fn.id?'700':'400'};cursor:pointer;font-family:'DM Sans',sans-serif">${fn.icon} ${fn.label}</button>
+    <button onclick="selectFn('${fn.id}')" style="padding:8px 14px;background:${activeFn===fn.id?'var(--copper)':'rgba(255,255,255,0.04)'};border:${activeFn===fn.id?'none':'1px solid rgba(255,255,255,0.10)'};border-radius:8px;color:${activeFn===fn.id?'#FFFFFF':'#CBD5E1'};font-size:12px;font-weight:${activeFn===fn.id?'700':'400'};cursor:pointer;font-family:'DM Sans',sans-serif">${fn.icon} ${fn.label}</button>
   `).join('');
 
   // Active function card
@@ -2686,7 +2680,7 @@ function renderBVF() {
 
   // Layer buttons
   document.getElementById('layerButtons').innerHTML = LAYERS.map((layer,i)=>`
-    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.10)'):'rgba(255,255,255,0.06)'};border:1px solid ${activeLayer===layer.id?'#B87333':'rgba(255,255,255,0.12)'};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
+    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'var(--copper)':'rgba(255,255,255,0.10)'):'rgba(255,255,255,0.06)'};border:1px solid ${activeLayer===layer.id?'rgba(196,137,74,0.30)':'rgba(255,255,255,0.08)'};border-radius:8px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
       <div style="font-size:8px;letter-spacing:1.5px;color:#D4956A;margin-bottom:3px">${layer.note}</div>
       <div style="font-size:11px;font-weight:700;color:#FFFFFF;line-height:1.3">${layer.label}</div>
     </button>
@@ -2702,9 +2696,9 @@ function renderBVF() {
 
     // AI Capabilities layer (South) — show value drivers when expanded
     if(isActive&&isLast) {
-      extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(184,115,51,0.2)">
-        <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">Value Drivers · ${FUNCTIONS.find(f=>f.id===activeFn).label}</div>
-        ${r.drivers.map(d=>`<div style="display:flex;gap:8px;margin-bottom:5px"><span style="color:#B87333;font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:12px;color:#C0CCD6;line-height:1.5">${d}</span></div>`).join('')}
+      extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08)">
+        <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:6px;text-transform:uppercase">Value Drivers · ${FUNCTIONS.find(f=>f.id===activeFn).label}</div>
+        ${r.drivers.map(d=>`<div style="display:flex;gap:8px;margin-bottom:5px"><span style="color:var(--copper);font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:12px;color:#C0CCD6;line-height:1.5">${d}</span></div>`).join('')}
       </div>`;
     }
 
@@ -2715,11 +2709,11 @@ function renderBVF() {
       const fnCMpct = fnTotBud>0?(fnTotCM/fnTotBud*100).toFixed(1):0;
       const fnRAG = fnTotBud>0?rag(fnTotCM,fnTotBud):null;
       const fnRC = fnRAG?RAG_CFG[fnRAG]:null;
-      extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(184,115,51,0.2)">
+      extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08)">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;text-transform:uppercase">Active AI Initiatives · ${FUNCTIONS.find(f=>f.id===activeFn).label}</div>
+          <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;text-transform:uppercase">Active AI Initiatives · ${FUNCTIONS.find(f=>f.id===activeFn).label}</div>
           <div style="display:flex;gap:8px;align-items:center">
-            <span style="font-size:11px;color:#B87333;font-weight:700">${fmt(fnTotBud)}</span>
+            <span style="font-size:11px;color:var(--copper);font-weight:700">${fmt(fnTotBud)}</span>
             ${fnRC?`<span class="rag rag-${fnRAG}" style="font-size:8px">CM ${fnCMpct}%</span>`:''}
           </div>
         </div>
@@ -2730,27 +2724,27 @@ function renderBVF() {
           const iRAG=rag(cm,bud);
           const ps=pilotScore(ini.pilotAnswers);
           const riskCol=ini.risk==='Low'?'#4CAF80':ini.risk==='High'?'#E05252':'#F5A623';
-          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.12);border-left:3px solid ${tier?tier.color:'#B87333'};border-radius:3px;margin-bottom:5px">
+          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:3px solid ${tier?tier.color:'var(--copper)'};border-radius:8px;margin-bottom:5px">
             <div style="flex:1;min-width:0">
               <div style="font-size:12px;font-weight:700;color:#EDF2F7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ini.name}</div>
               <div style="font-size:10px;color:#D0D8E0;margin-top:2px">${tier?`<span style="color:${tier.color};font-weight:600">${tier.short}</span> · `:''}${ini.horizon} · <span style="color:${riskCol}">${ini.risk} risk</span>${ini.owner?` · ${ini.owner}`:''}</div>
               ${ini.outcome?`<div style="font-size:10px;color:#C0CCD6;margin-top:2px;font-style:italic">${ini.outcome}</div>`:''}
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;margin-left:12px">
-              <div style="text-align:right"><div style="font-size:9px;color:#D0D8E0">Budget</div><div style="font-size:12px;font-weight:700;color:#B87333">${fmt(bud)}</div></div>
+              <div style="text-align:right"><div style="font-size:9px;color:#D0D8E0">Budget</div><div style="font-size:12px;font-weight:700;color:var(--copper)">${fmt(bud)}</div></div>
               ${iRAG?`<span class="rag rag-${iRAG}" style="font-size:8px">${pct(cm,bud)}</span>`:''}
               ${ps?`<span style="font-size:9px;font-weight:700;color:${ps.color}">${ps.score}/${ps.total}</span>`:''}
             </div>
           </div>`;
         }).join('')}
-        <div style="margin-top:6px;text-align:right"><button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(184,115,51,0.3);border-radius:3px;padding:4px 10px;color:#B87333;font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif">+ Add Initiative</button></div>
+        <div style="margin-top:6px;text-align:right"><button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(196,137,74,0.25);border-radius:8px;padding:4px 10px;color:var(--copper);font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif">+ Add Initiative</button></div>
       </div>`;
     }
     // Initiatives layer — prompt to add if empty and expanded
     else if(isActive&&isInitiatives&&fnInits.length===0) {
-      extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(184,115,51,0.2)">
+      extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08)">
         <div style="font-size:11px;color:#D0D8E0;font-style:italic;margin-bottom:8px">No AI initiatives mapped to ${FUNCTIONS.find(f=>f.id===activeFn).label} yet.</div>
-        <button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(184,115,51,0.3);border-radius:3px;padding:6px 14px;color:#B87333;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Go to Portfolio → Add Initiative</button>
+        <button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(196,137,74,0.25);border-radius:8px;padding:6px 14px;color:var(--copper);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Go to Portfolio → Add Initiative</button>
       </div>`;
     }
 
@@ -2758,10 +2752,10 @@ function renderBVF() {
     const hasData = isInitiatives&&fnInits.length>0;
     let mainContent = cell.c;
     if(hasData) {
-      mainContent = `<span style="display:flex;justify-content:space-between;align-items:center"><span>${cell.c}</span><span style="font-size:10px;font-weight:700;color:#B87333;background:rgba(184,115,51,0.15);padding:2px 8px;border-radius:2px">${fnInits.length} initiative${fnInits.length>1?'s':''}</span></span>`;
+      mainContent = `<span style="display:flex;justify-content:space-between;align-items:center"><span>${cell.c}</span><span style="font-size:10px;font-weight:700;color:var(--copper);background:rgba(196,137,74,0.10);padding:2px 8px;border-radius:5px">${fnInits.length} initiative${fnInits.length>1?'s':''}</span></span>`;
     }
 
-    return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?'rgba(184,115,51,0.15)':hasData?'rgba(184,115,51,0.1)':'rgba(255,255,255,0.10)'):(hasData?'rgba(184,115,51,0.06)':'rgba(255,255,255,0.06)')};border:1px solid ${isActive?'#B87333':(hasData?'rgba(184,115,51,0.25)':'rgba(255,255,255,0.12)')};border-left:${isLast?'4px solid #B87333':isActive?'4px solid rgba(184,115,51,0.5)':(hasData?'4px solid rgba(184,115,51,0.3)':'4px solid rgba(184,115,51,0.15)')};border-radius:3px;cursor:pointer;min-height:58px">
+    return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?'rgba(196,137,74,0.10)':hasData?'rgba(196,137,74,0.06)':'rgba(255,255,255,0.10)'):(hasData?'rgba(196,137,74,0.04)':'rgba(255,255,255,0.06)')};border:1px solid ${isActive?'rgba(196,137,74,0.30)':(hasData?'rgba(196,137,74,0.15)':'rgba(255,255,255,0.08)')};border-left:${isLast?'4px solid var(--copper)':isActive?'4px solid rgba(196,137,74,0.4)':(hasData?'4px solid rgba(196,137,74,0.25)':'4px solid rgba(255,255,255,0.10)')};border-radius:10px;cursor:pointer;min-height:58px">
       <div style="font-size:13px;font-weight:600;color:#FFFFFF;line-height:1.45">${mainContent}</div>
       ${extra}
     </div>`;
@@ -2782,8 +2776,8 @@ function toggleSource() {
     const r=rates[activeFn];
     const mult=(IND_MULT[BVF.profile.industry||'universal']||IND_MULT.universal)[activeFn]||1;
     document.getElementById('sourceContent').innerHTML=`
-      <div style="margin-bottom:8px"><strong style="color:#B87333">Source:</strong> ${r.source}</div>
-      <div style="margin-bottom:8px"><strong style="color:#B87333">Industry Multiplier:</strong> ${mult.toFixed(2)}× for ${INDUSTRIES_LABELS[BVF.profile.industry||'universal']||'Universal'}</div>
+      <div style="margin-bottom:8px"><strong style="color:var(--copper)">Source:</strong> ${r.source}</div>
+      <div style="margin-bottom:8px"><strong style="color:var(--copper)">Industry Multiplier:</strong> ${mult.toFixed(2)}× for ${INDUSTRIES_LABELS[BVF.profile.industry||'universal']||'Universal'}</div>
       <div style="font-style:italic">Ranges represent typical achievable impact from mature AI deployments. Actual results depend on adoption depth, implementation quality, and change management investment.</div>
     `;
   } else { panel.style.display='none'; }
@@ -2816,7 +2810,7 @@ function updateQuickStart() {
     }
     if (stepEl) {
       stepEl.style.borderColor = s.done ? 'var(--green-border)' : 'var(--copper-border)';
-      stepEl.style.background = s.done ? 'rgba(22,163,74,0.06)' : 'rgba(184,115,51,0.06)';
+      stepEl.style.background = s.done ? 'rgba(22,163,74,0.06)' : 'rgba(196,137,74,0.04)';
     }
   });
 }
@@ -2842,7 +2836,7 @@ function renderPortfolio() {
     tierCards.innerHTML=AI_TIERS.map(t=>{
       const count=inits.filter(i=>i.tier===t.id).length;
       const bud=inits.filter(i=>i.tier===t.id).reduce((s,i)=>s+parseNum(i.budget),0);
-      return `<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-top:3px solid ${t.color};border-radius:3px">
+      return `<div style="flex:1;min-width:130px;padding:14px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-top:3px solid ${t.color};border-radius:10px">
         <div style="font-size:9px;letter-spacing:1.5px;color:${t.color};font-weight:700;margin-bottom:5px">${t.short}</div>
         <div style="font-size:18px;font-weight:700;color:#EDF2F7;font-family:'Playfair Display',serif">${count} <span style="font-size:11px;color:#D0D8E0;font-weight:400">initiatives</span></div>
         <div style="font-size:11px;color:#D0D8E0">${fmt(bud)}</div>
@@ -2891,11 +2885,11 @@ function renderPortfolio() {
     const pilotIssues=inits.filter(i=>{ const ps=pilotScore(i.pilotAnswers); return ps&&ps.score<2; }).length;
     totals.style.display='flex';
     totals.innerHTML=[
-      {l:'Total AI Investment',v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:'',col:'#B87333'},
+      {l:'Total AI Investment',v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:'',col:'#C4894A'},
       {l:'Total CM Allocated',v:fmt(totCM),sub:`${pct(totCM,totBudget)} of portfolio`,col:totBudget>0&&totCM/totBudget>=.10?'#4CAF80':totCM/totBudget>=.05?'#F5A623':'#E05252'},
       {l:'Gen 3 Agentic Share',v:totBudget>0?pct(gen3bud,totBudget):'—',sub:'of portfolio budget',col:'#8B5CF6'},
       {l:'Pilot Trap Issues',v:pilotIssues||'—',sub:'initiatives with <2 readiness indicators',col:'#F5A623'},
-    ].map(s=>`<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.18);border-radius:3px">
+    ].map(s=>`<div style="flex:1;min-width:130px;padding:14px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px">
       <div style="font-size:9px;letter-spacing:1.5px;color:#D0D8E0;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:18px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.v}</div>
       ${s.sub?`<div style="font-size:10px;color:#D0D8E0;margin-top:2px;font-style:italic">${s.sub}</div>`:''}
@@ -2974,7 +2968,7 @@ function removeInit(id) {
 function updateTierHint() {
   const tier=AI_TIERS.find(t=>t.id===document.getElementById('f_tier').value);
   document.getElementById('tierHint').textContent=tier?tier.desc:'';
-  document.getElementById('tierHint').style.color=tier?tier.color:'#B87333';
+  document.getElementById('tierHint').style.color=tier?tier.color:'#C4894A';
 }
 function updateBudgetHint() {
   const bud=parseNum(document.getElementById('f_budget').value);
@@ -3044,23 +3038,23 @@ function renderCM() {
   }
   const cmBar=document.getElementById('cmBar');
   cmBar.style.width=barW+'%';
-  cmBar.style.background=rc?`linear-gradient(90deg,${rc.border},${rc.border}aa)`:'#B87333';
+  cmBar.style.background=rc?`linear-gradient(90deg,${rc.border},${rc.border}aa)`:'#C4894A';
   document.getElementById('cmBarMarker').style.left=barW+'%';
 
   document.getElementById('cmMetrics').innerHTML=[
-    {l:'Total AI Portfolio',v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:'',col:'#B87333'},
+    {l:'Total AI Portfolio',v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:'',col:'#C4894A'},
     {l:'CM Allocated',v:fmt(totCM),sub:`${cmPct.toFixed(1)}% of portfolio`,col:cmPct>=10?'#4CAF80':cmPct>=5?'#F5A623':'#E05252'},
     {l:'Prosci Minimum (10%)',v:fmt(prosciLow),col:'#F5A623'},
     {l:'Prosci Recommended (15%)',v:fmt(prosciHigh),col:'#4CAF80'},
     {l:'Gap to Minimum',v:gapLow>0?fmt(gapLow):'✓ Met',col:gapLow>0?'#E05252':'#4CAF80'},
     {l:'Gap to Recommended',v:gapHigh>0?fmt(gapHigh):'✓ Met',col:gapHigh>0?'#F5A623':'#4CAF80'},
-  ].map(s=>`<div style="padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.15);border-radius:3px">
+  ].map(s=>`<div style="padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
     <div style="font-size:9px;letter-spacing:1.5px;color:#D0D8E0;margin-bottom:6px">${s.l.toUpperCase()}</div>
     <div style="font-size:17px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif;margin-bottom:2px">${s.v}</div>
     ${s.sub?`<div style="font-size:10px;color:#D0D8E0;font-style:italic">${s.sub}</div>`:''}
   </div>`).join('');
 
-  document.getElementById('cmInitList').innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:10px;text-transform:uppercase">Initiative-Level CM Status</div>`+
+  document.getElementById('cmInitList').innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:10px;text-transform:uppercase">Initiative-Level CM Status</div>`+
   inits.map(init=>{
     const bud=parseNum(init.budget),cm=parseNum(init.cmBudget);
     const r2=rag(cm,bud),irc=r2?RAG_CFG[r2]:null;
@@ -3069,14 +3063,14 @@ function renderCM() {
     const p2=bud>0?(cm/bud)*100:0;
     const iBarW=Math.min(100,p2/15*100);
     const ps=pilotScore(init.pilotAnswers);
-    return `<div style="padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.12);border-left:4px solid ${irc?irc.border:'rgba(184,115,51,0.2)'};border-radius:3px;margin-bottom:7px">
+    return `<div style="padding:14px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${irc?irc.border:'rgba(196,137,74,0.2)'};border-radius:10px;margin-bottom:7px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px">
         <div>
           <div style="font-size:12px;font-weight:700;color:#EDF2F7">${init.name||'Unnamed'}</div>
           <div style="font-size:10px;color:#D0D8E0;margin-top:2px">${fn?.icon} ${fn?.label}${tier?`<span style="color:${tier.color}"> · ${tier.short}</span>`:''} · ${init.horizon}</div>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <div style="text-align:right"><div style="font-size:9px;color:#D0D8E0">Budget</div><div style="font-size:13px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(bud)}</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:#D0D8E0">Budget</div><div style="font-size:13px;font-weight:700;color:var(--copper);font-family:'Playfair Display',serif">${fmt(bud)}</div></div>
           <div style="text-align:right"><div style="font-size:9px;color:#D0D8E0">CM</div><div style="font-size:13px;font-weight:700;color:${irc?.text||'#A0B4C8'};font-family:'Playfair Display',serif">${fmt(cm)}</div></div>
           ${irc?`<span class="rag rag-${r2}">${irc.label}</span>`:''}
           ${ps?`<span class="rag" style="background:rgba(255,255,255,0.04);color:${ps.color};border-color:${ps.color}">PILOT ${ps.label}</span>`:''}
@@ -3095,7 +3089,7 @@ function renderRegulatory() {
   const rev=parseNum(BVF.profile.revenue);
   const selectedRegs = BVF.regulations;
   document.getElementById('regToggles').innerHTML=REG_FRAMEWORKS.map(r=>`
-    <button onclick="toggleReg('${r.id}')" style="padding:10px 16px;background:${selectedRegs.includes(r.id)?`rgba(${r.id==='euai'?'224,82,82':r.id==='dora'?'245,166,35':r.id==='csrd'?'76,175,128':'139,92,246'},0.15)`:'rgba(255,255,255,0.04)'};border:1px solid ${selectedRegs.includes(r.id)?r.color:'rgba(255,255,255,0.08)'};border-radius:3px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif">
+    <button onclick="toggleReg('${r.id}')" style="padding:10px 16px;background:${selectedRegs.includes(r.id)?`rgba(${r.id==='euai'?'224,82,82':r.id==='dora'?'245,166,35':r.id==='csrd'?'76,175,128':'139,92,246'},0.15)`:'rgba(255,255,255,0.04)'};border:1px solid ${selectedRegs.includes(r.id)?r.color:'rgba(255,255,255,0.08)'};border-radius:8px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif">
       <div style="font-size:11px;font-weight:700;color:${selectedRegs.includes(r.id)?r.color:'#A0B4C8'}">${r.icon} ${r.label}</div>
       <div style="font-size:10px;color:#D0D8E0;margin-top:2px">${r.risk} · ${r.timeline}</div>
     </button>
@@ -3108,14 +3102,14 @@ function renderRegulatory() {
   const costBanner=document.getElementById('regCostBanner');
   if(rev>0&&activeRegs.length>0) {
     costBanner.style.display='block';
-    costBanner.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:8px;text-transform:uppercase">Estimated Regulatory Compliance Investment${BVF.profile.company?` — ${BVF.profile.company}`:''}</div>
+    costBanner.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:8px;text-transform:uppercase">Estimated Regulatory Compliance Investment${BVF.profile.company?` — ${BVF.profile.company}`:''}</div>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <div style="flex:1;min-width:160px;padding:12px 16px;background:rgba(184,115,51,0.08);border:1px solid #B87333;border-radius:3px">
+      <div style="flex:1;min-width:160px;padding:14px 18px;background:rgba(196,137,74,0.06);border:1px solid rgba(196,137,74,0.25);border-radius:10px">
         <div style="font-size:9px;color:#D0D8E0;letter-spacing:1.5px;margin-bottom:5px">TOTAL COMPLIANCE COST RANGE</div>
-        <div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totalLo)} – ${fmt(totalHi)}</div>
+        <div style="font-size:22px;font-weight:700;color:var(--copper);font-family:'Playfair Display',serif">${fmt(totalLo)} – ${fmt(totalHi)}</div>
         <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
       </div>
-      ${activeRegs.map(r=>`<div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(255,255,255,0.06);border-top:3px solid ${r.color};border-radius:3px">
+      ${activeRegs.map(r=>`<div style="flex:1;min-width:120px;padding:14px 18px;background:rgba(255,255,255,0.06);border-top:3px solid ${r.color};border-radius:10px">
         <div style="font-size:9px;color:${r.color};font-weight:700;letter-spacing:1px;margin-bottom:5px">${r.shortLabel}</div>
         <div style="font-size:17px;font-weight:700;color:#EDF2F7;font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)}–${fmt(rev*r.costRange.hi)}</div>
         <div style="font-size:10px;color:#D0D8E0;margin-top:2px;font-style:italic">${(r.costRange.lo*100).toFixed(2)}–${(r.costRange.hi*100).toFixed(2)}% of rev</div>
@@ -3128,7 +3122,7 @@ function renderRegulatory() {
   } else { costBanner.style.display='none'; document.getElementById('regNoCost').style.display='none'; }
 
   document.getElementById('regDetails').innerHTML=activeRegs.map(r=>`
-    <div style="padding:18px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${r.color};border-radius:3px">
+    <div style="padding:18px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${r.color};border-radius:10px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div>
           <div style="font-size:14px;font-weight:700;color:#EDF2F7">${r.icon} ${r.label} — ${r.risk}</div>
@@ -3137,11 +3131,11 @@ function renderRegulatory() {
         ${rev>0?`<div style="text-align:right"><div style="font-size:9px;color:#D0D8E0">Estimated Cost</div><div style="font-size:16px;font-weight:700;color:${r.color};font-family:'Playfair Display',serif">${fmt(rev*r.costRange.lo)} – ${fmt(rev*r.costRange.hi)}</div></div>`:''}
       </div>
       <p style="margin:0 0 10px;font-size:12px;color:#C0CCD6;line-height:1.6">${r.desc}</p>
-      <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:4px;text-transform:uppercase">Key Obligations</div>
+      <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:4px;text-transform:uppercase">Key Obligations</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:5px;margin-bottom:8px">
         ${r.obligations.map(o=>`<div style="display:flex;gap:7px;padding:5px 0"><span style="color:${r.color};font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:11px;color:#C0CCD6;line-height:1.5">${o}</span></div>`).join('')}
       </div>
-      <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:4px;text-transform:uppercase">Cost Drivers</div>
+      <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:4px;text-transform:uppercase">Cost Drivers</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
         ${r.costDrivers.map(d=>`<span style="padding:3px 9px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:2px;font-size:10px;color:#C0CCD6">${d}</span>`).join('')}
       </div>
@@ -3180,22 +3174,22 @@ function renderAlignment() {
   document.getElementById('amDate').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
   document.getElementById('amSummaryCards').innerHTML=`
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #B87333;border-radius:3px">
-      <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Value Potential</div>
-      ${complete?`<div style="font-size:20px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif;margin-bottom:4px">${fmt(sc.totL)} – ${fmt(sc.totH)}</div>
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-top:3px solid var(--copper);border-radius:10px">
+      <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Value Potential</div>
+      ${complete?`<div style="font-size:20px;font-weight:700;color:var(--copper);font-family:'Playfair Display',serif;margin-bottom:4px">${fmt(sc.totL)} – ${fmt(sc.totH)}</div>
       <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
       ${[{l:'Revenue uplift',lo:sc.rL,hi:sc.rH,col:'#4CAF80'},{l:'Cost reduction',lo:sc.cL,hi:sc.cH,col:'#D4956A'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#D0D8E0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col}">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:'—'}</span></div>`).join('')}`
       :`<div style="font-size:12px;color:#D0D8E0;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
     </div>
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||'#A0B4C8'};border-radius:3px">
-      <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">Portfolio Health</div>
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-top:3px solid ${rc?.border||'#A0B4C8'};border-radius:10px">
+      <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:6px;text-transform:uppercase">Portfolio Health</div>
       ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:${rc?.text||'#A0B4C8'};font-family:'Playfair Display',serif;margin-bottom:4px">${rc?.label||'—'}</div>
       <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
       ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#F5A623':'#4CAF80'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#D0D8E0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#F0F4FA'}">${s.v}</span></div>`).join('')}`
       :`<div style="font-size:12px;color:#D0D8E0;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #8B5CF6;border-radius:3px">
-      <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Generation Mix</div>
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-top:3px solid #8B5CF6;border-radius:10px">
+      <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Generation Mix</div>
       ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:#8B5CF6;font-family:'Playfair Display',serif;margin-bottom:4px">${tierCounts.find(t=>t.id==='gen3')?.pct||0}% Agentic</div>
       <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
       ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#D0D8E0;width:28px;text-align:right">${t.pct}%</span></div></div>`).join('')}`
@@ -3206,12 +3200,12 @@ function renderAlignment() {
   const topFnsEl=document.getElementById('amTopFns');
   if(complete&&topFns.length>0) {
     topFnsEl.style.display='block';
-    topFnsEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:10px;text-transform:uppercase">Top 3 Value Functions — ${BVF.profile.company||'Your Enterprise'}</div>
+    topFnsEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:10px;text-transform:uppercase">Top 3 Value Functions — ${BVF.profile.company||'Your Enterprise'}</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
-      ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:12px 14px;background:${i===0?'rgba(184,115,51,0.08)':'rgba(255,255,255,0.04)'};border:1px solid ${i===0?'#B87333':'rgba(184,115,51,0.15)'};border-radius:3px">
-        <div style="font-size:9px;letter-spacing:1.5px;color:#B87333;margin-bottom:5px">#${i+1} PRIORITY</div>
+      ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:14px 16px;background:${i===0?'rgba(196,137,74,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${i===0?'rgba(196,137,74,0.25)':'rgba(255,255,255,0.08)'};border-radius:10px">
+        <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);margin-bottom:5px">#${i+1} PRIORITY</div>
         <div style="font-size:14px;font-weight:700;color:#EDF2F7;margin-bottom:4px">${fn.icon} ${fn.label}</div>
-        <div style="font-size:15px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(lo)} – ${fmt(hi)}</div>
+        <div style="font-size:15px;font-weight:700;color:var(--copper);font-family:'Playfair Display',serif">${fmt(lo)} – ${fmt(hi)}</div>
         <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-top:2px">estimated annual impact</div>
       </div>`;}).join('')}
     </div>`;
@@ -3220,14 +3214,14 @@ function renderAlignment() {
   const amInvEl=document.getElementById('amInvestment');
   if(complete&&totBudget>0) {
     amInvEl.style.display='block';
-    amInvEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:8px;text-transform:uppercase">Investment vs Value Potential</div>
+    amInvEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:8px;text-transform:uppercase">Investment vs Value Potential</div>
     <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
-      <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totBudget)}</div></div>
+      <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:var(--copper);font-family:'Playfair Display',serif">${fmt(totBudget)}</div></div>
       <div style="font-size:24px;color:#D0D8E0">→</div>
       <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
       <div style="font-size:24px;color:#D0D8E0">→</div>
       <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
-      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #4CAF80;border-radius:3px;text-align:center"><div style="font-size:9px;color:#4CAF80;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
+      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #4CAF80;border-radius:10px;text-align:center"><div style="font-size:9px;color:#4CAF80;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
     </div>`;
   } else { amInvEl.style.display='none'; }
 
@@ -3235,7 +3229,7 @@ function renderAlignment() {
   const amPriEl=document.getElementById('amPriorities');
   if(BVF.priorities&&BVF.priorities.length>0){
     const catLabels={revenue:'Revenue Growth',cost:'Cost Reduction',ebitda:'EBITDA Impact',compliance:'Regulatory Compliance',cx:'Customer Experience',workforce:'Workforce Transformation',innovation:'Innovation',risk:'Risk Management'};
-    const catColors={revenue:'#4CAF80',cost:'#D4956A',ebitda:'#B87333',compliance:'#F59E0B',cx:'#7C6FCD',workforce:'#22C55E',innovation:'#8B5CF6',risk:'#E05252'};
+    const catColors={revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#F59E0B',cx:'#7C6FCD',workforce:'#22C55E',innovation:'#8B5CF6',risk:'#E05252'};
     // Map priorities to initiatives
     const priWithInit=BVF.priorities.map(p=>{
       const mapped=inits.filter(i=>{
@@ -3261,10 +3255,10 @@ function renderAlignment() {
 
     amPriEl.style.display='block';
     amPriEl.innerHTML=`
-      <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:12px;text-transform:uppercase">Strategic Priorities · Board-Level Objectives</div>
+      <div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:12px;text-transform:uppercase">Strategic Priorities · Board-Level Objectives</div>
       <div style="display:flex;flex-direction:column;gap:10px">
         ${priWithInit.map(p=>{
-          const col=catColors[p.category]||'#B87333';
+          const col=catColors[p.category]||'#C4894A';
           const label=catLabels[p.category]||p.category;
           const budget=p.initiatives.reduce((s,i)=>s+parseNum(i.budget),0);
           return `<div style="padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
@@ -3350,7 +3344,7 @@ const AGENT_BUCKET_CFG={
   'AGENT-REPLACEABLE':{hex:'#FF4444',bg:'rgba(255,68,68,0.1)',   border:'rgba(255,68,68,0.4)',   label:'Agent-Replaceable',tagline:'Replace or Eliminate',      emoji:'🔴'}
 };
 const AGENT_RISK_COL={LOW:'#22C55E',MEDIUM:'#F59E0B',HIGH:'#FF4444'};
-const AGENT_LLM_COL={'Claude':'#B87333','GPT':'#10A37F','Gemini':'#4285F4','Open source':'#9B59B6','Azure OpenAI':'#0078D4','AWS Bedrock':'#FF9900','Specialist':'#E85050'};
+const AGENT_LLM_COL={'Claude':'#C4894A','GPT':'#10A37F','Gemini':'#4285F4','Open source':'#9B59B6','Azure OpenAI':'#0078D4','AWS Bedrock':'#FF9900','Specialist':'#E85050'};
 
 function agentLLMColor(name){
   for(const[k,v] of Object.entries(AGENT_LLM_COL)) if((name||'').toLowerCase().includes(k.toLowerCase())) return v;
@@ -3390,7 +3384,7 @@ function agentHandleFileUpload(event){
 
   if(ext==='xlsx'||ext==='xls'){
     statusEl.style.display='block';
-    statusEl.style.background='rgba(184,115,51,0.15)';
+    statusEl.style.background='rgba(196,137,74,0.10)';
     statusEl.style.color='var(--copper)';
     statusEl.textContent='Reading spreadsheet...';
     const reader=new FileReader();
@@ -3459,7 +3453,7 @@ function agentParseXLSX(data,filename,statusEl){
   // or guide user to export as CSV
   // Since we don't have a full XLSX library, give a helpful message
   statusEl.style.display='block';
-  statusEl.style.background='rgba(184,115,51,0.15)';
+  statusEl.style.background='rgba(196,137,74,0.10)';
   statusEl.style.color='var(--copper)';
   statusEl.innerHTML='<strong>Excel files</strong>: For best results, please export as CSV first (<em>File → Save As → CSV</em>). Then upload the .csv file.<br>Or paste the data directly from your spreadsheet — just select the columns and Ctrl+C / Cmd+C, then paste here.';
 }
@@ -3574,7 +3568,7 @@ function agentBuildResults(client){
     <div class="agent-summary-title">${client||'Portfolio'} Analysis — ${total} initiatives classified</div>
     <div class="agent-summary-stats">
       ${Object.entries(AGENT_BUCKET_CFG).map(([k,c])=>`<div class="agent-stat-pill"><span class="agent-stat-dot" style="background:${c.hex}"></span><span style="color:${c.hex};font-weight:700">${counts[k]||0}</span><span style="color:var(--text-body)">${c.label}</span></div>`).join('')}
-      <div class="agent-stat-pill" style="border-color:rgba(184,115,51,0.5)"><span style="color:var(--copper);font-weight:700">${avg}%</span><span style="color:var(--text-body)">avg savings opp.</span></div>
+      <div class="agent-stat-pill" style="border-color:rgba(196,137,74,0.3)"><span style="color:var(--copper);font-weight:700">${avg}%</span><span style="color:var(--text-body)">avg savings opp.</span></div>
     </div>`;
 
   document.getElementById('agent-bucket-grid').innerHTML=Object.entries(AGENT_BUCKET_CFG).map(([bk,cfg])=>{
@@ -3675,7 +3669,7 @@ function agentBuildReport(){
             <span style="font-weight:700;font-size:14px;color:var(--white)">${item.toolName}</span>
             <span class="rag" style="color:${bc.hex};border-color:${bc.hex}55;background:transparent">${item.bucket}</span>
           </div>
-          <div style="margin-top:8px;padding:12px 14px;background:rgba(124,111,205,0.06);border:1px solid rgba(124,111,205,0.25);border-radius:3px">
+          <div style="margin-top:8px;padding:12px 14px;background:rgba(124,111,205,0.06);border:1px solid rgba(124,111,205,0.25);border-radius:8px">
             <span style="font-size:9px;letter-spacing:2px;color:var(--indigo);font-weight:600;display:block;margin-bottom:6px;text-transform:uppercase">Primary recommendation</span>
             <p style="font-size:12px;color:var(--text-body);line-height:1.75"><strong style="color:${pc}">${item.primaryLLM?.name||'—'} (${item.primaryLLM?.model||''})</strong> — Fit: ${item.primaryLLM?.fitScore||'—'}/100 · ${item.primaryLLM?.deploymentModel||''} · ${item.buildApproach||''} approach</p>
             <p style="font-size:12px;color:var(--text-body);line-height:1.75;margin-top:6px">${item.primaryLLM?.rationale||''}</p>
@@ -3711,7 +3705,7 @@ function agentBuildReport(){
           <div class="agent-report-item-header"><span style="font-weight:700;font-size:14px;color:var(--white)">${item.name}</span><span class="rag" style="color:${AGENT_RISK_COL[item.annualRisk]};border-color:${AGENT_RISK_COL[item.annualRisk]}66;background:transparent">${item.annualRisk} annual risk</span></div>
           <p style="font-size:12px;color:var(--text-body);line-height:1.8;margin-bottom:8px">${item.rationale}</p>
           ${item.riskRationale?`<p style="font-size:11px;color:#B8A88A;font-style:italic;margin-bottom:8px">⚡ ${item.riskRationale}</p>`:''}
-          ${item.benchmarks&&item.benchmarks.length?`<div style="margin-bottom:10px;padding:12px 14px;background:rgba(184,115,51,0.05);border:1px solid var(--copper-border);border-radius:3px"><span class="agent-benchmark-label">Supporting benchmarks</span>${item.benchmarks.map(b=>`<div class="agent-benchmark-item">${b}</div>`).join('')}</div>`:''}
+          ${item.benchmarks&&item.benchmarks.length?`<div style="margin-bottom:10px;padding:12px 14px;background:rgba(196,137,74,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px"><span class="agent-benchmark-label">Supporting benchmarks</span>${item.benchmarks.map(b=>`<div class="agent-benchmark-item">${b}</div>`).join('')}</div>`:''}
           <p style="font-size:12px;font-weight:700;color:${cfg.hex}">→ ${item.action}</p>
         </div>`).join('')}
       </div>`;
@@ -4017,7 +4011,7 @@ function renderFacStep() {
         </div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
-        <div style="padding:16px 18px;background:rgba(184,115,51,0.06);border:1px solid rgba(184,115,51,0.15);border-left:3px solid var(--copper);border-radius:0 6px 6px 0">
+        <div style="padding:16px 18px;background:rgba(196,137,74,0.04);border:1px solid rgba(255,255,255,0.08);border-left:3px solid var(--copper);border-radius:0 8px 8px 0">
           <div style="font-size:9px;letter-spacing:2px;color:var(--copper);font-weight:600;margin-bottom:8px">💬 SAY</div>
           <div style="font-size:13px;color:var(--ice);line-height:1.7;font-style:italic">"${s.say}"</div>
         </div>
