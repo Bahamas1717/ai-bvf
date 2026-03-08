@@ -498,14 +498,23 @@ header { transition:box-shadow 0.3s ease; }
   [style*="color:var(--text-muted)"], [style*="color:#C0CCD6"] { color:#444 !important; }
   [style*="color:var(--text-dim)"], [style*="color:#D0D8E0"] { color:#555 !important; }
 
-  /* Inline font-size overrides for JS-generated small text */
-  [style*="font-size:9px"] { font-size:12px !important; }
-  [style*="font-size:10px"] { font-size:13px !important; }
+  /* Inline font-size overrides — normalise ALL small text to match */
+  [style*="font-size:9px"] { font-size:13px !important; }
+  [style*="font-size:10px"] { font-size:14px !important; }
   [style*="font-size:11px"] { font-size:14px !important; }
+  [style*="font-size:12px"] { font-size:15px !important; }
   [style*="font-size:13px"] { font-size:15px !important; }
+  [style*="font-size:14px"] { font-size:15px !important; }
 
-  /* Alignment map for page 2 */
+  /* Alignment map — match exec dashboard sizing */
+  #panel-alignment { font-size:15px !important; }
   #panel-alignment [style*="background:linear-gradient"] { background:#f0ebe4 !important; border:1px solid #ddd !important; }
+  #panel-alignment [style*="font-size:20px"] { font-size:22px !important; }
+  #panel-alignment [style*="font-size:22px"] { font-size:24px !important; }
+  #panel-alignment [style*="font-size:18px"] { font-size:20px !important; }
+  #panel-alignment [style*="letter-spacing:2.5px"] { font-size:13px !important; }
+  #panel-alignment [style*="letter-spacing:1.5px"] { font-size:13px !important; }
+  #panel-alignment [style*="letter-spacing:1px"] { font-size:13px !important; }
 
   /* RAG badges keep colour */
   .rag-green { color:#1a7a3e !important; border-color:#1a7a3e !important; background:#e8f5e9 !important; }
