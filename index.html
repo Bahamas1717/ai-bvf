@@ -4176,11 +4176,31 @@ async function agentCallAPI(system,userMsg,maxTokens){
   if(!res.ok) throw new Error('API error '+res.status+': '+(data.error?.message||JSON.stringify(data)));
   let raw=(data.content||[]).map(b=>b.text||'').join('');
   raw=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
-  // Try to extract JSON array or object
+  // Try direct parse first (cleanest)
+  try{ JSON.parse(raw); return raw; }catch(_){}
+  // Try to extract JSON — use a balanced-brace parser for reliability
+  function extractJSON(str){
+    let start=-1, depth=0, inStr=false, esc=false;
+    const opener=str.indexOf('{')!==-1&&(str.indexOf('[')===-1||str.indexOf('{')<str.indexOf('['))?'{':'[';
+    const closer=opener==='{'?'}':']';
+    for(let i=0;i<str.length;i++){
+      const c=str[i];
+      if(esc){esc=false;continue;}
+      if(c==='\\'){esc=true;continue;}
+      if(c==='"'&&!esc){inStr=!inStr;continue;}
+      if(inStr) continue;
+      if(c===opener||c===(opener==='{'?'[':'{')){if(depth===0) start=i; depth++;}
+      if(c===closer||c===(closer==='}'?']':'}')){depth--;if(depth===0&&start!==-1) return str.substring(start,i+1);}
+    }
+    return null;
+  }
+  const extracted=extractJSON(raw);
+  if(extracted){ try{ JSON.parse(extracted); return extracted; }catch(_){} }
+  // Fallback: simple regex
   const arrMatch=raw.match(/\[[\s\S]*\]/);
   const objMatch=raw.match(/\{[\s\S]*\}/);
-  if(arrMatch) return arrMatch[0];
-  if(objMatch) return objMatch[0];
+  if(arrMatch){ try{ JSON.parse(arrMatch[0]); return arrMatch[0]; }catch(_){} }
+  if(objMatch){ try{ JSON.parse(objMatch[0]); return objMatch[0]; }catch(_){} }
   return raw;
 }
 
