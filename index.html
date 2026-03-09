@@ -4165,8 +4165,8 @@ async function agentCallAPI(system,userMsg,maxTokens){
   maxTokens=maxTokens||4000;
   const res=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':agentGetKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:maxTokens,system,messages:[{role:'user',content:userMsg}]})
+    headers:{'Content-Type':'application/json','x-api-key':agentGetKey(),'anthropic-version':'2025-01-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:maxTokens,system:[{type:'text',text:system}],messages:[{role:'user',content:userMsg}]})
   });
   const data=await res.json();
   if(!res.ok) throw new Error('API error '+res.status+': '+(data.error?.message||JSON.stringify(data)));
@@ -4390,7 +4390,11 @@ async function agentExtractStrategy(){
       if(BVF.view!=='executive') setView('executive');
     },1500);
 
-  }catch(e){errEl.textContent='Error: '+e.message;errEl.style.display='block';showToast('Extraction failed — check your API key','error');}
+  }catch(e){
+    console.error('BVF Strategy Extraction Error:',e);
+    errEl.textContent='Error: '+e.message;errEl.style.display='block';
+    showToast('Extraction failed: '+e.message,'error',8000);
+  }
   finally{btn.disabled=false;btn.textContent='Extract Initiatives & Build Portfolio';}
 }
 
