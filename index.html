@@ -2629,6 +2629,8 @@ function checkGate() {
   if (VALID_HASHES.includes(hashCode(code))) {
     document.getElementById('access-gate').style.display = 'none';
     sessionStorage.setItem('bvf-auth', '1');
+    // Skip welcome screen — go straight to platform
+    enterPlatform('executive');
   } else {
     document.getElementById('gate-error').style.display = 'block';
     document.getElementById('gate-code').style.borderColor = '#F87171';
@@ -2643,6 +2645,8 @@ if (sessionStorage.getItem('bvf-auth') === '1') {
   document.addEventListener('DOMContentLoaded', () => {
     const gate = document.getElementById('access-gate');
     if (gate) gate.style.display = 'none';
+    // Skip welcome screen — go straight to platform
+    if(typeof enterPlatform==='function') enterPlatform('executive');
   });
 }
 // Focus the input on load
@@ -4311,13 +4315,20 @@ async function agentExtractStrategy(){
   if(!text||text.length<50){errEl.textContent='Please paste a strategy document (minimum 50 characters).';errEl.style.display='block';return;}
   btn.disabled=true; btn.innerHTML='<span class="agent-spinner"></span> Extracting initiatives...';
   try{
-    const raw=await agentCallAPI(AGENT_STRATEGY_PROMPT,'Extract initiatives from this strategy document:\\n\\n'+text,6000);
+    const raw=await agentCallAPI(AGENT_STRATEGY_PROMPT,'Extract initiatives from this strategy document:\n\n'+text,6000);
+    console.log('BVF Agent raw response:',raw);
     // Parse — could be JSON object (not array)
     let parsed;
-    try{ parsed=JSON.parse(raw); }catch(_){
-      const m=raw.match(/\\{[\\s\\S]*\\}/);
-      if(m) parsed=JSON.parse(m[0]);
-      else throw new Error('Could not parse extraction results.');
+    try{ parsed=JSON.parse(raw); }catch(parseErr){
+      console.log('BVF direct parse failed, trying regex:',parseErr.message);
+      const m=raw.match(/\{[\s\S]*\}/);
+      if(m){
+        console.log('BVF regex match found, length:',m[0].length);
+        parsed=JSON.parse(m[0]);
+      } else {
+        console.error('BVF no JSON found in response:',raw.substring(0,500));
+        throw new Error('Could not parse extraction results. Response: '+raw.substring(0,200));
+      }
     }
 
     // Import profile
