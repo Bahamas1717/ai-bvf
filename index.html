@@ -423,7 +423,7 @@ header { transition:box-shadow 0.3s ease; }
   #profile-panel, #toast-container, .btn, button,
   .view-toggle, .profile-trigger, .header-controls,
   #practitioner-quickstart, .mirror, .empty-state,
-  #panel-portfolio, #panel-agent, #panel-governance, #panel-facilitate, #panel-benchmarks, #panel-change-enablement, #panel-healthcare, #panel-pace-layer,
+  #panel-portfolio, #panel-agent, #panel-governance, #panel-facilitate, #panel-benchmarks, #panel-diagnostics,
   #dash-practitioner { display:none !important; }
 
   /* Show exec dashboard + alignment */
@@ -1189,14 +1189,8 @@ header { transition:box-shadow 0.3s ease; }
     <span class="tab-icon">⚖</span> Governance
     <span class="dot" id="dot-governance" style="background:var(--red-light)"></span>
   <span class="tab-progress complete">✓</span></button>
-  <button class="tab-btn" onclick="switchTab('change-enablement')" id="btn-change-enablement">
-    <span class="tab-icon">⚙</span> Change Enablement
-  </button>
-  <button class="tab-btn" onclick="switchTab('healthcare')" id="btn-healthcare" style="display:none">
-    <span class="tab-icon">🏥</span> Healthcare
-  </button>
-  <button class="tab-btn" onclick="switchTab('pace-layer')" id="btn-pace-layer">
-    <span class="tab-icon">◎</span> Pace Layer
+  <button class="tab-btn" onclick="switchTab('diagnostics')" id="btn-diagnostics">
+    <span class="tab-icon">⚙</span> Diagnostics
   </button>
   <button class="tab-btn" onclick="switchTab('alignment')" id="btn-alignment">
     <span class="tab-icon">◬</span> Alignment Map
@@ -2069,94 +2063,110 @@ The agent will extract:
   </div>
 
   <!-- ── CHANGE ENABLEMENT TAB ── -->
-  <div class="tab-panel" id="panel-change-enablement">
-    <div style="margin-bottom:24px">
-      <span class="label">Change Enablement Assessment</span>
-      <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">BCG research shows 70% of transformation value comes from people and process, not technology. This diagnostic uses the EY/Oxford Said Business School Six Drivers model to measure your organisation's capacity to absorb change, and feeds directly into the Decision Confidence Score.</div>
-      <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Score each of the six drivers below from 1 (weak) to 5 (strong) based on your organisation's current capability. The composite score converts to a Change Enablement percentage that weights into your DCS calculation. If CM budget is below 10% of initiative budget, the score is automatically capped at 40%.</div>
-    </div>
-    
-    <div style="padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0;margin-bottom:24px">
-      <span class="label" style="margin-bottom:8px">The Six Drivers</span>
-      <p style="font-size:13px;color:var(--text-body);line-height:1.7;font-style:italic">"Organizations that excel in all six drivers—Lead, Inspire, Care, Empower, Build, Collaborate—see 2.6x greater value realization from transformation programmes. Change Enablement composite score drives the multiplier."</p>
-      <div style="font-size:10px;color:var(--text-dim);margin-top:8px">EY/Oxford Said Business School · Change Enablement Research 2022</div>
-    </div>
-    
-    <div style="margin-bottom:24px">
-      <span class="label" style="margin-bottom:16px">Score Each Driver (1-5)</span>
-      <div id="ce-drivers" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px"></div>
-    </div>
-    
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
-        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE COMPOSITE (1-5)</div>
-        <div style="font-size:28px;font-weight:700;color:var(--white)" id="ce-composite">—</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Average of all 6 drivers</div>
-      </div>
-      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
-        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE PERCENTAGE (0-100%)</div>
-        <div style="font-size:28px;font-weight:700;color:var(--copper-light)" id="ce-percentage">—</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">((Composite - 1) / 4) × 100</div>
-      </div>
-    </div>
-    
-    <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
-      <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">CM BUDGET ADEQUACY CHECK</div>
-      <div style="font-size:12px;color:var(--text-body)">If CM Budget < 10% of Initiative Budget, CE is capped at 40%</div>
-      <div id="ce-cm-warning" style="margin-top:12px;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:4px;font-size:11px;color:var(--text-muted);display:none"></div>
-    </div>
-  </div>
+  <!-- ── CONSOLIDATED DIAGNOSTICS TAB (v2.0) ── -->
+  <div class="tab-panel" id="panel-diagnostics">
 
-  <!-- ── HEALTHCARE MODULE TAB ── -->
-  <div class="tab-panel" id="panel-healthcare">
-    <div style="margin-bottom:24px">
-      <span class="label">Healthcare Readiness Assessment</span>
-      <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">Healthcare AI carries unique risks that generic frameworks miss: regulatory approval timelines, clinical validation requirements, clinician workflow disruption, and EHR integration complexity. This module applies a Healthcare Readiness Factor (0.5 to 1.0) that multiplies into the DCS, ensuring the confidence score reflects sector-specific realities.</div>
-      <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Score each of the four healthcare overlays below from 1 (early stage) to 5 (mature). The average is normalised to produce the Healthcare Readiness Factor. A score below 0.7 signals material risk that should be escalated to the board. This tab only appears when the company profile industry is set to Healthcare/MedTech.</div>
+    <!-- Diagnostics intro -->
+    <div style="margin-bottom:20px">
+      <span class="label">v2.0 Diagnostics</span>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.7;max-width:720px">Three diagnostic layers that sit behind the Decision Confidence Score. Change Enablement measures your people-side readiness using the EY/Oxford Six Drivers. Pace Layer detects structural misalignment across transformation horizons and puts a financial cost on it. Healthcare Readiness applies sector-specific overlays when the industry warrants it. Together, they answer the question the DCS alone cannot: <em>why</em> an initiative will succeed or fail.</div>
     </div>
-    
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px" id="health-overlays"></div>
-    
-    <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
-      <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">HEALTHCARE READINESS FACTOR</div>
-      <div style="display:flex;align-items:baseline;gap:12px">
-        <div style="font-size:28px;font-weight:700;color:var(--white)" id="health-factor">—</div>
-        <div style="font-size:12px;color:var(--text-muted)">Range: 0.5 to 1.0 (floor 0.5)</div>
-      </div>
-      <div style="font-size:10px;color:var(--text-dim);margin-top:6px;font-style:italic">Average of 4 scores / 5 · Applies to DCS multiplier</div>
-    </div>
-  </div>
 
-  <!-- ── PACE LAYER DIAGNOSTIC TAB ── -->
-  <div class="tab-panel" id="panel-pace-layer">
-    <div style="margin-bottom:24px">
-      <span class="label">Pace Layer Diagnostic</span>
-      <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">Most AI portfolios fail not because individual initiatives are weak, but because different parts of the organisation move at fundamentally different speeds. Inspired by Stewart Brand's pace layering concept, this diagnostic measures the alignment gap across Operational (0-12 months), Strategic (12-36 months), and Existential (36+ months) horizons, then calculates the financial cost of that misalignment.</div>
-      <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Answer the diagnostic questions for each pace layer. The Drag Coefficient (1.0 to 3.0) measures how far apart your fastest and slowest layers are. This maps to a failure rate (27% at 1.0 rising to 90% at 3.0) and an Organisational Drag Cost that quantifies how much portfolio value is at risk from structural misalignment.</div>
+    <!-- Sub-tab navigation -->
+    <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0" id="diag-sub-nav">
+      <button onclick="switchDiagSub('ce')" id="diag-btn-ce" class="diag-sub-btn active" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--copper);background:rgba(196,137,74,0.08);border:1px solid rgba(196,137,74,0.15);border-bottom:2px solid var(--copper);border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">⚙ Change Enablement</button>
+      <button onclick="switchDiagSub('pace')" id="diag-btn-pace" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.06);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">◎ Pace Layer</button>
+      <button onclick="switchDiagSub('health')" id="diag-btn-health" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.06);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s;display:none">🏥 Healthcare</button>
     </div>
-    
-    <div style="margin-bottom:24px" id="pace-layers-container"></div>
-    
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+
+    <!-- SUB: Change Enablement -->
+    <div id="diag-sub-ce">
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">BCG research shows 70% of transformation value comes from people and process, not technology. This diagnostic uses the EY/Oxford Said Business School Six Drivers model to measure your organisation's capacity to absorb change, and feeds directly into the Decision Confidence Score.</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Score each of the six drivers below from 1 (weak) to 5 (strong). The composite converts to a CE percentage that weights into the DCS. If CM budget is below 10% of initiative budget, CE is capped at 40%.</div>
+      </div>
+
+      <div style="padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0;margin-bottom:24px">
+        <span class="label" style="margin-bottom:8px">The Six Drivers</span>
+        <p style="font-size:13px;color:var(--text-body);line-height:1.7;font-style:italic">"Organizations that excel in all six drivers, Lead, Inspire, Care, Empower, Build, Collaborate, see 2.6x greater value realization from transformation programmes."</p>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:8px">EY/Oxford Said Business School, Change Enablement Research 2022</div>
+      </div>
+
+      <div style="margin-bottom:24px">
+        <span class="label" style="margin-bottom:16px">Score Each Driver (1-5)</span>
+        <div id="ce-drivers" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px"></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+          <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE COMPOSITE (1-5)</div>
+          <div style="font-size:28px;font-weight:700;color:var(--white)" id="ce-composite">—</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Average of all 6 drivers</div>
+        </div>
+        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+          <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE PERCENTAGE (0-100%)</div>
+          <div style="font-size:28px;font-weight:700;color:var(--copper-light)" id="ce-percentage">—</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px">((Composite - 1) / 4) x 100</div>
+        </div>
+      </div>
+
       <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
-        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">DRAG COEFFICIENT (1.0-3.0)</div>
-        <div style="font-size:28px;font-weight:700;color:var(--white)" id="pace-drag">—</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Fastest / Slowest layer score</div>
+        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">CM BUDGET ADEQUACY CHECK</div>
+        <div style="font-size:12px;color:var(--text-body)">If CM Budget < 10% of Initiative Budget, CE is capped at 40%</div>
+        <div id="ce-cm-warning" style="margin-top:12px;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:4px;font-size:11px;color:var(--text-muted);display:none"></div>
       </div>
+    </div>
+
+    <!-- SUB: Pace Layer -->
+    <div id="diag-sub-pace" style="display:none">
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">Most AI portfolios fail not because individual initiatives are weak, but because different parts of the organisation move at fundamentally different speeds. Drawing on Stewart Brand's pace layering concept and Jeroen Tas and Rob Theunissen's "Changing Fast and Slow" work on enterprise transformation, this diagnostic measures the alignment gap across three horizons and calculates the financial cost of that misalignment.</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Answer the diagnostic questions for each pace layer. The Drag Coefficient (1.0 to 3.0) maps to a failure rate (27% at 1.0 rising to 90% at 3.0) and an Organisational Drag Cost representing portfolio value at risk from structural misalignment.</div>
+      </div>
+
+      <div style="margin-bottom:24px" id="pace-layers-container"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+          <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">DRAG COEFFICIENT (1.0-3.0)</div>
+          <div style="font-size:28px;font-weight:700;color:var(--white)" id="pace-drag">—</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Fastest / Slowest layer score</div>
+        </div>
+        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+          <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">FAILURE RATE</div>
+          <div style="font-size:28px;font-weight:700;color:var(--red-light)" id="pace-failure">—</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Interpolated: 27% @ 1.0 to 90% @ 3.0</div>
+        </div>
+      </div>
+
       <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
-        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">FAILURE RATE</div>
-        <div style="font-size:28px;font-weight:700;color:var(--red-light)" id="pace-failure">—</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Interpolated: 27% @ 1.0 to 90% @ 3.0</div>
+        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">ORGANISATIONAL DRAG COST</div>
+        <div style="display:flex;align-items:baseline;gap:12px">
+          <div style="font-size:24px;font-weight:700;color:var(--red-light)" id="pace-drag-cost">—</div>
+          <div style="font-size:11px;color:var(--text-muted)">= Total Portfolio Value x Failure Rate</div>
+        </div>
       </div>
     </div>
-    
-    <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
-      <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">ORGANIZATIONAL DRAG COST</div>
-      <div style="display:flex;align-items:baseline;gap:12px">
-        <div style="font-size:24px;font-weight:700;color:var(--red-light)" id="pace-drag-cost">—</div>
-        <div style="font-size:11px;color:var(--text-muted)">= Total Portfolio Value × Failure Rate</div>
+
+    <!-- SUB: Healthcare -->
+    <div id="diag-sub-health" style="display:none">
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">Healthcare AI carries unique risks that generic frameworks miss: regulatory approval timelines, clinical validation requirements, clinician workflow disruption, and EHR integration complexity. This module applies a Healthcare Readiness Factor (0.5 to 1.0) that multiplies into the DCS.</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Score each of the four overlays from 1 (early stage) to 5 (mature). A factor below 0.7 signals material risk that should be escalated to the board.</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px" id="health-overlays"></div>
+
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">HEALTHCARE READINESS FACTOR</div>
+        <div style="display:flex;align-items:baseline;gap:12px">
+          <div style="font-size:28px;font-weight:700;color:var(--white)" id="health-factor">—</div>
+          <div style="font-size:12px;color:var(--text-muted)">Range: 0.5 to 1.0 (floor 0.5)</div>
+        </div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:6px;font-style:italic">Average of 4 scores / 5, applies to DCS multiplier</div>
       </div>
     </div>
+
   </div>
 
 
@@ -2468,6 +2478,7 @@ The agent will extract:
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">PRIMARY SOURCES</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
               <div style="margin-bottom:6px"><strong style="color:var(--ice)">Stewart Brand</strong> — "The Clock of the Long Now" (1999). Introduces pace layering as a model for how civilisations and organisations operate at different speeds. We adapt this for AI portfolio alignment.</div>
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">Jeroen Tas &amp; Rob Theunissen</strong> — "Changing Fast and Slow." Applies pace layering directly to enterprise transformation, demonstrating how organisations that fail to synchronise fast-moving digital initiatives with slower-moving cultural and structural change create systemic drag. Core influence on the BVF Drag Coefficient model.</div>
               <div style="margin-bottom:6px"><strong style="color:var(--ice)">McKinsey</strong> — "Three Horizons of Growth" framework, updated for AI context in "Superagency in the Workplace" (Jan 2025). Maps Horizon 1 (defend), Horizon 2 (extend), Horizon 3 (create) to initiative classification.</div>
               <div style="margin-bottom:6px"><strong style="color:var(--ice)">MIT CISR</strong> — Digital Transformation research (2024). Identifies pace misalignment as a leading cause of portfolio-level failure, distinct from initiative-level failure.</div>
               <div><strong style="color:var(--ice)">S&amp;P Global</strong> — "AI Implementation Survey" (2025). 42% of organisations abandoned most AI initiatives, with structural misalignment cited as a top-three cause. Validates the drag cost model.</div>
@@ -3153,9 +3164,7 @@ function switchTab(tabId, skipHistory) {
   if (tabId === 'alignment') renderAlignment();
   if (tabId === 'agent') renderAgent();
   if (tabId === 'facilitate') renderFacilitate();
-  if (tabId === 'change-enablement') renderChangeEnablement();
-  if (tabId === 'healthcare') renderHealthcare();
-  if (tabId === 'pace-layer') renderPaceLayer();
+  if (tabId === 'diagnostics') renderDiagnostics();
   // Update back button visibility
   updateBackButton();
 }
@@ -3185,7 +3194,50 @@ function updateBackButton() {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// CHANGE ENABLEMENT TAB
+// DIAGNOSTICS TAB (v2.0 Consolidated)
+// ══════════════════════════════════════════════════════════════════════════════
+let activeDiagSub = 'ce';
+
+function renderDiagnostics() {
+  // Show/hide healthcare sub-tab based on industry
+  const healthSubBtn = document.getElementById('diag-btn-health');
+  if (healthSubBtn) healthSubBtn.style.display = BVF.profile.industry === 'healthcare' ? '' : 'none';
+  // If healthcare sub was active but industry changed, reset to CE
+  if (activeDiagSub === 'health' && BVF.profile.industry !== 'healthcare') {
+    activeDiagSub = 'ce';
+  }
+  switchDiagSub(activeDiagSub);
+}
+
+function switchDiagSub(sub) {
+  activeDiagSub = sub;
+  // Toggle sub-tab buttons
+  document.querySelectorAll('.diag-sub-btn').forEach(btn => {
+    btn.style.color = 'var(--text-muted)';
+    btn.style.background = 'transparent';
+    btn.style.borderColor = 'rgba(255,255,255,0.06)';
+    btn.style.borderBottomColor = 'transparent';
+  });
+  const activeBtn = document.getElementById('diag-btn-' + sub);
+  if (activeBtn) {
+    activeBtn.style.color = 'var(--copper)';
+    activeBtn.style.background = 'rgba(196,137,74,0.08)';
+    activeBtn.style.borderColor = 'rgba(196,137,74,0.15)';
+    activeBtn.style.borderBottomColor = 'var(--copper)';
+  }
+  // Toggle sub-panels
+  ['ce', 'pace', 'health'].forEach(s => {
+    const panel = document.getElementById('diag-sub-' + s);
+    if (panel) panel.style.display = s === sub ? 'block' : 'none';
+  });
+  // Render the active sub-panel content
+  if (sub === 'ce') renderChangeEnablement();
+  if (sub === 'pace') renderPaceLayer();
+  if (sub === 'health') renderHealthcare();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHANGE ENABLEMENT
 // ══════════════════════════════════════════════════════════════════════════════
 const CE_DRIVERS = ['Lead', 'Inspire', 'Care', 'Empower', 'Build', 'Collaborate'];
 
@@ -3256,16 +3308,9 @@ const HEALTH_OVERLAYS = [
 ];
 
 function renderHealthcare() {
-  // Show/hide based on industry
-  const btn = document.getElementById('btn-healthcare');
   const isHealthcare = BVF.profile.industry === 'healthcare';
-  btn.style.display = isHealthcare ? 'block' : 'none';
-  
-  if (!isHealthcare) {
-    document.getElementById('panel-healthcare').style.display = 'none';
-    return;
-  }
-  
+  if (!isHealthcare) return;
+
   // Initialize data if not exists
   if (!BVF.healthcare) {
     BVF.healthcare = { overlayScores: {} };
@@ -3454,11 +3499,11 @@ function updateProfile() {
   updateProfileSummary();
   updateDashboardKPIs();
   if (BVF.view === 'practitioner') renderBVF();
-  const healthBtn = document.getElementById('btn-healthcare');
-  if (healthBtn) healthBtn.style.display = BVF.profile.industry === 'healthcare' ? 'block' : 'none';
+  const healthSubBtn = document.getElementById('diag-btn-health');
+  if (healthSubBtn) healthSubBtn.style.display = BVF.profile.industry === 'healthcare' ? '' : 'none';
   if (BVF.profile.industry !== 'healthcare') {
-    const hp = document.getElementById('panel-healthcare');
-    if (hp) hp.style.display = 'none';
+    const hs = document.getElementById('diag-sub-health');
+    if (hs) hs.style.display = 'none';
   }
   saveState();
   updateTabProgress();
