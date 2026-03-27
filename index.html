@@ -1,28 +1,5 @@
-<!--
-  ╔══════════════════════════════════════════════════════════════════════╗
-  ║  AI BUSINESS VALUE FRAMEWORK (BVF)                                  ║
-  ║  © 2026 Craig Horton Advisory. All rights reserved.                 ║
-  ║                                                                     ║
-  ║  PROPRIETARY AND CONFIDENTIAL                                       ║
-  ║                                                                     ║
-  ║  This software, including all source code, design, methodology,     ║
-  ║  scoring algorithms, benchmark data, facilitation scripts, and      ║
-  ║  framework architecture, is the intellectual property of            ║
-  ║  Craig Horton Advisory (KVK: pending).                              ║
-  ║                                                                     ║
-  ║  Unauthorised copying, modification, distribution, reverse          ║
-  ║  engineering, or creation of derivative works is strictly            ║
-  ║  prohibited and may result in legal action.                         ║
-  ║                                                                     ║
-  ║  Licensed use is granted only under written agreement with          ║
-  ║  Craig Horton Advisory. Contact: craig@craighortonadvisory.com      ║
-  ║                                                                     ║
-  ║  Version: 2.0 | Build: March 2026                                   ║
-  ╚══════════════════════════════════════════════════════════════════════╝
--->
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI BVF — Business Value Framework | Craig Horton Advisory</title>
@@ -34,7 +11,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI Business Value Framework — Craig Horton Advisory">
 <meta name="twitter:description" content="Map every AI investment to board-level outcomes. Diagnose governance gaps. Built on McKinsey, BCG and Gartner benchmarks.">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=DM+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════════
    BVF UNIFIED DESIGN SYSTEM
@@ -446,7 +423,7 @@ header { transition:box-shadow 0.3s ease; }
   #profile-panel, #toast-container, .btn, button,
   .view-toggle, .profile-trigger, .header-controls,
   #practitioner-quickstart, .mirror, .empty-state,
-  #panel-portfolio, #panel-agent, #panel-governance, #panel-facilitate, #panel-benchmarks,
+  #panel-portfolio, #panel-agent, #panel-governance, #panel-facilitate, #panel-benchmarks, #panel-change-enablement, #panel-healthcare, #panel-pace-layer,
   #dash-practitioner { display:none !important; }
 
   /* Show exec dashboard + alignment */
@@ -1087,7 +1064,28 @@ header { transition:box-shadow 0.3s ease; }
   .view-toggle button { padding: 6px 12px; font-size: 9px; }
 }
 </style>
-</head>
+<style id="claude-agent-animation-styles">
+      @keyframes claude-pulse {
+        0% {
+          box-shadow: 
+            inset 0 0 10px rgba(217, 119, 87, 0.5),
+            inset 0 0 20px rgba(217, 119, 87, 0.3),
+            inset 0 0 30px rgba(217, 119, 87, 0.1);
+        }
+        50% {
+          box-shadow: 
+            inset 0 0 15px rgba(217, 119, 87, 0.7),
+            inset 0 0 25px rgba(217, 119, 87, 0.5),
+            inset 0 0 35px rgba(217, 119, 87, 0.2);
+        }
+        100% {
+          box-shadow: 
+            inset 0 0 10px rgba(217, 119, 87, 0.5),
+            inset 0 0 20px rgba(217, 119, 87, 0.3),
+            inset 0 0 30px rgba(217, 119, 87, 0.1);
+        }
+      }
+    </style></head>
 <body>
 
 <!-- Toast notification container -->
@@ -1145,10 +1143,10 @@ header { transition:box-shadow 0.3s ease; }
           <option value="universal">Universal / Other</option>
           <option value="financial">Financial Services</option>
           <option value="healthcare">Healthcare / MedTech</option>
-          <option value="manufacturing">Manufacturing & Supply Chain</option>
+          <option value="manufacturing">Manufacturing &amp; Supply Chain</option>
           <option value="retail">Retail / Consumer</option>
           <option value="technology">Technology</option>
-          <option value="energy">Energy & Utilities</option>
+          <option value="energy">Energy &amp; Utilities</option>
           <option value="public">Public Sector</option>
         </select>
       </div>
@@ -1161,7 +1159,7 @@ header { transition:box-shadow 0.3s ease; }
         <select id="p_orgReadiness" onchange="updateProfile()" title="Organisational readiness affects drag cost calculation">
           <option value="bureaucratic">Bureaucratic</option>
           <option value="traditional">Traditional</option>
-          <option value="mixed" selected>Mixed</option>
+          <option value="mixed" selected="">Mixed</option>
           <option value="agile">Agile</option>
         </select>
       </div>
@@ -1179,17 +1177,26 @@ header { transition:box-shadow 0.3s ease; }
   <button id="nav-back-btn" onclick="goBack()" title="Back" style="display:none;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--copper);font-size:16px;cursor:pointer;flex-shrink:0;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.1)'">←</button>
   <button class="tab-btn active" onclick="switchTab('dashboard')" id="btn-dashboard">
     <span class="tab-icon">◈</span> Dashboard
-  </button>
+  <span class="tab-progress empty"></span></button>
   <button class="tab-btn" onclick="switchTab('portfolio')" id="btn-portfolio">
     <span class="tab-icon">⬡</span> Portfolio
     <span class="dot" id="dot-portfolio" style="background:var(--amber-light)"></span>
-  </button>
+  <span class="tab-progress empty">0</span></button>
   <button class="tab-btn" onclick="switchTab('agent')" id="btn-agent">
     <span class="tab-icon">⚡</span> Agent
-  </button>
+  <span class="tab-progress empty"></span></button>
   <button class="tab-btn" onclick="switchTab('governance')" id="btn-governance">
     <span class="tab-icon">⚖</span> Governance
     <span class="dot" id="dot-governance" style="background:var(--red-light)"></span>
+  <span class="tab-progress complete">✓</span></button>
+  <button class="tab-btn" onclick="switchTab('change-enablement')" id="btn-change-enablement">
+    <span class="tab-icon">⚙</span> Change Enablement
+  </button>
+  <button class="tab-btn" onclick="switchTab('healthcare')" id="btn-healthcare" style="display:none">
+    <span class="tab-icon">🏥</span> Healthcare
+  </button>
+  <button class="tab-btn" onclick="switchTab('pace-layer')" id="btn-pace-layer">
+    <span class="tab-icon">◎</span> Pace Layer
   </button>
   <button class="tab-btn" onclick="switchTab('alignment')" id="btn-alignment">
     <span class="tab-icon">◬</span> Alignment Map
@@ -1252,7 +1259,7 @@ header { transition:box-shadow 0.3s ease; }
     <div class="welcome-trust">
       <div class="trust-item"><span class="trust-icon">🔒</span> No data leaves your browser</div>
       <div class="trust-item"><span class="trust-icon">📊</span> McKinsey · BCG · Gartner benchmarks</div>
-      <div class="trust-item"><span class="trust-icon">🏛</span> EU AI Act & DORA aligned</div>
+      <div class="trust-item"><span class="trust-icon">🏛</span> EU AI Act &amp; DORA aligned</div>
       <div class="trust-item"><span class="trust-icon">⚡</span> Setup in under 5 minutes</div>
     </div>
   </div>
@@ -1361,7 +1368,7 @@ header { transition:box-shadow 0.3s ease; }
           <span class="label" style="margin-bottom:0">Strategic Priorities · Board-Level Objectives</span>
           <button class="btn btn-sm btn-ghost" id="btn-add-priority" onclick="addPriority()" style="font-size:9px;padding:5px 12px">+ Add Priority</button>
         </div>
-        <div id="priority-empty" style="text-align:center;padding:32px;border:1px dashed var(--copper-border);border-radius:4px;margin-bottom:16px">
+        <div id="priority-empty" style="text-align: center; padding: 32px; border: 1px dashed var(--copper-border); border-radius: 4px; margin-bottom: 16px; display: block;">
           <div style="font-size:13px;color:var(--text-dim);font-style:italic;margin-bottom:8px">Define 3-5 strategic priorities your board is measuring AI against.</div>
           <div style="font-size:11px;color:var(--text-muted)">e.g. "Cut operational costs by 35%", "Drive €50M new revenue via AI", "Achieve regulatory compliance by Q3"</div>
         </div>
@@ -1453,7 +1460,7 @@ header { transition:box-shadow 0.3s ease; }
       <div class="role-panel" id="role-cfo">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:32px">
           <div>
-            <span class="label" style="margin-bottom:12px">CFO · Financial Governance & ROI</span>
+            <span class="label" style="margin-bottom:12px">CFO · Financial Governance &amp; ROI</span>
             <h2 style="margin-bottom:14px;line-height:1.3">What is the true ROI of our AI portfolio — and where is the financial drag?</h2>
             <p style="color:var(--text-body);line-height:1.75;font-weight:400">
               Real ROI calculation inclusive of change management, training, and organisational drag costs
@@ -1479,7 +1486,7 @@ header { transition:box-shadow 0.3s ease; }
       <div class="role-panel" id="role-cdo">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
           <div>
-            <span class="label" style="margin-bottom:12px">CDO · Data Maturity & Scaling</span>
+            <span class="label" style="margin-bottom:12px">CDO · Data Maturity &amp; Scaling</span>
             <h2 style="margin-bottom:14px;line-height:1.3">Which AI initiatives are ready to scale — and which are governance liabilities?</h2>
             <p style="color:var(--text-body);line-height:1.75;font-weight:400">
               Gen 1/2/3 AI maturity assessment. Agent Skills Directory. Regulatory mapping across the portfolio.
@@ -1504,7 +1511,7 @@ header { transition:box-shadow 0.3s ease; }
       <div class="role-panel" id="role-cio">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
           <div>
-            <span class="label" style="margin-bottom:12px">CIO · Technical Governance & Risk</span>
+            <span class="label" style="margin-bottom:12px">CIO · Technical Governance &amp; Risk</span>
             <h2 style="margin-bottom:14px;line-height:1.3">How do we govern agentic AI deployment without becoming the bottleneck?</h2>
             <p style="color:var(--text-body);line-height:1.75;font-weight:400">
               Cross-functional governance framework. Integration complexity scoring. Technical risk posture across the AI portfolio.
@@ -1529,7 +1536,7 @@ header { transition:box-shadow 0.3s ease; }
       <div class="role-panel" id="role-chro">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
           <div>
-            <span class="label" style="margin-bottom:12px">CHRO · Change Management & Adoption</span>
+            <span class="label" style="margin-bottom:12px">CHRO · Change Management &amp; Adoption</span>
             <h2 style="margin-bottom:14px;line-height:1.3">Is our workforce ready for AI — and are we measuring adoption or just deployment?</h2>
             <p style="color:var(--text-body);line-height:1.75;font-weight:400">
               Change readiness assessment. Prosci benchmark alignment. Reskilling investment calculation.
@@ -1555,7 +1562,7 @@ header { transition:box-shadow 0.3s ease; }
       <div class="role-panel" id="role-cro">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
           <div>
-            <span class="label" style="margin-bottom:12px">CRO · Regulatory Risk & Compliance</span>
+            <span class="label" style="margin-bottom:12px">CRO · Regulatory Risk &amp; Compliance</span>
             <h2 style="margin-bottom:14px;line-height:1.3">What is our regulatory exposure across the AI portfolio — and can we prove compliance?</h2>
             <p style="color:var(--text-body);line-height:1.75;font-weight:400">
               EU AI Act classification. DORA compliance posture. GDPR and AML exposure mapping across every initiative.
@@ -1695,14 +1702,14 @@ header { transition:box-shadow 0.3s ease; }
             <option value="supply">⬡ Supply Chain</option>
             <option value="cx">◉ Customer Experience</option>
             <option value="risk">◪ Risk &amp; Compliance</option>
-            <option value="it" selected>◫ IT &amp; Platform</option>
+            <option value="it" selected="">◫ IT &amp; Platform</option>
             <option value="rd">◬ R&amp;D / Innovation</option>
           </select>
         </div>
         <div><span class="label">AI Generation Tier</span>
           <select id="f_tier" onchange="updateTierHint()">
             <option value="gen1">Gen 1 — Automation</option>
-            <option value="gen2" selected>Gen 2 — GenAI</option>
+            <option value="gen2" selected="">Gen 2 — GenAI</option>
             <option value="gen3">Gen 3 — Agentic</option>
           </select>
           <div id="tierHint" style="font-size:10px;color:var(--copper);margin-top:3px">LLM-powered assistants, content generation, semantic search</div>
@@ -1720,7 +1727,7 @@ header { transition:box-shadow 0.3s ease; }
         <div><span class="label">Risk Level</span>
           <select id="f_risk">
             <option>Low</option>
-            <option selected>Medium</option>
+            <option selected="">Medium</option>
             <option>High</option>
           </select>
         </div>
@@ -1729,7 +1736,7 @@ header { transition:box-shadow 0.3s ease; }
             <option value="existing">Existing — In Production</option>
             <option value="pilot">In Pilot / PoC</option>
             <option value="approved">Approved — Not Started</option>
-            <option value="proposed" selected>Proposed / New</option>
+            <option value="proposed" selected="">Proposed / New</option>
           </select>
         </div>
         <div style="grid-column:1/-1"><span class="label">Expected Business Outcome</span><input type="text" id="f_outcome" placeholder="e.g. 30% AHT reduction → CX Operating KPI → Cost reduction"></div>
@@ -1814,7 +1821,7 @@ header { transition:box-shadow 0.3s ease; }
               <div class="agent-field" style="margin-bottom:0">
                 <span class="label">Anthropic API key</span>
                 <div class="api-key-wrapper">
-                  <input type="password" id="agent-api-key" placeholder="sk-ant-..." autocomplete="off"/>
+                  <input type="password" id="agent-api-key" placeholder="sk-ant-..." autocomplete="off">
                   <div class="api-key-actions">
                     <button class="api-key-toggle" onclick="agentToggleKeyVis()" title="Show/hide key">👁</button>
                   </div>
@@ -1824,7 +1831,7 @@ header { transition:box-shadow 0.3s ease; }
                 <span>🛡</span> Your key stays in your browser — never sent to any server except Anthropic's API. Nothing is logged or stored.
               </div>
               <div class="api-facilitator-bar">
-                <label><input type="checkbox" id="agent-save-key" onchange="agentToggleSaveKey()"/> Remember key for this session</label>
+                <label><input type="checkbox" id="agent-save-key" onchange="agentToggleSaveKey()"> Remember key for this session</label>
                 <span style="color:var(--text-dim);font-size:10px">Facilitator mode — saves to browser session only, cleared on close</span>
               </div>
               <p style="font-size:12px;color:var(--text-body);margin-top:8px;line-height:1.5">Get a key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--copper)">console.anthropic.com</a> · Keys use Anthropic's standard pay-per-use pricing</p>
@@ -1834,11 +1841,11 @@ header { transition:box-shadow 0.3s ease; }
             <div id="agent-fields-saas">
               <div class="agent-field">
                 <span class="label">Client name</span>
-                <input type="text" id="agent-client" placeholder="e.g. Philips, ING Bank, Shell"/>
+                <input type="text" id="agent-client" placeholder="e.g. Philips, ING Bank, Shell">
               </div>
               <div class="agent-field">
                 <div class="agent-label-row">
-                  <span class="label">SaaS & AI initiatives inventory</span>
+                  <span class="label">SaaS &amp; AI initiatives inventory</span>
                   <div style="display:flex;gap:8px;align-items:center">
                     <button class="agent-sample-btn" onclick="document.getElementById('agent-csv-upload').click()">
                       <span style="margin-right:4px">📂</span> Upload CSV
@@ -1846,9 +1853,12 @@ header { transition:box-shadow 0.3s ease; }
                     <button class="agent-sample-btn" onclick="agentLoadSample()">Load sample</button>
                   </div>
                 </div>
-                <input type="file" id="agent-csv-upload" accept=".csv,.tsv,.txt,.xlsx" style="display:none" onchange="agentHandleFileUpload(event)"/>
+                <input type="file" id="agent-csv-upload" accept=".csv,.tsv,.txt,.xlsx" style="display:none" onchange="agentHandleFileUpload(event)">
                 <div id="agent-upload-status" style="display:none;margin-bottom:10px;padding:10px 14px;border-radius:4px;font-size:13px;line-height:1.5"></div>
-                <textarea id="agent-inventory" rows="8" placeholder="Upload a CSV / Excel file above, or paste manually — one tool per line, e.g.:&#10;Salesforce CRM - $420k/year, 200 seats&#10;ServiceNow ITSM - $350k/year, 50 seats&#10;Microsoft 365 - $180k/year, 300 seats"></textarea>
+                <textarea id="agent-inventory" rows="8" placeholder="Upload a CSV / Excel file above, or paste manually — one tool per line, e.g.:
+Salesforce CRM - $420k/year, 200 seats
+ServiceNow ITSM - $350k/year, 50 seats
+Microsoft 365 - $180k/year, 300 seats"></textarea>
                 <div class="agent-hint" id="agent-tool-count">0 tools entered</div>
               </div>
               <button class="agent-classify-btn" id="agent-classify-btn" onclick="agentClassify()">Step 1 — Run BVF classification</button>
@@ -1861,10 +1871,18 @@ header { transition:box-shadow 0.3s ease; }
                   <span class="label">Strategy document</span>
                   <button class="agent-sample-btn" onclick="agentLoadStrategySample()">Load sample</button>
                 </div>
-                <textarea id="agent-strategy-text" rows="14" placeholder="Paste your AI strategy document, board paper, or initiative list here...&#10;&#10;The agent will extract:&#10;  - Initiative names and descriptions&#10;  - Budgets and CM allocations&#10;  - AI generation tier (Gen 1/2/3)&#10;  - Business function mapping&#10;  - Risk levels and status&#10;  - Company profile (if included)"></textarea>
+                <textarea id="agent-strategy-text" rows="14" placeholder="Paste your AI strategy document, board paper, or initiative list here...
+
+The agent will extract:
+  - Initiative names and descriptions
+  - Budgets and CM allocations
+  - AI generation tier (Gen 1/2/3)
+  - Business function mapping
+  - Risk levels and status
+  - Company profile (if included)"></textarea>
                 <div class="agent-hint" id="agent-strategy-hint">Paste a strategy document above</div>
               </div>
-              <button class="agent-classify-btn" id="agent-extract-btn" onclick="agentExtractStrategy()">Extract Initiatives & Build Portfolio</button>
+              <button class="agent-classify-btn" id="agent-extract-btn" onclick="agentExtractStrategy()">Extract Initiatives &amp; Build Portfolio</button>
             </div>
 
             <div id="agent-error" class="agent-error" style="display:none"></div>
@@ -1893,11 +1911,11 @@ header { transition:box-shadow 0.3s ease; }
               <select id="agent-ctx-industry">
                 <option value="">Select sector...</option>
                 <option>Financial services</option>
-                <option>Healthcare & life sciences</option>
+                <option>Healthcare &amp; life sciences</option>
                 <option>Manufacturing</option>
-                <option>Retail & consumer</option>
+                <option>Retail &amp; consumer</option>
                 <option>Professional services</option>
-                <option>Energy & utilities</option>
+                <option>Energy &amp; utilities</option>
                 <option>Public sector</option>
                 <option>Technology</option>
                 <option>Other</option>
@@ -2050,6 +2068,95 @@ header { transition:box-shadow 0.3s ease; }
     </div>
   </div>
 
+  <!-- ── CHANGE ENABLEMENT TAB ── -->
+  <div class="tab-panel" id="panel-change-enablement">
+    <div style="margin-bottom:24px">
+      <span class="label">Change Enablement Assessment</span>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.7">EY/Oxford Six Drivers assessment: Lead, Inspire, Care, Empower, Build, Collaborate. Based on 2022 research showing 2.6x multiplier for organizations strong on all six drivers.</div>
+    </div>
+    
+    <div style="padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0;margin-bottom:24px">
+      <span class="label" style="margin-bottom:8px">The Six Drivers</span>
+      <p style="font-size:13px;color:var(--text-body);line-height:1.7;font-style:italic">"Organizations that excel in all six drivers—Lead, Inspire, Care, Empower, Build, Collaborate—see 2.6x greater value realization from transformation programmes. Change Enablement composite score drives the multiplier."</p>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:8px">EY/Oxford Said Business School · Change Enablement Research 2022</div>
+    </div>
+    
+    <div style="margin-bottom:24px">
+      <span class="label" style="margin-bottom:16px">Score Each Driver (1-5)</span>
+      <div id="ce-drivers" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px"></div>
+    </div>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE COMPOSITE (1-5)</div>
+        <div style="font-size:28px;font-weight:700;color:var(--white)" id="ce-composite">—</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Average of all 6 drivers</div>
+      </div>
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE PERCENTAGE (0-100%)</div>
+        <div style="font-size:28px;font-weight:700;color:var(--copper-light)" id="ce-percentage">—</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">((Composite - 1) / 4) × 100</div>
+      </div>
+    </div>
+    
+    <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+      <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">CM BUDGET ADEQUACY CHECK</div>
+      <div style="font-size:12px;color:var(--text-body)">If CM Budget < 10% of Initiative Budget, CE is capped at 40%</div>
+      <div id="ce-cm-warning" style="margin-top:12px;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:4px;font-size:11px;color:var(--text-muted);display:none"></div>
+    </div>
+  </div>
+
+  <!-- ── HEALTHCARE MODULE TAB ── -->
+  <div class="tab-panel" id="panel-healthcare">
+    <div style="margin-bottom:24px">
+      <span class="label">Healthcare Readiness Assessment</span>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.7">Specialized diagnostic for healthcare organizations. Covers regulatory readiness, clinical validation, clinician time reclaimed, and EHR interoperability. Healthcare Readiness Factor (0.5–1.0) multiplies into DCS calculation.</div>
+    </div>
+    
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px" id="health-overlays"></div>
+    
+    <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+      <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">HEALTHCARE READINESS FACTOR</div>
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-size:28px;font-weight:700;color:var(--white)" id="health-factor">—</div>
+        <div style="font-size:12px;color:var(--text-muted)">Range: 0.5 to 1.0 (floor 0.5)</div>
+      </div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:6px;font-style:italic">Average of 4 scores / 5 · Applies to DCS multiplier</div>
+    </div>
+  </div>
+
+  <!-- ── PACE LAYER DIAGNOSTIC TAB ── -->
+  <div class="tab-panel" id="panel-pace-layer">
+    <div style="margin-bottom:24px">
+      <span class="label">Pace Layer Diagnostic</span>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.7">Organization-level diagnostic assessing alignment across Operational (0-12mo), Strategic (12-36mo), and Existential (36+mo) layers. Drag Coefficient measures the speed gap between fastest and slowest layers.</div>
+    </div>
+    
+    <div style="margin-bottom:24px" id="pace-layers-container"></div>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">DRAG COEFFICIENT (1.0-3.0)</div>
+        <div style="font-size:28px;font-weight:700;color:var(--white)" id="pace-drag">—</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Fastest / Slowest layer score</div>
+      </div>
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">FAILURE RATE</div>
+        <div style="font-size:28px;font-weight:700;color:var(--red-light)" id="pace-failure">—</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Interpolated: 27% @ 1.0 to 90% @ 3.0</div>
+      </div>
+    </div>
+    
+    <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+      <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">ORGANIZATIONAL DRAG COST</div>
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-size:24px;font-weight:700;color:var(--red-light)" id="pace-drag-cost">—</div>
+        <div style="font-size:11px;color:var(--text-muted)">= Total Portfolio Value × Failure Rate</div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ── ALIGNMENT MAP TAB ── -->
   <div class="tab-panel" id="panel-alignment">
     <div style="margin-bottom:18px">
@@ -2078,7 +2185,7 @@ header { transition:box-shadow 0.3s ease; }
   <!-- ── BENCHMARKS TAB ── -->
   <div class="tab-panel" id="panel-benchmarks">
     <div style="margin-bottom:24px">
-      <span class="label">Benchmark Methodology & Sources</span>
+      <span class="label">Benchmark Methodology &amp; Sources</span>
       <div style="font-size:13px;color:var(--text-body);max-width:700px;line-height:1.7">Every number in the BVF is derived from published research, not opinion. This page explains what we use, who published it, when, and how we apply it.</div>
     </div>
 
@@ -2099,7 +2206,7 @@ header { transition:box-shadow 0.3s ease; }
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--ice)">AI Value Potential by Function</div>
-            <div style="font-size:11px;color:var(--text-muted)">Revenue uplift & cost reduction ranges per business function</div>
+            <div style="font-size:11px;color:var(--text-muted)">Revenue uplift &amp; cost reduction ranges per business function</div>
           </div>
           <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.15)">CORE MODEL</span>
         </div>
@@ -2136,7 +2243,7 @@ header { transition:box-shadow 0.3s ease; }
           <div>
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">PRIMARY SOURCES</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
-              <div style="margin-bottom:6px"><strong style="color:var(--ice)">Gary Hamel & Michele Zanini</strong> — "Humanocracy: Creating Organizations as Amazing as the People Inside Them" (HBR Press, 2020). Estimates $9 trillion in global bureaucracy costs. Provides the conceptual framework for drag rate tiers.</div>
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">Gary Hamel &amp; Michele Zanini</strong> — "Humanocracy: Creating Organizations as Amazing as the People Inside Them" (HBR Press, 2020). Estimates $9 trillion in global bureaucracy costs. Provides the conceptual framework for drag rate tiers.</div>
               <div style="margin-bottom:6px"><strong style="color:var(--ice)">Prosci</strong> — "Best Practices in Change Management" 11th Edition (2023). Projects with excellent CM are 6× more likely to meet objectives. Provides the CM allocation adequacy thresholds (5%, 10%, 15% of budget).</div>
               <div style="margin-bottom:6px"><strong style="color:var(--ice)">McKinsey</strong> — "The State of AI in 2024" (Aug 2024). 74% of organisations struggle to scale AI beyond pilot. Informs risk amplifier rates.</div>
               <div><strong style="color:var(--ice)">BCG</strong> — "AI @ Scale" (2023). Only 11% of companies achieve significant financial benefit from AI. Validates the drag base rates at organisation level.</div>
@@ -2153,7 +2260,7 @@ header { transition:box-shadow 0.3s ease; }
                 Agile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5% drag
               </div>
               <div style="margin-bottom:6px">Drag amplifiers increase the base rate for high-risk initiatives (+20%) or low CM allocation (&lt;5% adds +15%, 5–10% adds +5%).</div>
-              <div>Good CM allocation (&ge;15%) reduces drag by 5 percentage points; adequate CM (10–15%) reduces by 3 points. This reflects the Prosci finding that well-funded CM dramatically improves adoption.</div>
+              <div>Good CM allocation (≥15%) reduces drag by 5 percentage points; adequate CM (10–15%) reduces by 3 points. This reflects the Prosci finding that well-funded CM dramatically improves adoption.</div>
             </div>
           </div>
         </div>
@@ -2184,7 +2291,7 @@ header { transition:box-shadow 0.3s ease; }
               <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2">
                 <span style="color:#E05252;font-weight:700">RED</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;5% — Significant adoption risk<br>
                 <span style="color:#F59E0B;font-weight:700">AMBER</span>&nbsp;&nbsp;5–10% — Below recommended level<br>
-                <span style="color:#22C55E;font-weight:700">GREEN</span>&nbsp;&nbsp;&ge;10% — Aligned with Prosci benchmark
+                <span style="color:#22C55E;font-weight:700">GREEN</span>&nbsp;&nbsp;≥10% — Aligned with Prosci benchmark
               </div>
               <div>These thresholds apply to each initiative individually. The BVF uses portfolio-level CM percentage to assess overall readiness for the CEO and CFO executive views.</div>
             </div>
@@ -2275,7 +2382,7 @@ header { transition:box-shadow 0.3s ease; }
 
     <!-- Update Protocol -->
     <div style="margin-top:24px;padding:18px 22px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
-      <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:8px">Update & Review Protocol</div>
+      <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:8px">Update &amp; Review Protocol</div>
       <div style="font-size:12px;color:var(--text-body);line-height:1.8">
         All benchmark data undergoes a structured review cycle. Major source publications (McKinsey State of AI, Gartner Hype Cycle, Prosci Best Practices) are released annually; the BVF model is updated within 30 days of each new edition. Industry multipliers are recalibrated when Gartner IT Key Metrics data refreshes (typically Q1). Regulatory compliance mappings are updated as enforcement deadlines pass or guidance is published. The "Benchmarks current as of" date at the top of this page always reflects the most recent review.
       </div>
@@ -2324,13 +2431,13 @@ header { transition:box-shadow 0.3s ease; }
           </div>
           <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">0:00</div>
-            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Welcome & Context Setting</div><div style="font-size:11px;color:var(--text-muted)">Introductions, BVF purpose, what the client will leave with</div></div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Welcome &amp; Context Setting</div><div style="font-size:11px;color:var(--text-muted)">Introductions, BVF purpose, what the client will leave with</div></div>
             <div style="font-size:11px;color:var(--text-muted)">10 min</div>
             <div style="font-size:10px;color:var(--copper)">Welcome</div>
           </div>
           <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">0:10</div>
-            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Company Profile & Priorities</div><div style="font-size:11px;color:var(--text-muted)">Enter financials, set org readiness, define board priorities</div></div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Company Profile &amp; Priorities</div><div style="font-size:11px;color:var(--text-muted)">Enter financials, set org readiness, define board priorities</div></div>
             <div style="font-size:11px;color:var(--text-muted)">15 min</div>
             <div style="font-size:10px;color:var(--copper)">Dashboard</div>
           </div>
@@ -2348,7 +2455,7 @@ header { transition:box-shadow 0.3s ease; }
           </div>
           <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06)">
             <div style="font-size:12px;color:var(--ice);font-weight:600">0:55</div>
-            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Governance & CM Assessment</div><div style="font-size:11px;color:var(--text-muted)">Review CM allocation RAG status, activate EU AI Act / DORA compliance</div></div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Governance &amp; CM Assessment</div><div style="font-size:11px;color:var(--text-muted)">Review CM allocation RAG status, activate EU AI Act / DORA compliance</div></div>
             <div style="font-size:11px;color:var(--text-muted)">15 min</div>
             <div style="font-size:10px;color:var(--copper)">Governance</div>
           </div>
@@ -2366,7 +2473,7 @@ header { transition:box-shadow 0.3s ease; }
           </div>
           <div style="display:grid;grid-template-columns:50px 1fr 80px 70px;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:0 0 4px 4px">
             <div style="font-size:12px;color:var(--ice);font-weight:600">1:30</div>
-            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Alignment Map & Next Steps</div><div style="font-size:11px;color:var(--text-muted)">Review board summary. Print Executive Readout. Agree actions and follow-up schedule.</div></div>
+            <div><div style="font-size:12px;color:var(--ice);font-weight:600">Alignment Map &amp; Next Steps</div><div style="font-size:11px;color:var(--text-muted)">Review board summary. Print Executive Readout. Agree actions and follow-up schedule.</div></div>
             <div style="font-size:11px;color:var(--text-muted)">10 min</div>
             <div style="font-size:10px;color:var(--copper)">Alignment</div>
           </div>
@@ -2510,32 +2617,32 @@ header { transition:box-shadow 0.3s ease; }
       </div>
       <div class="lp-caps">
         <div class="lp-cap">
-          <span class="lp-cap-icon">&#9672;</span>
+          <span class="lp-cap-icon">◈</span>
           <h4>Executive Dashboard</h4>
           <p>Role-based C-suite views with live KPIs, strategic priorities and the Boardroom Sentence</p>
         </div>
         <div class="lp-cap">
-          <span class="lp-cap-icon">&#11041;</span>
+          <span class="lp-cap-icon">⬡</span>
           <h4>Portfolio Builder</h4>
           <p>Add and manage AI initiatives. Budget, CM allocation, tier classification and value scoring</p>
         </div>
         <div class="lp-cap">
-          <span class="lp-cap-icon">&#9889;</span>
+          <span class="lp-cap-icon">⚡</span>
           <h4>AI Agent</h4>
           <p>Paste a strategy document and let AI extract, classify and map initiatives automatically</p>
         </div>
         <div class="lp-cap">
-          <span class="lp-cap-icon">&#9878;</span>
+          <span class="lp-cap-icon">⚖</span>
           <h4>Governance</h4>
           <p>EU AI Act, DORA and GDPR mapping. Regulatory exposure across your full portfolio</p>
         </div>
         <div class="lp-cap">
-          <span class="lp-cap-icon">&#9708;</span>
+          <span class="lp-cap-icon">◬</span>
           <h4>Alignment Map</h4>
           <p>Value potential by function, investment vs return and strategic priority alignment</p>
         </div>
         <div class="lp-cap">
-          <span class="lp-cap-icon">&#128202;</span>
+          <span class="lp-cap-icon">📊</span>
           <h4>Benchmarks</h4>
           <p>McKinsey, BCG, Gartner and Deloitte benchmark data built into every calculation</p>
         </div>
@@ -2549,10 +2656,10 @@ header { transition:box-shadow 0.3s ease; }
         <h2>Trusted Methodology</h2>
       </div>
       <div class="lp-trust-items">
-        <div class="lp-trust-item"><span class="lp-trust-icon">&#128274;</span> No data leaves your browser</div>
-        <div class="lp-trust-item"><span class="lp-trust-icon">&#128202;</span> McKinsey, BCG and Gartner benchmarks</div>
-        <div class="lp-trust-item"><span class="lp-trust-icon">&#127963;</span> EU AI Act and DORA aligned</div>
-        <div class="lp-trust-item"><span class="lp-trust-icon">&#9889;</span> Setup in under 10 minutes</div>
+        <div class="lp-trust-item"><span class="lp-trust-icon">🔒</span> No data leaves your browser</div>
+        <div class="lp-trust-item"><span class="lp-trust-icon">📊</span> McKinsey, BCG and Gartner benchmarks</div>
+        <div class="lp-trust-item"><span class="lp-trust-icon">🏛</span> EU AI Act and DORA aligned</div>
+        <div class="lp-trust-item"><span class="lp-trust-icon">⚡</span> Setup in under 10 minutes</div>
       </div>
     </div>
 
@@ -2587,7 +2694,7 @@ header { transition:box-shadow 0.3s ease; }
     </div>
 
     <div class="lp-footer">
-      &copy; 2026 Craig Horton Advisory. All rights reserved.
+      © 2026 Craig Horton Advisory. All rights reserved.
     </div>
   </div>
 </div>
@@ -2935,6 +3042,9 @@ function switchTab(tabId, skipHistory) {
   if (tabId === 'alignment') renderAlignment();
   if (tabId === 'agent') renderAgent();
   if (tabId === 'facilitate') renderFacilitate();
+  if (tabId === 'change-enablement') renderChangeEnablement();
+  if (tabId === 'healthcare') renderHealthcare();
+  if (tabId === 'pace-layer') renderPaceLayer();
   // Update back button visibility
   updateBackButton();
 }
@@ -2961,6 +3071,237 @@ function updateBackButton() {
   if (formOpen) btn.title = 'Close form';
   else if (drillDown) btn.title = 'Back to overview';
   else btn.title = 'Back to previous tab';
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHANGE ENABLEMENT TAB
+// ══════════════════════════════════════════════════════════════════════════════
+const CE_DRIVERS = ['Lead', 'Inspire', 'Care', 'Empower', 'Build', 'Collaborate'];
+
+function renderChangeEnablement() {
+  // Initialize data if not exists
+  if (!BVF.changeEnablement) {
+    BVF.changeEnablement = { driverScores: {} };
+    CE_DRIVERS.forEach(d => BVF.changeEnablement.driverScores[d] = 3);
+  }
+  
+  // Render driver scoring cards
+  const driversContainer = document.getElementById('ce-drivers');
+  driversContainer.innerHTML = CE_DRIVERS.map(driver => {
+    const score = BVF.changeEnablement.driverScores[driver] || 3;
+    return `
+      <div style="padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:10px">${driver}</div>
+        <div style="display:flex;gap:6px">
+          ${[1,2,3,4,5].map(s => `
+            <button onclick="setCEScore('${driver}', ${s})" style="width:28px;height:28px;border-radius:4px;border:1px solid ${score === s ? 'var(--copper)' : 'rgba(255,255,255,0.1)'};background:${score === s ? 'var(--copper-dim)' : 'rgba(255,255,255,0.02)'};color:var(--text-body);cursor:pointer;font-weight:600;font-size:11px;transition:all 0.2s">${s}</button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  updateCEMetrics();
+}
+
+function setCEScore(driver, score) {
+  BVF.changeEnablement.driverScores[driver] = score;
+  saveState();
+  renderChangeEnablement();
+}
+
+function updateCEMetrics() {
+  const scores = Object.values(BVF.changeEnablement.driverScores);
+  const composite = scores.length > 0 ? (scores.reduce((a,b) => a+b, 0) / scores.length) : 0;
+  const percentage = composite > 0 ? ((composite - 1) / 4 * 100) : 0;
+  
+  document.getElementById('ce-composite').textContent = composite.toFixed(2);
+  document.getElementById('ce-percentage').textContent = percentage.toFixed(0) + '%';
+  
+  // Check CM budget adequacy (check first initiative if exists)
+  if (BVF.initiatives && BVF.initiatives.length > 0) {
+    const init = BVF.initiatives[0];
+    const totalBudget = parseFloat(init.budget) || 0;
+    const cmBudget = parseFloat(init.cm) || 0;
+    const cmPct = totalBudget > 0 ? (cmBudget / totalBudget * 100) : 0;
+    
+    if (cmPct < 10 && totalBudget > 0) {
+      document.getElementById('ce-cm-warning').style.display = 'block';
+      document.getElementById('ce-cm-warning').innerHTML = '⚠ CM Budget < 10% of total. CE capped at 40%.';
+    } else {
+      document.getElementById('ce-cm-warning').style.display = 'none';
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// HEALTHCARE MODULE TAB
+// ══════════════════════════════════════════════════════════════════════════════
+const HEALTH_OVERLAYS = [
+  { id: 'regulatory', label: 'Regulatory Readiness', desc: 'FDA/MDR/HIPAA compliance readiness' },
+  { id: 'clinical', label: 'Clinical Validation', desc: 'Evidence base strength & peer review status' },
+  { id: 'clinician', label: 'Clinician Time Reclaimed', desc: 'Hours saved per clinician per week' },
+  { id: 'interop', label: 'Interoperability', desc: 'HL7 FHIR, EHR integration readiness' }
+];
+
+function renderHealthcare() {
+  // Show/hide based on industry
+  const btn = document.getElementById('btn-healthcare');
+  const isHealthcare = BVF.profile.industry === 'healthcare';
+  btn.style.display = isHealthcare ? 'block' : 'none';
+  
+  if (!isHealthcare) {
+    document.getElementById('panel-healthcare').style.display = 'none';
+    return;
+  }
+  
+  // Initialize data if not exists
+  if (!BVF.healthcare) {
+    BVF.healthcare = { overlayScores: {} };
+    HEALTH_OVERLAYS.forEach(o => BVF.healthcare.overlayScores[o.id] = 3);
+  }
+  
+  // Render overlay scoring cards
+  const container = document.getElementById('health-overlays');
+  container.innerHTML = HEALTH_OVERLAYS.map(overlay => {
+    const score = BVF.healthcare.overlayScores[overlay.id] || 3;
+    return `
+      <div style="padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">${overlay.label}</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:10px">${overlay.desc}</div>
+        <div style="display:flex;gap:6px">
+          ${[1,2,3,4,5].map(s => `
+            <button onclick="setHealthScore('${overlay.id}', ${s})" style="width:24px;height:24px;border-radius:4px;border:1px solid ${score === s ? 'var(--copper)' : 'rgba(255,255,255,0.1)'};background:${score === s ? 'var(--copper-dim)' : 'rgba(255,255,255,0.02)'};color:var(--text-body);cursor:pointer;font-weight:600;font-size:10px;transition:all 0.2s">${s}</button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  updateHealthMetrics();
+}
+
+function setHealthScore(overlayId, score) {
+  BVF.healthcare.overlayScores[overlayId] = score;
+  saveState();
+  renderHealthcare();
+}
+
+function updateHealthMetrics() {
+  const scores = Object.values(BVF.healthcare.overlayScores);
+  const avg = scores.length > 0 ? (scores.reduce((a,b) => a+b, 0) / scores.length) : 0;
+  const factor = Math.max(0.5, Math.min(1.0, avg / 5));
+  
+  document.getElementById('health-factor').textContent = factor.toFixed(2);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PACE LAYER DIAGNOSTIC TAB
+// ══════════════════════════════════════════════════════════════════════════════
+const PACE_LAYERS = [
+  { id: 'operational', name: 'Operational Layer', horizon: '0–12 months', questions: [
+    'Data pipelines mature & reliable?',
+    'Process automation exists & scalable?',
+    'Monitoring & alerting comprehensive?'
+  ]},
+  { id: 'strategic', name: 'Strategic Layer', horizon: '12–36 months', questions: [
+    'AI strategy documented & communicated?',
+    'Cross-functional governance in place?',
+    'Talent roadmap & upskilling plan?'
+  ]},
+  { id: 'existential', name: 'Existential Layer', horizon: '36+ months', questions: [
+    'Board-level AI literacy present?',
+    'Business model adaptation underway?',
+    'Ecosystem partnerships & standards?'
+  ]}
+];
+
+function renderPaceLayer() {
+  // Initialize data if not exists
+  if (!BVF.paceLayer) {
+    BVF.paceLayer = { layerScores: {} };
+    PACE_LAYERS.forEach(l => {
+      BVF.paceLayer.layerScores[l.id] = { scores: [3,3,3] };
+    });
+  }
+  
+  // Render layer containers
+  const container = document.getElementById('pace-layers-container');
+  container.innerHTML = PACE_LAYERS.map((layer, idx) => {
+    const layerData = BVF.paceLayer.layerScores[layer.id] || { scores: [3,3,3] };
+    const avgScore = layerData.scores.reduce((a,b) => a+b, 0) / layerData.scores.length;
+    
+    return `
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:14px">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--ice)">${layer.name}</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:2px">${layer.horizon}</div>
+          </div>
+          <div style="font-size:20px;font-weight:700;color:var(--copper)">${avgScore.toFixed(1)}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          ${layer.questions.map((q, qidx) => {
+            const score = layerData.scores[qidx] || 3;
+            return `
+              <div>
+                <div style="font-size:11px;color:var(--text-body);margin-bottom:6px">${q}</div>
+                <div style="display:flex;gap:5px">
+                  ${[1,2,3,4,5].map(s => `
+                    <button onclick="setPaceScore('${layer.id}', ${qidx}, ${s})" style="width:22px;height:22px;border-radius:3px;border:1px solid ${score === s ? 'var(--copper)' : 'rgba(255,255,255,0.08)'};background:${score === s ? 'var(--copper-dim)' : 'rgba(255,255,255,0.01)'};color:var(--text-body);cursor:pointer;font-weight:500;font-size:9px;transition:all 0.2s">${s}</button>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  updatePaceMetrics();
+}
+
+function setPaceScore(layerId, qIdx, score) {
+  if (!BVF.paceLayer.layerScores[layerId]) {
+    BVF.paceLayer.layerScores[layerId] = { scores: [3,3,3] };
+  }
+  BVF.paceLayer.layerScores[layerId].scores[qIdx] = score;
+  saveState();
+  renderPaceLayer();
+}
+
+function updatePaceMetrics() {
+  // Calculate layer averages
+  const layerAvgs = {};
+  PACE_LAYERS.forEach(layer => {
+    const layerData = BVF.paceLayer.layerScores[layer.id] || { scores: [3,3,3] };
+    layerAvgs[layer.id] = layerData.scores.reduce((a,b) => a+b, 0) / layerData.scores.length;
+  });
+  
+  // Calculate drag coefficient
+  const avgs = Object.values(layerAvgs);
+  const fastest = Math.max(...avgs);
+  const slowest = Math.min(...avgs);
+  const dragCoeff = slowest > 0 ? (fastest / slowest) : 1.0;
+  
+  // Interpolate failure rate: 27% at drag 1.0, 90% at drag 3.0
+  let failureRate = 0.27;
+  if (dragCoeff > 1.0) {
+    failureRate = 0.27 + (dragCoeff - 1.0) * (0.90 - 0.27) / (3.0 - 1.0);
+  }
+  failureRate = Math.min(0.90, Math.max(0.27, failureRate));
+  
+  // Calculate drag cost
+  let totalValue = 0;
+  if (BVF.initiatives && BVF.initiatives.length > 0) {
+    totalValue = BVF.initiatives.reduce((sum, init) => sum + (parseFloat(init.budget) || 0), 0);
+  }
+  const dragCost = totalValue * failureRate;
+  
+  document.getElementById('pace-drag').textContent = dragCoeff.toFixed(2);
+  document.getElementById('pace-failure').textContent = (failureRate * 100).toFixed(0) + '%';
+  document.getElementById('pace-drag-cost').textContent = '$' + (dragCost / 1e6).toFixed(1) + 'M';
 }
 
 // ── COMPANY PROFILE ──────────────────────────────────────────────────────────
@@ -5038,6 +5379,9 @@ function loadState() {
       if (data.regulations) BVF.regulations = data.regulations;
       if (data.priorities) BVF.priorities = data.priorities;
       if (data.view) BVF.view = data.view;
+      if (data.changeEnablement) BVF.changeEnablement = data.changeEnablement;
+      if (data.healthcare) BVF.healthcare = data.healthcare;
+      if (data.paceLayer) BVF.paceLayer = data.paceLayer;
       if (BVF.profile.company) {
         enterPlatform(BVF.view || 'practitioner');
         const panel = document.getElementById('profile-panel');
@@ -5071,5 +5415,6 @@ window.addEventListener('load', function() {
 });
 </script>
 
-</body>
-</html>
+
+
+<div id="claude-agent-glow-border" style="position: fixed; inset: 0px; pointer-events: none; z-index: 2147483646; opacity: 0; transition: opacity 0.3s ease-in-out; animation: 2s ease-in-out 0s infinite normal none running claude-pulse; box-shadow: rgba(217, 119, 87, 0.5) 0px 0px 10px inset, rgba(217, 119, 87, 0.3) 0px 0px 20px inset, rgba(217, 119, 87, 0.1) 0px 0px 30px inset;"></div></body></html>
