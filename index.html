@@ -2072,7 +2072,8 @@ The agent will extract:
   <div class="tab-panel" id="panel-change-enablement">
     <div style="margin-bottom:24px">
       <span class="label">Change Enablement Assessment</span>
-      <div style="font-size:13px;color:var(--text-body);line-height:1.7">EY/Oxford Six Drivers assessment: Lead, Inspire, Care, Empower, Build, Collaborate. Based on 2022 research showing 2.6x multiplier for organizations strong on all six drivers.</div>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">BCG research shows 70% of transformation value comes from people and process, not technology. This diagnostic uses the EY/Oxford Said Business School Six Drivers model to measure your organisation's capacity to absorb change, and feeds directly into the Decision Confidence Score.</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Score each of the six drivers below from 1 (weak) to 5 (strong) based on your organisation's current capability. The composite score converts to a Change Enablement percentage that weights into your DCS calculation. If CM budget is below 10% of initiative budget, the score is automatically capped at 40%.</div>
     </div>
     
     <div style="padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0;margin-bottom:24px">
@@ -2110,7 +2111,8 @@ The agent will extract:
   <div class="tab-panel" id="panel-healthcare">
     <div style="margin-bottom:24px">
       <span class="label">Healthcare Readiness Assessment</span>
-      <div style="font-size:13px;color:var(--text-body);line-height:1.7">Specialized diagnostic for healthcare organizations. Covers regulatory readiness, clinical validation, clinician time reclaimed, and EHR interoperability. Healthcare Readiness Factor (0.5–1.0) multiplies into DCS calculation.</div>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">Healthcare AI carries unique risks that generic frameworks miss: regulatory approval timelines, clinical validation requirements, clinician workflow disruption, and EHR integration complexity. This module applies a Healthcare Readiness Factor (0.5 to 1.0) that multiplies into the DCS, ensuring the confidence score reflects sector-specific realities.</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Score each of the four healthcare overlays below from 1 (early stage) to 5 (mature). The average is normalised to produce the Healthcare Readiness Factor. A score below 0.7 signals material risk that should be escalated to the board. This tab only appears when the company profile industry is set to Healthcare/MedTech.</div>
     </div>
     
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px" id="health-overlays"></div>
@@ -2129,7 +2131,8 @@ The agent will extract:
   <div class="tab-panel" id="panel-pace-layer">
     <div style="margin-bottom:24px">
       <span class="label">Pace Layer Diagnostic</span>
-      <div style="font-size:13px;color:var(--text-body);line-height:1.7">Organization-level diagnostic assessing alignment across Operational (0-12mo), Strategic (12-36mo), and Existential (36+mo) layers. Drag Coefficient measures the speed gap between fastest and slowest layers.</div>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.7;margin-bottom:10px">Most AI portfolios fail not because individual initiatives are weak, but because different parts of the organisation move at fundamentally different speeds. Inspired by Stewart Brand's pace layering concept, this diagnostic measures the alignment gap across Operational (0-12 months), Strategic (12-36 months), and Existential (36+ months) horizons, then calculates the financial cost of that misalignment.</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Answer the diagnostic questions for each pace layer. The Drag Coefficient (1.0 to 3.0) measures how far apart your fastest and slowest layers are. This maps to a failure rate (27% at 1.0 rising to 90% at 3.0) and an Organisational Drag Cost that quantifies how much portfolio value is at risk from structural misalignment.</div>
     </div>
     
     <div style="margin-bottom:24px" id="pace-layers-container"></div>
@@ -2375,6 +2378,114 @@ The agent will extract:
           <div style="margin-bottom:6px"><strong style="color:var(--ice)">EU AI Act</strong> — Regulation (EU) 2024/1689. Entered into force 1 August 2024. Prohibitions apply from Feb 2025; high-risk obligations from Aug 2026. The BVF maps initiative risk classifications against the Act's four-tier risk system (Unacceptable → High → Limited → Minimal).</div>
           <div style="margin-bottom:6px"><strong style="color:var(--ice)">DORA</strong> — Digital Operational Resilience Act (EU) 2022/2554. Effective 17 January 2025. Applies to financial entities. The BVF flags AI initiatives in financial services that require DORA compliance consideration for ICT risk management, incident reporting, and third-party oversight.</div>
           <div><strong style="color:var(--ice)">NIST AI RMF</strong> — AI Risk Management Framework 1.0 (Jan 2023). Used as supplementary guidance for risk categorisation methodology. Non-binding but adopted as best practice by multinational organisations.</div>
+        </div>
+      </div>
+
+      <!-- 7. EY/Oxford Six Drivers (v2.0) -->
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;border-left:3px solid var(--copper)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--ice)">EY/Oxford Six Drivers of Change Enablement</div>
+            <div style="font-size:11px;color:var(--text-muted)">People-side capability assessment powering the CE dimension of the DCS</div>
+          </div>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.2)">v2.0 DIAGNOSTIC</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">PRIMARY SOURCES</div>
+            <div style="font-size:12px;color:var(--text-body);line-height:1.8">
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">EY &amp; Oxford Said Business School</strong> — "The Six Drivers of Change" (2022). Multi-year research across 935 transformations. Organisations strong on all six drivers achieve 2.6x greater value realisation.</div>
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">BCG Henderson Institute</strong> — "AI @ Scale" (2024). Validates that 70% of transformation value derives from people and process, not technology. Supports the weighting of CE in the DCS formula.</div>
+              <div><strong style="color:var(--ice)">Prosci</strong> — "Best Practices in Change Management" 11th Ed. (2023). Projects with excellent CM are 6x more likely to meet objectives. Underpins the CM budget adequacy cap.</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
+            <div style="font-size:12px;color:var(--text-body);line-height:1.8">
+              <div style="margin-bottom:8px">Six drivers, each scored 1-5:</div>
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2;font-family:monospace">
+                Lead&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Executive sponsorship &amp; vision clarity<br>
+                Inspire&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Purpose alignment &amp; motivation<br>
+                Care&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wellbeing &amp; psychological safety<br>
+                Empower&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Autonomy &amp; decision rights<br>
+                Build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capability development &amp; upskilling<br>
+                Collaborate&nbsp;&nbsp;Cross-functional working &amp; trust
+              </div>
+              <div style="margin-bottom:6px">CE Composite = average of all 6 scores. CE Percentage = ((Composite - 1) / 4) x 100. This feeds the Change Enablement weight (20%) in the DCS formula.</div>
+              <div>If CM budget is below 10% of initiative budget, CE is hard-capped at 40%, reflecting the Prosci finding that under-funded change programmes have a 6x higher failure rate regardless of organisational capability.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Healthcare Readiness Factor (v2.0) -->
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;border-left:3px solid var(--copper)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--ice)">Healthcare Readiness Factor</div>
+            <div style="font-size:11px;color:var(--text-muted)">Sector-specific multiplier for healthcare and MedTech AI initiatives</div>
+          </div>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.2)">v2.0 VERTICAL</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">PRIMARY SOURCES</div>
+            <div style="font-size:12px;color:var(--text-body);line-height:1.8">
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">FDA</strong> — AI/ML-Based Software as a Medical Device (SaMD) Action Plan (2021, updated 2024). Defines regulatory pathway requirements that determine go-to-market timelines for clinical AI.</div>
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">WHO</strong> — "Ethics and Governance of Artificial Intelligence for Health" (2021). Establishes six guiding principles for health AI deployment. Informs our clinical validation overlay scoring.</div>
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">KLAS Research</strong> — "AI in Healthcare 2024." Maps EHR integration maturity and clinician adoption rates. Provides the interoperability overlay benchmarks.</div>
+              <div><strong style="color:var(--ice)">AMA</strong> — "Augmented Intelligence in Health Care" policy (2023). Emphasises clinician time reclaimed as the primary value metric, not cost reduction. Informs our third overlay.</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
+            <div style="font-size:12px;color:var(--text-body);line-height:1.8">
+              <div style="margin-bottom:8px">Four overlays, each scored 1-5:</div>
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2;font-family:monospace">
+                Regulatory Readiness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FDA/CE pathway status<br>
+                Clinical Validation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evidence base &amp; trial maturity<br>
+                Clinician Time Reclaimed&nbsp;&nbsp;Workflow integration depth<br>
+                EHR Interoperability&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Systems integration readiness
+              </div>
+              <div style="margin-bottom:6px">Healthcare Readiness Factor = Average of 4 scores / 5, with a floor of 0.5. This multiplies into the DCS calculation, ensuring healthcare-specific risks are quantified rather than qualitatively noted.</div>
+              <div>A factor below 0.7 flags material risk. This tab appears only when the company profile industry is set to Healthcare/MedTech, keeping the assessment focused for non-healthcare organisations.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. Pace Layer Diagnostic (v2.0) -->
+      <div style="padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;border-left:3px solid var(--copper)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--ice)">Pace Layer Diagnostic &amp; Organisational Drag Cost</div>
+            <div style="font-size:11px;color:var(--text-muted)">Organisation-level misalignment detector across three transformation horizons</div>
+          </div>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.2)">v2.0 DIAGNOSTIC</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">PRIMARY SOURCES</div>
+            <div style="font-size:12px;color:var(--text-body);line-height:1.8">
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">Stewart Brand</strong> — "The Clock of the Long Now" (1999). Introduces pace layering as a model for how civilisations and organisations operate at different speeds. We adapt this for AI portfolio alignment.</div>
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">McKinsey</strong> — "Three Horizons of Growth" framework, updated for AI context in "Superagency in the Workplace" (Jan 2025). Maps Horizon 1 (defend), Horizon 2 (extend), Horizon 3 (create) to initiative classification.</div>
+              <div style="margin-bottom:6px"><strong style="color:var(--ice)">MIT CISR</strong> — Digital Transformation research (2024). Identifies pace misalignment as a leading cause of portfolio-level failure, distinct from initiative-level failure.</div>
+              <div><strong style="color:var(--ice)">S&amp;P Global</strong> — "AI Implementation Survey" (2025). 42% of organisations abandoned most AI initiatives, with structural misalignment cited as a top-three cause. Validates the drag cost model.</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
+            <div style="font-size:12px;color:var(--text-body);line-height:1.8">
+              <div style="margin-bottom:8px">Three pace layers with diagnostic questions:</div>
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2;font-family:monospace">
+                Operational&nbsp;&nbsp;&nbsp;0-12 months&nbsp;&nbsp;&nbsp;Defend core operations<br>
+                Strategic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12-36 months&nbsp;&nbsp;Extend capabilities<br>
+                Existential&nbsp;&nbsp;&nbsp;36+ months&nbsp;&nbsp;&nbsp;Create new business models
+              </div>
+              <div style="margin-bottom:6px">Drag Coefficient = Fastest layer score / Slowest layer score (range 1.0 to 3.0). Failure rate is interpolated linearly: 27% at 1.0 rising to 90% at 3.0, derived from cross-referencing MIT CISR and S&amp;P Global data.</div>
+              <div>Organisational Drag Cost = Total Portfolio Value x Failure Rate. This gives the board a single currency figure representing the financial exposure from structural misalignment, separate from initiative-level risk.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -3343,6 +3454,12 @@ function updateProfile() {
   updateProfileSummary();
   updateDashboardKPIs();
   if (BVF.view === 'practitioner') renderBVF();
+  const healthBtn = document.getElementById('btn-healthcare');
+  if (healthBtn) healthBtn.style.display = BVF.profile.industry === 'healthcare' ? 'block' : 'none';
+  if (BVF.profile.industry !== 'healthcare') {
+    const hp = document.getElementById('panel-healthcare');
+    if (hp) hp.style.display = 'none';
+  }
   saveState();
   updateTabProgress();
 }
