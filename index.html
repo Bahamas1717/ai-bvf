@@ -2073,10 +2073,10 @@ The agent will extract:
     </div>
 
     <!-- Sub-tab navigation -->
-    <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0" id="diag-sub-nav">
+    <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:0" id="diag-sub-nav">
       <button onclick="switchDiagSub('ce')" id="diag-btn-ce" class="diag-sub-btn active" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--copper);background:rgba(196,137,74,0.08);border:1px solid rgba(196,137,74,0.15);border-bottom:2px solid var(--copper);border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">⚙ Change Enablement</button>
-      <button onclick="switchDiagSub('pace')" id="diag-btn-pace" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.06);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">◎ Pace Layer</button>
-      <button onclick="switchDiagSub('health')" id="diag-btn-health" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.06);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s;display:none">🏥 Healthcare</button>
+      <button onclick="switchDiagSub('pace')" id="diag-btn-pace" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.12);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">◎ Pace Layer</button>
+      <button onclick="switchDiagSub('health')" id="diag-btn-health" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.12);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s;display:none">🏥 Healthcare</button>
     </div>
 
     <!-- SUB: Change Enablement -->
@@ -2098,19 +2098,19 @@ The agent will extract:
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
           <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE COMPOSITE (1-5)</div>
           <div style="font-size:28px;font-weight:700;color:var(--white)" id="ce-composite">—</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Average of all 6 drivers</div>
         </div>
-        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
           <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE PERCENTAGE (0-100%)</div>
           <div style="font-size:28px;font-weight:700;color:var(--copper-light)" id="ce-percentage">—</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:4px">((Composite - 1) / 4) x 100</div>
         </div>
       </div>
 
-      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+      <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
         <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">CM BUDGET ADEQUACY CHECK</div>
         <div style="font-size:12px;color:var(--text-body)">If CM Budget < 10% of Initiative Budget, CE is capped at 40%</div>
         <div id="ce-cm-warning" style="margin-top:12px;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:4px;font-size:11px;color:var(--text-muted);display:none"></div>
@@ -2127,12 +2127,12 @@ The agent will extract:
       <div style="margin-bottom:24px" id="pace-layers-container"></div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
           <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">DRAG COEFFICIENT (1.0-3.0)</div>
           <div style="font-size:28px;font-weight:700;color:var(--white)" id="pace-drag">—</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Fastest / Slowest layer score</div>
         </div>
-        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+        <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
           <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">FAILURE RATE</div>
           <div style="font-size:28px;font-weight:700;color:var(--red-light)" id="pace-failure">—</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Interpolated: 27% @ 1.0 to 90% @ 3.0</div>
@@ -2146,7 +2146,7 @@ The agent will extract:
           style="width:100%;padding:10px 12px;font-size:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;margin-top:6px" />
       </div>
 
-      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+      <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
         <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">ORGANISATIONAL DRAG COST</div>
         <div style="display:flex;align-items:baseline;gap:12px">
           <div style="font-size:24px;font-weight:700;color:var(--red-light)" id="pace-drag-cost">—</div>
@@ -2164,7 +2164,7 @@ The agent will extract:
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px" id="health-overlays"></div>
 
-      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
+      <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
         <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">HEALTHCARE READINESS FACTOR</div>
         <div style="display:flex;align-items:baseline;gap:12px">
           <div style="font-size:28px;font-weight:700;color:var(--white)" id="health-factor">—</div>
