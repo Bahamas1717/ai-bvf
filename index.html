@@ -2139,6 +2139,13 @@ The agent will extract:
         </div>
       </div>
 
+      <div style="margin-bottom:16px">
+        <span class="label">Total AI portfolio value (EUR)</span>
+        <input type="number" id="pacePortfolioInput" placeholder="e.g. 5000000"
+          oninput="if(typeof renderPaceLayer==='function') renderPaceLayer();"
+          style="width:100%;padding:10px 12px;font-size:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;margin-top:6px" />
+      </div>
+
       <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
         <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">ORGANISATIONAL DRAG COST</div>
         <div style="display:flex;align-items:baseline;gap:12px">
@@ -3449,15 +3456,12 @@ function updatePaceMetrics() {
   failureRate = Math.min(0.90, Math.max(0.27, failureRate));
   
   // Calculate drag cost
-  let totalValue = 0;
-  if (BVF.initiatives && BVF.initiatives.length > 0) {
-    totalValue = BVF.initiatives.reduce((sum, init) => sum + (parseFloat(init.budget) || 0), 0);
-  }
+  const totalValue = parseFloat(document.getElementById('pacePortfolioInput')?.value) || 0;
   const dragCost = totalValue * failureRate;
   
   document.getElementById('pace-drag').textContent = dragCoeff.toFixed(2);
   document.getElementById('pace-failure').textContent = (failureRate * 100).toFixed(0) + '%';
-  document.getElementById('pace-drag-cost').textContent = '$' + (dragCost / 1e6).toFixed(1) + 'M';
+  document.getElementById('pace-drag-cost').textContent = '€' + (dragCost / 1e6).toFixed(1) + 'M';
 }
 
 // ── COMPANY PROFILE ──────────────────────────────────────────────────────────

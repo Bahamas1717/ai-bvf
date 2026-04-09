@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Readiness Blueprint | Craig Horton</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1B3A5C;
+    --navy-dark: #122843;
+    --navy-light: #2a5080;
+    --orange: #C47A2B;
+    --orange-light: #d9943e;
+    --white: #ffffff;
+    --off-white: #F8F7F4;
+    --light-grey: #EBEBEB;
+    --mid-grey: #999;
+    --text: #1a1a1a;
+    --text-light: #4a4a4a;
+  }
+
+  body {
+    font-family: Tahoma, 'Segoe UI', Arial, sans-serif;
+    color: var(--text);
+    background: var(--white);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── NAVIGATION ───────────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: var(--navy);
+    z-index: 100;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    border-bottom: 3px solid var(--orange);
+  }
+
+  .nav-brand {
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .nav-brand span {
+    color: var(--orange);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--orange);
+    color: var(--white) !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    font-weight: 700;
+    font-size: 13px !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--orange-light) !important; color: var(--white) !important; }
+
+  /* ── HERO ─────────────────────────────────────────────── */
+  #hero {
+    background: var(--navy);
+    padding: 160px 48px 100px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: rgba(196, 122, 43, 0.06);
+    pointer-events: none;
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 10%;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.025);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 900px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-label {
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--orange);
+  }
+
+  .hero-headline {
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-headline em {
+    color: var(--orange);
+    font-style: normal;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.72);
+    max-width: 640px;
+    margin-bottom: 48px;
+    line-height: 1.75;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 52px;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat {
+    border-left: 3px solid var(--orange);
+    padding-left: 18px;
+  }
+
+  .hero-stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .hero-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    max-width: 160px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--orange);
+    color: var(--white);
+    padding: 16px 36px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 2px;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .hero-cta:hover { background: var(--orange-light); transform: translateY(-1px); }
+
+  .hero-cta svg { width: 16px; height: 16px; }
+
+  /* ── SECTION COMMONS ──────────────────────────────────── */
+  section { padding: 96px 48px; }
+
+  .section-inner { max-width: 1080px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--orange);
+  }
+
+  .section-title {
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .section-intro {
+    font-size: 17px;
+    color: var(--text-light);
+    max-width: 680px;
+    line-height: 1.8;
+    margin-bottom: 56px;
+  }
+
+  /* ── THE PARADOX ──────────────────────────────────────── */
+  #paradox {
+    background: var(--off-white);
+    border-top: 4px solid var(--navy);
+  }
+
+  .paradox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .paradox-card {
+    background: var(--white);
+    padding: 40px 36px;
+    position: relative;
+  }
+
+  .paradox-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 36px; right: 36px;
+    height: 3px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .paradox-card:hover::after { transform: scaleX(1); }
+
+  .paradox-number {
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .paradox-number span { color: var(--orange); }
+
+  .paradox-desc {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.65;
+  }
+
+  .paradox-source {
+    font-size: 11px;
+    color: var(--mid-grey);
+    margin-top: 12px;
+    font-style: italic;
+  }
+
+  .paradox-insight {
+    background: var(--navy);
+    color: var(--white);
+    padding: 40px 48px;
+    margin-top: 48px;
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .paradox-insight-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .paradox-insight p {
+    font-size: 18px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .paradox-insight strong { color: var(--orange); }
+
+  /* ── PACE LAYER ───────────────────────────────────────── */
+  #pace {
+    background: var(--white);
+  }
+
+  .pace-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 48px;
+    border: 1px solid var(--light-grey);
+  }
+
+  .pace-layer {
+    display: grid;
+    grid-template-columns: 200px 1fr 160px;
+    align-items: stretch;
+    border-bottom: 1px solid var(--light-grey);
+  }
+
+  .pace-layer:last-child { border-bottom: none; }
+
+  .pace-layer-tag {
+    background: var(--navy);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 36px 28px;
+  }
+
+  .pace-layer-tag.orange { background: var(--orange); }
+  .pace-layer-tag.navy-light { background: var(--navy-light); }
+
+  .pace-layer-tag .speed {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 6px;
+  }
+
+  .pace-layer-tag .name {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .pace-layer-body {
+    padding: 36px 40px;
+    border-left: 1px solid var(--light-grey);
+    border-right: 1px solid var(--light-grey);
+  }
+
+  .pace-layer-body h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .pace-layer-body p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.7;
+  }
+
+  .pace-layer-speed {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .speed-bar {
+    width: 12px;
+    border-radius: 6px;
+    background: var(--light-grey);
+  }
+
+  .speed-bar.fast { height: 72px; background: var(--orange); }
+  .speed-bar.medium { height: 44px; background: var(--navy-light); }
+  .speed-bar.slow { height: 20px; background: var(--navy); }
+
+  .speed-label {
+    font-size: 11px;
+    color: var(--mid-grey);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .pace-trap {
+    margin-top: 40px;
+    background: #FFF4E8;
+    border-left: 4px solid var(--orange);
+    padding: 28px 36px;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .pace-trap strong { color: var(--navy); }
+
+  /* ── BLUEPRINT ────────────────────────────────────────── */
+  #blueprint {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  #blueprint .section-title { color: var(--white); }
+  #blueprint .section-intro { color: rgba(255,255,255,0.65); }
+
+  .blueprint-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .blueprint-layer {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: stretch;
+    background: rgba(255,255,255,0.04);
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .blueprint-layer:hover { background: rgba(255,255,255,0.08); }
+
+  .blueprint-layer-num {
+    background: rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--orange);
+    padding: 32px 0;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .blueprint-layer-content {
+    padding: 32px 36px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .blueprint-layer-content h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .blueprint-layer-content .layer-sub {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 10px;
+  }
+
+  .blueprint-layer-content p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.62);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .blueprint-layer-action {
+    padding: 32px 32px;
+    min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .action-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .action-label::before {
+    content: '';
+    display: block;
+    width: 14px;
+    height: 1px;
+    background: var(--orange);
+  }
+
+  .blueprint-layer-action p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+  }
+
+  /* ── BVF ──────────────────────────────────────────────── */
+  #bvf {
+    background: var(--off-white);
+  }
+
+  .bvf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .bvf-pillar {
+    background: var(--white);
+    padding: 40px;
+    position: relative;
+    border-top: 4px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .bvf-pillar:hover { border-top-color: var(--orange); }
+
+  .bvf-pillar-weight {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .bvf-pillar-weight span { color: var(--orange); font-size: 22px; }
+
+  .bvf-pillar h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .bvf-pillar p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.65;
+  }
+
+  .bvf-scores {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .score-card {
+    flex: 1;
+    padding: 32px;
+    text-align: center;
+    background: var(--white);
+  }
+
+  .score-card.accelerate { border-top: 4px solid #2E7D32; }
+  .score-card.fix { border-top: 4px solid #F57F17; }
+  .score-card.stop { border-top: 4px solid #C62828; }
+
+  .score-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .accelerate .score-label { color: #2E7D32; }
+  .fix .score-label { color: #F57F17; }
+  .stop .score-label { color: #C62828; }
+
+  .score-range {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .score-desc {
+    font-size: 12px;
+    color: var(--mid-grey);
+    line-height: 1.5;
+  }
+
+  .drag-cost-box {
+    background: var(--navy);
+    color: var(--white);
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .drag-cost-box h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+
+  .drag-cost-box p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+  }
+
+  .drag-cost-box strong { color: var(--orange); }
+
+  .drag-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .drag-metric {
+    border-left: 3px solid var(--orange);
+    padding-left: 20px;
+  }
+
+  .drag-metric-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .drag-metric-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── TRACK RECORD ─────────────────────────────────────── */
+  #track-record {
+    background: var(--white);
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .proof-card {
+    background: var(--off-white);
+    padding: 40px 36px;
+    border-bottom: 4px solid transparent;
+    transition: border-color 0.25s;
+  }
+
+  .proof-card:hover { border-bottom-color: var(--orange); }
+
+  .proof-value {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .proof-org {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .proof-desc {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.65;
+  }
+
+  .companies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    margin-top: 52px;
+    padding-top: 40px;
+    border-top: 1px solid var(--light-grey);
+    align-items: center;
+  }
+
+  .companies-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    margin-right: 8px;
+  }
+
+  .company-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    opacity: 0.55;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ── ABOUT ────────────────────────────────────────────── */
+  #about {
+    background: var(--off-white);
+    border-top: 1px solid var(--light-grey);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-quote {
+    font-size: 20px;
+    font-style: italic;
+    color: var(--navy);
+    line-height: 1.65;
+    border-left: 4px solid var(--orange);
+    padding-left: 28px;
+    margin-bottom: 28px;
+  }
+
+  .about-body {
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.8;
+  }
+
+  .about-milestones {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .milestone {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .milestone-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--navy);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--orange);
+    font-size: 16px;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  .milestone-content h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .milestone-content p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.55;
+  }
+
+  /* ── BOOK A CALL ──────────────────────────────────────── */
+  #book {
+    background: var(--navy);
+    text-align: center;
+    padding: 100px 48px;
+  }
+
+  .book-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .book-label::before, .book-label::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--orange);
+  }
+
+  #book h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  #book p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.62);
+    max-width: 540px;
+    margin: 0 auto 48px;
+    line-height: 1.75;
+  }
+
+  .book-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--orange);
+    color: var(--white);
+    padding: 18px 48px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 2px;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .book-cta:hover { background: var(--orange-light); transform: translateY(-2px); }
+
+  .book-detail {
+    margin-top: 28px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── FOOTER ───────────────────────────────────────────── */
+  footer {
+    background: var(--navy-dark);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  footer p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  footer a {
+    color: var(--orange);
+    text-decoration: none;
+    font-size: 12px;
+  }
+
+  /* ── RESPONSIVE ───────────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    #hero { padding: 120px 24px 80px; }
+    section { padding: 72px 24px; }
+    .paradox-grid { grid-template-columns: 1fr; gap: 2px; }
+    .bvf-grid { grid-template-columns: 1fr; }
+    .proof-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .drag-cost-box { grid-template-columns: 1fr; }
+    .blueprint-layer { grid-template-columns: 60px 1fr; }
+    .blueprint-layer-action { display: none; }
+    .hero-stats { gap: 28px; }
+    .pace-layer { grid-template-columns: 150px 1fr; }
+    .pace-layer-speed { display: none; }
+    .bvf-scores { flex-direction: column; }
+    footer { flex-direction: column; gap: 10px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-brand">Craig Horton &nbsp;<span>|</span>&nbsp; AI Readiness Blueprint</div>
+  <ul class="nav-links">
+    <li><a href="#paradox">The Problem</a></li>
+    <li><a href="#blueprint">The Blueprint</a></li>
+    <li><a href="#bvf">The BVF</a></li>
+    <li><a href="#track-record">Track Record</a></li>
+    <li><a href="#book" class="nav-cta">Book A Call</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Strategic Advisory</div>
+    <h1 class="hero-headline">
+      The AI Readiness Blueprint:<br>
+      <em>Breaking The Transformation Barrier</em>
+    </h1>
+    <p class="hero-sub">
+      95% of AI pilots fail to reach production at scale. The diagnosis is wrong.
+      This is not a technology problem, it is a management, structural, and human problem,
+      and there is a proven framework to fix it.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-number">95%</div>
+        <div class="hero-stat-label">of AI pilots fail to reach production at scale</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">$9T</div>
+        <div class="hero-stat-label">lost annually to bureaucracy in OECD economies</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">30%</div>
+        <div class="hero-stat-label">of GenAI deployments will be abandoned by 2026</div>
+      </div>
+    </div>
+    <a href="#book" class="hero-cta">
+      Book A Discovery Call
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- THE PARADOX -->
+<section id="paradox">
+  <div class="section-inner">
+    <div class="section-label">The Enterprise AI Paradox</div>
+    <h2 class="section-title">Why Record Investment Yields Diminishing Returns</h2>
+    <p class="section-intro">
+      Enterprise AI investment has decoupled from value realization. While organizations flood the zone
+      with generative AI pilots, the transition from experimentation to enterprise-scale production
+      remains remarkably stagnant. The numbers make this brutally clear.
+    </p>
+    <div class="paradox-grid">
+      <div class="paradox-card">
+        <div class="paradox-number">95<span>%</span></div>
+        <p class="paradox-desc">of AI pilots fail to reach production at scale, not because the technology is immature, but because the management architecture is.</p>
+        <p class="paradox-source">MIT &amp; IDC Research</p>
+      </div>
+      <div class="paradox-card">
+        <div class="paradox-number">30<span>%</span></div>
+        <p class="paradox-desc">of GenAI deployments will be abandoned by 2026 due to poor ROI governance and the absence of structured portfolio oversight.</p>
+        <p class="paradox-source">Gartner, 2025</p>
+      </div>
+      <div class="paradox-card">
+        <div class="paradox-number">4<span>%</span></div>
+        <p class="paradox-desc">of companies have achieved AI at transformative scale. The other 96% are still running pilots, waiting for permission to commit.</p>
+        <p class="paradox-source">McKinsey, 2025</p>
+      </div>
+    </div>
+    <div class="paradox-insight">
+      <div class="paradox-insight-icon">◈</div>
+      <p>
+        <strong>The core diagnosis:</strong> Most leaders treat this as a technical hurdle and throw more money at licensing, compute, and generic change management. But the AI adoption crisis is not a technology problem. It is a management, structural, and human problem. Until leadership addresses the underlying Bureaucracy Debt, technology investment will continue to yield diminishing returns.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PACE LAYER -->
+<section id="pace">
+  <div class="section-inner">
+    <div class="section-label">Root Cause</div>
+    <h2 class="section-title">The Pace Layer Trap</h2>
+    <p class="section-intro">
+      Organizations operate across three simultaneous layers that move at fundamentally different speeds.
+      Transformation failure occurs when fast-moving operational technology is deployed into an environment
+      where the strategic and existential layers are still running on 2005-era management models.
+    </p>
+    <div class="pace-layers">
+      <div class="pace-layer">
+        <div class="pace-layer-tag orange">
+          <div class="speed">Layer 1</div>
+          <div class="name">Operational</div>
+        </div>
+        <div class="pace-layer-body">
+          <h4>AI Agents, Automation &amp; Daily Software Adaptation</h4>
+          <p>This layer moves at the speed of software releases, deploying, iterating, and adapting continuously. Agentic AI operates here: autonomous, responsive, and evolving monthly.</p>
+        </div>
+        <div class="pace-layer-speed">
+          <div class="speed-bar fast"></div>
+          <div class="speed-label">Fast</div>
+        </div>
+      </div>
+      <div class="pace-layer">
+        <div class="pace-layer-tag navy-light">
+          <div class="speed">Layer 2</div>
+          <div class="name">Strategic</div>
+        </div>
+        <div class="pace-layer-body">
+          <h4>Structures, Resource Allocation &amp; Governance Frameworks</h4>
+          <p>Organizational structures, budget cycles, and governance cadences move on quarterly or annual rhythms, already mismatched to the speed of AI evolution.</p>
+        </div>
+        <div class="pace-layer-speed">
+          <div class="speed-bar medium"></div>
+          <div class="speed-label">Medium</div>
+        </div>
+      </div>
+      <div class="pace-layer">
+        <div class="pace-layer-tag">
+          <div class="speed">Layer 3</div>
+          <div class="name">Existential</div>
+        </div>
+        <div class="pace-layer-body">
+          <h4>Core Beliefs, Risk Attitudes, Culture &amp; Identity</h4>
+          <p>The deepest layer, where values, identity, and risk tolerance live. This moves like a glacier. Most transformation frameworks assume it has already changed. It almost never has.</p>
+        </div>
+        <div class="pace-layer-speed">
+          <div class="speed-bar slow"></div>
+          <div class="speed-label">Slow</div>
+        </div>
+      </div>
+    </div>
+    <div class="pace-trap">
+      <strong>The Trap:</strong> Deploying Agentic AI into an organization still running on Existential Layer assumptions from 2005 is like putting a jet engine on a wooden sailing ship. The hull was not designed for that kind of thrust. The faster you push, the more the structure resists, until something breaks. This structural incompatibility creates a measurable financial drag on every AI initiative in the portfolio.
+    </div>
+  </div>
+</section>
+
+<!-- BLUEPRINT -->
+<section id="blueprint">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--orange);">The Methodology</div>
+    <h2 class="section-title">The AI Readiness Blueprint</h2>
+    <p class="section-intro">
+      A six-layer framework that fixes the foundation before scaling the technology.
+      Each layer has a clear diagnostic, a defined output, and a Monday Morning Action
+      that creates immediate momentum without waiting for the full programme to launch.
+    </p>
+    <div class="blueprint-layers">
+      <div class="blueprint-layer">
+        <div class="blueprint-layer-num">0</div>
+        <div class="blueprint-layer-content">
+          <div class="layer-sub">Layer Zero</div>
+          <h3>Trust Architecture</h3>
+          <p>The absolute foundation. Most frameworks assume trust and psychological safety already exist. They almost never do. You cannot transform what you cannot be honest about. This layer mandates a facilitated executive honesty session before a single line of code is written.</p>
+        </div>
+        <div class="blueprint-layer-action">
+          <div class="action-label">Monday Morning Action</div>
+          <p>Schedule a 3-hour facilitated executive honesty session to answer: Where are we failing? What are we afraid to change? Who will resist and why?</p>
+        </div>
+      </div>
+      <div class="blueprint-layer">
+        <div class="blueprint-layer-num">1</div>
+        <div class="blueprint-layer-content">
+          <div class="layer-sub">Layer One</div>
+          <h3>Quantify The Drag</h3>
+          <p>To drive change at the speed AI requires, leaders must move beyond narrative urgency. The AI Business Value Framework calculates the Organizational Drag Cost: the specific financial value at risk due to structural and management constraints. When the board sees the cost of doing nothing, inaction becomes more uncomfortable than change.</p>
+        </div>
+        <div class="blueprint-layer-action">
+          <div class="action-label">Monday Morning Action</div>
+          <p>Run a BVF assessment on your current AI portfolio. Present the Organizational Drag Cost to the board as a financial obligation, not a technical request.</p>
+        </div>
+      </div>
+      <div class="blueprint-layer">
+        <div class="blueprint-layer-num">2</div>
+        <div class="blueprint-layer-content">
+          <div class="layer-sub">Layer Two</div>
+          <h3>Build The Human Coalition</h3>
+          <p>Transformation travels through relationships, not org charts. Success is determined by the belief of the 12 key people within the organization, regardless of their title. Middle managers are not blockers to be bypassed, they are the most important conversion. They must be shown what their role becomes, not what it loses.</p>
+        </div>
+        <div class="blueprint-layer-action">
+          <div class="action-label">Monday Morning Action</div>
+          <p>Map the organization's real influence network. Identify the twelve people who determine the outcome and assign a relationship lead for each.</p>
+        </div>
+      </div>
+      <div class="blueprint-layer">
+        <div class="blueprint-layer-num">3</div>
+        <div class="blueprint-layer-content">
+          <div class="layer-sub">Layer Three</div>
+          <h3>Redesign The Architecture</h3>
+          <p>Structural redesign is the lever for value realization. This layer aligns the strategic layer with the operational layer through Decision Architecture: classifying every significant decision as Autonomous (AI-led), Informed (AI-supported, human-owned), or Human-owned. This gives middle management a valued position, not a vague fear of replacement.</p>
+        </div>
+        <div class="blueprint-layer-action">
+          <div class="action-label">Monday Morning Action</div>
+          <p>Conduct a Decision Architecture audit in one business unit. Map every significant decision into the three tiers to create the evidence base for broader structural change.</p>
+        </div>
+      </div>
+      <div class="blueprint-layer">
+        <div class="blueprint-layer-num">4</div>
+        <div class="blueprint-layer-content">
+          <div class="layer-sub">Layer Four</div>
+          <h3>Move Every Individual</h3>
+          <p>Using the Prosci ADKAR model with one critical modification: Desire must be established before Knowledge or Ability work begins. Investing in AI training before securing Desire is a wasted capital expenditure. Millions are being spent on AI training for people who have not yet been given a reason to want the technology to succeed.</p>
+        </div>
+        <div class="blueprint-layer-action">
+          <div class="action-label">Monday Morning Action</div>
+          <p>Run an ADKAR diagnostic for every affected role group. Identify exactly where the Desire gap exists and halt training until it is resolved.</p>
+        </div>
+      </div>
+      <div class="blueprint-layer">
+        <div class="blueprint-layer-num">5</div>
+        <div class="blueprint-layer-content">
+          <div class="layer-sub">Layer Five</div>
+          <h3>Sustain The Momentum</h3>
+          <p>AI transformation is not a project, it is a permanent operating rhythm. Monthly AI Portfolio Reviews replace the annual strategy day. Decision Confidence Scores drive every governance agenda. Quarterly Operating Model Health Checks recalibrate structural levers. Annual Strategic Redesign Sessions ensure compatibility with the next wave of AI.</p>
+        </div>
+        <div class="blueprint-layer-action">
+          <div class="action-label">Monday Morning Action</div>
+          <p>Cancel the next annual AI strategy review. Replace it with a standing monthly 90-minute AI Portfolio Governance meeting using BVF scores as the primary agenda.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BVF -->
+<section id="bvf">
+  <div class="section-inner">
+    <div class="section-label">The AI Business Value Framework</div>
+    <h2 class="section-title">Quantifying The Cost Of Inaction</h2>
+    <p class="section-intro">
+      The BVF is a decision support platform that synthesises internal data with global benchmarks
+      to provide board-level quantification of AI portfolio viability. Every initiative receives a
+      Decision Confidence Score and a classification: Accelerate, Fix, or Stop.
+    </p>
+    <div class="bvf-grid">
+      <div class="bvf-pillar">
+        <div class="bvf-pillar-weight">40<span>%</span></div>
+        <h3>Strategic Alignment</h3>
+        <p>Alignment with board-level priorities and competitive capability. Initiatives not linked to a mission-critical priority are flagged as High Risk. Gartner reports that unaligned initiatives are abandoned at 2x the rate of aligned ones.</p>
+      </div>
+      <div class="bvf-pillar">
+        <div class="bvf-pillar-weight">30<span>%</span></div>
+        <h3>Financial Return</h3>
+        <p>Payback performance and ROI compared to industry benchmarks. McKinsey finds AI leaders achieve 1.5x higher revenue growth and 1.6x greater shareholder returns than laggards. Both direct return and Organizational Drag Cost are assessed.</p>
+      </div>
+      <div class="bvf-pillar">
+        <div class="bvf-pillar-weight">20<span>%</span></div>
+        <h3>Change Enablement</h3>
+        <p>Cultural and structural readiness assessed across six drivers from EY/Oxford research: Lead, Inspire, Care, Empower, Build, and Collaborate. Organizations excelling across all six drivers are 2.6x more likely to succeed.</p>
+      </div>
+      <div class="bvf-pillar">
+        <div class="bvf-pillar-weight">10<span>%</span></div>
+        <h3>Governance &amp; Risk</h3>
+        <p>Adequacy of oversight, accountability, and regulatory compliance, calibrated to AI generation: Gen 1 automation, Gen 2 LLM and GenAI, and Gen 3 Autonomous Agents, each requiring progressively robust governance frameworks.</p>
+      </div>
+    </div>
+    <div class="bvf-scores">
+      <div class="score-card accelerate">
+        <div class="score-label">Accelerate</div>
+        <div class="score-range">DCS &gt; 70%</div>
+        <div class="score-desc">Investment-ready. Proceed to production scaling.</div>
+      </div>
+      <div class="score-card fix">
+        <div class="score-label">Fix</div>
+        <div class="score-range">DCS 40–70%</div>
+        <div class="score-desc">Recoverable with targeted remediation before scaling.</div>
+      </div>
+      <div class="score-card stop">
+        <div class="score-label">Stop</div>
+        <div class="score-range">DCS &lt; 40%</div>
+        <div class="score-desc">Reallocate budget. The initiative is not viable as structured.</div>
+      </div>
+    </div>
+    <div class="drag-cost-box">
+      <div>
+        <h3>The Organizational Drag Cost</h3>
+        <p>
+          The single most powerful number in the BVF. The Drag Cost transforms the abstract concept
+          of "we are not ready" into a specific financial figure that the CFO can act on.
+          A portfolio of 12 AI initiatives with a combined projected value of
+          <strong>€15M</strong> in an organization with a 2.0 Drag Coefficient carries an
+          Organizational Drag Cost of <strong>€10.5M annually</strong>, the value at risk
+          unless structural misalignment is addressed. When you present the board with the actual
+          cost of doing nothing, inaction becomes more uncomfortable than change.
+        </p>
+      </div>
+      <div class="drag-metrics">
+        <div class="drag-metric">
+          <div class="drag-metric-value">1.0×</div>
+          <div class="drag-metric-label">Perfect alignment (27% failure rate)</div>
+        </div>
+        <div class="drag-metric">
+          <div class="drag-metric-value">2.0×</div>
+          <div class="drag-metric-label">Significant drag (70% failure rate)</div>
+        </div>
+        <div class="drag-metric">
+          <div class="drag-metric-value">3.0×</div>
+          <div class="drag-metric-label">Critical drag (90% failure rate)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACK RECORD -->
+<section id="track-record">
+  <div class="section-inner">
+    <div class="section-label">Proven Resilience</div>
+    <h2 class="section-title">Two Decades Of High-Stakes Delivery</h2>
+    <p class="section-intro">
+      The AI Readiness Blueprint is not theoretical. It is built on twenty years of enterprise leadership
+      across some of the world's most demanding technology organizations, with a track record of
+      measurable, board-level impact.
+    </p>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-value">€300M</div>
+        <div class="proof-org">Salesforce</div>
+        <div class="proof-desc">EBITDA uplift delivered through enterprise transformation, structural redesign, and disciplined stakeholder alignment across a complex, matrixed organisation.</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-value">60%</div>
+        <div class="proof-org">Microsoft</div>
+        <div class="proof-desc">Revenue growth achieved through strategic repositioning, coalition building, and the conversion of executive sceptics into the programme's most powerful champions.</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-value">$100M+</div>
+        <div class="proof-org">HPE</div>
+        <div class="proof-desc">Account revitalization executed through honest diagnosis, trust architecture, and a disciplined approach to rebuilding credibility at the most senior levels of the client organisation.</div>
+      </div>
+    </div>
+    <div class="companies">
+      <span class="companies-label">Experience across</span>
+      <span class="company-name">Salesforce</span>
+      <span class="company-name">Microsoft</span>
+      <span class="company-name">Atos</span>
+      <span class="company-name">Accenture</span>
+      <span class="company-name">HPE</span>
+      <span class="company-name">Philips</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">The Foundation</div>
+    <h2 class="section-title">Why Layer Zero Matters Most</h2>
+    <div class="about-grid">
+      <div>
+        <blockquote class="about-quote">
+          "I know what it means to face an honest diagnosis when the news is bad, and to commit to moving forward anyway."
+        </blockquote>
+        <p class="about-body">
+          The emphasis on Layer Zero, on radical honesty before strategy, is rooted in a personal diagnostic.
+          In 2014, Craig suffered a cardiac arrest and was resuscitated. In the years since, he has completed
+          six desert ultramarathons, including four finishes of the Marathon Des Sables, one of the most
+          demanding endurance events on earth, and received the "Never Give Up" award in 2025.
+          These experiences proved that honesty, preparation, and resilience are the only reliable way to
+          survive extreme environments, and complex transformations.
+        </p>
+      </div>
+      <div class="about-milestones">
+        <div class="milestone">
+          <div class="milestone-icon">20</div>
+          <div class="milestone-content">
+            <h4>Years Of Enterprise Leadership</h4>
+            <p>Salesforce, Microsoft, Atos, Accenture, and HPE, with board-level impact at each.</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-icon">6</div>
+          <div class="milestone-content">
+            <h4>Desert Ultramarathons Completed</h4>
+            <p>Including four finishes of the Marathon Des Sables, and the "Never Give Up" award in 2025.</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-icon">✦</div>
+          <div class="milestone-content">
+            <h4>Oxford Distinction &amp; Executive MBA</h4>
+            <p>Academic rigour applied to real-world transformation, with an AI-specialised Executive Global MBA in progress.</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-icon">20+</div>
+          <div class="milestone-content">
+            <h4>AI &amp; Cloud Certifications</h4>
+            <p>AWS, Google Cloud, and a portfolio of AI certifications underpinning the advisory practice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK A CALL -->
+<section id="book">
+  <div class="section-inner" style="max-width:700px;">
+    <div class="book-label">Ready To Start</div>
+    <h2>The Status Quo Has A Price Tag.<br>What Is Yours?</h2>
+    <p>
+      A 45-minute discovery conversation to calculate your organization's Organizational Drag Cost,
+      identify your Pace Layer bottleneck, and determine whether the AI Readiness Blueprint
+      is the right intervention for your transformation.
+    </p>
+    <a href="mailto:craigmds1@gmail.com?subject=AI Readiness Blueprint Discovery Call" class="book-cta">
+      Book A Discovery Call
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </a>
+    <p class="book-detail">No obligation. No pitch deck. Just an honest conversation about where you are and what it is costing you.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Craig Horton &nbsp;·&nbsp; AI Readiness Blueprint &nbsp;·&nbsp; Built on two decades of enterprise transformation leadership</p>
+  <a href="mailto:craigmds1@gmail.com">craigmds1@gmail.com</a>
+</footer>
+
+<script>
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        const offset = 64;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Subtle nav transparency on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav.style.boxShadow = '0 2px 24px rgba(0,0,0,0.35)';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
