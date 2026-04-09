@@ -2140,7 +2140,7 @@ The agent will extract:
       </div>
 
       <div style="margin-bottom:16px">
-        <span class="label">Total AI portfolio value (EUR)</span>
+        <span class="label">Portfolio value override (EUR) — auto-calculated from initiatives if left blank</span>
         <input type="number" id="pacePortfolioInput" placeholder="e.g. 5000000"
           oninput="if(typeof renderPaceLayer==='function') renderPaceLayer();"
           style="width:100%;padding:10px 12px;font-size:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;margin-top:6px" />
@@ -3456,7 +3456,9 @@ function updatePaceMetrics() {
   failureRate = Math.min(0.90, Math.max(0.27, failureRate));
   
   // Calculate drag cost
-  const totalValue = parseFloat(document.getElementById('pacePortfolioInput')?.value) || 0;
+  const autoValue = (BVF.initiatives || []).reduce((s, i) => s + parseNum(i.budget), 0);
+  const override = parseFloat(document.getElementById('pacePortfolioInput')?.value);
+  const totalValue = override > 0 ? override : autoValue;
   const dragCost = totalValue * failureRate;
   
   document.getElementById('pace-drag').textContent = dragCoeff.toFixed(2);
