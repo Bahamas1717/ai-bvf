@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bvf-app.vercel.app/bvf-protocol.schema.json",
+  "title": "AI BVF Portfolio v1.0",
+  "description": "AI Business Value Framework — open scoring schema for AI transformation initiatives. Dual-licensed: this schema under CC-BY-4.0; the benchmark corpus and certification marks are proprietary.",
+  "type": "object",
+  "required": ["bvf_version", "organization", "initiatives"],
+  "properties": {
+    "bvf_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "The AI BVF protocol version this document conforms to."
+    },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "organization": {
+      "type": "object",
+      "required": ["name", "industry"],
+      "properties": {
+        "name": { "type": "string" },
+        "industry": {
+          "type": "string",
+          "enum": [
+            "universal", "creative", "education", "energy", "financial",
+            "healthcare", "logistics", "manufacturing", "nonprofit",
+            "professional", "public_sector", "real_estate", "retail", "technology"
+          ]
+        },
+        "region": { "type": "string" },
+        "revenue_eur": { "type": "number", "minimum": 0 },
+        "headcount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "initiatives": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/Initiative" }
+    },
+    "benchmark_consent": {
+      "type": "object",
+      "description": "Contribution to the AI BVF Benchmark Commons.",
+      "properties": {
+        "contribute_anonymised": { "type": "boolean", "default": false },
+        "retain_org_identity":   { "type": "boolean", "default": false }
+      }
+    }
+  },
+  "$defs": {
+    "Initiative": {
+      "type": "object",
+      "required": ["id", "name", "function", "ai_tier", "scores"],
+      "properties": {
+        "id":       { "type": "string", "pattern": "^[a-z0-9-]{1,64}$" },
+        "name":     { "type": "string", "maxLength": 240 },
+        "function": { "type": "string", "enum": ["finance","hr","sales","supply","cx","risk","it","rd"] },
+        "ai_tier":  { "type": "string", "enum": ["gen1","gen2","gen3"] },
+        "bucket":   { "type": "string", "enum": ["Agent-Proof","Agent-Augmented","Agent-Replaceable"] },
+        "scores":   { "$ref": "#/$defs/FourPillarScore" },
+        "classification":      { "type": "string", "enum": ["Accelerate","Fix","Stop"] },
+        "decision_confidence": { "type": "number", "minimum": 0, "maximum": 100 },
+        "pilot_gate": { "$ref": "#/$defs/PilotGate" },
+        "compliance": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["eu_ai_act","dora","csrd","gdpr_ai"] }
+        }
+      }
+    },
+    "FourPillarScore": {
+      "type": "object",
+      "required": ["strategic_alignment", "financial_return", "change_enablement", "governance_risk"],
+      "properties": {
+        "strategic_alignment": { "$ref": "#/$defs/PillarScore" },
+        "financial_return":    { "$ref": "#/$defs/PillarScore" },
+        "change_enablement":   { "$ref": "#/$defs/PillarScore" },
+        "governance_risk":     { "$ref": "#/$defs/PillarScore" }
+      }
+    },
+    "PillarScore": {
+      "type": "object",
+      "required": ["value"],
+      "properties": {
+        "value":      { "type": "number", "minimum": 0, "maximum": 100 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 100 },
+        "evidence":   { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "PilotGate": {
+      "type": "object",
+      "properties": {
+        "sponsored": { "type": "boolean" },
+        "owner":     { "type": "boolean" },
+        "scaled":    { "type": "boolean" },
+        "kpi":       { "type": "boolean" },
+        "funded":    { "type": "boolean" }
+      }
+    }
+  }
+}

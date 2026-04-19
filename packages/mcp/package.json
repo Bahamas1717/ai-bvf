@@ -1,0 +1,28 @@
+{
+  "name": "aibvf-mcp",
+  "version": "0.1.0",
+  "description": "MCP server exposing AI BVF v1.0 scoring and validation to any Claude agent.",
+  "keywords": ["mcp", "model-context-protocol", "ai-bvf", "claude", "agent", "ai-governance"],
+  "homepage": "https://bvf-app.vercel.app/protocol",
+  "repository": "github:craighorton/ai-bvf",
+  "license": "MIT",
+  "author": "Craig Horton",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "aibvf-mcp": "dist/index.js"
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('dist/index.js', 0o755)\"",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@aibvf/core": "^0.1.0",
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  }
+}

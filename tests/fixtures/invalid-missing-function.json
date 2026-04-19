@@ -1,0 +1,17 @@
+{
+  "bvf_version": "1.0",
+  "organization": { "name": "Broken Ltd", "industry": "retail" },
+  "initiatives": [
+    {
+      "id": "whatever",
+      "name": "Missing function field on purpose",
+      "ai_tier": "gen2",
+      "scores": {
+        "strategic_alignment": { "value": 50 },
+        "financial_return":    { "value": 50 },
+        "change_enablement":   { "value": 50 },
+        "governance_risk":     { "value": 50 }
+      }
+    }
+  ]
+}

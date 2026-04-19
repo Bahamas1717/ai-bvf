@@ -1,0 +1,26 @@
+{
+  "name": "@aibvf/core",
+  "version": "0.1.0",
+  "description": "AI BVF — open protocol for scoring AI investments. Validator and scoring engine.",
+  "keywords": ["ai", "bvf", "ai-governance", "enterprise-ai", "ai-scoring", "ai-roi", "eu-ai-act", "standards"],
+  "homepage": "https://bvf-app.vercel.app/protocol",
+  "repository": "github:craighorton/ai-bvf",
+  "license": "MIT",
+  "author": "Craig Horton",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" },
+    "./schema": { "import": "./dist/schema.js", "types": "./dist/schema.d.ts" }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/*.test.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  }
+}

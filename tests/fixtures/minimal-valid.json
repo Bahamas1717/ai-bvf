@@ -1,0 +1,18 @@
+{
+  "bvf_version": "1.0",
+  "organization": { "name": "Acme SE", "industry": "manufacturing" },
+  "initiatives": [
+    {
+      "id": "predictive-maintenance",
+      "name": "Predictive maintenance rollout",
+      "function": "supply",
+      "ai_tier": "gen2",
+      "scores": {
+        "strategic_alignment": { "value": 72 },
+        "financial_return":    { "value": 64 },
+        "change_enablement":   { "value": 48 },
+        "governance_risk":     { "value": 35 }
+      }
+    }
+  ]
+}

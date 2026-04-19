@@ -1,0 +1,16 @@
+{
+  "name": "ai-bvf",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AI BVF monorepo — open protocol for scoring AI investments",
+  "workspaces": [
+    "packages/js",
+    "packages/mcp"
+  ],
+  "scripts": {
+    "build": "npm -w @aibvf/core run build && npm -w aibvf-mcp run build",
+    "test": "npm -w @aibvf/core test"
+  },
+  "repository": "https://github.com/craighorton/ai-bvf",
+  "license": "MIT"
+}

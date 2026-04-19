@@ -1,0 +1,46 @@
+{
+  "description": "Golden scoring cases. Every implementation (JS, Python, MCP) must reproduce these outputs exactly (within 1% float tolerance on EUR values) for cross-language conformance.",
+  "cases": [
+    {
+      "name": "manufacturing supply gen2 traditional, balanced scores",
+      "input": {
+        "industry": "manufacturing",
+        "revenue_eur": 2400000000,
+        "function": "supply",
+        "ai_tier": "gen2",
+        "readiness": "traditional",
+        "scores": { "strategic_alignment": 72, "financial_return": 64, "change_enablement": 48, "governance_risk": 35 }
+      },
+      "expected": {
+        "classification": "Fix",
+        "confidence": 62,
+        "net_low_eur_approx": 75600000,
+        "net_high_eur_approx": 247000000
+      }
+    },
+    {
+      "name": "technology IT gen3 agile, strong scores",
+      "input": {
+        "industry": "technology",
+        "revenue_eur": 1000000000,
+        "function": "it",
+        "ai_tier": "gen3",
+        "readiness": "agile",
+        "scores": { "strategic_alignment": 80, "financial_return": 75, "change_enablement": 70, "governance_risk": 25 }
+      },
+      "expected": { "classification": "Accelerate" }
+    },
+    {
+      "name": "financial risk gen2 siloed, high governance risk -> Stop",
+      "input": {
+        "industry": "financial",
+        "revenue_eur": 5000000000,
+        "function": "risk",
+        "ai_tier": "gen2",
+        "readiness": "siloed",
+        "scores": { "strategic_alignment": 60, "financial_return": 55, "change_enablement": 30, "governance_risk": 75 }
+      },
+      "expected": { "classification": "Stop" }
+    }
+  ]
+}
