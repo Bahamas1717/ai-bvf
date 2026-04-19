@@ -10,7 +10,9 @@ npx aibvf-mcp
 
 ## Wire into Claude Desktop / Cursor / any MCP host
 
-Add to your MCP config:
+### macOS and Linux
+
+Add to your MCP config (on Claude Desktop macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`):
 
 ```json
 {
@@ -23,11 +25,49 @@ Add to your MCP config:
 }
 ```
 
-Then ask Claude:
+### Windows
+
+Windows needs `cmd /c` because `npx` on Windows is `npx.cmd` and Claude Desktop's process spawner doesn't auto-resolve the `.cmd` extension. Use this config in `%APPDATA%\Claude\claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "aibvf": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "aibvf-mcp"]
+    }
+  }
+}
+```
+
+If that still fails, use the full path to `npx.cmd`. Find it with `where npx` in a terminal; it's usually `C:\Program Files\nodejs\npx.cmd`. Then:
+
+```json
+{
+  "mcpServers": {
+    "aibvf": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": ["-y", "aibvf-mcp"]
+    }
+  }
+}
+```
+
+(Double backslashes are required inside JSON strings.)
+
+### After configuring
+
+Fully quit and restart the host (on Windows, right-click the Claude tray icon → Quit; closing the window leaves it running). Then ask Claude:
 
 > *"Score this AI initiative using AI BVF: we're a €2.4bn manufacturer, planning a GenAI predictive maintenance rollout in our EU plants, we're a traditional hierarchy, strong sponsor, modest change budget."*
 
 Claude will call `score_initiative` and return the classification, euro range, and reasoning.
+
+## Troubleshooting
+
+- **No tools icon appears after restart.** The config JSON probably has a syntax error. Validate with `python -m json.tool <path-to-config>`.
+- **"Could not attach to MCP server aibvf."** Open the host's MCP log (on Claude Desktop Windows: `%APPDATA%\Claude\logs\mcp-server-aibvf.log`) for the actual error. Most common cause on Windows is the `npx` / `cmd /c` spawning issue above.
+- **Tools show but calls fail.** Your npx cache may have a broken copy; clear it with `npx clear-npx-cache` and retry.
 
 ## Tools exposed
 
