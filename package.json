@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "npm -w @aibvf/core run build && npm -w aibvf-mcp run build",
-    "test": "npm -w @aibvf/core test"
+    "test": "npm -w @aibvf/core test",
+    "adoption": "node scripts/adoption.mjs"
   },
   "repository": "https://github.com/craighorton/ai-bvf",
   "license": "MIT"
