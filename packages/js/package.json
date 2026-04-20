@@ -1,10 +1,10 @@
 {
   "name": "@aibvf/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AI BVF — open protocol for scoring AI investments. Validator and scoring engine.",
   "keywords": ["ai", "bvf", "ai-governance", "enterprise-ai", "ai-scoring", "ai-roi", "eu-ai-act", "standards"],
   "homepage": "https://bvf-app.vercel.app/protocol",
-  "repository": "github:craighorton/ai-bvf",
+  "repository": "github:Bahamas1717/ai-bvf",
   "license": "MIT",
   "author": "Craig Horton",
   "type": "module",
