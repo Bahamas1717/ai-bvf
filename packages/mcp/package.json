@@ -1,7 +1,8 @@
 {
   "name": "aibvf-mcp",
-  "version": "0.1.1",
-  "description": "MCP server exposing AI BVF v1.0 scoring and validation to any Claude agent.",
+  "mcpName": "io.github.Bahamas1717/aibvf-mcp",
+  "version": "0.1.2",
+  "description": "Score and prioritise AI initiatives as Accelerate, Fix, or Stop using AI BVF v1.0. Returns classification, modelled EUR value range, decision confidence and reasoning. Validates portfolios against the published protocol schema.",
   "keywords": ["mcp", "model-context-protocol", "ai-bvf", "claude", "agent", "ai-governance"],
   "homepage": "https://bvf-app.vercel.app/protocol",
   "repository": "github:Bahamas1717/ai-bvf",
