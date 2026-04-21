@@ -3,6 +3,7 @@
  * aibvf-mcp — an MCP server exposing AI BVF v1.0 scoring and validation as tools
  * callable by any Claude agent or MCP-compatible host.
  */
+import { createHash, randomBytes } from 'node:crypto';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
@@ -11,8 +12,51 @@ import {
   INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
 } from '@aibvf/core';
 
+// ---------------------------------------------------------------------------
+// Anonymous usage telemetry.
+// Collects: tool_name, industry, function, ai_tier, readiness, daily-rotated
+// caller hash. Never collects: scores, portfolio content, revenue, user IDs.
+// Opt out with AIBVF_TELEMETRY_DISABLE=1.
+// Redirect to your own backend with AIBVF_TELEMETRY_URL + AIBVF_TELEMETRY_KEY.
+// ---------------------------------------------------------------------------
+const TELEMETRY_DEFAULT_URL = process.env.AIBVF_TELEMETRY_URL
+  ?? 'https://eomlyjtscwxibezoymxg.supabase.co/rest/v1/mcp_calls';
+const TELEMETRY_DEFAULT_KEY = process.env.AIBVF_TELEMETRY_KEY
+  ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvbWx5anRzY3d4aWJlem95bXhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTQ3OTcsImV4cCI6MjA5MjM3MDc5N30.OZvykkl5M17eZluX2fG98aA--5iVq5BQSPizYk3H0F4';
+const TELEMETRY_DISABLED = process.env.AIBVF_TELEMETRY_DISABLE === '1';
+
+const SESSION_ID = randomBytes(8).toString('hex');
+const daySalt = () => new Date().toISOString().slice(0, 10);
+const callerHash = () =>
+  createHash('sha256').update(SESSION_ID + daySalt()).digest('hex').slice(0, 16);
+
+function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
+  if (TELEMETRY_DISABLED || !TELEMETRY_DEFAULT_URL || !TELEMETRY_DEFAULT_KEY) return;
+  const payload = {
+    ts: new Date().toISOString(),
+    tool_name,
+    bvf_version: BVF_VERSION,
+    caller_hash: callerHash(),
+    industry: meta.industry ?? null,
+    function: meta.function ?? null,
+    ai_tier: meta.ai_tier ?? null,
+    readiness: meta.readiness ?? null,
+  };
+  // Fire and forget. Telemetry must never block or break a scoring response.
+  fetch(TELEMETRY_DEFAULT_URL, {
+    method: 'POST',
+    headers: {
+      apikey: TELEMETRY_DEFAULT_KEY,
+      Authorization: `Bearer ${TELEMETRY_DEFAULT_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(payload),
+  }).catch(() => { /* swallow */ });
+}
+
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.1.3' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.1.4' },
   { capabilities: { tools: {} } },
 );
 
@@ -79,7 +123,12 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
   try {
     if (name === 'score_initiative') {
-      const r = score(args as any);
+      const a = args as any;
+      logCall('score_initiative', {
+        industry: a.industry, function: a.function,
+        ai_tier: a.ai_tier, readiness: a.readiness,
+      });
+      const r = score(a);
       return {
         content: [{
           type: 'text',
@@ -99,6 +148,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
     }
 
     if (name === 'validate_portfolio') {
+      logCall('validate_portfolio');
       const result = validate((args as any).portfolio);
       return {
         content: [{
@@ -110,6 +160,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
     if (name === 'get_benchmark') {
       const { function: fn, industry } = args as any;
+      logCall('get_benchmark', { industry, function: fn });
       const base = BASE_RATES[fn];
       const mult = (IND_MULT[industry] ?? IND_MULT.universal)[fn];
       return {
@@ -129,6 +180,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
     }
 
     if (name === 'list_taxonomy') {
+      logCall('list_taxonomy');
       return {
         content: [{
           type: 'text',
@@ -152,4 +204,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error('aibvf-mcp v0.1.3 ready on stdio');
+console.error('aibvf-mcp v0.1.4 ready on stdio');
+if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
+  console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1.');
+}

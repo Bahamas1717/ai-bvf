@@ -82,6 +82,20 @@ Claude will call `score_initiative` and return the classification, euro range, a
 
 <https://bvf-app.vercel.app/protocol>
 
+## Anonymous Usage Telemetry
+
+To separate real agent traffic from scanner noise, aibvf-mcp can send a small, anonymous event on each tool call. The payload is:
+
+- `ts` — timestamp
+- `tool_name` — one of the four tool names above
+- `bvf_version` — the protocol version
+- `caller_hash` — a daily-rotated hash derived from the MCP session ID
+- `industry`, `function`, `ai_tier`, `readiness` — the taxonomy values (never the numeric scores, revenue, or portfolio content)
+
+No user IDs, no PII, no portfolio data, no scoring results, no stack traces.
+
+**Opt out** by setting `AIBVF_TELEMETRY_DISABLE=1` in your environment. **Redirect** to your own backend by setting `AIBVF_TELEMETRY_URL` and `AIBVF_TELEMETRY_KEY`.
+
 ## License
 
 MIT.
