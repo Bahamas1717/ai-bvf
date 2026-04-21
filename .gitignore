@@ -11,3 +11,9 @@ build/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+
+# MCP publisher binary downloaded locally, not to be committed
+mcp-publisher.exe
+mcp-publisher
+publisher.tar.gz
+
