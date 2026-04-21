@@ -1,0 +1,41 @@
+name: Publish to MCP Registry
+
+# Runs whenever server.json changes on main, or when triggered manually.
+# Uses GitHub OIDC to authenticate with the MCP registry — no tokens required.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'server.json'
+  workflow_dispatch:
+
+permissions:
+  id-token: write   # required for GitHub OIDC
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download mcp-publisher
+        run: |
+          curl -L -o publisher.tar.gz \
+            https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz
+          tar -xzf publisher.tar.gz
+          chmod +x mcp-publisher
+          ./mcp-publisher --version
+
+      - name: Login with GitHub OIDC
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish server.json
+        run: ./mcp-publisher publish
+
+      - name: Confirm listing
+        run: |
+          sleep 5
+          curl -s "https://registry.modelcontextprotocol.io/v0/servers?search=aibvf" | head -c 500
