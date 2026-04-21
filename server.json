@@ -1,9 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "io.github.Bahamas1717/aibvf-mcp",
-  "description": "Score and prioritise AI initiatives as Accelerate, Fix, or Stop using AI BVF v1.0. Returns classification, modelled EUR value range, decision confidence and reasoning. Validates portfolios against the published protocol schema.",
+  "description": "Score AI initiatives (Accelerate/Fix/Stop), model EUR value, validate portfolios. AI BVF v1.0.",
   "status": "active",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "repository": {
     "url": "https://github.com/Bahamas1717/ai-bvf",
     "source": "github"
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "identifier": "aibvf-mcp",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "transport": {
         "type": "stdio"
       }

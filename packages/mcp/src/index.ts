@@ -12,7 +12,7 @@ import {
 } from '@aibvf/core';
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.1.2' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.1.3' },
   { capabilities: { tools: {} } },
 );
 
@@ -152,4 +152,4 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error('aibvf-mcp v0.1.2 ready on stdio');
+console.error('aibvf-mcp v0.1.3 ready on stdio');
