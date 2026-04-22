@@ -57,6 +57,11 @@
         "scores":   { "$ref": "#/$defs/FourPillarScore" },
         "classification":      { "type": "string", "enum": ["Accelerate","Fix","Stop"] },
         "decision_confidence": { "type": "number", "minimum": 0, "maximum": 100 },
+        "applied_modules": {
+          "type": "array",
+          "description": "BVF modules applied during scoring. Always includes four_pillar_base and readiness_capture_*; may include vertical modules such as healthcare_regulatory_overhead or financial_dora_module.",
+          "items": { "type": "string" }
+        },
         "pilot_gate": { "$ref": "#/$defs/PilotGate" },
         "compliance": {
           "type": "array",
@@ -91,6 +96,58 @@
         "scaled":    { "type": "boolean" },
         "kpi":       { "type": "boolean" },
         "funded":    { "type": "boolean" }
+      }
+    },
+    "Recommendation": {
+      "type": "object",
+      "description": "A single pillar-level raise returned by recommend_improvements.",
+      "required": ["pillar", "current", "target", "delta", "action", "rationale"],
+      "properties": {
+        "pillar":    { "type": "string", "enum": ["strategic_alignment", "financial_return", "change_enablement", "governance_risk"] },
+        "current":   { "type": "number", "minimum": 0, "maximum": 100 },
+        "target":    { "type": "number", "minimum": 0, "maximum": 100 },
+        "delta":     { "type": "number" },
+        "action":    { "type": "string" },
+        "rationale": { "type": "string" }
+      }
+    },
+    "RecommendResult": {
+      "type": "object",
+      "description": "Response from recommend_improvements. Deterministic, non-networked, rationale-backed pillar raises to flip a Stop/Fix classification toward Accelerate.",
+      "required": ["current_classification", "target_classification", "feasible", "recommendations"],
+      "properties": {
+        "current_classification":        { "type": "string", "enum": ["Accelerate", "Fix", "Stop"] },
+        "target_classification":         { "type": "string", "enum": ["Accelerate", "Fix", "Stop"] },
+        "feasible":                      { "type": "boolean" },
+        "recommendations":               { "type": "array", "items": { "$ref": "#/$defs/Recommendation" } },
+        "projected_decision_confidence": { "type": "number", "minimum": 0, "maximum": 100 },
+        "notes":                         { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "PaceLayerResult": {
+      "type": "object",
+      "description": "Response from calculate_pace_layer_drag. Annual Organisational Drag Cost from misalignment between AI tier and organisational readiness.",
+      "required": ["annual_drag_eur", "pace_gap"],
+      "properties": {
+        "annual_drag_eur": {
+          "type": "object",
+          "required": ["low", "high"],
+          "properties": {
+            "low":  { "type": "number", "minimum": 0 },
+            "high": { "type": "number", "minimum": 0 }
+          }
+        },
+        "drag_rate": {
+          "type": "object",
+          "required": ["low", "high"],
+          "properties": {
+            "low":  { "type": "number", "minimum": 0 },
+            "high": { "type": "number", "minimum": 0 }
+          }
+        },
+        "pace_gap": { "type": "string", "enum": ["minimal", "moderate", "severe"] },
+        "drivers":  { "type": "array", "items": { "type": "string" } },
+        "source":   { "type": "string" }
       }
     }
   }

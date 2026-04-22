@@ -73,6 +73,44 @@ export interface ScoreResult {
   multipliers: { industry: number; tier: number; capture_low: number; capture_high: number };
   drivers: string[];
   source: string;
+  applied_modules: string[];
+}
+
+export interface RecommendInput extends ScoreInput {}
+
+export interface Recommendation {
+  pillar: 'strategic_alignment' | 'financial_return' | 'change_enablement' | 'governance_risk';
+  current: number;
+  target: number;
+  delta: number;
+  action: string;
+  rationale: string;
+}
+
+export interface RecommendResult {
+  current_classification: Classification;
+  target_classification: Classification;
+  feasible: boolean;
+  recommendations: Recommendation[];
+  projected_confidence: number;
+  notes: string[];
+}
+
+export interface PaceLayerInput {
+  revenue_eur: number;
+  ai_tier: AiTier;
+  readiness: Readiness;
+  industry?: Industry;
+}
+
+export interface PaceLayerResult {
+  annual_drag_eur_low: number;
+  annual_drag_eur_high: number;
+  drag_rate_low: number;
+  drag_rate_high: number;
+  pace_gap: 'minimal' | 'moderate' | 'severe';
+  drivers: string[];
+  source: string;
 }
 
 export interface ValidationError {

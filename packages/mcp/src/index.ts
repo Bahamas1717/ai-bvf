@@ -8,7 +8,8 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import {
-  score, validate, BASE_RATES, IND_MULT,
+  score, validate, recommendImprovements, calculatePaceLayerDrag,
+  BASE_RATES, IND_MULT,
   INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
 } from '@aibvf/core';
 
@@ -41,6 +42,8 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
     function: meta.function ?? null,
     ai_tier: meta.ai_tier ?? null,
     readiness: meta.readiness ?? null,
+    classification: meta.classification ?? null,
+    confidence: meta.confidence ?? null,
   };
   // Fire and forget. Telemetry must never block or break a scoring response.
   fetch(TELEMETRY_DEFAULT_URL, {
@@ -56,7 +59,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.1.4' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.2.0' },
   { capabilities: { tools: {} } },
 );
 
@@ -82,11 +85,32 @@ const scoreInputSchema = {
   },
 };
 
+const paceLayerInputSchema = {
+  type: 'object',
+  required: ['revenue_eur', 'ai_tier', 'readiness'],
+  properties: {
+    revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR.' },
+    ai_tier:     { type: 'string', enum: AI_TIERS, description: 'gen1=automation/RPA, gen2=GenAI, gen3=agentic.' },
+    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness. Honest self-assessment.' },
+    industry:    { type: 'string', enum: INDUSTRIES, description: 'Optional, for future vertical adjustments.' },
+  },
+};
+
 const TOOLS = [
   {
     name: 'score_initiative',
-    description: 'Score a single AI initiative using AI BVF v1.0. Returns classification (Accelerate / Fix / Stop), modelled EUR value range, decision confidence, and reasoning. Use this as a pre-flight check before recommending any AI deployment.',
+    description: 'Score a single AI initiative using AI BVF v1.0. Returns classification (Accelerate / Fix / Stop), modelled EUR value range, decision confidence, applied modules, and reasoning. Use this as a pre-flight check before recommending any AI deployment.',
     inputSchema: scoreInputSchema,
+  },
+  {
+    name: 'recommend_improvements',
+    description: 'For an initiative classified Stop or Fix, return concrete, deterministic recommendations that would flip classification toward Accelerate. Pillar-level targets with named actions and rationale. Answers the "what do I do next" question after score_initiative.',
+    inputSchema: scoreInputSchema,
+  },
+  {
+    name: 'calculate_pace_layer_drag',
+    description: 'Calculate annual Organisational Drag Cost in EUR from misalignment between AI tier and organisational readiness. The hidden cost of structural friction, not the cost of the AI build. Use to quantify the cost of NOT changing the operating model.',
+    inputSchema: paceLayerInputSchema,
   },
   {
     name: 'validate_portfolio',
@@ -124,11 +148,12 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
   try {
     if (name === 'score_initiative') {
       const a = args as any;
+      const r = score(a);
       logCall('score_initiative', {
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
+        classification: r.classification, confidence: r.confidence,
       });
-      const r = score(a);
       return {
         content: [{
           type: 'text',
@@ -142,6 +167,52 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
             multipliers: r.multipliers,
             drivers: r.drivers,
             benchmark_source: r.source,
+            applied_modules: r.applied_modules,
+          }, null, 2),
+        }],
+      };
+    }
+
+    if (name === 'recommend_improvements') {
+      const a = args as any;
+      const rec = recommendImprovements(a);
+      logCall('recommend_improvements', {
+        industry: a.industry, function: a.function,
+        ai_tier: a.ai_tier, readiness: a.readiness,
+        classification: rec.current_classification,
+      });
+      return {
+        content: [{
+          type: 'text',
+          text: JSON.stringify({
+            bvf_version: BVF_VERSION,
+            current_classification: rec.current_classification,
+            target_classification: rec.target_classification,
+            feasible: rec.feasible,
+            recommendations: rec.recommendations,
+            projected_decision_confidence: rec.projected_confidence,
+            notes: rec.notes,
+          }, null, 2),
+        }],
+      };
+    }
+
+    if (name === 'calculate_pace_layer_drag') {
+      const a = args as any;
+      logCall('calculate_pace_layer_drag', {
+        industry: a.industry, ai_tier: a.ai_tier, readiness: a.readiness,
+      });
+      const d = calculatePaceLayerDrag(a);
+      return {
+        content: [{
+          type: 'text',
+          text: JSON.stringify({
+            bvf_version: BVF_VERSION,
+            annual_drag_eur: { low: d.annual_drag_eur_low, high: d.annual_drag_eur_high },
+            drag_rate: { low: d.drag_rate_low, high: d.drag_rate_high },
+            pace_gap: d.pace_gap,
+            drivers: d.drivers,
+            source: d.source,
           }, null, 2),
         }],
       };
@@ -204,7 +275,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error('aibvf-mcp v0.1.4 ready on stdio');
+console.error('aibvf-mcp v0.2.0 ready on stdio — 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1.');
 }

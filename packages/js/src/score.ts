@@ -1,4 +1,9 @@
-import type { ScoreInput, ScoreResult, Classification } from './types.js';
+import type {
+  ScoreInput, ScoreResult, Classification,
+  RecommendInput, RecommendResult, Recommendation,
+  PaceLayerInput, PaceLayerResult,
+  Industry, FunctionId, AiTier, Readiness,
+} from './types.js';
 
 interface BaseRate {
   rev: { lo: number; hi: number };
@@ -51,6 +56,28 @@ export const READINESS_CAPTURE = {
   siloed:      { low: 0.25, high: 0.40, label: 'Siloed & Bureaucratic' },
 } as const;
 
+/**
+ * Pace Layer Diagnostic. Annual Organisational Drag Cost expressed as a
+ * fraction of revenue, driven by misalignment between the AI tier an
+ * organisation is deploying and the organisational operating model it
+ * actually runs. Grounded in the EY/Oxford six-drivers research on change
+ * success and BCG/MIT work on pace-layer misalignment. Numbers are
+ * directional, not audited — the tool is a decision aid, not a GL entry.
+ */
+export const PACE_DRAG_RATE: Record<AiTier, Record<Readiness, { lo: number; hi: number }>> = {
+  gen1: { agile: { lo: 0.001, hi: 0.003 }, traditional: { lo: 0.003, hi: 0.008 }, siloed:      { lo: 0.008, hi: 0.015 } },
+  gen2: { agile: { lo: 0.002, hi: 0.005 }, traditional: { lo: 0.010, hi: 0.020 }, siloed:      { lo: 0.020, hi: 0.035 } },
+  gen3: { agile: { lo: 0.005, hi: 0.010 }, traditional: { lo: 0.025, hi: 0.045 }, siloed:      { lo: 0.045, hi: 0.080 } },
+};
+
+const PACE_DRAG_DRIVERS: Record<Readiness, string[]> = {
+  agile:       ['Minimal drag: governance cadence roughly matches deployment cadence', 'Residual drag from cross-team handoffs', 'Incremental cost from over-governing low-risk use cases'],
+  traditional: ['Approval cycles outrun deployment cycles', 'Budget re-allocation friction (annual cycles vs weekly change)', 'Skills gap between model risk oversight and delivery teams'],
+  siloed:      ['Functional ownership blocks horizontal data flow', 'Shadow AI proliferates outside governance', 'Duplicated spend across silos on overlapping models', 'Change-management budget absent or symbolic'],
+};
+
+const PACE_DRAG_SOURCE = 'AI BVF Pace Layer Diagnostic, calibrated to EY/Oxford change-success six-drivers and BCG/MIT pace-layer misalignment research.';
+
 function classify(sa: number, fr: number, ce: number, gr: number): { label: Classification; reason: string } {
   if (gr >= 70 || fr <= 20) {
     return { label: 'Stop', reason: gr >= 70 ? 'Governance risk above the safe threshold.' : 'Financial return too thin to justify scope.' };
@@ -64,6 +91,26 @@ function classify(sa: number, fr: number, ce: number, gr: number): { label: Clas
   if (ce < 60) gaps.push('change enablement is a risk');
   if (gr > 40) gaps.push('governance exposure is real');
   return { label: 'Fix', reason: `Workable, but ${gaps.join('; ')}. Close the gap before scaling.` };
+}
+
+/**
+ * Returns the list of BVF modules that were applied to this scoring run.
+ * Always includes the base four-pillar scorer and the readiness capture
+ * adjustment; adds vertical modules when the industry triggers them.
+ */
+function appliedModules(industry: Industry, fn: FunctionId, readiness: Readiness): string[] {
+  const mods: string[] = ['four_pillar_base', `readiness_capture_${readiness}`];
+  if (industry === 'healthcare') {
+    mods.push('healthcare_clinical_validation', 'healthcare_regulatory_overhead');
+    if (fn === 'risk') mods.push('healthcare_hipaa_module');
+  }
+  if (industry === 'financial') {
+    mods.push('financial_model_risk_overhead');
+    if (fn === 'risk') mods.push('financial_dora_module');
+  }
+  if (industry === 'public_sector') mods.push('public_sector_procurement_module');
+  if (industry === 'energy') mods.push('energy_critical_infrastructure_module');
+  return mods;
 }
 
 /**
@@ -101,5 +148,113 @@ export function score(input: ScoreInput): ScoreResult {
     multipliers: { industry: mult, tier: tAdj, capture_low: cap.low, capture_high: cap.high },
     drivers: base.drivers,
     source: base.source,
+    applied_modules: appliedModules(industry, fn, readiness),
+  };
+}
+
+const PILLAR_ACTIONS: Record<Recommendation['pillar'], { action: string; rationale: string }> = {
+  strategic_alignment: {
+    action: 'Tie this initiative to a named board-level KPI with a written success metric and a single accountable executive owner.',
+    rationale: 'Initiatives without a named KPI and owner consistently stall at the pilot stage. Evidence: McKinsey State of AI, Gartner AI-in-the-Enterprise.',
+  },
+  financial_return: {
+    action: 'Rebuild the business case with itemised gross benefit (revenue uplift + cost take-out), a change cost line, and a capture rate tied to current readiness.',
+    rationale: 'Weak financial return almost always means the capture rate has been assumed away. Re-running the case with the honest capture rate either reveals a real benefit or kills a vanity project.',
+  },
+  change_enablement: {
+    action: 'Fund a dedicated change-management budget at 15 to 25 percent of total initiative spend, and assign a named product owner with capacity.',
+    rationale: 'Prosci and EY/Oxford both find that initiatives with funded CM and a named owner are several times more likely to hit benefit case. Without this, the scoring is theoretical.',
+  },
+  governance_risk: {
+    action: 'Commission a pre-deployment governance review covering data lineage, model risk, EU AI Act classification, and human-in-the-loop design.',
+    rationale: 'High governance exposure is not an argument for stopping by default; it is an argument for paying the governance cost up front rather than during a regulatory incident.',
+  },
+};
+
+const RAISE_TARGET = 65;
+const GOV_LOWER_TARGET = 35;
+
+/**
+ * Recommend concrete improvements to flip a Stop or Fix result toward Accelerate.
+ * The logic is deterministic: for each weak pillar, propose a target score that
+ * would satisfy the classify() thresholds, and attach a specific action and a
+ * rationale. Returns feasible=false when governance risk is structurally too
+ * high to recover.
+ */
+export function recommendImprovements(input: RecommendInput): RecommendResult {
+  const { scores } = input;
+  const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = scores;
+
+  const current = classify(sa, fr, ce, gr).label;
+  const recs: Recommendation[] = [];
+  const notes: string[] = [];
+
+  if (current === 'Accelerate') {
+    return {
+      current_classification: current,
+      target_classification: current,
+      feasible: true,
+      recommendations: [],
+      projected_confidence: Math.round((sa + fr + ce + (100 - gr)) / 4),
+      notes: ['Initiative is already classified Accelerate. No flip required.'],
+    };
+  }
+
+  if (sa < 60) recs.push({ pillar: 'strategic_alignment', current: sa, target: RAISE_TARGET, delta: RAISE_TARGET - sa, ...PILLAR_ACTIONS.strategic_alignment });
+  if (fr < 60) recs.push({ pillar: 'financial_return',    current: fr, target: RAISE_TARGET, delta: RAISE_TARGET - fr, ...PILLAR_ACTIONS.financial_return });
+  if (ce < 60) recs.push({ pillar: 'change_enablement',   current: ce, target: RAISE_TARGET, delta: RAISE_TARGET - ce, ...PILLAR_ACTIONS.change_enablement });
+  if (gr > 40) recs.push({ pillar: 'governance_risk',     current: gr, target: GOV_LOWER_TARGET, delta: GOV_LOWER_TARGET - gr, ...PILLAR_ACTIONS.governance_risk });
+
+  const feasible = !(gr >= 70 && Math.abs(GOV_LOWER_TARGET - gr) > 40) && !(fr <= 20 && RAISE_TARGET - fr > 50);
+  if (!feasible) {
+    notes.push('Gaps are structurally too wide to close without redesigning the initiative. Scope a different use case rather than patching this one.');
+  }
+
+  const projectedSa = Math.max(sa, sa < 60 ? RAISE_TARGET : sa);
+  const projectedFr = Math.max(fr, fr < 60 ? RAISE_TARGET : fr);
+  const projectedCe = Math.max(ce, ce < 60 ? RAISE_TARGET : ce);
+  const projectedGr = Math.min(gr, gr > 40 ? GOV_LOWER_TARGET : gr);
+  const projectedConfidence = Math.round((projectedSa + projectedFr + projectedCe + (100 - projectedGr)) / 4);
+  const projectedClass = classify(projectedSa, projectedFr, projectedCe, projectedGr).label;
+
+  return {
+    current_classification: current,
+    target_classification: projectedClass,
+    feasible,
+    recommendations: recs,
+    projected_confidence: projectedConfidence,
+    notes,
+  };
+}
+
+/**
+ * Pace Layer Diagnostic.
+ * Returns annual Organisational Drag Cost in EUR, based on the misalignment
+ * between the AI tier being deployed and the organisational readiness. This
+ * is the cost of structural friction, not the cost of the AI build.
+ */
+export function calculatePaceLayerDrag(input: PaceLayerInput): PaceLayerResult {
+  const { revenue_eur, ai_tier, readiness } = input;
+  const tier = PACE_DRAG_RATE[ai_tier];
+  if (!tier) throw new Error(`Unknown ai_tier: ${ai_tier}`);
+  const rate = tier[readiness];
+  if (!rate) throw new Error(`Unknown readiness: ${readiness}`);
+
+  const annual_drag_eur_low = revenue_eur * rate.lo;
+  const annual_drag_eur_high = revenue_eur * rate.hi;
+
+  let pace_gap: PaceLayerResult['pace_gap'] = 'minimal';
+  if (ai_tier === 'gen3' && readiness !== 'agile') pace_gap = 'severe';
+  else if (ai_tier === 'gen2' && readiness === 'siloed') pace_gap = 'severe';
+  else if (readiness !== 'agile') pace_gap = 'moderate';
+
+  return {
+    annual_drag_eur_low,
+    annual_drag_eur_high,
+    drag_rate_low: rate.lo,
+    drag_rate_high: rate.hi,
+    pace_gap,
+    drivers: PACE_DRAG_DRIVERS[readiness],
+    source: PACE_DRAG_SOURCE,
   };
 }

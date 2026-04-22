@@ -1,6 +1,6 @@
 {
   "name": "@aibvf/core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "AI BVF — open protocol for scoring AI investments. Validator and scoring engine.",
   "keywords": ["ai", "bvf", "ai-governance", "enterprise-ai", "ai-scoring", "ai-roi", "eu-ai-act", "standards"],
   "homepage": "https://bvf-app.vercel.app/protocol",

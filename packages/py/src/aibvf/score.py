@@ -37,6 +37,63 @@ READINESS_CAPTURE = {
     "siloed":      {"low": 0.25, "high": 0.40, "label": "Siloed & Bureaucratic"},
 }
 
+# Pace Layer Diagnostic. Annual Organisational Drag Cost as a fraction of revenue,
+# driven by misalignment between AI tier being deployed and organisational readiness.
+# Grounded in EY/Oxford six-drivers research and BCG/MIT pace-layer misalignment work.
+# Directional, not audited.
+PACE_DRAG_RATE = {
+    "gen1": {"agile": {"lo": 0.001, "hi": 0.003}, "traditional": {"lo": 0.003, "hi": 0.008}, "siloed": {"lo": 0.008, "hi": 0.015}},
+    "gen2": {"agile": {"lo": 0.002, "hi": 0.005}, "traditional": {"lo": 0.010, "hi": 0.020}, "siloed": {"lo": 0.020, "hi": 0.035}},
+    "gen3": {"agile": {"lo": 0.005, "hi": 0.010}, "traditional": {"lo": 0.025, "hi": 0.045}, "siloed": {"lo": 0.045, "hi": 0.080}},
+}
+
+PACE_DRAG_DRIVERS = {
+    "agile":       ["Minimal drag: governance cadence roughly matches deployment cadence", "Residual drag from cross-team handoffs", "Incremental cost from over-governing low-risk use cases"],
+    "traditional": ["Approval cycles outrun deployment cycles", "Budget re-allocation friction (annual cycles vs weekly change)", "Skills gap between model risk oversight and delivery teams"],
+    "siloed":      ["Functional ownership blocks horizontal data flow", "Shadow AI proliferates outside governance", "Duplicated spend across silos on overlapping models", "Change-management budget absent or symbolic"],
+}
+
+PACE_DRAG_SOURCE = "AI BVF Pace Layer Diagnostic, calibrated to EY/Oxford change-success six-drivers and BCG/MIT pace-layer misalignment research."
+
+PILLAR_ACTIONS = {
+    "strategic_alignment": {
+        "action": "Tie this initiative to a named board-level KPI with a written success metric and a single accountable executive owner.",
+        "rationale": "Initiatives without a named KPI and owner consistently stall at the pilot stage. Evidence: McKinsey State of AI, Gartner AI-in-the-Enterprise.",
+    },
+    "financial_return": {
+        "action": "Rebuild the business case with itemised gross benefit (revenue uplift + cost take-out), a change cost line, and a capture rate tied to current readiness.",
+        "rationale": "Weak financial return almost always means the capture rate has been assumed away. Re-running the case with the honest capture rate either reveals a real benefit or kills a vanity project.",
+    },
+    "change_enablement": {
+        "action": "Fund a dedicated change-management budget at 15 to 25 percent of total initiative spend, and assign a named product owner with capacity.",
+        "rationale": "Prosci and EY/Oxford both find that initiatives with funded CM and a named owner are several times more likely to hit benefit case. Without this, the scoring is theoretical.",
+    },
+    "governance_risk": {
+        "action": "Commission a pre-deployment governance review covering data lineage, model risk, EU AI Act classification, and human-in-the-loop design.",
+        "rationale": "High governance exposure is not an argument for stopping by default; it is an argument for paying the governance cost up front rather than during a regulatory incident.",
+    },
+}
+
+RAISE_TARGET = 65
+GOV_LOWER_TARGET = 35
+
+
+def _applied_modules(industry: str, function: str, readiness: str) -> list:
+    mods = ["four_pillar_base", f"readiness_capture_{readiness}"]
+    if industry == "healthcare":
+        mods += ["healthcare_clinical_validation", "healthcare_regulatory_overhead"]
+        if function == "risk":
+            mods.append("healthcare_hipaa_module")
+    if industry == "financial":
+        mods.append("financial_model_risk_overhead")
+        if function == "risk":
+            mods.append("financial_dora_module")
+    if industry == "public_sector":
+        mods.append("public_sector_procurement_module")
+    if industry == "energy":
+        mods.append("energy_critical_infrastructure_module")
+    return mods
+
 
 def _classify(sa: float, fr: float, ce: float, gr: float) -> dict:
     if gr >= 70 or fr <= 20:
@@ -88,4 +145,87 @@ def score(*, industry: str, revenue_eur: float, function: str, ai_tier: str, rea
         "multipliers": {"industry": mult, "tier": t_adj, "capture_low": cap["low"], "capture_high": cap["high"]},
         "drivers": base["drivers"],
         "source": base["source"],
+        "applied_modules": _applied_modules(industry, function, readiness),
+    }
+
+
+def recommend_improvements(*, industry: str, revenue_eur: float, function: str, ai_tier: str, readiness: str, scores: dict) -> dict:
+    """For Stop/Fix results, return pillar raises that would flip toward Accelerate."""
+    sa = scores["strategic_alignment"]
+    fr = scores["financial_return"]
+    ce = scores["change_enablement"]
+    gr = scores["governance_risk"]
+
+    current = _classify(sa, fr, ce, gr)["label"]
+    recs = []
+    notes = []
+
+    if current == "Accelerate":
+        return {
+            "current_classification": current,
+            "target_classification": current,
+            "feasible": True,
+            "recommendations": [],
+            "projected_confidence": round((sa + fr + ce + (100 - gr)) / 4),
+            "notes": ["Initiative is already classified Accelerate. No flip required."],
+        }
+
+    if sa < 60:
+        recs.append({"pillar": "strategic_alignment", "current": sa, "target": RAISE_TARGET, "delta": RAISE_TARGET - sa, **PILLAR_ACTIONS["strategic_alignment"]})
+    if fr < 60:
+        recs.append({"pillar": "financial_return", "current": fr, "target": RAISE_TARGET, "delta": RAISE_TARGET - fr, **PILLAR_ACTIONS["financial_return"]})
+    if ce < 60:
+        recs.append({"pillar": "change_enablement", "current": ce, "target": RAISE_TARGET, "delta": RAISE_TARGET - ce, **PILLAR_ACTIONS["change_enablement"]})
+    if gr > 40:
+        recs.append({"pillar": "governance_risk", "current": gr, "target": GOV_LOWER_TARGET, "delta": GOV_LOWER_TARGET - gr, **PILLAR_ACTIONS["governance_risk"]})
+
+    feasible = not (gr >= 70 and abs(GOV_LOWER_TARGET - gr) > 40) and not (fr <= 20 and (RAISE_TARGET - fr) > 50)
+    if not feasible:
+        notes.append("Gaps are structurally too wide to close without redesigning the initiative. Scope a different use case rather than patching this one.")
+
+    projected_sa = max(sa, RAISE_TARGET if sa < 60 else sa)
+    projected_fr = max(fr, RAISE_TARGET if fr < 60 else fr)
+    projected_ce = max(ce, RAISE_TARGET if ce < 60 else ce)
+    projected_gr = min(gr, GOV_LOWER_TARGET if gr > 40 else gr)
+    projected_confidence = round((projected_sa + projected_fr + projected_ce + (100 - projected_gr)) / 4)
+    projected_class = _classify(projected_sa, projected_fr, projected_ce, projected_gr)["label"]
+
+    return {
+        "current_classification": current,
+        "target_classification": projected_class,
+        "feasible": feasible,
+        "recommendations": recs,
+        "projected_confidence": projected_confidence,
+        "notes": notes,
+    }
+
+
+def calculate_pace_layer_drag(*, revenue_eur: float, ai_tier: str, readiness: str, industry=None) -> dict:
+    """Annual Organisational Drag Cost in EUR from pace-layer misalignment."""
+    tier = PACE_DRAG_RATE.get(ai_tier)
+    if tier is None:
+        raise ValueError(f"Unknown ai_tier: {ai_tier}")
+    rate = tier.get(readiness)
+    if rate is None:
+        raise ValueError(f"Unknown readiness: {readiness}")
+
+    annual_drag_eur_low = revenue_eur * rate["lo"]
+    annual_drag_eur_high = revenue_eur * rate["hi"]
+
+    pace_gap = "minimal"
+    if ai_tier == "gen3" and readiness != "agile":
+        pace_gap = "severe"
+    elif ai_tier == "gen2" and readiness == "siloed":
+        pace_gap = "severe"
+    elif readiness != "agile":
+        pace_gap = "moderate"
+
+    return {
+        "annual_drag_eur_low": annual_drag_eur_low,
+        "annual_drag_eur_high": annual_drag_eur_high,
+        "drag_rate_low": rate["lo"],
+        "drag_rate_high": rate["hi"],
+        "pace_gap": pace_gap,
+        "drivers": PACE_DRAG_DRIVERS[readiness],
+        "source": PACE_DRAG_SOURCE,
     }
