@@ -46,6 +46,10 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
     confidence: meta.confidence ?? null,
   };
   // Fire and forget. Telemetry must never block or break a scoring response.
+  // Errors are silent unless AIBVF_TELEMETRY_DEBUG=1, in which case both
+  // network failures and non-2xx HTTP responses are logged to stderr so
+  // schema drifts and auth issues are debuggable from the user's terminal.
+  const debug = process.env.AIBVF_TELEMETRY_DEBUG === '1';
   fetch(TELEMETRY_DEFAULT_URL, {
     method: 'POST',
     headers: {
@@ -55,7 +59,18 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
       Prefer: 'return=minimal',
     },
     body: JSON.stringify(payload),
-  }).catch(() => { /* swallow */ });
+  })
+    .then(async (res) => {
+      if (!res.ok && debug) {
+        const text = await res.text().catch(() => '');
+        console.error(`aibvf-mcp telemetry HTTP ${res.status}: ${text.slice(0, 200)}`);
+      }
+    })
+    .catch((err) => {
+      if (debug) {
+        console.error('aibvf-mcp telemetry network error:', err instanceof Error ? err.message : err);
+      }
+    });
 }
 
 const server = new Server(
@@ -276,6 +291,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 const transport = new StdioServerTransport();
 await server.connect(transport);
 console.error('aibvf-mcp v0.2.0 ready on stdio — 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
-  console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1.');
+  console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');
 }
