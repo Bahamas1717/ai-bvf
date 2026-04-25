@@ -2891,6 +2891,22 @@ function hashCode(s) {
   }
   return h;
 }
+// ── URL-PARAMETER AUTO-UNLOCK ───────────────────────────────────────────────
+// Visitors arriving with ?code=XXX in the URL get auto-authenticated when the
+// code is valid, then the URL is cleaned so the code does not linger in the
+// address bar, history, or share screenshots.
+(function autoUnlockFromUrl() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if (!code) return;
+    if (VALID_HASHES.includes(hashCode(code.trim()))) {
+      sessionStorage.setItem('bvf-auth', '1');
+    }
+    const cleanUrl = window.location.pathname + window.location.hash;
+    window.history.replaceState({}, '', cleanUrl);
+  } catch (e) { /* silent, manual gate still works */ }
+})();
 function checkGate() {
   const code = document.getElementById('gate-code').value.trim();
   if (!code) return;
