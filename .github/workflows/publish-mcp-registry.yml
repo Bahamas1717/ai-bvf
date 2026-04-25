@@ -1,17 +1,23 @@
 name: Publish to MCP Registry
 
-# Runs whenever server.json changes on main, or when triggered manually.
-# Uses GitHub OIDC to authenticate with the MCP registry — no tokens required.
+# Publishes aibvf-mcp to npm (with provenance) AND server.json to the MCP registry.
+# Triggers on version bumps (server.json or packages/mcp/package.json change on main),
+# or on manual workflow_dispatch.
+#
+# If the npm version already exists, the npm publish step is skipped.
+# If the MCP registry version already exists, the registry publish treats it as success.
+# That makes the workflow idempotent across re-runs and safe to trigger manually.
 
 on:
   push:
     branches: [main]
     paths:
       - 'server.json'
+      - 'packages/mcp/package.json'
   workflow_dispatch:
 
 permissions:
-  id-token: write   # required for GitHub OIDC
+  id-token: write   # required for GitHub OIDC + npm provenance attestation
   contents: read
 
 jobs:
@@ -20,6 +26,42 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Read package version
+        id: pkg
+        run: |
+          VERSION=$(node -p "require('./packages/mcp/package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "aibvf-mcp version on disk: $VERSION"
+
+      - name: Check if version is on npm
+        id: npm-check
+        run: |
+          if npm view "aibvf-mcp@${{ steps.pkg.outputs.version }}" version > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "v${{ steps.pkg.outputs.version }} already on npm, will skip npm publish"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "v${{ steps.pkg.outputs.version }} not on npm, will publish"
+          fi
+
+      - name: Publish to npm with provenance
+        if: steps.npm-check.outputs.exists == 'false'
+        run: npm publish --workspace aibvf-mcp --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Download mcp-publisher
         run: |
@@ -32,10 +74,24 @@ jobs:
       - name: Login with GitHub OIDC
         run: ./mcp-publisher login github-oidc
 
-      - name: Publish server.json
-        run: ./mcp-publisher publish
+      - name: Publish server.json to MCP Registry
+        run: |
+          set +e
+          OUTPUT=$(./mcp-publisher publish 2>&1)
+          EXIT_CODE=$?
+          echo "$OUTPUT"
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "::notice::MCP registry publish succeeded"
+            exit 0
+          fi
+          if echo "$OUTPUT" | grep -q "duplicate version"; then
+            echo "::notice::Version ${{ steps.pkg.outputs.version }} already in MCP registry, treating as success"
+            exit 0
+          fi
+          exit $EXIT_CODE
 
       - name: Confirm listing
         run: |
           sleep 5
-          curl -s "https://registry.modelcontextprotocol.io/v0/servers?search=aibvf" | head -c 500
+          curl -s "https://registry.modelcontextprotocol.io/v0/servers?search=aibvf" \
+            | head -c 1000
