@@ -3,7 +3,7 @@
   "name": "io.github.Bahamas1717/aibvf-mcp",
   "description": "Score AI initiatives (Accelerate/Fix/Stop), model EUR value, validate portfolios. AI BVF v1.0.",
   "status": "active",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "repository": {
     "url": "https://github.com/Bahamas1717/ai-bvf",
     "source": "github"
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "identifier": "aibvf-mcp",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "transport": {
         "type": "stdio"
       }
