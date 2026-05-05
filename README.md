@@ -39,18 +39,24 @@ Ask your agent: "score a gen2 CX AI initiative for a 400M EUR retailer, traditio
 
 ## Why This Exists
 
-Agents confidently recommend AI projects with no reference to the business case, no reference to operating-model readiness, and no reference to governance exposure. The scoring belongs in the agent's pre-flight check, not in a slide deck written after the decision.
+Agents confidently recommend AI projects with no reference to the business case, no reference to operating-model readiness, and no reference to governance exposure. The scoring belongs upstream of the slide deck, inside the agent's pre-flight check before the budget gets committed.
 
 The protocol is open, the benchmarks cite McKinsey, Gartner, BCG, Deloitte, Forrester, Accenture, ServiceNow, and readiness capture rates come from EY/Oxford and Prosci change-success research.
+
+## About The Methodology
+
+aibvf-mcp is the runtime arm of the AI Business Value Framework, the methodology I have been building since going independent in 2024 to evaluate AI investments against the measurable outcomes that survive a board review. The framework sits inside the AI Readiness Blueprint, a six-driver diagnostic informed by the EY/Oxford research on transformation success. The weekly applied case studies live in The Transformation Brief, where the calibration gets argued in public.
+
+The advisory practice puts the framework in front of senior leaders making AI investment decisions inside enterprises with EUR 500m or more revenue. The MCP server makes the same scoring available to anyone running a Claude agent.
 
 ## The Four Pillars
 
 Every initiative is scored on four pillars, 0 to 100, honest self-assessment.
 
-1. **Strategic Alignment** — how clearly this moves a board-level KPI.
-2. **Financial Return** — strength of the modelled return.
-3. **Change Enablement** — sponsor in place, owner named, change budget funded.
-4. **Governance Risk** — regulatory and reputational exposure. Higher value means more risk.
+1. **Strategic Alignment**, how clearly this moves a board-level KPI.
+2. **Financial Return**, strength of the modelled return.
+3. **Change Enablement**, sponsor in place, owner named, change budget funded.
+4. **Governance Risk**, regulatory and reputational exposure. Higher value means more risk.
 
 Rules are deterministic, no network, no dependencies. `GR >= 70` or `FR <= 20` returns Stop, all four pillars at or above 60 with `GR <= 40` returns Accelerate, anything else returns Fix with a specific gap list.
 
@@ -106,4 +112,6 @@ The benchmark ranges are directional, the industry multipliers are a starting ca
 
 MIT for the schema, the scoring engine, and the MCP server. The benchmark corpus and certification marks are proprietary.
 
-Author: Craig Horton.
+## About The Author
+
+Craig Horton is an independent transformation lead based in Amsterdam, with twenty years supplier-side at HPE, Atos, Microsoft, Salesforce, and Accenture. He runs Craig Horton Advisory and writes The Transformation Brief, a weekly publication for senior leaders making AI investment decisions, with executive education at Saïd Business School, Oxford, and an AMBA-accredited Global Executive MBA with AI in progress at the University of Hertfordshire. Find the Brief at [brief.craighortonadvisory.com](https://brief.craighortonadvisory.com), and reach out at [linkedin.com/in/craig-horton-ai](https://linkedin.com/in/craig-horton-ai).
