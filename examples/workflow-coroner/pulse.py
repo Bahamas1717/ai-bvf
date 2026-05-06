@@ -6,7 +6,7 @@ from typing import Any
 
 
 def _classify_pace_layer(activities: list[dict]) -> str:
-    """Stewart Brand pace-layer classification from activity mix."""
+    """Pace-layer classification from activity mix (framing per Jeroen Tas)."""
     if not activities:
         return "unknown"
     types = [a.get("step_type", "") for a in activities]

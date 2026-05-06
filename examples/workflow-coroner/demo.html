@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The workflow coroner · the verdict every AI consultancy will not ship</title>
 <meta name="description" content="A 60-second demo of the Stop-first BVF agent. The metric on the box, percent of work eliminated, not automated.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #1a2a47;
@@ -17,7 +20,7 @@
   body {
     background: var(--navy);
     color: var(--amber-soft);
-    font-family: Georgia, "Palatino Linotype", "Times New Roman", serif;
+    font-family: 'Inter', -apple-system, Arial, sans-serif;
     font-size: 18px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -45,22 +48,25 @@
   .scene.active { opacity: 1; pointer-events: auto; }
 
   .kicker {
-    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-weight: 700;
     font-size: 13px;
-    letter-spacing: 0.18em;
-    color: var(--amber);
-    margin-bottom: 28px;
+    letter-spacing: 0.32em;
+    color: var(--amber-soft);
+    margin-bottom: 32px;
   }
 
   h1.scene-title {
-    font-size: clamp(36px, 5.5vw, 64px);
-    line-height: 1.1;
-    color: var(--amber-soft);
-    max-width: 920px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.98;
+    color: var(--white);
+    max-width: 1000px;
     text-align: center;
-    font-weight: 700;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    letter-spacing: -0.022em;
   }
+  h1.scene-title .amber { color: var(--amber); }
 
   .progress {
     position: fixed;
@@ -105,15 +111,20 @@
   .scene.active .firm:nth-child(5) { transition-delay: 1.0s; }
   .scene.active .firm:nth-child(6) { transition-delay: 1.2s; }
   .firm-name {
-    font-weight: 700;
-    color: var(--amber-soft);
-    font-size: 16px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    color: var(--white);
+    font-size: 22px;
+    letter-spacing: -0.014em;
+    line-height: 1.1;
   }
   .firm-product {
-    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--amber);
-    margin-top: 4px;
-    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    margin-top: 6px;
+    letter-spacing: 0.18em;
   }
   .verdict-overlay {
     position: absolute;
@@ -128,28 +139,36 @@
   }
   .scene.active .verdict-overlay { opacity: 1; }
   .verdict-overlay h2 {
-    font-size: clamp(40px, 6vw, 72px);
-    color: var(--amber-soft);
-    font-weight: 700;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(40px, 6vw, 76px);
+    color: var(--white);
+    font-weight: 600;
     text-align: center;
     max-width: 920px;
+    letter-spacing: -0.022em;
+    line-height: 1.04;
   }
+  .verdict-overlay h2 .amber { color: var(--amber); }
 
   /* Scene 3, counter */
   .counter {
-    font-size: clamp(64px, 12vw, 144px);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(64px, 14vw, 168px);
     color: var(--amber);
-    font-weight: 700;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     line-height: 1;
   }
   .counter-caption {
-    font-size: 17px;
-    color: var(--amber-soft);
-    margin-top: 24px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 19px;
+    color: var(--white);
+    margin-top: 28px;
     text-align: center;
-    max-width: 720px;
+    max-width: 760px;
+    line-height: 1.4;
+    font-weight: 500;
   }
 
   /* Scene 4, Stop button */
@@ -165,8 +184,10 @@
     box-shadow: 0 0 0 0 rgba(201, 122, 43, 0.5);
     animation: stopGlow 2.4s ease-in-out infinite;
     color: var(--amber);
-    font-size: clamp(40px, 6vw, 72px);
-    font-weight: 700;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(48px, 7vw, 84px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
   @keyframes stopGlow {
     0%, 100% { box-shadow: 0 0 0 0 rgba(201, 122, 43, 0.5); }
@@ -229,19 +250,22 @@
   .verdict-card-row:last-child { border-bottom: none; }
   .verdict-card-key { color: rgba(26, 42, 71, 0.65); }
   .verdict-card-val { font-weight: 700; text-align: right; }
-  .verdict-card-headline { font-size: 38px; color: var(--amber); font-weight: 700; }
-  .verdict-card-zero { color: var(--amber); font-weight: 700; font-size: 22px; }
-  .ruling-stop { color: var(--amber); font-size: 22px; }
+  .verdict-card-headline { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 44px; color: var(--amber); font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  .verdict-card-zero { font-family: 'Cormorant Garamond', Georgia, serif; color: var(--amber); font-weight: 600; font-size: 28px; letter-spacing: -0.014em; }
+  .ruling-stop { font-family: 'Cormorant Garamond', Georgia, serif; color: var(--amber); font-size: 26px; font-weight: 600; letter-spacing: -0.014em; }
 
   /* Scene 7, closing */
   .closing-tag {
-    font-size: clamp(34px, 4.8vw, 56px);
-    color: var(--amber-soft);
-    font-weight: 700;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(40px, 6vw, 76px);
+    color: var(--white);
+    font-weight: 600;
     text-align: center;
-    max-width: 920px;
-    line-height: 1.18;
+    max-width: 1000px;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
   }
+  .closing-tag .amber { color: var(--amber); }
   .closing-link {
     margin-top: 36px;
     color: var(--amber);
@@ -346,7 +370,7 @@
 
   <section class="scene" data-scene="1" data-duration="6000">
     <div class="kicker pulse-anim">the workflow coroner  ·  bvf v1.0</div>
-    <h1 class="scene-title">Most AI consultancies sell roadmaps.</h1>
+    <h1 class="scene-title">Most AI consultancies sell <span class="amber">roadmaps</span>.</h1>
   </section>
 
   <section class="scene" data-scene="2" data-duration="9000">
@@ -359,7 +383,7 @@
       <div class="firm"><div class="firm-name">Gartner</div><div class="firm-product">AI roadmap toolkit</div></div>
     </div>
     <div class="verdict-overlay">
-      <h2>None of them ship a Stop button.</h2>
+      <h2>None of them ship a <span class="amber">Stop</span> button.</h2>
     </div>
   </section>
 
@@ -397,7 +421,7 @@
 
   <section class="scene" data-scene="7" data-duration="11000">
     <div class="kicker">the metric on the box</div>
-    <h1 class="closing-tag">percent of work eliminated, not automated.</h1>
+    <h1 class="closing-tag">percent of work <span class="amber">eliminated</span>, not <span class="amber">automated</span>.</h1>
     <a class="closing-link" href="https://github.com/Bahamas1717/ai-bvf/tree/main/examples/workflow-coroner">github.com/Bahamas1717/ai-bvf</a>
   </section>
 

@@ -8,9 +8,9 @@ The metric on the box is "percent of work eliminated, not automated."
 
 Most process mining births new automations. This one performs autopsies first. Default verdict on an inbound candidate is Stop, AI initiatives only get scored on workflows that survive the elimination test. Leading with Stop is the contrarian play, the only thing that makes the math honest when McKinsey reports 70 percent of digital transformations fail and BCG reports 70 percent of AI initiatives never reach scale.
 
-## The four-agent architecture
+## The architecture, one orchestrator and five agents
 
-- **Pulse** parses the event log, classifies the workflow by Stewart Brand pace layer, infers ai tier and readiness from rework, exception, and automation-coverage signals.
+- **Pulse** parses the event log, classifies the workflow by pace layer (Jeroen Tas), infers ai tier and readiness from rework, exception, and automation-coverage signals.
 - **Verdict** derives BVF pillar scores from those signals, calls `aibvf.score.score` and `aibvf.score.calculate_pace_layer_drag` against the canonical engine, returns a Stop / Fix / Accelerate / Keep ruling with a BVF health score.
 - **Architect** branches on the ruling. On Stop it drafts an elimination plan and a Prosci-grade CM treatment. On Fix it calls `recommend_improvements` for pillar raises. On Accelerate it designs an agentic deployment in shadow mode.
 - **Wire** mocks MuleSoft Anypoint, generates DELETE / PATCH / POST calls per ruling, computes annual saving from labour minutes recovered and integration maintenance avoided, writes a JSON decommission log and a markdown CM plan, holds a 30-day rollback transaction in escrow.
