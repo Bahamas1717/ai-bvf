@@ -1,0 +1,43 @@
+{
+  "log_summary": {
+    "name": "procurement-approval-flow",
+    "source": "celonis-process-intelligence",
+    "extracted_at": "2026-05-06T08:00:00Z",
+    "company": {
+      "name": "OrionTech Industrials",
+      "industry": "universal",
+      "annual_revenue_eur": 2400000000
+    },
+    "metrics": {
+      "cases_observed": 247,
+      "median_cycle_time_hours": 78,
+      "rework_rate": 0.23,
+      "exception_rate": 0.08,
+      "automation_coverage": 0.41
+    },
+    "activities": [
+      {"name": "PR submitted",                    "frequency": 247, "avg_duration_min": 4,   "system": "SAP-Ariba",     "step_type": "transactional", "mandatory_under_redesign": true,  "api_path": "/api/v1/pr/submit"},
+      {"name": "Buyer review",                    "frequency": 247, "avg_duration_min": 38,  "system": "SAP-Ariba",     "step_type": "review",        "mandatory_under_redesign": true,  "api_path": "/api/v1/pr/buyer-review"},
+      {"name": "Vendor secondary recheck",        "frequency": 247, "avg_duration_min": 27,  "system": "Coupa",         "step_type": "review",        "mandatory_under_redesign": false, "api_path": "/api/v1/pr/vendor-recheck"},
+      {"name": "Manager approval",                "frequency": 247, "avg_duration_min": 62,  "system": "SAP-Ariba",     "step_type": "approval",      "mandatory_under_redesign": true,  "api_path": "/api/v1/pr/manager-approve"},
+      {"name": "Budget recheck",                  "frequency": 247, "avg_duration_min": 41,  "system": "Hyperion",      "step_type": "approval",      "mandatory_under_redesign": false, "api_path": "/api/v1/pr/budget-recheck"},
+      {"name": "Procurement signoff",             "frequency": 247, "avg_duration_min": 55,  "system": "SAP-Ariba",     "step_type": "approval",      "mandatory_under_redesign": false, "api_path": "/api/v1/pr/procurement-signoff"},
+      {"name": "Legal primary review",            "frequency": 86,  "avg_duration_min": 240, "system": "ContractWorks", "step_type": "review",        "mandatory_under_redesign": false, "api_path": "/api/v1/pr/legal-primary"},
+      {"name": "Legal secondary review",          "frequency": 86,  "avg_duration_min": 180, "system": "ContractWorks", "step_type": "review",        "mandatory_under_redesign": false, "api_path": "/api/v1/pr/legal-secondary"},
+      {"name": "Finance review",                  "frequency": 247, "avg_duration_min": 71,  "system": "SAP-FI",        "step_type": "review",        "mandatory_under_redesign": false, "api_path": "/api/v1/pr/finance-review"},
+      {"name": "CFO courtesy approval",           "frequency": 92,  "avg_duration_min": 320, "system": "SAP-FI",        "step_type": "approval",      "mandatory_under_redesign": false, "api_path": "/api/v1/pr/cfo-courtesy"},
+      {"name": "Procurement second-eye",          "frequency": 247, "avg_duration_min": 33,  "system": "Coupa",         "step_type": "approval",      "mandatory_under_redesign": false, "api_path": "/api/v1/pr/procurement-2nd-eye"},
+      {"name": "Vendor onboarding sync",          "frequency": 41,  "avg_duration_min": 120, "system": "Workday",       "step_type": "transactional", "mandatory_under_redesign": false, "api_path": "/api/v1/pr/vendor-onboarding-sync"},
+      {"name": "Finance reconciliation",          "frequency": 247, "avg_duration_min": 28,  "system": "SAP-FI",        "step_type": "review",        "mandatory_under_redesign": false, "api_path": "/api/v1/pr/finance-reconcile"},
+      {"name": "Audit trail redundant",           "frequency": 247, "avg_duration_min": 12,  "system": "SAP-GRC",       "step_type": "review",        "mandatory_under_redesign": false, "api_path": "/api/v1/pr/audit-redundant"}
+    ],
+    "integrations": [
+      "SAP-Ariba", "SAP-FI", "SAP-GRC", "Coupa", "ContractWorks",
+      "Hyperion", "Workday", "ServiceNow", "Concur", "Power-BI", "Tableau"
+    ],
+    "regulatory_keywords": ["audit", "compliance", "approval", "signoff", "reconciliation"],
+    "named_kpi": null,
+    "executive_owner": null,
+    "function_hint": "supply"
+  }
+}

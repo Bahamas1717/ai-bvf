@@ -1,0 +1,38 @@
+{
+  "log_summary": {
+    "name": "customer-ticket-triage",
+    "source": "celonis-process-intelligence",
+    "extracted_at": "2026-05-06T08:00:00Z",
+    "company": {
+      "name": "Helix Software",
+      "industry": "universal",
+      "annual_revenue_eur": 800000000
+    },
+    "metrics": {
+      "cases_observed": 18420,
+      "median_cycle_time_hours": 4,
+      "rework_rate": 0.02,
+      "exception_rate": 0.01,
+      "automation_coverage": 0.78
+    },
+    "activities": [
+      {"name": "Ticket received",                "frequency": 18420, "avg_duration_min": 1,  "system": "Zendesk",    "step_type": "transactional", "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/intake"},
+      {"name": "AI auto-classification",         "frequency": 18420, "avg_duration_min": 0,  "system": "Zendesk",    "step_type": "transactional", "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/classify"},
+      {"name": "Sentiment analysis",             "frequency": 18420, "avg_duration_min": 0,  "system": "Zendesk",    "step_type": "transactional", "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/sentiment"},
+      {"name": "Priority routing",               "frequency": 18420, "avg_duration_min": 0,  "system": "Salesforce", "step_type": "transactional", "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/route"},
+      {"name": "Agent assignment",               "frequency": 18420, "avg_duration_min": 1,  "system": "Salesforce", "step_type": "transactional", "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/assign"},
+      {"name": "SLA check",                      "frequency": 18420, "avg_duration_min": 0,  "system": "Salesforce", "step_type": "review",        "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/sla"},
+      {"name": "Customer notification",          "frequency": 18420, "avg_duration_min": 0,  "system": "Slack",      "step_type": "transactional", "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/notify"},
+      {"name": "Resolution",                     "frequency": 18420, "avg_duration_min": 38, "system": "Salesforce", "step_type": "transactional", "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/resolve"},
+      {"name": "Customer feedback",              "frequency": 18420, "avg_duration_min": 2,  "system": "Zendesk",    "step_type": "transactional", "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/feedback"},
+      {"name": "Quality sample audit",           "frequency": 1842,  "avg_duration_min": 18, "system": "Linear",     "step_type": "review",        "mandatory_under_redesign": true, "api_path": "/api/v1/tickets/qa-sample"}
+    ],
+    "integrations": [
+      "Zendesk", "Salesforce", "Slack", "Linear"
+    ],
+    "regulatory_keywords": ["sla"],
+    "named_kpi": "Customer NPS by triage tier, target +15 within 12 months",
+    "executive_owner": "Chief Customer Officer",
+    "function_hint": "cx"
+  }
+}
