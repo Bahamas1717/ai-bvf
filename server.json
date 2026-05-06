@@ -1,9 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "io.github.Bahamas1717/aibvf-mcp",
-  "description": "AI Business Value Framework (BVF) MCP server. Score AI initiatives Accelerate / Fix / Stop, calculate pace-layer drag in EUR, validate AI portfolios with decision confidence scoring. Built for enterprise AI transformation, governance, change management, and CIO-grade decisions.",
+  "description": "AI BVF: score AI portfolios Stop/Fix/Accelerate with decision confidence and pace-layer drag.",
   "status": "active",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "repository": {
     "url": "https://github.com/Bahamas1717/ai-bvf",
     "source": "github"
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "identifier": "aibvf-mcp",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "transport": {
         "type": "stdio"
       }
