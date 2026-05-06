@@ -16,7 +16,7 @@ from anthropic import Anthropic
 
 from _aibvf_loader import score, calculate_pace_layer_drag
 
-MODEL = "claude-haiku-4-5-20251001"
+MODEL = "claude-sonnet-4-5-20250929"
 
 SYSTEM_PROMPT = """You are Verdict, a sub-agent inside Craig Horton Advisory's Workflow Coroner.
 
