@@ -1,9 +1,9 @@
 {
   "name": "aibvf-mcp",
   "mcpName": "io.github.Bahamas1717/aibvf-mcp",
-  "version": "0.2.1",
-  "description": "Score AI initiatives (Accelerate/Fix/Stop), model EUR value, validate portfolios. AI BVF v1.0.",
-  "keywords": ["mcp", "model-context-protocol", "ai-bvf", "claude", "agent", "ai-governance"],
+  "version": "0.2.2",
+  "description": "AI Business Value Framework (BVF) MCP server. Score AI initiatives Accelerate / Fix / Stop, calculate pace-layer drag in EUR, validate AI portfolios with decision confidence scoring. Built for enterprise AI transformation, governance, change management, and CIO-grade decisions.",
+  "keywords": ["mcp", "model-context-protocol", "ai-bvf", "bvf", "business-value-framework", "ai-portfolio", "ai-governance", "ai-transformation", "decision-confidence", "pace-layer", "claude", "agent", "stop-fix-accelerate", "cio"],
   "homepage": "https://bvf-app.vercel.app/protocol",
   "repository": "github:Bahamas1717/ai-bvf",
   "license": "MIT",
