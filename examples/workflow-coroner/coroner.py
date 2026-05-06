@@ -27,6 +27,8 @@ if hasattr(sys.stdout, "reconfigure"):
 import pulse  # noqa: E402
 import architect  # noqa: E402
 import wire  # noqa: E402
+import sequencer  # noqa: E402
+import json  # noqa: E402
 
 
 def _select_verdict():
@@ -52,7 +54,7 @@ verdict_mod, VERDICT_SOURCE = _select_verdict()
 NAVY = "\x1b[38;2;26;42;71m"
 AMBER = "\x1b[38;2;201;122;43m"
 AMBER_SOFT = "\x1b[38;2;226;163;88m"
-CREAM = "\x1b[38;2;250;250;247m"
+WHITE = "\x1b[38;2;255;255;255m"
 NAVY_BG = "\x1b[48;2;26;42;71m"
 RESET = "\x1b[0m"
 BOLD = "\x1b[1m"
@@ -121,7 +123,7 @@ def _eur(n: float) -> str:
 
 def banner(today: str) -> None:
     title = c("the workflow coroner", AMBER_SOFT, BOLD)
-    sub = c(f"craig horton advisory  ·  bvf v1.0  ·  {today}", CREAM, DIM)
+    sub = c(f"craig horton advisory  ·  bvf v1.0  ·  {today}", WHITE, DIM)
     print(_top())
     print(_line(f"  {title}"))
     print(_line(f"  {sub}"))
@@ -178,7 +180,7 @@ def render_verdict(v: dict) -> None:
         for paragraph in v["rationale"].split("\n"):
             wrapped = paragraph.strip()
             if wrapped:
-                print(f"    {c(wrapped, CREAM)}")
+                print(f"    {c(wrapped, WHITE)}")
 
 
 def render_architect(plan: dict) -> None:
@@ -244,17 +246,64 @@ def render_verdict_card(candidate: dict, v: dict, plan: dict, log: dict) -> None
         print(_line(f"  {c('ai pattern:', NAVY, DIM):<14}  {c(ai_short, AMBER, BOLD)}"))
     print(_line(""))
     print(_line(f"  {c('the metric on the box:', AMBER, DIM)}"))
-    print(_line(f"  {c('percent of work eliminated, not automated.', CREAM)}"))
+    print(_line(f"  {c('percent of work eliminated, not automated.', WHITE)}"))
+    print(_bot())
+    print()
+
+
+def render_sequencer(plan_90: dict) -> None:
+    _section("sequencer  ·  90-day rollout plan")
+    s = plan_90["summary"]
+    _field("stops", str(s["stops"]))
+    _field("accelerates", str(s["accelerates"]))
+    _field("fixes", str(s["fixes"]))
+    _field("keeps", str(s["keeps"]))
+    print()
+    _field("wave 1 saving (annual)", _eur(s["wave_1_saving_eur_per_year"]))
+    opp = s["wave_2_3_opportunity_eur_per_year"]
+    _field("wave 2-3 opportunity", f"{_eur(opp['low'])} to {_eur(opp['high'])} per year")
+
+    for key, label in [("wave_1", "wave 1"), ("wave_2", "wave 2"), ("wave_3", "wave 3")]:
+        wave = plan_90[key]
+        print()
+        print(f"    {c(label + ', ' + wave['window'] + ', ' + wave['kind'], AMBER, BOLD)}")
+        print(f"      {c('rationale:', NAVY, DIM)} {wave['rationale']}")
+        if wave["items"]:
+            print(f"      {c('items:', NAVY, DIM)}")
+            for it in wave["items"]:
+                print(f"        {c('•', AMBER)} {it['workflow']}  ·  {it['company']}  ·  {c(_eur(it['headline_eur_per_year']) + '/yr', AMBER, BOLD)}")
+        else:
+            print(f"      {c('items:', NAVY, DIM)} {c('none in this wave', NAVY, DIM)}")
+        if wave["gate_to_next_wave"]:
+            print(f"      {c('gate to next wave:', NAVY, DIM)} {wave['gate_to_next_wave']}")
+
+
+def render_portfolio_card(portfolio: list[dict], plan_90: dict) -> None:
+    print()
+    print(_top())
+    print(_line(f"  {c('portfolio card', AMBER_SOFT, BOLD)}"))
+    print(_line(""))
+    print(_line(f"  {c('workflows scored:', NAVY, DIM)}  {len(portfolio)}"))
+    rulings = "  ·  ".join(p["verdict"]["ruling"] for p in portfolio)
+    print(_line(f"  {c('rulings:', NAVY, DIM)}  {rulings}"))
+    print(_line(""))
+    s = plan_90["summary"]
+    print(_line(f"  {c('wave 1 saving:', NAVY, DIM)}  {c(_eur(s['wave_1_saving_eur_per_year']) + ' per year', AMBER, BOLD)}"))
+    opp = s["wave_2_3_opportunity_eur_per_year"]
+    print(_line(f"  {c('wave 2-3 upside:', NAVY, DIM)}  {c(_eur(opp['low']) + ' to ' + _eur(opp['high']) + ' per year', AMBER, BOLD)}"))
+    print(_line(""))
+    print(_line(f"  {c('the metric on the box:', AMBER, DIM)}"))
+    print(_line(f"  {c('percent of work eliminated, not automated.', WHITE)}"))
     print(_bot())
     print()
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="The Workflow Coroner")
-    parser.add_argument("log", nargs="?", default=str(HERE / "fixtures" / "procurement.json"),
-                        help="Path to a Celonis-shaped log summary JSON")
+    parser.add_argument("logs", nargs="*", default=[str(HERE / "fixtures" / "procurement.json")],
+                        help="One or more Celonis-shaped log summary JSON paths. Multiple paths trigger portfolio mode and run Sequencer.")
     parser.add_argument("--output", default=str(HERE / "output"),
-                        help="Directory to write decommission logs and CM plans")
+                        help="Directory to write decommission logs, CM plans, and the 90-day plan")
     args = parser.parse_args()
 
     from datetime import datetime, timezone
@@ -262,19 +311,39 @@ def main() -> int:
 
     banner(today)
 
-    candidate = pulse.scan(args.log)
-    render_pulse(candidate)
+    portfolio = []
+    output_dir = Path(args.output)
 
-    v = verdict_mod.adjudicate(candidate)
-    render_verdict(v)
+    for idx, log_path in enumerate(args.logs, start=1):
+        if len(args.logs) > 1:
+            print()
+            print(f"  {c('── workflow ' + str(idx) + ' of ' + str(len(args.logs)) + ' ──', AMBER, BOLD)}")
 
-    plan = architect.design(candidate, v)
-    render_architect(plan)
+        candidate = pulse.scan(log_path)
+        render_pulse(candidate)
 
-    log = wire.execute(candidate, v, plan, Path(args.output))
-    render_wire(log)
+        v = verdict_mod.adjudicate(candidate)
+        render_verdict(v)
 
-    render_verdict_card(candidate, v, plan, log)
+        plan = architect.design(candidate, v)
+        render_architect(plan)
+
+        log = wire.execute(candidate, v, plan, output_dir)
+        render_wire(log)
+
+        render_verdict_card(candidate, v, plan, log)
+
+        portfolio.append({"candidate": candidate, "verdict": v, "plan": plan, "log": log})
+
+    if len(portfolio) > 1:
+        plan_90 = sequencer.sequence(portfolio)
+        render_sequencer(plan_90)
+
+        plan_90_path = output_dir / f"ninety-day-plan-{today}.json"
+        plan_90_path.write_text(json.dumps(plan_90, indent=2), encoding="utf-8")
+        print(f"\n    {c('plan written:', NAVY, DIM)} {plan_90_path.name}")
+
+        render_portfolio_card(portfolio, plan_90)
 
     return 0
 

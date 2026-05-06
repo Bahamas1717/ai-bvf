@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The workflow coroner · Craig Horton Advisory</title>
+<meta name="description" content="A Stop-first BVF agent that reads Celonis-shaped event logs, scores the workflow against the AI Business Value Framework, and closes the loop with mocked MuleSoft Anypoint decommission calls.">
+<style>
+  :root {
+    --navy: #1a2a47;
+    --amber: #c97a2b;
+    --amber-soft: #e2a358;
+    --white: #ffffff;
+    --rule: rgba(26, 42, 71, 0.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 17px; line-height: 1.55; }
+  body { background: var(--white); color: var(--navy); font-family: Georgia, "Palatino Linotype", "Times New Roman", serif; -webkit-font-smoothing: antialiased; }
+
+  .hero {
+    background: var(--navy);
+    color: var(--amber-soft);
+    padding: 88px 32px 96px;
+  }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .kicker {
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1.05;
+    font-weight: 700;
+    color: var(--amber-soft);
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  .hero-sub {
+    font-size: 19px;
+    color: var(--amber-soft);
+    max-width: 720px;
+    line-height: 1.55;
+  }
+  .hero-meta {
+    margin-top: 28px;
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: var(--amber);
+  }
+  .hero-meta a { color: var(--amber); text-decoration: none; border-bottom: 1px solid rgba(201, 122, 43, 0.6); }
+  .hero-meta a:hover { color: var(--amber-soft); border-bottom-color: var(--amber-soft); }
+
+  main { max-width: 920px; margin: 0 auto; padding: 64px 32px; }
+  section + section { margin-top: 64px; }
+  h2 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.18;
+    margin-bottom: 22px;
+  }
+  p { margin-bottom: 18px; max-width: 720px; }
+  p:last-child { margin-bottom: 0; }
+  .lead { font-size: 21px; line-height: 1.55; }
+  .pull {
+    border-left: 3px solid var(--amber);
+    padding: 6px 0 6px 22px;
+    margin: 28px 0;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--navy);
+    max-width: 720px;
+  }
+
+  .cards { display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: 32px; }
+  @media (min-width: 760px) { .cards { grid-template-columns: 1fr 1fr; } }
+  .card {
+    background: var(--white);
+    border: 1.5px solid var(--amber);
+    border-radius: 4px;
+    padding: 30px 30px 28px;
+    box-shadow: 0 1px 0 rgba(26, 42, 71, 0.04);
+  }
+  .card-head {
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.25;
+    margin-bottom: 18px;
+  }
+  .card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+  }
+  .card-row:last-of-type { border-bottom: none; }
+  .card-key { color: rgba(26, 42, 71, 0.65); }
+  .card-val { color: var(--navy); font-weight: 600; text-align: right; }
+  .ruling-amber { color: var(--amber); font-weight: 700; font-size: 18px; }
+  .punch {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 2px solid var(--amber);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--navy);
+  }
+  .punch strong { color: var(--amber); font-weight: 700; }
+
+  .agents {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  @media (min-width: 760px) { .agents { grid-template-columns: 1fr 1fr; } }
+  .agent {
+    background: var(--white);
+    border-left: 3px solid var(--amber);
+    padding: 18px 22px;
+  }
+  .agent-name {
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+  .agent-name strong { font-weight: 700; }
+  .agent-desc { font-size: 15px; line-height: 1.55; color: var(--navy); }
+
+  pre.term {
+    background: var(--navy);
+    color: var(--amber-soft);
+    padding: 28px 28px 30px;
+    overflow-x: auto;
+    font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+    font-size: 12.5px;
+    line-height: 1.5;
+    border-radius: 4px;
+    border: 1px solid rgba(201, 122, 43, 0.4);
+  }
+  pre.term .accent { color: var(--amber); font-weight: 700; }
+  pre.term .label { color: rgba(226, 163, 88, 0.7); }
+
+  .repo-link {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 12px 22px;
+    background: var(--navy);
+    color: var(--amber-soft);
+    text-decoration: none;
+    border: 1px solid var(--amber);
+    border-radius: 3px;
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+  }
+  .repo-link:hover { background: var(--amber); color: var(--navy); }
+
+  footer {
+    background: var(--navy);
+    color: var(--amber-soft);
+    padding: 44px 32px;
+    margin-top: 96px;
+    text-align: center;
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  footer p { margin: 0 auto 6px; max-width: none; }
+  footer a { color: var(--amber); text-decoration: none; border-bottom: 1px solid rgba(201, 122, 43, 0.6); }
+  footer a:hover { color: var(--amber-soft); border-bottom-color: var(--amber-soft); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">craig horton advisory  ·  bvf v1.0</div>
+    <h1>The workflow coroner</h1>
+    <p class="hero-sub">A Stop-first BVF agent. Reads a Celonis-shaped event log, scores the workflow against the AI Business Value Framework, and closes the loop with mocked MuleSoft Anypoint decommission calls when the ruling is Stop.</p>
+    <div class="hero-meta">
+      source on <a href="https://github.com/Bahamas1717/ai-bvf/tree/main/examples/workflow-coroner">github</a>  ·  runs on python in 30 seconds
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section>
+  <h2>Why it exists</h2>
+  <p class="lead">Most process mining births new automations. This one performs autopsies first.</p>
+  <p>Default verdict on an inbound candidate is Stop. AI initiatives only get scored on workflows that survive the elimination test. Leading with Stop is the contrarian play, the only thing that makes the math honest when McKinsey reports 70 percent of digital transformations fail and BCG reports 70 percent of AI initiatives never reach scale.</p>
+  <div class="pull">The metric on the box is "percent of work eliminated, not automated."</div>
+</section>
+
+<section>
+  <h2>Two verdicts, same engine</h2>
+  <p>The four-agent pipeline runs against any Celonis-shaped log. The BVF decides. Two real fixtures from the demo, opposite outcomes.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-head">stop</div>
+      <h3>procurement-approval-flow</h3>
+      <div class="card-row"><span class="card-key">company</span><span class="card-val">OrionTech Industrials, 2.4B EUR</span></div>
+      <div class="card-row"><span class="card-key">activities</span><span class="card-val">14 steps, 11 integrations</span></div>
+      <div class="card-row"><span class="card-key">readiness</span><span class="card-val">siloed, gen2 ambition</span></div>
+      <div class="card-row"><span class="card-key">bvf health score</span><span class="card-val">32%</span></div>
+      <div class="card-row"><span class="card-key">ruling</span><span class="card-val ruling-amber">Stop</span></div>
+      <div class="punch">
+        Eliminates 11 of 14 steps under one delegated approval rule. Annual saving <strong>2.76M EUR</strong>. New AI initiatives required, <strong>zero</strong>.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">accelerate</div>
+      <h3>customer-ticket-triage</h3>
+      <div class="card-row"><span class="card-key">company</span><span class="card-val">Helix Software, 800M EUR</span></div>
+      <div class="card-row"><span class="card-key">activities</span><span class="card-val">10 steps, 4 integrations</span></div>
+      <div class="card-row"><span class="card-key">readiness</span><span class="card-val">agile, gen3 ambition</span></div>
+      <div class="card-row"><span class="card-key">bvf health score</span><span class="card-val">76%</span></div>
+      <div class="card-row"><span class="card-key">ruling</span><span class="card-val ruling-amber">Accelerate</span></div>
+      <div class="punch">
+        All four pillars cleared. Net opportunity <strong>36.7M to 108M EUR</strong>. Deployed gen3 agentic in shadow mode, 30-day daily divergence reports.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>The four-agent architecture</h2>
+  <p>Same engine, different judgement layers. Each agent has one job and a clean input output contract.</p>
+
+  <div class="agents">
+    <div class="agent">
+      <div class="agent-name"><strong>pulse</strong></div>
+      <div class="agent-desc">Parses the event log, classifies the workflow by Stewart Brand pace layer, infers ai tier and readiness from rework, exception, and automation-coverage signals.</div>
+    </div>
+    <div class="agent">
+      <div class="agent-name"><strong>verdict</strong></div>
+      <div class="agent-desc">Derives BVF pillar scores, calls the aibvf engine directly, returns Stop, Fix, Accelerate, or Keep. Ships deterministic, or as a real Claude sub-agent with senior-practitioner rationale attached.</div>
+    </div>
+    <div class="agent">
+      <div class="agent-name"><strong>architect</strong></div>
+      <div class="agent-desc">Branches on the ruling. On Stop it drafts an elimination plan and a Prosci-grade CM treatment, on Fix it proposes pillar raises, on Accelerate it designs an agentic deployment in shadow mode.</div>
+    </div>
+    <div class="agent">
+      <div class="agent-name"><strong>wire</strong></div>
+      <div class="agent-desc">Mocks MuleSoft Anypoint, generates DELETE, PATCH, or POST calls per ruling, writes a JSON decommission log and a markdown change-management plan, holds a 30-day rollback transaction in escrow.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Verdict card, terminal version</h2>
+  <p>Same data, same engine, rendered as the CLI sees it. Brand-coloured terminal output, navy and amber, sentence case throughout.</p>
+<pre class="term">╭──────────────────────────────────────────────────────────────────╮
+│  the workflow coroner                                            │
+│  craig horton advisory  ·  bvf v1.0  ·  2026-05-06               │
+╰──────────────────────────────────────────────────────────────────╯
+
+  ▸ <span class="accent">verdict</span>
+    <span class="label">industry:</span>                    universal
+    <span class="label">function:</span>                    supply
+    <span class="label">revenue:</span>                     2.40B EUR
+    <span class="label">ai tier · readiness:</span>         gen2 · siloed
+
+    <span class="label">strategic alignment:</span>          40 / 100
+    <span class="label">financial return:</span>             12 / 100
+    <span class="label">change enablement:</span>            34 / 100
+    <span class="label">governance risk:</span>              56 / 100
+
+    <span class="label">bvf health score:</span>            32%
+    <span class="label">pace layer drag:</span>             48.00M EUR to 84.00M EUR per year
+
+    <span class="label">ruling:</span>                      <span class="accent">Stop</span>
+    <span class="label">reason:</span>                      Financial return too thin to justify scope.
+
+╭──────────────────────────────────────────────────────────────────╮
+│  <span class="accent">verdict card</span>                                                    │
+│                                                                  │
+│  workflow:        procurement-approval-flow                      │
+│  ruling:          <span class="accent">Stop</span>                                           │
+│  annual saving:   <span class="accent">2.76M EUR</span>                                      │
+│  new ai required: <span class="accent">zero</span>                                           │
+│                                                                  │
+│  the metric on the box:                                          │
+│  percent of work eliminated, not automated.                      │
+╰──────────────────────────────────────────────────────────────────╯</pre>
+</section>
+
+<section>
+  <h2>Run it</h2>
+  <p>Code lives in the AI BVF repo, six modules, two fixtures, runnable in 30 seconds with one Python command.</p>
+  <a class="repo-link" href="https://github.com/Bahamas1717/ai-bvf/tree/main/examples/workflow-coroner">open the source on github</a>
+</section>
+
+</main>
+
+<footer>
+  <p>Craig Horton Advisory  ·  the AI Business Value Framework</p>
+  <p><a href="https://github.com/Bahamas1717/ai-bvf">github.com/Bahamas1717/ai-bvf</a>  ·  <a href="https://bvf.craighortonadvisory.com">bvf.craighortonadvisory.com</a></p>
+</footer>
+
+</body>
+</html>
