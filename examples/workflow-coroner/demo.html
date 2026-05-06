@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The workflow coroner · the verdict every AI consultancy will not ship</title>
+<meta name="description" content="A 60-second demo of the Stop-first BVF agent. The metric on the box, percent of work eliminated, not automated.">
+<style>
+  :root {
+    --navy: #1a2a47;
+    --amber: #c97a2b;
+    --amber-soft: #e2a358;
+    --white: #ffffff;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: var(--navy);
+    color: var(--amber-soft);
+    font-family: Georgia, "Palatino Linotype", "Times New Roman", serif;
+    font-size: 18px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+  }
+  .scene.active { opacity: 1; pointer-events: auto; }
+
+  .kicker {
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: var(--amber);
+    margin-bottom: 28px;
+  }
+
+  h1.scene-title {
+    font-size: clamp(36px, 5.5vw, 64px);
+    line-height: 1.1;
+    color: var(--amber-soft);
+    max-width: 920px;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .progress {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--amber);
+    width: 0%;
+    transition: width 0.2s linear;
+    z-index: 100;
+  }
+
+  .pulse-anim { animation: pulse 3s ease-in-out infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Scene 2, the wall */
+  .firms-wall {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    max-width: 920px;
+    width: 100%;
+  }
+  @media (max-width: 720px) {
+    .firms-wall { grid-template-columns: 1fr 1fr; }
+  }
+  .firm {
+    background: rgba(201, 122, 43, 0.08);
+    border: 1px solid var(--amber);
+    padding: 18px 22px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .scene.active .firm { opacity: 1; transform: translateY(0); }
+  .scene.active .firm:nth-child(1) { transition-delay: 0.2s; }
+  .scene.active .firm:nth-child(2) { transition-delay: 0.4s; }
+  .scene.active .firm:nth-child(3) { transition-delay: 0.6s; }
+  .scene.active .firm:nth-child(4) { transition-delay: 0.8s; }
+  .scene.active .firm:nth-child(5) { transition-delay: 1.0s; }
+  .scene.active .firm:nth-child(6) { transition-delay: 1.2s; }
+  .firm-name {
+    font-weight: 700;
+    color: var(--amber-soft);
+    font-size: 16px;
+  }
+  .firm-product {
+    font-size: 13px;
+    color: var(--amber);
+    margin-top: 4px;
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+  }
+  .verdict-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 42, 71, 0.94);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    transition-delay: 11s;
+  }
+  .scene.active .verdict-overlay { opacity: 1; }
+  .verdict-overlay h2 {
+    font-size: clamp(40px, 6vw, 72px);
+    color: var(--amber-soft);
+    font-weight: 700;
+    text-align: center;
+    max-width: 920px;
+  }
+
+  /* Scene 3, counter */
+  .counter {
+    font-size: clamp(64px, 12vw, 144px);
+    color: var(--amber);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .counter-caption {
+    font-size: 17px;
+    color: var(--amber-soft);
+    margin-top: 24px;
+    text-align: center;
+    max-width: 720px;
+  }
+
+  /* Scene 4, Stop button */
+  .stop-button {
+    width: clamp(180px, 22vw, 260px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 4px solid var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 0 rgba(201, 122, 43, 0.5);
+    animation: stopGlow 2.4s ease-in-out infinite;
+    color: var(--amber);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+  }
+  @keyframes stopGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201, 122, 43, 0.5); }
+    50% { box-shadow: 0 0 0 32px rgba(201, 122, 43, 0); }
+  }
+
+  /* Scene 5, CLI */
+  .cli {
+    font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+    font-size: clamp(13px, 1.6vw, 17px);
+    max-width: 840px;
+    width: 100%;
+  }
+  .cli-line {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s, transform 0.4s;
+    padding: 7px 0;
+    color: var(--amber-soft);
+  }
+  .cli-line .arrow { color: var(--amber); font-weight: 700; }
+  .cli-line .agent { color: var(--amber); font-weight: 700; }
+  .cli-line .ruling { color: var(--amber); font-weight: 700; }
+  .scene.active .cli-line { opacity: 1; transform: translateX(0); }
+  .scene.active .cli-line:nth-child(1) { transition-delay: 0.5s; }
+  .scene.active .cli-line:nth-child(2) { transition-delay: 1.5s; }
+  .scene.active .cli-line:nth-child(3) { transition-delay: 2.5s; }
+  .scene.active .cli-line:nth-child(4) { transition-delay: 3.5s; }
+  .scene.active .cli-line:nth-child(5) { transition-delay: 4.5s; }
+
+  /* Scene 6, verdict card */
+  .verdict-card {
+    background: var(--white);
+    color: var(--navy);
+    border: 2px solid var(--amber);
+    padding: 40px 48px;
+    max-width: 600px;
+    width: 90%;
+    transform: scale(0.94);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  .scene.active .verdict-card { transform: scale(1); opacity: 1; }
+  .verdict-card-kicker {
+    color: var(--amber);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    margin-bottom: 20px;
+  }
+  .verdict-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(26, 42, 71, 0.1);
+    font-size: 17px;
+    gap: 12px;
+  }
+  .verdict-card-row:last-child { border-bottom: none; }
+  .verdict-card-key { color: rgba(26, 42, 71, 0.65); }
+  .verdict-card-val { font-weight: 700; text-align: right; }
+  .verdict-card-headline { font-size: 38px; color: var(--amber); font-weight: 700; }
+  .verdict-card-zero { color: var(--amber); font-weight: 700; font-size: 22px; }
+  .ruling-stop { color: var(--amber); font-size: 22px; }
+
+  /* Scene 7, closing */
+  .closing-tag {
+    font-size: clamp(34px, 4.8vw, 56px);
+    color: var(--amber-soft);
+    font-weight: 700;
+    text-align: center;
+    max-width: 920px;
+    line-height: 1.18;
+  }
+  .closing-link {
+    margin-top: 36px;
+    color: var(--amber);
+    text-decoration: none;
+    border-bottom: 1px solid var(--amber);
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    padding-bottom: 2px;
+  }
+  .closing-link:hover { color: var(--amber-soft); border-bottom-color: var(--amber-soft); }
+
+  .controls {
+    position: fixed;
+    top: 24px; right: 24px;
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+  }
+  .controls button {
+    background: transparent;
+    border: 1px solid rgba(201, 122, 43, 0.4);
+    color: var(--amber-soft);
+    padding: 8px 14px;
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .controls button:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-anim, .stop-button { animation: none; }
+    .scene { transition: opacity 0.3s ease; }
+  }
+
+  /* play overlay, required for audio autoplay unlock */
+  .play-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    cursor: pointer;
+    transition: opacity 0.6s ease;
+  }
+  .play-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .play-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 36px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .play-overlay:hover .play-circle {
+    background: rgba(201, 122, 43, 0.12);
+    transform: scale(1.05);
+  }
+  .play-circle::before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 18px 0 18px 32px;
+    border-color: transparent transparent transparent var(--amber);
+    margin-left: 10px;
+  }
+  .play-overlay-caption {
+    margin-top: 28px;
+    font-family: "Trebuchet MS", "Lucida Sans", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+  }
+
+  .controls button.muted { color: rgba(226, 163, 88, 0.35); border-color: rgba(201, 122, 43, 0.2); }
+</style>
+</head>
+<body>
+
+<div class="play-overlay" id="play-overlay">
+  <div class="kicker">the workflow coroner  ·  60 seconds, with sound</div>
+  <div class="play-circle"></div>
+  <div class="play-overlay-caption">click anywhere to play</div>
+</div>
+
+<div class="stage">
+
+  <section class="scene" data-scene="1" data-duration="6000">
+    <div class="kicker pulse-anim">the workflow coroner  ·  bvf v1.0</div>
+    <h1 class="scene-title">Most AI consultancies sell roadmaps.</h1>
+  </section>
+
+  <section class="scene" data-scene="2" data-duration="9000">
+    <div class="firms-wall">
+      <div class="firm"><div class="firm-name">EY</div><div class="firm-product">.ai Value Blueprints</div></div>
+      <div class="firm"><div class="firm-name">McKinsey</div><div class="firm-product">Turo portfolio tracker</div></div>
+      <div class="firm"><div class="firm-name">Accenture</div><div class="firm-product">Maturity tiers</div></div>
+      <div class="firm"><div class="firm-name">PwC</div><div class="firm-product">Free AI assessment</div></div>
+      <div class="firm"><div class="firm-name">Microsoft</div><div class="firm-product">Copilot Studio</div></div>
+      <div class="firm"><div class="firm-name">Gartner</div><div class="firm-product">AI roadmap toolkit</div></div>
+    </div>
+    <div class="verdict-overlay">
+      <h2>None of them ship a Stop button.</h2>
+    </div>
+  </section>
+
+  <section class="scene" data-scene="3" data-duration="10000">
+    <div class="kicker">2.4B EUR organisation, gen2 ambition, siloed readiness</div>
+    <div class="counter" data-target-low="48" data-target-high="84">0</div>
+    <div class="counter-caption">EUR per year in pace-layer drag, the maths nobody else publishes.</div>
+  </section>
+
+  <section class="scene" data-scene="4" data-duration="7000">
+    <div class="stop-button">Stop</div>
+    <div class="counter-caption" style="margin-top: 32px;">default verdict, before any AI build dollar gets approved.</div>
+  </section>
+
+  <section class="scene" data-scene="5" data-duration="9000">
+    <div class="kicker">workflow coroner runs</div>
+    <div class="cli">
+      <div class="cli-line"><span class="arrow">▸</span> <span class="agent">pulse</span>  ·  procurement-approval-flow scanned, 14 steps, 11 integrations</div>
+      <div class="cli-line"><span class="arrow">▸</span> <span class="agent">verdict</span>  ·  fr 12/100, gr 56/100, ruling <span class="ruling">Stop</span></div>
+      <div class="cli-line"><span class="arrow">▸</span> <span class="agent">architect</span>  ·  eliminate 11 of 14 steps under one delegated approval</div>
+      <div class="cli-line"><span class="arrow">▸</span> <span class="agent">wire</span>  ·  11 anypoint apis decommissioned, 30-day rollback in escrow</div>
+      <div class="cli-line"><span class="arrow">▸</span> <span class="agent">sequencer</span>  ·  wave 1 of 90-day plan, frees 2.76M EUR for the rest</div>
+    </div>
+  </section>
+
+  <section class="scene" data-scene="6" data-duration="8000">
+    <div class="verdict-card">
+      <div class="verdict-card-kicker">verdict card</div>
+      <div class="verdict-card-row"><span class="verdict-card-key">workflow:</span><span class="verdict-card-val">procurement-approval-flow</span></div>
+      <div class="verdict-card-row"><span class="verdict-card-key">ruling:</span><span class="verdict-card-val ruling-stop">Stop</span></div>
+      <div class="verdict-card-row"><span class="verdict-card-key">annual saving:</span><span class="verdict-card-headline">2.76M EUR</span></div>
+      <div class="verdict-card-row"><span class="verdict-card-key">new ai required:</span><span class="verdict-card-zero">zero</span></div>
+    </div>
+  </section>
+
+  <section class="scene" data-scene="7" data-duration="11000">
+    <div class="kicker">the metric on the box</div>
+    <h1 class="closing-tag">percent of work eliminated, not automated.</h1>
+    <a class="closing-link" href="https://github.com/Bahamas1717/ai-bvf/tree/main/examples/workflow-coroner">github.com/Bahamas1717/ai-bvf</a>
+  </section>
+
+</div>
+
+<div class="progress" id="progress"></div>
+
+<div class="controls">
+  <button id="mute">sound on</button>
+  <button id="restart">restart</button>
+  <button id="skip">skip</button>
+</div>
+
+<script>
+  const scenes = document.querySelectorAll('.scene');
+  const progressBar = document.getElementById('progress');
+  const restartBtn = document.getElementById('restart');
+  const skipBtn = document.getElementById('skip');
+  const muteBtn = document.getElementById('mute');
+  const playOverlay = document.getElementById('play-overlay');
+
+  // Narration script. Voice rules locked: sentence case, no banned words.
+  // Two paths supported, in priority order:
+  // 1. Single-track recording at narration/full-narration.mp3 with sceneBoundaries below
+  // 2. Per-scene MP3s at narration/scene-N.mp3
+  // 3. Browser Web Speech API fallback using the text below
+  const narration = {
+    1: "Every major AI consultancy in 2026 is selling a roadmap.",
+    2: "EY ships Value Blueprints. McKinsey ships Turo. Accenture sells maturity tiers. PwC, Microsoft, Gartner, all in the same business. None of them ship a Stop button.",
+    3: "A 2.4 billion euro organisation deploying gen2 AI into siloed readiness carries 48 to 84 million euro a year in pace-layer drag. The maths nobody else publishes.",
+    4: "What is missing is the framework that defaults to Stop, before any AI build dollar gets approved.",
+    5: "The coroner runs. Pulse fingerprints the workflow. Verdict scores the pillars. Architect drafts the elimination plan. Wire decommissions the APIs. Sequencer frees 2.76 million euro for wave one.",
+    6: "Stop. Annual saving, 2.76 million euro. New AI initiatives required, zero.",
+    7: "The metric on the box. Percent of work eliminated, not automated. The button you have been missing is now public."
+  };
+
+  // Scene boundary timestamps in seconds against the single-track recording.
+  // Each index = time the DOM scene at that index becomes active.
+  // Calibrated to Craig's actual recording markers.
+  // Scene 7 (closing tagline) is silent, shown when audio ends.
+  let sceneBoundaries = [0, 9.38, 25, 47, 58, 90, 100];
+
+  let currentScene = 0;
+  let timeoutId = null;
+  let startTime = 0;
+  let totalDuration = 0;
+  let progressFrame = null;
+  let counterStarted = false;
+  let muted = false;
+  let preferredVoice = null;
+  let currentAudio = null;
+  let singleTrack = null;          // audio element for full-narration.mp3 if available
+  let singleTrackReady = false;
+  let singleTrackTimeUpdate = null;
+
+  scenes.forEach(s => totalDuration += parseInt(s.dataset.duration, 10));
+
+  function pickVoice() {
+    if (typeof speechSynthesis === 'undefined') return null;
+    const voices = speechSynthesis.getVoices();
+    if (!voices.length) return null;
+    // Prefer neural / online voices over local ones, they sound less robotic
+    const preferences = [
+      // Google neural
+      v => v.lang === 'en-GB' && /google.*uk english male/i.test(v.name),
+      v => v.lang.startsWith('en') && /google/i.test(v.name) && /male/i.test(v.name),
+      v => v.lang.startsWith('en') && /google/i.test(v.name),
+      // Microsoft online (neural)
+      v => v.lang === 'en-GB' && /online.*(ryan|george|thomas|noah)/i.test(v.name),
+      v => v.lang === 'en-US' && /online.*(guy|brandon|davis|christopher|tony)/i.test(v.name),
+      v => /online/i.test(v.name) && v.lang.startsWith('en'),
+      v => /(neural|natural|premium)/i.test(v.name) && v.lang.startsWith('en'),
+      // Microsoft local male voices, last resort
+      v => v.lang === 'en-GB' && /george|thomas|james|daniel|hazel/i.test(v.name),
+      v => v.lang === 'en-US' && /mark|david|guy|james/i.test(v.name),
+      v => v.lang === 'en-GB',
+      v => v.lang === 'en-US',
+      v => v.lang.startsWith('en'),
+      v => true
+    ];
+    for (const pred of preferences) {
+      const v = voices.find(pred);
+      if (v) {
+        try { console.log('voice picked:', v.name, v.lang); } catch (_) {}
+        return v;
+      }
+    }
+    return voices[0];
+  }
+
+  if (typeof speechSynthesis !== 'undefined') {
+    speechSynthesis.onvoiceschanged = () => { preferredVoice = pickVoice(); };
+    preferredVoice = pickVoice();
+  }
+
+  function stopAllAudio() {
+    if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+    if (singleTrack) {
+      singleTrack.pause();
+      singleTrack.currentTime = 0;
+      if (singleTrackTimeUpdate) {
+        singleTrack.removeEventListener('timeupdate', singleTrackTimeUpdate);
+        singleTrackTimeUpdate = null;
+      }
+    }
+  }
+
+  // Probe for a single-track recording. If it exists, use it as the master
+  // narration source and let scene transitions follow audio.currentTime.
+  // Tries m4a (Windows Sound Recorder default), then mp3, then wav, then ogg.
+  function probeSingleTrack() {
+    const formats = ['m4a', 'mp3', 'wav', 'ogg'];
+    return new Promise(async (resolve) => {
+      for (const ext of formats) {
+        const a = await tryLoadAudio('narration/full-narration.' + ext);
+        if (a) {
+          try { console.log('single-track found:', ext); } catch (_) {}
+          resolve(a);
+          return;
+        }
+      }
+      resolve(null);
+    });
+  }
+
+  function tryLoadAudio(url) {
+    return new Promise((resolve) => {
+      const a = new Audio(url);
+      let resolved = false;
+      const done = (ok) => {
+        if (resolved) return;
+        resolved = true;
+        resolve(ok ? a : null);
+      };
+      a.addEventListener('canplaythrough', () => done(true), { once: true });
+      a.addEventListener('error', () => done(false), { once: true });
+      setTimeout(() => done(false), 1500);
+      a.load();
+    });
+  }
+
+  function speakScene(idx, onComplete) {
+    const sceneNumber = idx + 1;
+    const text = narration[sceneNumber];
+    if (muted || !text) {
+      if (onComplete) setTimeout(onComplete, 0);
+      return;
+    }
+    stopAllAudio();
+
+    let usedFallback = false;
+    let completed = false;
+    function complete() {
+      if (completed) return;
+      completed = true;
+      if (onComplete) onComplete();
+    }
+
+    // Try a recorded MP3 first, fall back to Web Speech API if missing
+    const audio = new Audio('narration/scene-' + sceneNumber + '.mp3');
+    audio.addEventListener('canplaythrough', () => {
+      if (!usedFallback) {
+        currentAudio = audio;
+        audio.addEventListener('ended', complete);
+        audio.play().catch(() => fallback());
+      }
+    });
+    audio.addEventListener('error', fallback);
+    setTimeout(fallback, 250);
+
+    function fallback() {
+      if (usedFallback) return;
+      usedFallback = true;
+      if (typeof SpeechSynthesisUtterance === 'undefined') {
+        complete();
+        return;
+      }
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 0.92;
+      utter.pitch = 0.92;
+      if (preferredVoice) utter.voice = preferredVoice;
+      utter.onend = complete;
+      utter.onerror = complete;
+      speechSynthesis.speak(utter);
+    }
+  }
+
+  function showScene(idx) {
+    scenes.forEach((s, i) => s.classList.toggle('active', i === idx));
+    if (idx === 2 && !counterStarted) {
+      counterStarted = true;
+      runCounter(scenes[2].querySelector('.counter'));
+    }
+    progressBar.style.width = (((idx + 1) / scenes.length) * 100) + '%';
+  }
+
+  function runCounter(el) {
+    const low = parseInt(el.dataset.targetLow, 10);
+    const high = parseInt(el.dataset.targetHigh, 10);
+    const duration = 2400;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      if (t < 1) {
+        el.textContent = Math.floor(high * eased) + 'M';
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = low + 'M to ' + high + 'M';
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function play() {
+    if (timeoutId) clearTimeout(timeoutId);
+    stopAllAudio();
+    counterStarted = false;
+    currentScene = 0;
+    progressBar.style.width = '0%';
+
+    if (singleTrackReady && !muted) {
+      playSingleTrack();
+    } else {
+      advance();
+    }
+  }
+
+  // Single-track playback. One audio file plays end to end, scene transitions
+  // are driven by audio.currentTime crossing sceneBoundaries.
+  function playSingleTrack() {
+    showScene(0);
+    let nextBoundaryIdx = 1;
+
+    singleTrackTimeUpdate = () => {
+      while (nextBoundaryIdx < sceneBoundaries.length - 1
+             && singleTrack.currentTime >= sceneBoundaries[nextBoundaryIdx]) {
+        currentScene = nextBoundaryIdx;
+        showScene(currentScene);
+        nextBoundaryIdx++;
+      }
+    };
+    singleTrack.addEventListener('timeupdate', singleTrackTimeUpdate);
+    singleTrack.addEventListener('ended', () => {
+      currentScene = scenes.length - 1;
+      showScene(currentScene);
+    }, { once: true });
+
+    singleTrack.currentTime = 0;
+    singleTrack.play().catch(() => {
+      // If the single track fails to play, fall back to scene-by-scene mode
+      singleTrackReady = false;
+      advance();
+    });
+  }
+
+  function advance() {
+    showScene(currentScene);
+    const dur = parseInt(scenes[currentScene].dataset.duration, 10);
+    let nextCalled = false;
+
+    function nextScene() {
+      if (nextCalled) return;
+      nextCalled = true;
+      if (currentScene < scenes.length - 1) {
+        currentScene++;
+        advance();
+      }
+    }
+
+    if (muted) {
+      // No voice, fall back to fixed scene duration
+      timeoutId = setTimeout(nextScene, dur);
+      return;
+    }
+
+    // Voice-driven, advance after narration ends + a beat for breathing room
+    speakScene(currentScene, () => {
+      timeoutId = setTimeout(nextScene, 1100);
+    });
+
+    // Safety net, never let a scene hang past 30 seconds even if voice fails
+    setTimeout(nextScene, 30000);
+  }
+
+  async function startWithSound() {
+    playOverlay.classList.add('hidden');
+    // Touch the speech engine to unlock audio in browsers that gate it
+    if (typeof speechSynthesis !== 'undefined') {
+      const test = new SpeechSynthesisUtterance(' ');
+      test.volume = 0;
+      speechSynthesis.speak(test);
+    }
+    // Probe for a single-track recording before kicking off
+    if (!singleTrack) {
+      singleTrack = await probeSingleTrack();
+      singleTrackReady = !!singleTrack;
+      try { console.log('single-track narration:', singleTrackReady ? 'detected, scene boundaries follow audio.currentTime' : 'not present, falling back to per-scene voice'); } catch (_) {}
+    }
+    setTimeout(() => play(), 600);
+  }
+
+  playOverlay.addEventListener('click', startWithSound);
+
+  restartBtn.addEventListener('click', play);
+  skipBtn.addEventListener('click', () => {
+    clearTimeout(timeoutId);
+    stopAllAudio();
+    if (currentScene < scenes.length - 1) {
+      currentScene++;
+      advance();
+    }
+  });
+  muteBtn.addEventListener('click', () => {
+    muted = !muted;
+    muteBtn.classList.toggle('muted', muted);
+    muteBtn.textContent = muted ? 'sound off' : 'sound on';
+    if (muted) stopAllAudio();
+    else if (currentScene >= 0) speakScene(currentScene, () => {});
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (playOverlay.classList.contains('hidden') === false) {
+      if (e.key === 'Enter' || e.key === ' ') startWithSound();
+      return;
+    }
+    if (e.key === 'r' || e.key === 'R') play();
+    if (e.key === 'ArrowRight' || e.key === ' ') skipBtn.click();
+    if (e.key === 'm' || e.key === 'M') muteBtn.click();
+  });
+</script>
+
+</body>
+</html>
