@@ -1,7 +1,7 @@
 """Verdict, real Claude sub-agent.
 
 Same envelope as verdict.adjudicate, but the pillar scoring and BVF input
-selection runs through claude-haiku-4-5 with forced tool use. The agent
+selection runs through claude-sonnet-4-5 with forced tool use. The agent
 attaches a senior-practitioner rationale that lands in the verdict card.
 
 Requires:

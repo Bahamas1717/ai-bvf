@@ -17,20 +17,50 @@ Most process mining births new automations. This one performs autopsies first. D
 
 ## How to run
 
+This is the developer on-ramp. The senior-leader on-ramp is the AI BVF scorer at https://bvf-app.vercel.app/protocol/scorer plus the agentic workmate layer landing on https://brief.craighortonadvisory.com/workflow-coroner.html next week. If you are not running Python, start there.
+
+### Install, one time
+
 ```bash
-python coroner.py                                # default Stop fixture
+git clone https://github.com/Bahamas1717/ai-bvf
+cd ai-bvf/examples/workflow-coroner
+pip install -r requirements.txt
+```
+
+Python 3.10 or later. No API key required for the deterministic path.
+
+### Run
+
+```bash
+python coroner.py                                # default Stop fixture (procurement)
 python coroner.py fixtures/customer-triage.json  # Accelerate fixture
 python coroner.py path/to/your/celonis-export.json
 ```
 
-Outputs land in `output/`, including a per-run JSON decommission log and a markdown CM plan when the ruling is Stop.
+The fixture schema is documented in `fixtures/procurement.json`. If you do not have a Celonis export, hand-build a JSON to that shape from a process map in 10 minutes.
+
+### Expected output
+
+The default Stop fixture prints a verdict envelope, then writes artefacts to `output/`.
+
+```
+▸ pulse     · workflow classified, pace layer 3, gen2 ambition
+▸ verdict   · deterministic
+            · ruling: Stop, BVF health 32 of 100, financial return 12 of 100
+▸ architect · elimination plan drafted, 11 of 14 steps removed
+▸ wire      · 11 DELETE calls, 3 PATCH calls, 30-day rollback in escrow
+            · annual saving 2.76M EUR (labour 2.46M, integrations 300k)
+▸ artefacts · output/decommission_log.json, output/cm_plan.md
+```
+
+The Accelerate fixture prints the same shape with a different ruling and a 30-day shadow-validation note.
 
 ## Verdict, deterministic vs agent mode
 
 Verdict ships in two interchangeable forms with the same `adjudicate(candidate) -> envelope` contract.
 
 - `verdict.py`, deterministic, default. Pure Python heuristics over the candidate signals, no external calls. Good for reproducible CI runs and offline demos.
-- `verdict_agent.py`, real Claude sub-agent. Uses `claude-haiku-4-5` with forced tool use. Same scoring rubric, plus a senior-practitioner rationale attached to every ruling.
+- `verdict_agent.py`, real Claude sub-agent. Uses `claude-sonnet-4-5` with forced tool use. Same scoring rubric, plus a senior-practitioner rationale attached to every ruling.
 
 Coroner auto-selects:
 
@@ -48,7 +78,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 python coroner.py
 ```
 
-The verdict section header changes to `▸ verdict  ·  agent  ·  claude-haiku-4-5-...` and a rationale block appears under the ruling.
+The verdict section header changes to `▸ verdict  ·  agent  ·  claude-sonnet-4-5-...` and a rationale block appears under the ruling.
 
 ## What the demo proves
 
