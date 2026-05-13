@@ -13,5 +13,10 @@
     "adoption": "node scripts/adoption.mjs"
   },
   "repository": "https://github.com/Bahamas1717/ai-bvf",
-  "license": "MIT"
+  "license": "MIT",
+  "overrides": {
+    "fast-uri": "^3.1.2",
+    "hono": "^4.12.18",
+    "ip-address": "^10.2.0"
+  }
 }
