@@ -12,6 +12,6 @@
     "test": "npm -w @aibvf/core test",
     "adoption": "node scripts/adoption.mjs"
   },
-  "repository": "https://github.com/craighorton/ai-bvf",
+  "repository": "https://github.com/Bahamas1717/ai-bvf",
   "license": "MIT"
 }
