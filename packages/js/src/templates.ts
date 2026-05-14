@@ -43,7 +43,6 @@ const SHARED_ACCOUNTABILITY_NODES: TraceNode[] = [
 // May 2026. Add to this list as new vendor moves land. The Trace is most
 // credible when an SCE at any of these vendors sees their own product as a leaf.
 const SHARED_VENDOR_NODES: TraceNode[] = [
-  { id: 'vendor.tanium-xem',            type: 'VendorComponent', label: 'Tanium XEM, converged endpoint management' },
   { id: 'vendor.netapp-afx',            type: 'VendorComponent', label: 'NetApp AFX exascale storage for AI' },
   { id: 'vendor.netapp-ontap-aws',      type: 'VendorComponent', label: 'NetApp ONTAP native on AWS' },
   { id: 'vendor.servicenow-now-assist', type: 'VendorComponent', label: 'ServiceNow Now Assist' },
@@ -178,7 +177,6 @@ const PS_EDGES: TraceEdge[] = [
   { from: 'vendor.microsoft-copilot',  to: 'capability.gen2.case-copilot',     relation: 'delivers', confidence: 70 },
   { from: 'vendor.netapp-afx',         to: 'capability.gen3.sovereign-fabric', relation: 'delivers', confidence: 82 },
   { from: 'vendor.netapp-ontap-aws',   to: 'capability.gen3.sovereign-fabric', relation: 'delivers', confidence: 75 },
-  { from: 'vendor.tanium-xem',         to: 'capability.gen3.sovereign-fabric', relation: 'delivers', confidence: 65 },
 ];
 
 // ----------------- Healthcare template -------------------------------------

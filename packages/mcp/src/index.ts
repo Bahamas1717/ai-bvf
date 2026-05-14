@@ -128,7 +128,7 @@ const runTraceInputSchema = {
         vendor_stack: { type: 'array', items: { type: 'string' } },
       },
     },
-    target_node: { type: 'string', description: 'Optional. Filter paths to those ending at a named target, e.g. vendor.tanium-xem.' },
+    target_node: { type: 'string', description: 'Optional. Filter paths to those ending at a named target, e.g. vendor.netapp-afx.' },
     max_paths:   { type: 'number', minimum: 1, maximum: 24, default: 6 },
   },
 };

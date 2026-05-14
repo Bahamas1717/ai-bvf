@@ -72,7 +72,7 @@
       "type": "object",
       "required": ["id", "type", "label"],
       "properties": {
-        "id":    { "type": "string", "pattern": "^[a-z0-9._-]+$", "description": "Stable id, dot-separated namespace, e.g. board.revenue-growth, function.cx, vendor.tanium-xem." },
+        "id":    { "type": "string", "pattern": "^[a-z0-9._-]+$", "description": "Stable id, dot-separated namespace, e.g. board.revenue-growth, function.cx, vendor.netapp-afx." },
         "type":  { "$ref": "#/$defs/NodeType" },
         "label": { "type": "string", "description": "Human-readable label. British spelling, no em-dashes." },
         "industry_scope": {
