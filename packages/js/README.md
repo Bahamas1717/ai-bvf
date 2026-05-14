@@ -2,6 +2,8 @@
 
 AI BVF v1.0 — open protocol for scoring AI investments. Validator and scoring engine.
 
+> **Source:** [github.com/Bahamas1717/ai-bvf](https://github.com/Bahamas1717/ai-bvf) · ⭐ star if this helped · [Issues](https://github.com/Bahamas1717/ai-bvf/issues) · Built by [Craig Horton Advisory](https://craighortonadvisory.com)
+
 ```bash
 npm install @aibvf/core
 ```

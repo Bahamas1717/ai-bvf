@@ -2,6 +2,8 @@
 
 MCP server exposing AI BVF v1.0 to any Claude agent. Pre-flight-check your AI initiatives before you deploy them.
 
+> **Source:** [github.com/Bahamas1717/ai-bvf](https://github.com/Bahamas1717/ai-bvf) · ⭐ star if this helped · [Issues](https://github.com/Bahamas1717/ai-bvf/issues) · Built by [Craig Horton Advisory](https://craighortonadvisory.com)
+
 ## Install and run
 
 ```bash
