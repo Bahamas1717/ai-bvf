@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // generate-trace-page, render a runTrace result to a one-page HTML in the
-// Bain / Tanium visual system. The output is the pre-meeting artefact an
-// SCE walks into a CIO conversation with.
+// Craig Horton Advisory visual system. The output is the pre-meeting
+// artefact an enterprise account leader walks into a CIO conversation with.
 //
 // Usage:
 //   node scripts/generate-trace-page.mjs --industry <id> --start <node-id> \
