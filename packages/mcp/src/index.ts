@@ -9,8 +9,9 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import {
   score, validate, recommendImprovements, calculatePaceLayerDrag,
+  runTrace, inspectNode,
   BASE_RATES, IND_MULT,
-  INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
+  INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION, TRACE_VERSION,
 } from '@aibvf/core';
 
 // ---------------------------------------------------------------------------
@@ -74,7 +75,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.2.0' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.3.0' },
   { capabilities: { tools: {} } },
 );
 
@@ -108,6 +109,36 @@ const paceLayerInputSchema = {
     ai_tier:     { type: 'string', enum: AI_TIERS, description: 'gen1=automation/RPA, gen2=GenAI, gen3=agentic.' },
     readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness. Honest self-assessment.' },
     industry:    { type: 'string', enum: INDUSTRIES, description: 'Optional, for future vertical adjustments.' },
+  },
+};
+
+const runTraceInputSchema = {
+  type: 'object',
+  required: ['industry', 'start_node'],
+  properties: {
+    industry:   { type: 'string', enum: INDUSTRIES, description: 'Industry overlay. Templated industries today: financial, public_sector, healthcare.' },
+    start_node: { type: 'string', description: 'Starting node id, typically a BoardOutcome like board.fs.risk-adjusted-return. Use list_taxonomy or inspect_node to discover ids.' },
+    account_context: {
+      type: 'object',
+      description: 'Optional grounding for a named account. Use before a CIO meeting.',
+      properties: {
+        name:         { type: 'string' },
+        revenue_band: { type: 'string', enum: ['sub_500m', '500m_2b', '2b_10b', '10b_plus'] },
+        geography:    { type: 'string' },
+        vendor_stack: { type: 'array', items: { type: 'string' } },
+      },
+    },
+    target_node: { type: 'string', description: 'Optional. Filter paths to those ending at a named target, e.g. vendor.tanium-xem.' },
+    max_paths:   { type: 'number', minimum: 1, maximum: 24, default: 6 },
+  },
+};
+
+const inspectNodeInputSchema = {
+  type: 'object',
+  required: ['node_id', 'industry'],
+  properties: {
+    node_id:  { type: 'string', description: 'The node id to inspect, e.g. capability.gen3.fraud-agent.' },
+    industry: { type: 'string', enum: INDUSTRIES, description: 'The industry overlay that contains the node.' },
   },
 };
 
@@ -152,6 +183,16 @@ const TOOLS = [
     name: 'list_taxonomy',
     description: 'Return the valid values for all AI BVF enums: industries, functions, AI tiers, and readiness levels.',
     inputSchema: { type: 'object', properties: {} },
+  },
+  {
+    name: 'run_trace',
+    description: 'Run an AI Value Trace on a named account. Starts at a BoardOutcome and returns paths down through BusinessInitiative, OperatingMetric, Function, AICapability, to the VendorComponent leaf. Each path carries a confidence score, the named AccountabilityLayer that gates it, gating issues, and one Reframing Question. The pre-meeting move for an enterprise account leader walking into a CIO conversation.',
+    inputSchema: runTraceInputSchema,
+  },
+  {
+    name: 'inspect_node',
+    description: 'Inspect a single node in the AI Value Trace graph. Returns the node label and type, every connected node (in and out) with its relation and confidence, and a deduplicated evidence summary citing the named sources. The live move when a Claude agent or an SCE is asked "what is the evidence for this node".',
+    inputSchema: inspectNodeInputSchema,
   },
 ];
 
@@ -272,10 +313,52 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
           type: 'text',
           text: JSON.stringify({
             bvf_version: BVF_VERSION,
+            trace_version: TRACE_VERSION,
             industries: INDUSTRIES,
             functions: FUNCTIONS,
             ai_tiers: AI_TIERS,
             readiness: READINESS,
+          }, null, 2),
+        }],
+      };
+    }
+
+    if (name === 'run_trace') {
+      const a = args as any;
+      logCall('run_trace', { industry: a.industry });
+      const out = runTrace(a);
+      return {
+        content: [{
+          type: 'text',
+          text: JSON.stringify({
+            trace_version: TRACE_VERSION,
+            industry: out.industry,
+            start_node: out.start_node,
+            generated_at: out.generated_at,
+            account_context: out.account_context,
+            paths: out.paths,
+            warnings: out.warnings,
+          }, null, 2),
+        }],
+      };
+    }
+
+    if (name === 'inspect_node') {
+      const a = args as any;
+      logCall('inspect_node', { industry: a.industry });
+      const out = inspectNode(a);
+      return {
+        content: [{
+          type: 'text',
+          text: JSON.stringify({
+            trace_version: TRACE_VERSION,
+            industry: out.industry,
+            node: out.node,
+            related: out.related,
+            incoming_edges: out.incoming_edges,
+            outgoing_edges: out.outgoing_edges,
+            evidence_summary: out.evidence_summary,
+            warnings: out.warnings,
           }, null, 2),
         }],
       };
@@ -290,7 +373,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error('aibvf-mcp v0.2.1 ready on stdio — 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp v0.3.0 ready on stdio — 8 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, run_trace, inspect_node');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');

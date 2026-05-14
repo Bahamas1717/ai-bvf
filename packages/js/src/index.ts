@@ -12,6 +12,8 @@ export type * from './types.js';
 // AI Value Trace, graph-native conversation framework (v0.3.0).
 export { runTrace } from './run-trace.js';
 export type { RunTraceInput, RunTraceOutput, RunTraceWarning } from './run-trace.js';
+export { inspectNode } from './inspect-node.js';
+export type { InspectNodeInput, InspectNodeOutput, RelatedNode } from './inspect-node.js';
 export { getIndustryTemplate, TEMPLATED_INDUSTRIES } from './templates.js';
 export {
   walkPaths,

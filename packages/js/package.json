@@ -1,8 +1,8 @@
 {
   "name": "@aibvf/core",
-  "version": "0.2.0",
-  "description": "AI BVF — open protocol for scoring AI investments. Validator and scoring engine.",
-  "keywords": ["ai", "bvf", "ai-governance", "enterprise-ai", "ai-scoring", "ai-roi", "eu-ai-act", "standards"],
+  "version": "0.3.0",
+  "description": "AI BVF and AI Value Trace, open protocol for scoring AI investments and tracing board outcomes to named agents.",
+  "keywords": ["ai", "bvf", "ai-value-trace", "ai-governance", "enterprise-ai", "ai-scoring", "ai-roi", "eu-ai-act", "standards", "graph", "agentic"],
   "homepage": "https://bvf-app.vercel.app/protocol",
   "repository": "github:Bahamas1717/ai-bvf",
   "license": "MIT",
