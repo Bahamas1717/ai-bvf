@@ -8,7 +8,7 @@ Keep, no action.
 from __future__ import annotations
 from typing import Any
 
-from _aibvf_loader import recommend_improvements
+from aibvf import recommend_improvements
 
 
 def _design_stop(candidate: dict) -> dict[str, Any]:

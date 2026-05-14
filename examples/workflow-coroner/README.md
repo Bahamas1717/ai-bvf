@@ -108,7 +108,6 @@ The whole point of the system is that sometimes the answer is "do not build AI,"
 - `architect.py` — target-state designer
 - `wire.py` — MuleSoft Anypoint mock executor
 - `coroner.py` — orchestrator with brand-coloured CLI, auto-selects verdict mode
-- `_aibvf_loader.py` — temporary bypass for the broken installed pip package, loads `score.py` from repo source
 
 ## Notes
 

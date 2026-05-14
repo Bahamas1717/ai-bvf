@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Craig Horton Advisory, AI transformation for the C-suite</title>
+<meta name="description" content="Craig Horton, AI transformation advisor. Run a Trace on your AI portfolio. Board AI strategy sessions, AI Value Trace audits, fractional Chief AI Officer hours.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy-dark: #1a2a47;
+  --navy-mid: #2d3f63;
+  --orange: #c97a2b;
+  --orange-soft: #e2a358;
+  --cream: #fafaf7;
+  --cream-warm: #f5f1e8;
+  --hair-grey: rgba(26, 42, 71, 0.18);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--cream);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: var(--navy-dark);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+body { font-size: 17pt; line-height: 1.5; }
+.top-rule {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(90deg, var(--orange) 0%, var(--orange) 28%, transparent 100%);
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding: 80px 60px 100px; }
+
+/* Header */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 32px;
+  border-bottom: 0.5pt solid var(--hair-grey);
+  margin-bottom: 56px;
+}
+.masthead {
+  font-family: 'Inter', sans-serif;
+  font-size: 24pt;
+  font-weight: 600;
+  color: var(--navy-dark);
+  letter-spacing: 0.02em;
+}
+.masthead .advisory {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--orange);
+}
+.nav {
+  font-family: 'Inter', sans-serif;
+  font-size: 11pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--navy-mid);
+}
+.nav a { color: var(--navy-mid); text-decoration: none; margin-left: 28px; }
+.nav a:hover { color: var(--orange); }
+
+/* Hero */
+.hero { margin-bottom: 80px; }
+.hero .kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--orange);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 56pt;
+  font-weight: 500;
+  color: var(--navy-dark);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin-bottom: 32px;
+  max-width: 18ch;
+}
+.hero .lede {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 19pt;
+  font-weight: 400;
+  color: var(--navy-mid);
+  line-height: 1.55;
+  max-width: 60ch;
+}
+.hero .lede strong { font-weight: 600; color: var(--navy-dark); }
+
+/* Section heading */
+.section-kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--orange);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.section-h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 36pt;
+  font-weight: 500;
+  color: var(--navy-dark);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 32px;
+  max-width: 22ch;
+}
+.section-hr {
+  height: 0.5pt;
+  background: var(--hair-grey);
+  margin: 56px 0;
+}
+
+/* Services */
+.services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 32px; }
+.service {
+  background: var(--cream-warm);
+  padding: 32px 28px 28px;
+  border-top: 3px solid var(--orange);
+}
+.service .name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22pt;
+  font-weight: 600;
+  color: var(--navy-dark);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.service .price {
+  font-family: 'Inter', sans-serif;
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--orange);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.service .body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14pt;
+  font-weight: 400;
+  color: var(--navy-mid);
+  line-height: 1.55;
+}
+.service .body strong { font-weight: 600; color: var(--navy-dark); }
+
+/* References */
+.refs { display: grid; grid-template-columns: 1fr 1fr; gap: 36px 48px; }
+.ref { }
+.ref .who {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16pt;
+  font-weight: 600;
+  color: var(--navy-dark);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.ref .role {
+  font-family: 'Inter', sans-serif;
+  font-size: 10pt;
+  color: var(--navy-mid);
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+.ref .quote {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15pt;
+  color: var(--navy-dark);
+  line-height: 1.55;
+  padding-left: 18px;
+  border-left: 2pt solid var(--orange);
+}
+
+/* Case Traces */
+.cases { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.case {
+  background: var(--cream-warm);
+  padding: 28px 28px 24px;
+  border-left: 3px solid var(--orange);
+}
+.case .num {
+  font-family: 'Inter', sans-serif;
+  font-size: 10pt;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+.case .title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 19pt;
+  font-weight: 600;
+  color: var(--navy-dark);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.case .numbers {
+  font-family: 'Inter', sans-serif;
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--navy-mid);
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+.case .summary {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13.5pt;
+  color: var(--navy-mid);
+  line-height: 1.55;
+}
+.case .summary .coming-soon { color: var(--orange); font-weight: 600; }
+
+.coming-soon {
+  font-family: 'Inter', sans-serif;
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: var(--orange);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Engage */
+.engage {
+  background: var(--navy-dark);
+  color: var(--cream);
+  padding: 64px 56px;
+  margin: 0 -60px;
+}
+.engage .kicker { color: var(--orange-soft); margin-bottom: 18px; font-family: 'Inter', sans-serif; font-size: 11pt; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; }
+.engage h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 38pt;
+  font-weight: 500;
+  color: var(--cream);
+  line-height: 1.15;
+  margin-bottom: 24px;
+  max-width: 22ch;
+}
+.engage p {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17pt;
+  color: var(--cream-warm);
+  line-height: 1.55;
+  max-width: 56ch;
+  margin-bottom: 32px;
+}
+.engage .cta {
+  display: inline-block;
+  background: var(--orange);
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-size: 12pt;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 18px 36px;
+  text-decoration: none;
+}
+.engage .cta:hover { background: var(--orange-soft); }
+.engage .alt {
+  font-family: 'Inter', sans-serif;
+  font-size: 11pt;
+  color: var(--cream-warm);
+  margin-top: 24px;
+}
+.engage .alt a { color: var(--orange-soft); text-decoration: none; }
+
+/* Footer */
+.site-footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 0.5pt solid var(--hair-grey);
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 10pt;
+  color: var(--navy-mid);
+  letter-spacing: 0.02em;
+}
+.site-footer a { color: var(--navy-mid); text-decoration: none; }
+.site-footer a:hover { color: var(--orange); }
+
+@media (max-width: 760px) {
+  .wrap { padding: 56px 24px 80px; }
+  .hero h1 { font-size: 40pt; }
+  .section-h2 { font-size: 28pt; }
+  .services, .refs, .cases { grid-template-columns: 1fr; }
+  .engage { padding: 48px 28px; margin: 0 -24px; }
+  .engage h2 { font-size: 28pt; }
+}
+</style>
+</head>
+<body>
+<div class="top-rule"></div>
+<div class="wrap">
+
+  <header class="site-header">
+    <div class="masthead">Craig Horton <span class="advisory">Advisory</span></div>
+    <nav class="nav">
+      <a href="#services">Services</a>
+      <a href="#references">References</a>
+      <a href="#cases">Case Traces</a>
+      <a href="#engage">Engage</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">AI transformation for the C-suite</div>
+    <h1>Run a Trace on your AI portfolio.</h1>
+    <p class="lede">
+      I am an AI transformation advisor. Fifteen years carrying multi-million-dollar quotas at HPE, Microsoft, Atos, and Salesforce. Three hundred million dollars of EBITDA uplift at Salesforce EMEA North, fifty million dollars of P and L on the Atos and Royal Philips global partnership. I built the <strong>AI Value Trace</strong>, the conversation framework that maps every board outcome to the named agent that moves it, with the accountable human gating both. I advise boards on which AI initiatives to fund, which to fix, and which to stop.
+    </p>
+  </section>
+
+  <section id="services">
+    <div class="section-kicker">Services</div>
+    <h2 class="section-h2">Three ways to engage, each with a named output.</h2>
+
+    <div class="services">
+      <div class="service">
+        <div class="name">Board AI Strategy Session</div>
+        <div class="price">1500 EUR &middot; 90 minutes</div>
+        <div class="body">
+          A focused working session with your executive team. Output, a one-page <strong>Reframing Memo</strong> that names the one assumption your AI portfolio rests on and the question your board has not asked yet.
+        </div>
+      </div>
+      <div class="service">
+        <div class="name">AI Value Trace, Account Audit</div>
+        <div class="price">Fixed fee &middot; two to three weeks</div>
+        <div class="body">
+          I run a Trace on your top three board outcomes. Output, three <strong>Trace Pages</strong> plus a 90-day plan with named accountable owners, Accelerate, Fix, or Stop calls on every initiative, and a confidence score that survives a CFO challenge.
+        </div>
+      </div>
+      <div class="service">
+        <div class="name">Fractional Chief AI Officer</div>
+        <div class="price">Monthly retainer &middot; day rate transparent</div>
+        <div class="body">
+          Day to day governance of your AI portfolio. Weekly Trace reviews, monthly board memos, and quarterly recalibration against published benchmarks from McKinsey, BCG, Gartner, Forrester, and Prosci.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-hr"></div>
+
+  <section id="references">
+    <div class="section-kicker">Executive references</div>
+    <h2 class="section-h2">The rooms I have already been in.</h2>
+
+    <div class="refs">
+      <div class="ref">
+        <div class="who">Frans van Houten</div>
+        <div class="role">Former CEO, Royal Philips. Non-Executive Director, Novartis.</div>
+        <div class="quote">"Craig is a team player and an achiever. So much can be learned and reinvented, but it always starts with endurance, grit, and determination, which sets apart the achievers from the rest."</div>
+      </div>
+      <div class="ref">
+        <div class="who">Elie Girard</div>
+        <div class="role">Former Global CEO, Atos.</div>
+        <div class="quote">"Craig was one of the most compelling and relevant account executives I have seen, with a unique ability to create and maintain relationships with C-level executives that I have rarely seen in my career."</div>
+      </div>
+      <div class="ref">
+        <div class="who">Henk Jan Gerzee</div>
+        <div class="role">Chief Digital Officer, Schiphol Group and Air France-KLM.</div>
+        <div class="quote">"Craig is simply a fantastic person to work with, high on values, high on pace, high on working together to unlock 10x results."</div>
+      </div>
+      <div class="ref">
+        <div class="who">Sean Carney</div>
+        <div class="role">Chief Design Officer and Executive Advisor to C-suites.</div>
+        <div class="quote">"Craig's empathic ability to go one step further in understanding both corporate culture and individual needs ensures he delivers successful outcomes. A passionate advocate for a human-centric approach to technology."</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-hr"></div>
+
+  <section id="cases">
+    <div class="section-kicker">Case Traces</div>
+    <h2 class="section-h2">Five anonymised Traces of real C-suite decisions.</h2>
+
+    <div class="cases">
+      <a class="case" href="/case-traces/01_emea-services-recovery.html" style="text-decoration: none; color: inherit;">
+        <div class="num">01</div>
+        <div class="title">Salesforce EMEA North, services recovery</div>
+        <div class="numbers">300M EUR EBITDA uplift &middot; 25M EUR cost reduction</div>
+        <div class="summary">A Tier 1 services agreement on the verge of cancellation. The path everyone agreed on was wrong. The Trace surfaced the missing accountable human. <span class="coming-soon">Coming soon.</span></div>
+      </a>
+      <a class="case" href="/case-traces/02_philips-global-partnership.html" style="text-decoration: none; color: inherit;">
+        <div class="num">02</div>
+        <div class="title">Atos and Royal Philips, global partnership</div>
+        <div class="numbers">50M USD annual P and L &middot; 25 percent growth</div>
+        <div class="summary">Three years of cloud migration, infrastructure modernisation, and cultural alignment with Philips leadership. The Trace ran across four functions. <span class="coming-soon">Coming soon.</span></div>
+      </a>
+      <a class="case" href="/case-traces/03_hpe-tier-1-reset.html" style="text-decoration: none; color: inherit;">
+        <div class="num">03</div>
+        <div class="title">HPE Philips, Tier 1 reset</div>
+        <div class="numbers">50M USD P and L &middot; 8M USD software deals</div>
+        <div class="summary">An underperforming Tier 1 account, NPS and trust at historic lows. The Trace named the missing C-suite cadence. <span class="coming-soon">Coming soon.</span></div>
+      </a>
+      <a class="case" href="/case-traces/04_schiphol-multilingual-kiosk.html" style="text-decoration: none; color: inherit;">
+        <div class="num">04</div>
+        <div class="title">Schiphol Group, multilingual digital kiosk</div>
+        <div class="numbers">20 languages &middot; Skytrax Best Digital Services 2023</div>
+        <div class="summary">A world-first AI traveller experience, delivered through a named partner motion across Google Cloud and Atos. The Trace named the bid-room logic. <span class="coming-soon">Coming soon.</span></div>
+      </a>
+      <a class="case" href="/case-traces/05_healthtech-ai-portfolio.html" style="text-decoration: none; color: inherit;">
+        <div class="num">05</div>
+        <div class="title">Healthtech, AI portfolio audit</div>
+        <div class="numbers">Anonymised company &middot; current advisory</div>
+        <div class="summary">Twelve AI initiatives, four were governance liabilities, two were ready to scale. The Trace recovered the budget. <span class="coming-soon">Coming soon.</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section id="engage" class="engage">
+    <div class="kicker">Engage</div>
+    <h2>If you can name your board outcome, I can name the Trace that moves it.</h2>
+    <p>
+      Thirty minutes, no obligation. We work through one of your board outcomes, sketch a candidate Trace, and identify the named accountable human who is currently missing from your portfolio.
+    </p>
+    <a class="cta" href="https://calendly.com/craighorton/30min" rel="noopener">Book a 30-minute session</a>
+    <div class="alt">
+      Or write directly, <a href="mailto:craig@craighortonadvisory.com">craig@craighortonadvisory.com</a>.
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div>&copy; 2026 Craig Horton Advisory. Amsterdam.</div>
+    <div>
+      <a href="https://brief.craighortonadvisory.com">The Transformation Brief</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://github.com/Bahamas1717/ai-bvf">aibvf-mcp</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://linkedin.com/in/craig-horton-ai">LinkedIn</a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

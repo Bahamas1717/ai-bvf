@@ -14,7 +14,7 @@ from typing import Any
 
 from anthropic import Anthropic
 
-from _aibvf_loader import score, calculate_pace_layer_drag
+from aibvf import score, calculate_pace_layer_drag
 
 MODEL = "claude-sonnet-4-5-20250929"
 

@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bvf.craighortonadvisory.com/value-trace.schema.json",
+  "title": "AI Value Trace v0.3",
+  "description": "Graph data model for the AI Value Trace. A directed multi-graph that maps a customer's board outcomes through business initiatives, operating metrics, functions, AI capabilities, and accountability layers to vendor components. Designed for use by enterprise account leaders running a Trace on a named account before a CIO meeting.",
+  "type": "object",
+  "required": ["trace_version", "industry", "nodes", "edges"],
+  "properties": {
+    "trace_version": {
+      "type": "string",
+      "const": "0.3",
+      "description": "AI Value Trace protocol version."
+    },
+    "industry": {
+      "type": "string",
+      "enum": [
+        "universal", "creative", "education", "energy", "financial",
+        "healthcare", "logistics", "manufacturing", "nonprofit",
+        "professional", "public_sector", "real_estate", "retail", "technology"
+      ],
+      "description": "Industry overlay anchoring the Trace. Mirrors the BVF protocol industry enum."
+    },
+    "account_context": {
+      "type": "object",
+      "description": "Optional grounding for a named account. The Trace is most useful when these are populated.",
+      "properties": {
+        "name":          { "type": "string", "description": "Account name. Omit for templates." },
+        "revenue_band":  { "type": "string", "enum": ["sub_500m", "500m_2b", "2b_10b", "10b_plus"] },
+        "geography":     { "type": "string", "description": "ISO region, e.g. EU, US, APAC, or a country code." },
+        "vendor_stack":  {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Current vendor footprint at the account. Used to anchor VendorComponent leaves."
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/Node" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Edge" }
+    },
+    "reframing_questions": {
+      "type": "array",
+      "description": "Per-path reframing questions. Populated by run_trace. One question per Trace path.",
+      "items": { "$ref": "#/$defs/ReframingQuestion" }
+    }
+  },
+  "$defs": {
+    "NodeType": {
+      "type": "string",
+      "enum": [
+        "BoardOutcome",
+        "BusinessInitiative",
+        "OperatingMetric",
+        "Function",
+        "AICapability",
+        "AccountabilityLayer",
+        "VendorComponent"
+      ],
+      "description": "BoardOutcome, what the board reports against (revenue, margin, capital efficiency, risk-adjusted return). BusinessInitiative, a named programme moving an outcome. OperatingMetric, what gets measured day to day (DSO, CAC, churn). Function, the 8 functions from the BVF protocol. AICapability, the gen1/2/3 capability that automates a function. AccountabilityLayer, the human node that gates any agent (Chief AI Officer, CFO, BU head). VendorComponent, the named product surface that delivers the capability."
+    },
+    "EdgeRelation": {
+      "type": "string",
+      "enum": ["moves", "instruments", "tracks", "automates", "gates", "delivers"],
+      "description": "moves, BusinessInitiative -> BoardOutcome. instruments, OperatingMetric -> BusinessInitiative. tracks, Function -> OperatingMetric (the function tracks the metric). automates, AICapability -> Function. gates, AccountabilityLayer -> AICapability (no agent without an accountable human). delivers, VendorComponent -> AICapability."
+    },
+    "Node": {
+      "type": "object",
+      "required": ["id", "type", "label"],
+      "properties": {
+        "id":    { "type": "string", "pattern": "^[a-z0-9._-]+$", "description": "Stable id, dot-separated namespace, e.g. board.revenue-growth, function.cx, vendor.netapp-afx." },
+        "type":  { "$ref": "#/$defs/NodeType" },
+        "label": { "type": "string", "description": "Human-readable label. British spelling, no em-dashes." },
+        "industry_scope": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Industries where this node is canonical. Empty array = universal."
+        },
+        "function_scope": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["finance", "hr", "sales", "supply", "cx", "risk", "it", "rd"] },
+          "description": "Only set for Function and OperatingMetric nodes. Maps to the BVF protocol function enum."
+        },
+        "ai_tier": {
+          "type": "string",
+          "enum": ["gen1", "gen2", "gen3"],
+          "description": "Only set for AICapability nodes. gen1=RPA, gen2=GenAI, gen3=agentic."
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Citation" },
+          "description": "Source citations supporting this node, source name and year."
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "Edge": {
+      "type": "object",
+      "required": ["from", "to", "relation"],
+      "properties": {
+        "from": { "type": "string", "description": "Source node id." },
+        "to":   { "type": "string", "description": "Target node id." },
+        "relation": { "$ref": "#/$defs/EdgeRelation" },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "0 to 100. Derived from BVF four-pillar score when scoring against a customer initiative."
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Citation" }
+        },
+        "hypothesis": {
+          "type": "boolean",
+          "default": false,
+          "description": "true if this edge was added by propose_edge during a live Trace, false if it is part of the industry template."
+        }
+      }
+    },
+    "Citation": {
+      "type": "object",
+      "required": ["source", "year"],
+      "properties": {
+        "source": { "type": "string", "description": "Source name. McKinsey, BCG, Bain, Deloitte, EY, KPMG, Gartner, Forrester, Prosci, MIT NANDA, World Economic Forum, EU Commission, named regulator." },
+        "year":   { "type": "integer", "minimum": 2020, "maximum": 2030 },
+        "title":  { "type": "string" },
+        "url":    { "type": "string", "format": "uri" }
+      }
+    },
+    "ReframingQuestion": {
+      "type": "object",
+      "required": ["path_id", "question"],
+      "properties": {
+        "path_id":  { "type": "string", "description": "Identifier of the path this question reframes, e.g. board.revenue-growth->vendor.now-assist-banking." },
+        "question": { "type": "string", "description": "One question, containing a tension or paradox, that forces the C-suite to test an assumption." }
+      }
+    },
+    "TracePath": {
+      "type": "object",
+      "description": "An ordered sequence of nodes and edges from a BoardOutcome to an AICapability or VendorComponent. Populated by run_trace, not stored in the graph.",
+      "required": ["id", "nodes", "edges"],
+      "properties": {
+        "id":    { "type": "string" },
+        "nodes": { "type": "array", "items": { "type": "string" }, "description": "Ordered node ids, top to leaf." },
+        "edges": { "type": "array", "items": { "type": "string" }, "description": "Ordered edge fingerprints, from-to-relation." },
+        "path_confidence": { "type": "number", "minimum": 0, "maximum": 100 },
+        "accountability":  { "type": "string", "description": "Node id of the AccountabilityLayer node on this path. Missing accountability flagged separately." },
+        "gating_issues":   { "type": "array", "items": { "type": "string" } },
+        "reframing_question": { "type": "string" }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import Any
 
-from _aibvf_loader import score, calculate_pace_layer_drag
+from aibvf import score, calculate_pace_layer_drag
 
 
 def _strategic_alignment(candidate: dict) -> int:
