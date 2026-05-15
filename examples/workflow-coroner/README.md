@@ -24,10 +24,9 @@ This is the developer on-ramp. The senior-leader on-ramp is the AI BVF scorer at
 ```bash
 git clone https://github.com/Bahamas1717/ai-bvf
 cd ai-bvf/examples/workflow-coroner
-pip install -r requirements.txt
 ```
 
-Python 3.10 or later. No API key required for the deterministic path.
+Python 3.10 or later, stdlib only. No API key required for the deterministic path.
 
 ### Run
 
