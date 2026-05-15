@@ -560,23 +560,22 @@
         resolved = true;
         resolve(ok ? a : null);
       };
-      a.addEventListener('canplaythrough', () => done(true), { once: true });
+      a.addEventListener('loadedmetadata', () => done(true), { once: true });
       a.addEventListener('error', () => done(false), { once: true });
-      setTimeout(() => done(false), 1500);
+      setTimeout(() => done(false), 5000);
       a.load();
     });
   }
 
   function speakScene(idx, onComplete) {
     const sceneNumber = idx + 1;
-    const text = narration[sceneNumber];
-    if (muted || !text) {
+    if (muted) {
       if (onComplete) setTimeout(onComplete, 0);
       return;
     }
     stopAllAudio();
 
-    let usedFallback = false;
+    let loaded = false;
     let completed = false;
     function complete() {
       if (completed) return;
@@ -584,33 +583,21 @@
       if (onComplete) onComplete();
     }
 
-    // Try a recorded MP3 first, fall back to Web Speech API if missing
+    // Try a per-scene MP3. If missing, advance silently after the scene's
+    // nominal duration. No synthesised-voice fallback, the only voice we
+    // ship is Craig's single-track recording.
     const audio = new Audio('narration/scene-' + sceneNumber + '.mp3');
-    audio.addEventListener('canplaythrough', () => {
-      if (!usedFallback) {
-        currentAudio = audio;
-        audio.addEventListener('ended', complete);
-        audio.play().catch(() => fallback());
-      }
+    audio.addEventListener('loadedmetadata', () => {
+      loaded = true;
+      currentAudio = audio;
+      audio.addEventListener('ended', complete);
+      audio.play().catch(complete);
     });
-    audio.addEventListener('error', fallback);
-    setTimeout(fallback, 250);
-
-    function fallback() {
-      if (usedFallback) return;
-      usedFallback = true;
-      if (typeof SpeechSynthesisUtterance === 'undefined') {
-        complete();
-        return;
-      }
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.rate = 0.92;
-      utter.pitch = 0.92;
-      if (preferredVoice) utter.voice = preferredVoice;
-      utter.onend = complete;
-      utter.onerror = complete;
-      speechSynthesis.speak(utter);
-    }
+    audio.addEventListener('error', () => {
+      if (loaded) return;
+      const dur = parseInt(scenes[idx].dataset.duration, 10) || 6000;
+      setTimeout(complete, dur);
+    });
   }
 
   function showScene(idx) {
