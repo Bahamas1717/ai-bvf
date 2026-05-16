@@ -1,6 +1,8 @@
 # @aibvf/core
 
-AI BVF v1.0 — open protocol for scoring AI investments. Validator and scoring engine.
+AI BVF v1.0, open protocol for scoring AI investments. Validator and scoring engine.
+
+> If `@aibvf/core` saved you a board cycle, please [star the repo](https://github.com/Bahamas1717/ai-bvf/stargazers). The signal helps other agents find the BVF.
 
 ```bash
 npm install @aibvf/core

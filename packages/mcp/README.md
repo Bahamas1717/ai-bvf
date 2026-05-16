@@ -2,6 +2,8 @@
 
 MCP server exposing AI BVF v1.0 to any Claude agent. Pre-flight-check your AI initiatives before you deploy them.
 
+> If `aibvf-mcp` saved you a board cycle, please [star the repo](https://github.com/Bahamas1717/ai-bvf/stargazers). The signal helps other agents find the BVF.
+
 ## Install and run
 
 ```bash

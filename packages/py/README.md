@@ -1,6 +1,8 @@
 # aibvf
 
-AI BVF v1.0 — open protocol for scoring AI investments. Python implementation.
+AI BVF v1.0, open protocol for scoring AI investments. Python implementation.
+
+> If `aibvf` saved you a board cycle, please [star the repo](https://github.com/Bahamas1717/ai-bvf/stargazers). The signal helps other agents find the BVF.
 
 ```bash
 pip install aibvf
