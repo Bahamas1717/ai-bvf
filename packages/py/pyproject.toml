@@ -31,7 +31,8 @@ test = ["pytest>=7.0"]
 
 [project.urls]
 Homepage = "https://bvf-app.vercel.app/protocol"
-Repository = "https://github.com/craighorton/ai-bvf"
+Repository = "https://github.com/Bahamas1717/ai-bvf"
+Issues = "https://github.com/Bahamas1717/ai-bvf/issues"
 
 [tool.hatch.build]
 include = ["src/aibvf/**", "src/aibvf/schema/*.json"]
