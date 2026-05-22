@@ -74,7 +74,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.2.3' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.3.0' },
   { capabilities: { tools: {} } },
 );
 
@@ -290,7 +290,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error('aibvf-mcp v0.2.3 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp v0.3.0 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');
