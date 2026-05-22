@@ -18,10 +18,10 @@
    ══════════════════════════════════════════════ */
 :root {
   /* Brand — softer dark palette */
-  --navy: #232A3A;
-  --navy-mid: #2C3649;
-  --navy-light: #374459;
-  --navy-deep: #1C2333;
+  --navy: #1E2536;
+  --navy-mid: #252D3E;
+  --navy-light: #2E3748;
+  --navy-deep: #181E2C;
   --copper: #C4894A;
   --copper-light: #D9A672;
   --copper-dim: rgba(196,137,74,0.12);
@@ -61,6 +61,8 @@
   --profile-h: 0px;
   --sidebar-w: 0px;
 }
+
+[hidden] { display: none !important; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -318,6 +320,63 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
 
 .tab-panel { display: none; }
 .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+/* App-wide CX polish: keep notes readable and colors purposeful across every tab */
+#main .tab-panel {
+  color: var(--text-body);
+}
+#main .tab-panel [style*="font-style:italic"] {
+  font-style: normal !important;
+}
+#main .tab-panel em,
+#main .tab-panel .mirror blockquote,
+#main .tab-panel .mirror .attribution {
+  font-style: normal !important;
+}
+#main .tab-panel .mirror {
+  background: linear-gradient(135deg, rgba(196,137,74,0.09), rgba(255,255,255,0.035));
+  border-color: rgba(196,137,74,0.22);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.16);
+}
+#main .tab-panel .mirror blockquote {
+  font-family: Inter, sans-serif;
+  color: #F5F7FA;
+  letter-spacing: 0;
+}
+#main .tab-panel .mirror .attribution {
+  color: #C4D0DE;
+}
+#main .tab-panel [style*="color:var(--text-dim)"],
+#main .tab-panel [style*="color:#D0D8E0"],
+#main .tab-panel [style*="color:#C0CCD6"] {
+  color: #AFC0D2 !important;
+}
+#main .tab-panel [style*="color:var(--text-muted)"] {
+  color: #C4D0DE !important;
+}
+#main .tab-panel [style*="font-size:9px"],
+#main .tab-panel [style*="font-size:10px"] {
+  line-height: 1.45 !important;
+}
+#main .tab-panel [style*="font-size:11px"],
+#main .tab-panel [style*="font-size:12px"] {
+  line-height: 1.55 !important;
+}
+#main .tab-panel .label {
+  color: var(--copper-light);
+}
+#main .tab-panel input::placeholder,
+#main .tab-panel textarea::placeholder {
+  color: rgba(237,242,247,0.48);
+}
+#main .tab-panel button[style*="background:none"],
+#main .tab-panel button[style*="background:transparent"] {
+  color: #C4D0DE !important;
+}
+#main .tab-panel button[style*="background:none"]:hover,
+#main .tab-panel button[style*="background:transparent"]:hover {
+  color: var(--copper-light) !important;
+}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
@@ -659,6 +718,163 @@ header { transition:box-shadow 0.3s ease; }
 
 /* Priority section text */
 #exec-priorities [style*="font-size:11px"] { font-size: 12px !important; }
+.priority-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+.priority-head-copy { max-width: 620px; }
+.priority-helper {
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.priority-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.priority-count {
+  color: var(--text-muted);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.priority-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(196,137,74,0.38);
+  background: linear-gradient(135deg, rgba(196,137,74,0.28), rgba(196,137,74,0.12));
+  color: var(--ice);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.16);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.priority-add-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--copper);
+  background: linear-gradient(135deg, rgba(196,137,74,0.38), rgba(196,137,74,0.18));
+}
+.priority-add-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--copper);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+.priority-add-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+.priority-add-main {
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+.priority-add-sub {
+  color: var(--text-muted);
+  font-size: 10px;
+  letter-spacing: .2px;
+  text-transform: none;
+}
+.priority-empty-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+.boardroom-card {
+  display: none;
+  padding: 22px 24px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.055), rgba(196,137,74,0.045));
+  border: 1px solid rgba(196,137,74,0.16);
+  border-left: 3px solid var(--copper);
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 12px;
+}
+.boardroom-kicker {
+  display: block;
+  margin-bottom: 10px;
+}
+.boardroom-text {
+  color: var(--ice);
+  font-size: 15px;
+  line-height: 1.65;
+  font-style: normal;
+  font-family: 'DM Sans', sans-serif;
+  max-width: 980px;
+}
+.boardroom-emphasis {
+  color: var(--white);
+  font-weight: 700;
+}
+.boardroom-chip-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.boardroom-chip {
+  padding: 11px 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 2px solid var(--chip-color, var(--copper));
+  border-radius: 8px;
+}
+.boardroom-chip-label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.boardroom-chip-value {
+  display: block;
+  color: var(--chip-color, var(--ice));
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.boardroom-chip-note {
+  display: block;
+  color: var(--text-dim);
+  font-size: 10px;
+  margin-top: 4px;
+  line-height: 1.35;
+}
+@media (max-width: 980px) {
+  .boardroom-chip-row { grid-template-columns: repeat(2, minmax(130px, 1fr)); }
+}
+@media (max-width: 560px) {
+  .boardroom-chip-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .priority-head { flex-direction: column; }
+  .priority-actions { width: 100%; justify-content: flex-start; }
+  .priority-add-btn { width: 100%; justify-content: flex-start; }
+}
 
 /* Agent view hints */
 .agent-hint { font-size: 12px; color: var(--text-body); }
@@ -755,6 +971,82 @@ header { transition:box-shadow 0.3s ease; }
   transition: all 0.25s; text-decoration: none;
 }
 .lp-btn-secondary:hover { border-color: var(--copper); background: rgba(196,137,74,0.06); }
+
+/* Guided setup */
+.setup-flow {
+  margin-bottom: 24px;
+  padding: 18px 20px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--copper);
+  border-radius: 0 12px 12px 0;
+}
+.setup-flow-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.setup-flow-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--copper);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+.setup-flow-note {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.setup-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.setup-step {
+  text-align: left;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: var(--text-body);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+.setup-step:hover { border-color: var(--copper-border); background: rgba(196,137,74,0.06); }
+.setup-step.complete { border-color: rgba(34,197,94,0.35); background: rgba(34,197,94,0.06); }
+.setup-step.active { border-color: var(--copper); background: rgba(196,137,74,0.09); }
+.setup-step-status {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--copper);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.setup-step.complete .setup-step-status { color: var(--green-light); }
+.setup-step-name {
+  display: block;
+  color: var(--ice);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.setup-step-desc {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+@media (max-width: 900px) {
+  .setup-steps { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .setup-flow-head { flex-direction: column; align-items: flex-start; }
+  .setup-steps { grid-template-columns: 1fr; }
+}
 
 /* Problem stats */
 .lp-stats {
@@ -1118,7 +1410,7 @@ header { transition:box-shadow 0.3s ease; }
 <!-- ══════════════════════════════════════════════
      COMPANY PROFILE (slide-down)
      ══════════════════════════════════════════════ -->
-<div id="profile-panel">
+<div id="profile-panel" aria-hidden="true">
   <div class="profile-inner">
     <div class="profile-grid">
       <div>
@@ -1356,20 +1648,50 @@ header { transition:box-shadow 0.3s ease; }
     <!-- Executive sub-view -->
     <div id="dash-executive">
 
+      <div id="setup-flow" class="setup-flow"></div>
+
       <!-- STRATEGIC PRIORITIES SECTION -->
       <div id="exec-priorities" style="margin-bottom:32px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-          <span class="label" style="margin-bottom:0">Strategic Priorities · Board-Level Objectives</span>
-          <button class="btn btn-sm btn-ghost" id="btn-add-priority" onclick="addPriority()" style="font-size:9px;padding:5px 12px">+ Add Priority</button>
+        <div class="priority-head">
+          <div class="priority-head-copy">
+            <span class="label" style="margin-bottom:0">Strategic Priorities · Board-Level Objectives</span>
+            <div class="priority-helper">Define the board outcomes every AI initiative must serve. Strong priorities have an owner, timeframe and measurable target.</div>
+          </div>
+          <div class="priority-actions">
+            <span class="priority-count" id="priority-count">0 of 5 defined</span>
+            <button class="priority-add-btn" id="btn-add-priority" onclick="addPriority()" type="button" title="Add a measurable board-level priority">
+              <span class="priority-add-icon">+</span>
+              <span class="priority-add-copy">
+                <span class="priority-add-main">Add Board Priority</span>
+                <span class="priority-add-sub">Owner, target, timeframe</span>
+              </span>
+            </button>
+          </div>
         </div>
         <div id="priority-empty" style="text-align: center; padding: 32px; border: 1px dashed var(--copper-border); border-radius: 4px; margin-bottom: 16px; display: block;">
           <div style="font-size:13px;color:var(--text-dim);font-style:italic;margin-bottom:8px">Define 3-5 strategic priorities your board is measuring AI against.</div>
           <div style="font-size:11px;color:var(--text-muted)">e.g. "Cut operational costs by 35%", "Drive €50M new revenue via AI", "Achieve regulatory compliance by Q3"</div>
+          <div class="priority-empty-actions">
+            <button class="priority-add-btn" onclick="addPriority()" type="button" title="Add your first board priority">
+              <span class="priority-add-icon">+</span>
+              <span class="priority-add-copy">
+                <span class="priority-add-main">Create First Priority</span>
+                <span class="priority-add-sub">Start the board case</span>
+              </span>
+            </button>
+          </div>
         </div>
         <div id="priority-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px"></div>
-        <div id="priority-form" style="display:none;padding:16px 20px;background:rgba(20,40,64,0.85);border:1px solid var(--copper-border);border-radius:4px;margin-bottom:16px">
-          <div style="display:grid;grid-template-columns:1fr 180px 180px;gap:12px;align-items:end">
-            <div><span class="label">Priority description</span><input type="text" id="pf_desc" placeholder="e.g. Cut operational costs by 35%"></div>
+        <div id="priority-form" style="display:none;padding:18px 20px;background:rgba(20,40,64,0.85);border:1px solid var(--copper-border);border-left:3px solid var(--copper);border-radius:0 8px 8px 0;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px">
+            <div>
+              <div style="font-size:12px;font-weight:700;color:var(--ice);letter-spacing:1.2px;text-transform:uppercase">Define the board priority</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:3px">Make it measurable enough that an AI initiative can be judged against it.</div>
+            </div>
+            <div style="font-size:10px;color:var(--copper);letter-spacing:1.2px;text-transform:uppercase">3-5 priorities recommended</div>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(260px,1fr) 180px 150px;gap:12px;align-items:end;margin-bottom:12px">
+            <div><span class="label">Priority objective</span><input type="text" id="pf_desc" placeholder="e.g. Reduce operating cost by 12% through workflow redesign"></div>
             <div><span class="label">Category</span>
               <select id="pf_cat">
                 <option value="revenue">Revenue Growth</option>
@@ -1382,6 +1704,22 @@ header { transition:box-shadow 0.3s ease; }
                 <option value="risk">Risk Management</option>
               </select>
             </div>
+            <div><span class="label">Materiality</span>
+              <select id="pf_weight">
+                <option value="critical">Critical</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="watch">Watch</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:160px 160px 1fr;gap:12px;align-items:end;margin-bottom:12px">
+            <div><span class="label">Board owner</span><input type="text" id="pf_owner" placeholder="e.g. CFO"></div>
+            <div><span class="label">Timeframe</span><input type="text" id="pf_timeframe" placeholder="e.g. FY26 / Q3"></div>
+            <div><span class="label">Target metric</span><input type="text" id="pf_metric" placeholder="e.g. €42M cost-out, 25% faster cycle time, audit-ready by Q3"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 180px;gap:12px;align-items:end">
+            <div><span class="label">Why this matters</span><input type="text" id="pf_rationale" placeholder="e.g. Margin pressure and slow order handling are blocking EBITDA expansion"></div>
             <div style="display:flex;gap:8px">
               <button class="btn btn-sm btn-primary" onclick="savePriority()" style="flex:1">Save</button>
               <button class="btn btn-sm btn-ghost" onclick="cancelPriority()">Cancel</button>
@@ -1389,9 +1727,9 @@ header { transition:box-shadow 0.3s ease; }
           </div>
         </div>
         <!-- Boardroom Sentence Summary -->
-        <div id="exec-boardroom-sentence" style="display:none;padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0;margin-bottom:8px">
-          <span class="label" style="margin-bottom:8px">The Boardroom Sentence</span>
-          <p id="boardroom-text" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--ice);line-height:1.65;font-style:italic"></p>
+        <div id="exec-boardroom-sentence" class="boardroom-card">
+          <span class="label boardroom-kicker">The Boardroom Sentence</span>
+          <div id="boardroom-text" class="boardroom-text"></div>
         </div>
       </div>
 
@@ -1855,7 +2193,9 @@ ServiceNow ITSM - $350k/year, 50 seats
 Microsoft 365 - $180k/year, 300 seats"></textarea>
                 <div class="agent-hint" id="agent-tool-count">0 tools entered</div>
               </div>
-              <button class="agent-classify-btn" id="agent-classify-btn" onclick="agentClassify()">Step 1 — Run BVF classification</button>
+              <button class="agent-classify-btn" id="agent-classify-btn" onclick="agentClassify()">Step 1 - Run live AI classification</button>
+              <button class="agent-sample-btn" onclick="agentRunDemoClassification()" style="width:100%;margin-top:10px;padding:11px 18px;border-color:rgba(196,137,74,0.35);background:rgba(196,137,74,0.08);color:var(--copper-light)">Run demo classification - no API key</button>
+              <div class="agent-hint" style="text-align:center;margin-top:8px">Live classification uses your Anthropic key. Demo mode shows the board-ready output instantly.</div>
             </div>
 
             <!-- STRATEGY FIELDS -->
@@ -2073,10 +2413,10 @@ The agent will extract:
     </div>
 
     <!-- Sub-tab navigation -->
-    <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:0" id="diag-sub-nav">
+    <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0" id="diag-sub-nav">
       <button onclick="switchDiagSub('ce')" id="diag-btn-ce" class="diag-sub-btn active" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--copper);background:rgba(196,137,74,0.08);border:1px solid rgba(196,137,74,0.15);border-bottom:2px solid var(--copper);border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">⚙ Change Enablement</button>
-      <button onclick="switchDiagSub('pace')" id="diag-btn-pace" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.12);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">◎ Pace Layer</button>
-      <button onclick="switchDiagSub('health')" id="diag-btn-health" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.12);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s;display:none">🏥 Healthcare</button>
+      <button onclick="switchDiagSub('pace')" id="diag-btn-pace" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.06);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">◎ Pace Layer</button>
+      <button onclick="switchDiagSub('health')" id="diag-btn-health" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.06);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s;display:none">🏥 Healthcare</button>
     </div>
 
     <!-- SUB: Change Enablement -->
@@ -2098,21 +2438,21 @@ The agent will extract:
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-        <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
+        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
           <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE COMPOSITE (1-5)</div>
           <div style="font-size:28px;font-weight:700;color:var(--white)" id="ce-composite">—</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Average of all 6 drivers</div>
         </div>
-        <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
+        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
           <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">CE PERCENTAGE (0-100%)</div>
           <div style="font-size:28px;font-weight:700;color:var(--copper-light)" id="ce-percentage">—</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:4px">((Composite - 1) / 4) x 100</div>
         </div>
       </div>
 
-      <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
         <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">CM BUDGET ADEQUACY CHECK</div>
-        <div style="font-size:12px;color:var(--text-body)">If CM Budget < 10% of Initiative Budget, CE is capped at 40%</div>
+        <div style="font-size:12px;color:var(--text-body)">If CM Budget &lt; 10% of Initiative Budget, CE is capped at 40%</div>
         <div id="ce-cm-warning" style="margin-top:12px;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:4px;font-size:11px;color:var(--text-muted);display:none"></div>
       </div>
     </div>
@@ -2127,26 +2467,19 @@ The agent will extract:
       <div style="margin-bottom:24px" id="pace-layers-container"></div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-        <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
+        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
           <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">DRAG COEFFICIENT (1.0-3.0)</div>
           <div style="font-size:28px;font-weight:700;color:var(--white)" id="pace-drag">—</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Fastest / Slowest layer score</div>
         </div>
-        <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
+        <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
           <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">FAILURE RATE</div>
           <div style="font-size:28px;font-weight:700;color:var(--red-light)" id="pace-failure">—</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Interpolated: 27% @ 1.0 to 90% @ 3.0</div>
         </div>
       </div>
 
-      <div style="margin-bottom:16px">
-        <span class="label">Portfolio value override (EUR) — auto-calculated from initiatives if left blank</span>
-        <input type="number" id="pacePortfolioInput" placeholder="e.g. 5000000"
-          oninput="if(typeof renderPaceLayer==='function') renderPaceLayer();"
-          style="width:100%;padding:10px 12px;font-size:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;margin-top:6px" />
-      </div>
-
-      <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
         <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:12px">ORGANISATIONAL DRAG COST</div>
         <div style="display:flex;align-items:baseline;gap:12px">
           <div style="font-size:24px;font-weight:700;color:var(--red-light)" id="pace-drag-cost">—</div>
@@ -2164,7 +2497,7 @@ The agent will extract:
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px" id="health-overlays"></div>
 
-      <div style="padding:16px 20px;background:var(--navy-mid);border:1px solid rgba(255,255,255,0.15);border-radius:8px">
+      <div style="padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px">
         <div style="font-size:11px;letter-spacing:1.5px;color:var(--copper);font-weight:600;margin-bottom:8px">HEALTHCARE READINESS FACTOR</div>
         <div style="display:flex;align-items:baseline;gap:12px">
           <div style="font-size:28px;font-weight:700;color:var(--white)" id="health-factor">—</div>
@@ -2831,7 +3164,7 @@ The agent will extract:
 <!-- ══════════════════════════════════════════════
      ACCESS GATE
      ══════════════════════════════════════════════ -->
-<div id="access-gate" style="position:fixed;inset:0;z-index:9999;background:#1B2231;display:flex;align-items:center;justify-content:center">
+<div id="access-gate" aria-modal="true" role="dialog" style="position:fixed;inset:0;z-index:9999;background:#1B2231;display:flex;align-items:center;justify-content:center">
   <div style="text-align:center;max-width:420px;padding:40px">
     <div style="width:64px;height:64px;border:3px solid var(--copper);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--copper);margin:0 auto 24px">BVF</div>
     <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#FFFFFF;margin-bottom:6px">Business Value Framework</div>
@@ -2859,19 +3192,34 @@ The agent will extract:
 // ══════════════════════════════════════════════════════════════════════════════
 
 // ── PUBLIC LANDING PAGE ─────────────────────────────────────────────────────
+function setLayerHidden(id, hidden) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.hidden = hidden;
+  el.setAttribute('aria-hidden', hidden ? 'true' : 'false');
+  if ('inert' in el) el.inert = hidden;
+  if (hidden) el.style.display = 'none';
+}
+
+function enterAppShell() {
+  setLayerHidden('landing-page', true);
+  setLayerHidden('access-gate', true);
+  document.getElementById('header-controls').style.display = 'flex';
+  document.getElementById('tab-nav').style.display = 'flex';
+  document.getElementById('tab-nav').style.animation = 'fadeInUp 0.4s ease';
+}
+
 function lpEnter() {
-  const lp = document.getElementById('landing-page');
-  if (lp) lp.style.display = 'none';
+  setLayerHidden('landing-page', true);
   // If already authenticated, skip the gate too
   if (sessionStorage.getItem('bvf-auth') === '1') {
-    document.getElementById('access-gate').style.display = 'none';
+    setLayerHidden('access-gate', true);
   }
 }
 // Auto-hide landing page if already authenticated
 if (sessionStorage.getItem('bvf-auth') === '1') {
   document.addEventListener('DOMContentLoaded', () => {
-    const lp = document.getElementById('landing-page');
-    if (lp) lp.style.display = 'none';
+    setLayerHidden('landing-page', true);
   });
 }
 
@@ -2891,27 +3239,10 @@ function hashCode(s) {
   }
   return h;
 }
-// ── URL-PARAMETER AUTO-UNLOCK ───────────────────────────────────────────────
-// Visitors arriving with ?code=XXX in the URL get auto-authenticated when the
-// code is valid, then the URL is cleaned so the code does not linger in the
-// address bar, history, or share screenshots.
-(function autoUnlockFromUrl() {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    if (!code) return;
-    if (VALID_HASHES.includes(hashCode(code.trim()))) {
-      sessionStorage.setItem('bvf-auth', '1');
-    }
-    const cleanUrl = window.location.pathname + window.location.hash;
-    window.history.replaceState({}, '', cleanUrl);
-  } catch (e) { /* silent, manual gate still works */ }
-})();
 function checkGate() {
   const code = document.getElementById('gate-code').value.trim();
   if (!code) return;
   if (VALID_HASHES.includes(hashCode(code))) {
-    document.getElementById('access-gate').style.display = 'none';
     sessionStorage.setItem('bvf-auth', '1');
     // Skip welcome screen — go straight to platform
     enterPlatform('executive');
@@ -2927,8 +3258,7 @@ function checkGate() {
 // Auto-unlock if already authenticated this session
 if (sessionStorage.getItem('bvf-auth') === '1') {
   document.addEventListener('DOMContentLoaded', () => {
-    const gate = document.getElementById('access-gate');
-    if (gate) gate.style.display = 'none';
+    setLayerHidden('access-gate', true);
     // Skip welcome screen — go straight to platform
     if(typeof enterPlatform==='function') enterPlatform('executive');
   });
@@ -3093,19 +3423,19 @@ const formatCurrency = fmt;
 // ── NAVIGATION: Welcome → Platform ──────────────────────────────────────────
 function enterPlatform(view) {
   BVF.view = view;
+  enterAppShell();
   const welcome = document.getElementById('welcome-screen');
   welcome.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
   welcome.style.opacity = '0';
   welcome.style.transform = 'translateY(-12px)';
   setTimeout(() => {
     welcome.style.display = 'none';
+    welcome.setAttribute('aria-hidden', 'true');
     document.getElementById('guide-screen').style.display = 'none';
-    document.getElementById('header-controls').style.display = 'flex';
-    document.getElementById('tab-nav').style.display = 'flex';
-    document.getElementById('tab-nav').style.animation = 'fadeInUp 0.4s ease';
+    document.getElementById('guide-screen').setAttribute('aria-hidden', 'true');
     setView(view);
     switchTab('dashboard');
-    toggleProfile();
+    openProfile();
     // Show welcome toast
     if (!BVF.profile.company) {
       showToast('Start by entering your company profile above', 'info', 5000);
@@ -3130,13 +3460,12 @@ function showWelcome() {
 
 function enterFromGuide(view) {
   document.getElementById('guide-screen').style.display = 'none';
-  document.getElementById('header-controls').style.display = 'flex';
-  document.getElementById('tab-nav').style.display = 'flex';
-  document.getElementById('tab-nav').style.animation = 'fadeInUp 0.4s ease';
+  document.getElementById('guide-screen').setAttribute('aria-hidden', 'true');
+  enterAppShell();
   BVF.view = view;
   setView(view);
   switchTab('dashboard');
-  toggleProfile();
+  openProfile();
   if (!BVF.profile.company) {
     showToast('Start by entering your company profile above', 'info', 5000);
   }
@@ -3156,6 +3485,7 @@ function setView(view) {
   if (view === 'executive' && BVF.activeTab === 'dashboard') { renderPriorities(); updateAllExecKPIs(); }
   // Render BVF if switching to practitioner
   if (view === 'practitioner' && BVF.activeTab === 'dashboard') renderBVF();
+  renderSetupFlow();
 }
 
 // ── TAB HISTORY & NAVIGATION ─────────────────────────────────────────────────
@@ -3188,6 +3518,7 @@ function switchTab(tabId, skipHistory) {
   if (tabId === 'agent') renderAgent();
   if (tabId === 'facilitate') renderFacilitate();
   if (tabId === 'diagnostics') renderDiagnostics();
+  renderSetupFlow();
   // Update back button visibility
   updateBackButton();
 }
@@ -3214,6 +3545,118 @@ function updateBackButton() {
   if (formOpen) btn.title = 'Close form';
   else if (drillDown) btn.title = 'Back to overview';
   else btn.title = 'Back to previous tab';
+}
+
+function setupProfileScore() {
+  const p = BVF.profile || {};
+  const fields = [p.company, p.revenue, p.costBase, p.ebitda, p.industry, p.employees, p.orgReadiness];
+  return fields.filter(v => String(v || '').trim()).length;
+}
+
+function setupStepAction(step) {
+  if (step === 'profile') { openProfile(); return; }
+  if (step === 'priorities') { switchTab('dashboard'); addPriority(); return; }
+  if (step === 'portfolio') { switchTab('portfolio'); showForm(); return; }
+  switchTab('governance');
+}
+
+function loadSampleBVF() {
+  const profile = {
+    company: 'Northstar Manufacturing',
+    revenue: '€500M',
+    costBase: '€350M',
+    ebitda: '€75M',
+    industry: 'manufacturing',
+    employees: '5,000',
+    orgReadiness: 'traditional'
+  };
+  BVF.profile = profile;
+  document.getElementById('p_company').value = profile.company;
+  document.getElementById('p_revenue').value = profile.revenue;
+  document.getElementById('p_cost').value = profile.costBase;
+  document.getElementById('p_ebitda').value = profile.ebitda;
+  document.getElementById('p_industry').value = profile.industry;
+  document.getElementById('p_employees').value = profile.employees;
+  document.getElementById('p_orgReadiness').value = profile.orgReadiness;
+
+  BVF.priorities = [
+    { id: 'sample-priority-cost', description: 'Reduce operating cost by 12% through workflow redesign', category: 'cost', weight: 'critical', owner: 'CFO', timeframe: 'FY26', metric: '€42M cost-out', rationale: 'Margin pressure is making back-office cycle time a board-level constraint.' },
+    { id: 'sample-priority-cx', description: 'Improve order-to-cash cycle time by 25%', category: 'cx', weight: 'high', owner: 'COO', timeframe: 'Q3', metric: '25% faster cycle time', rationale: 'Slow exception handling is delaying revenue recognition and weakening customer experience.' },
+    { id: 'sample-priority-risk', description: 'Build auditable AI governance for EU AI Act readiness', category: 'risk', weight: 'critical', owner: 'CRO', timeframe: 'Q3', metric: 'Audit-ready AI controls', rationale: 'Agentic workflows need traceability before they can be scaled safely.' }
+  ];
+  BVF.initiatives = [
+    { id: 'sample-agentic-order', name: 'Agentic Order Exception Resolver', fn: 'supply', tier: 'gen3', budget: '€3.2M', cmBudget: '€240K', horizon: 'Now (0–90 days)', owner: 'COO / CIO', risk: 'High', outcome: 'Reduce order exception cycle time by 30%', status: 'pilot', pilotAnswers: {}, source: 'sample' },
+    { id: 'sample-maintenance', name: 'Predictive Maintenance Copilot', fn: 'it', tier: 'gen2', budget: '€1.4M', cmBudget: '€210K', horizon: 'Next (3–12 months)', owner: 'CIO / Plant Ops', risk: 'Medium', outcome: 'Reduce unplanned downtime by 15%', status: 'approved', pilotAnswers: {}, source: 'sample' },
+    { id: 'sample-invoice', name: 'Invoice Matching Automation', fn: 'finance', tier: 'gen1', budget: '€650K', cmBudget: '€90K', horizon: 'Now (0–90 days)', owner: 'CFO / Shared Services', risk: 'Low', outcome: 'Reduce invoice exception handling and improve close', status: 'existing', pilotAnswers: {}, source: 'sample' }
+  ];
+
+  closeProfile();
+  updateProfile();
+  renderPriorities();
+  renderPortfolio();
+  if (typeof updateAllExecKPIs === 'function') updateAllExecKPIs();
+  renderSetupFlow();
+  saveState();
+  switchTab('dashboard');
+}
+
+function renderSetupFlow() {
+  const el = document.getElementById('setup-flow');
+  if (!el) return;
+
+  const profileDone = setupProfileScore() >= 5;
+  const prioritiesDone = (BVF.priorities || []).length >= 3;
+  const portfolioDone = (BVF.initiatives || []).length >= 1;
+  const governanceReady = profileDone && prioritiesDone && portfolioDone;
+  const activeStep = !profileDone ? 'profile' : !prioritiesDone ? 'priorities' : !portfolioDone ? 'portfolio' : 'governance';
+  const steps = [
+    {
+      id: 'profile',
+      complete: profileDone,
+      name: 'Company profile',
+      desc: profileDone ? `${BVF.profile.company || 'Profile'} is ready` : `${setupProfileScore()}/7 fields complete`
+    },
+    {
+      id: 'priorities',
+      complete: prioritiesDone,
+      name: 'Board priorities',
+      desc: prioritiesDone ? `${BVF.priorities.length} priorities linked` : `${BVF.priorities.length}/3 minimum added`
+    },
+    {
+      id: 'portfolio',
+      complete: portfolioDone,
+      name: 'AI initiatives',
+      desc: portfolioDone ? `${BVF.initiatives.length} initiatives in portfolio` : 'Add the first initiative'
+    },
+    {
+      id: 'governance',
+      complete: governanceReady,
+      name: 'Governance readout',
+      desc: governanceReady ? 'Board view is populated' : 'Unlocks after setup'
+    }
+  ];
+
+  el.innerHTML = `
+    <div class="setup-flow-head">
+      <div>
+        <div class="setup-flow-title">Build the board case</div>
+        <div class="setup-flow-note">${governanceReady ? 'Your BVF is ready for executive review.' : 'Complete the minimum data set to make the dashboard meaningful.'}</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+        ${governanceReady ? '' : '<button class="btn btn-secondary" onclick="loadSampleBVF()">Load Sample</button>'}
+        <button class="btn btn-secondary" onclick="setupStepAction('${activeStep}')">${governanceReady ? 'Review Governance' : 'Next Step'}</button>
+      </div>
+    </div>
+    <div class="setup-steps">
+      ${steps.map(step => `
+        <button type="button" class="setup-step ${step.complete ? 'complete' : ''} ${step.id === activeStep ? 'active' : ''}" onclick="setupStepAction('${step.id}')">
+          <span class="setup-step-status">${step.complete ? 'Complete' : step.id === activeStep ? 'Next' : 'Pending'}</span>
+          <span class="setup-step-name">${step.name}</span>
+          <span class="setup-step-desc">${step.desc}</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -3472,14 +3915,15 @@ function updatePaceMetrics() {
   failureRate = Math.min(0.90, Math.max(0.27, failureRate));
   
   // Calculate drag cost
-  const autoValue = (BVF.initiatives || []).reduce((s, i) => s + parseNum(i.budget), 0);
-  const override = parseFloat(document.getElementById('pacePortfolioInput')?.value);
-  const totalValue = override > 0 ? override : autoValue;
+  let totalValue = 0;
+  if (BVF.initiatives && BVF.initiatives.length > 0) {
+    totalValue = BVF.initiatives.reduce((sum, init) => sum + (parseFloat(init.budget) || 0), 0);
+  }
   const dragCost = totalValue * failureRate;
   
   document.getElementById('pace-drag').textContent = dragCoeff.toFixed(2);
   document.getElementById('pace-failure').textContent = (failureRate * 100).toFixed(0) + '%';
-  document.getElementById('pace-drag-cost').textContent = '€' + (dragCost / 1e6).toFixed(1) + 'M';
+  document.getElementById('pace-drag-cost').textContent = '$' + (dragCost / 1e6).toFixed(1) + 'M';
 }
 
 // ── COMPANY PROFILE ──────────────────────────────────────────────────────────
@@ -3498,6 +3942,31 @@ function toggleProfile() {
 // 74% of organisations struggle to scale AI beyond pilot; BCG "AI @ Scale" (2023) —
 // only 11% of companies achieve significant financial benefit from AI.
 // Drag = f(org readiness baseline × initiative risk × CM allocation adequacy)
+function setProfileOpen(open) {
+  const panel = document.getElementById('profile-panel');
+  const chevron = document.getElementById('profile-chevron');
+  if (!panel || !chevron) return;
+  panel.classList.toggle('open', open);
+  panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+  if ('inert' in panel) panel.inert = !open;
+  chevron.textContent = open ? '▲' : '▼';
+  updateProfileSummary();
+}
+
+function openProfile() {
+  setProfileOpen(true);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeProfile() {
+  setProfileOpen(false);
+}
+
+function toggleProfile() {
+  const panel = document.getElementById('profile-panel');
+  setProfileOpen(!(panel && panel.classList.contains('open')));
+}
+
 const ORG_READINESS = {
   bureaucratic: { label:'Bureaucratic', dragBase:0.40 },
   traditional:  { label:'Traditional', dragBase:0.25 },
@@ -3529,6 +3998,7 @@ function updateProfile() {
   }
   saveState();
   updateTabProgress();
+  renderSetupFlow();
 }
 
 function updateProfileSummary() {
@@ -3586,19 +4056,37 @@ function renderPriorities() {
   const empty = document.getElementById('priority-empty');
   const priors = BVF.priorities || [];
   empty.style.display = priors.length === 0 ? 'block' : 'none';
-  document.getElementById('btn-add-priority').style.display = priors.length >= 5 ? 'none' : '';
+  const addBtn = document.getElementById('btn-add-priority');
+  const priorityCount = document.getElementById('priority-count');
+  if (addBtn) addBtn.style.display = priors.length >= 5 ? 'none' : 'inline-flex';
+  if (priorityCount) {
+    priorityCount.textContent = priors.length >= 5 ? '5 of 5 defined' : `${priors.length} of 5 defined`;
+    priorityCount.style.color = priors.length >= 3 ? 'var(--green-light)' : 'var(--text-muted)';
+  }
 
   list.innerHTML = priors.map((p, i) => {
     const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#C4894A',compliance:'#3B82F6',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#3B82F6',risk:'#E05252'};
     const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
     const col = catColors[p.category] || '#C4894A';
+    const weightLabels = {critical:'Critical',high:'High',medium:'Medium',watch:'Watch'};
+    const weightColors = {critical:'#E05252',high:'#F59E0B',medium:'#C4894A',watch:'#9BAEC8'};
+    const weight = p.weight || 'high';
+    const weightCol = weightColors[weight] || '#C4894A';
+    const details = [
+      p.owner ? `Owner: <strong>${p.owner}</strong>` : '',
+      p.timeframe ? `By: <strong>${p.timeframe}</strong>` : '',
+      p.metric ? `Target: <strong>${p.metric}</strong>` : ''
+    ].filter(Boolean).join(' · ');
     const mappedInits = BVF.initiatives.length; // future: real mapping
     return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:3px solid ${col};border-radius:0 8px 8px 0">
       <div style="flex:1">
         <div style="font-size:13px;font-weight:600;color:var(--ice);line-height:1.4">${p.description}</div>
-        <div style="display:flex;gap:10px;margin-top:4px;align-items:center">
+        <div style="display:flex;gap:8px;margin-top:7px;align-items:center;flex-wrap:wrap">
           <span style="font-size:9px;letter-spacing:1.5px;color:${col};font-weight:600;text-transform:uppercase;padding:2px 7px;border:1px solid ${col}44;border-radius:2px;background:${col}11">${catLabels[p.category]||p.category}</span>
+          <span style="font-size:9px;letter-spacing:1.3px;color:${weightCol};font-weight:600;text-transform:uppercase;padding:2px 7px;border:1px solid ${weightCol}44;border-radius:2px;background:${weightCol}11">${weightLabels[weight]||weight}</span>
         </div>
+        ${details ? `<div style="font-size:11px;color:var(--text-muted);margin-top:7px">${details}</div>` : ''}
+        ${p.rationale ? `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.45">${p.rationale}</div>` : ''}
       </div>
       <button onclick="editPriority('${p.id}')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:11px;padding:4px 8px" title="Edit">✎</button>
       <button onclick="removePriority('${p.id}')" style="background:none;border:none;color:var(--red-light);cursor:pointer;font-size:13px;padding:4px 8px" title="Remove">×</button>
@@ -3606,12 +4094,18 @@ function renderPriorities() {
   }).join('');
 
   renderBoardroomSentence();
+  renderSetupFlow();
 }
 
 function addPriority() {
   editingPriorityId = null;
   document.getElementById('pf_desc').value = '';
   document.getElementById('pf_cat').value = 'revenue';
+  document.getElementById('pf_weight').value = 'high';
+  document.getElementById('pf_owner').value = '';
+  document.getElementById('pf_timeframe').value = '';
+  document.getElementById('pf_metric').value = '';
+  document.getElementById('pf_rationale').value = '';
   document.getElementById('priority-form').style.display = 'block';
   document.getElementById('pf_desc').focus();
 }
@@ -3622,6 +4116,11 @@ function editPriority(id) {
   editingPriorityId = id;
   document.getElementById('pf_desc').value = p.description;
   document.getElementById('pf_cat').value = p.category;
+  document.getElementById('pf_weight').value = p.weight || 'high';
+  document.getElementById('pf_owner').value = p.owner || '';
+  document.getElementById('pf_timeframe').value = p.timeframe || '';
+  document.getElementById('pf_metric').value = p.metric || '';
+  document.getElementById('pf_rationale').value = p.rationale || '';
   document.getElementById('priority-form').style.display = 'block';
   document.getElementById('pf_desc').focus();
 }
@@ -3629,13 +4128,18 @@ function editPriority(id) {
 function savePriority() {
   const desc = document.getElementById('pf_desc').value.trim();
   const cat = document.getElementById('pf_cat').value;
+  const weight = document.getElementById('pf_weight').value;
+  const owner = document.getElementById('pf_owner').value.trim();
+  const timeframe = document.getElementById('pf_timeframe').value.trim();
+  const metric = document.getElementById('pf_metric').value.trim();
+  const rationale = document.getElementById('pf_rationale').value.trim();
   if (!desc) return;
   if (!BVF.priorities) BVF.priorities = [];
   if (editingPriorityId) {
     const p = BVF.priorities.find(pr => pr.id === editingPriorityId);
-    if (p) { p.description = desc; p.category = cat; }
+    if (p) { Object.assign(p, { description: desc, category: cat, weight, owner, timeframe, metric, rationale }); }
   } else {
-    BVF.priorities.push({ id: Date.now().toString(36), description: desc, category: cat });
+    BVF.priorities.push({ id: Date.now().toString(36), description: desc, category: cat, weight, owner, timeframe, metric, rationale });
   }
   document.getElementById('priority-form').style.display = 'none';
   editingPriorityId = null;
@@ -3671,6 +4175,44 @@ function renderBoardroomSentence() {
   const rev = parseNum(BVF.profile.revenue);
   const cost = parseNum(BVF.profile.costBase);
   const complete = rev > 0 && cost > 0;
+
+  let summary = `The AI portfolio currently covers <span class="boardroom-emphasis">${inits.length} initiative${inits.length>1?'s':''}</span>`;
+  if (gen3Count > 0) summary += `, including <span class="boardroom-emphasis">${gen3Count} agentic programme${gen3Count>1?'s':''}</span>`;
+  if (totalBudget > 0) summary += `, with <span class="boardroom-emphasis">${fmt(totalBudget)}</span> committed investment`;
+  summary += complete && sc.rH > 0
+    ? ` and a projected value range across revenue, EBITDA and cost reduction.`
+    : ` awaiting full financial calibration.`;
+  if (priors.length > 0) {
+    summary += ` It is mapped against <span class="boardroom-emphasis">${priors.length} board-level strategic priorit${priors.length>1?'ies':'y'}</span>.`;
+  }
+
+  const chips = [
+    { label: 'AI portfolio', value: `${inits.length}`, note: `initiative${inits.length>1?'s':''} tracked`, color: '#C4894A' },
+    gen3Count > 0 ? { label: 'Agentic share', value: `${gen3Count}`, note: `Gen 3 programme${gen3Count>1?'s':''}`, color: '#3B82F6' } : null,
+    totalBudget > 0 ? { label: 'Investment', value: fmt(totalBudget), note: 'combined portfolio', color: '#D4956A' } : null,
+    complete && sc.rH > 0 ? { label: 'Revenue uplift', value: `${fmt(sc.rL)}–${fmt(sc.rH)}`, note: 'annual potential', color: '#4CAF80' } : null,
+    complete && sc.totH > 0 ? { label: 'EBITDA impact', value: `${fmt(sc.totL)}–${fmt(sc.totH)}`, note: 'combined potential', color: '#C4894A' } : null
+  ].filter(Boolean);
+
+  if (complete && cost > 0 && sc.cH > 0) {
+    const costPctLo = ((sc.cL / cost) * 100).toFixed(0);
+    const costPctHi = ((sc.cH / cost) * 100).toFixed(0);
+    chips.push({ label: 'Cost reduction', value: `${costPctLo}–${costPctHi}%`, note: 'of cost base', color: '#D4956A' });
+  }
+
+  textEl.innerHTML = `
+    <div>${summary}</div>
+    <div class="boardroom-chip-row">
+      ${chips.map(chip => `
+        <div class="boardroom-chip" style="--chip-color:${chip.color}">
+          <span class="boardroom-chip-label">${chip.label}</span>
+          <span class="boardroom-chip-value">${chip.value}</span>
+          <span class="boardroom-chip-note">${chip.note}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  return;
 
   let sentence = `We are running <strong style="color:var(--copper)">${inits.length} AI initiative${inits.length>1?'s':''}</strong>`;
   if (gen3Count > 0) sentence += ` including <strong style="color:#3B82F6">${gen3Count} Agentic programme${gen3Count>1?'s':''}</strong>`;
@@ -4192,12 +4734,14 @@ function saveInit() {
   renderPortfolio();
   saveState();
   if(typeof updateAllExecKPIs==='function') updateAllExecKPIs();
+  renderSetupFlow();
 }
 function removeInit(id) {
   BVF.initiatives=BVF.initiatives.filter(i=>i.id!==id);
   renderPortfolio();
   saveState();
   if(typeof updateAllExecKPIs==='function') updateAllExecKPIs();
+  renderSetupFlow();
 }
 function updateTierHint() {
   const tier=AI_TIERS.find(t=>t.id===document.getElementById('f_tier').value);
@@ -4495,11 +5039,14 @@ function renderAlignment() {
           const col=catColors[p.category]||'#C4894A';
           const label=catLabels[p.category]||p.category;
           const budget=p.initiatives.reduce((s,i)=>s+parseNum(i.budget),0);
+          const detailLine=[p.owner?`Owner: ${p.owner}`:'',p.timeframe?`By: ${p.timeframe}`:'',p.metric?`Target: ${p.metric}`:''].filter(Boolean).join(' · ');
           return `<div style="padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid ${col}33;border-left:3px solid ${col};border-radius:0 3px 3px 0">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
               <div style="font-size:13px;font-weight:600;color:var(--ice)">${p.description}</div>
               <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:2px;background:${col}15;color:${col};border:1px solid ${col}33;text-transform:uppercase">${label}</span>
             </div>
+            ${detailLine?`<div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">${detailLine}</div>`:''}
+            ${p.rationale?`<div style="font-size:11px;color:var(--text-dim);font-style:italic;margin-bottom:6px">${p.rationale}</div>`:''}
             ${p.initiatives.length>0
               ?`<div style="font-size:11px;color:var(--text-muted)">Aligned initiatives: ${p.initiatives.map(i=>`<span style="color:${col};font-weight:600">${i.name}</span>`).join(' · ')} · Investment: <span style="color:var(--copper);font-weight:600">${fmt(budget)}</span></div>`
               :`<div style="font-size:11px;color:var(--text-dim);font-style:italic">No initiatives directly mapped — consider adding aligned programmes</div>`}
@@ -4524,6 +5071,119 @@ Tableau - $120k/year, 80 seats
 Asana - $65k/year, 150 seats
 Grammarly Business - $32k/year, 200 seats
 Intercom - $85k/year, 25 agents`;
+
+const AGENT_DEMO_RESULTS=[
+  {
+    name:'Salesforce CRM',
+    bucket:'AGENT-AUGMENTED',
+    confidence:86,
+    rationale:'Salesforce is a system of customer record with deep process embedding, but AI agents can compress sales operations, lead routing and account research work. Einstein and ecosystem AI reduce displacement risk while increasing pressure to renegotiate seat mix.',
+    benchmarks:['McKinsey reports gen AI can lift sales productivity through automated account research and lead prioritisation','Gartner forecasts CRM vendors will embed agentic selling workflows into core platforms','Forrester identifies sales operations as a high-potential AI augmentation domain'],
+    annualRisk:'LOW',
+    riskRationale:'Near-term displacement risk is moderated by switching cost, data gravity and native vendor AI investment.',
+    action:'Renegotiate licenses around AI-enabled seat compression and prioritise embedded agent workflows before renewal.',
+    savingsOpportunity:18
+  },
+  {
+    name:'Microsoft 365',
+    bucket:'AGENT-PROOF',
+    confidence:91,
+    rationale:'Microsoft 365 is a productivity and identity-anchored platform with very high enterprise lock-in. AI is more likely to be absorbed through Copilot and Graph-driven workflows than replaced by a standalone agent stack.',
+    benchmarks:['IDC identifies Microsoft ecosystem lock-in as a major enterprise productivity platform advantage','Gartner positions Microsoft 365 Copilot as an embedded AI layer rather than a replacement trigger','McKinsey highlights knowledge-work augmentation as a major gen AI value pool'],
+    annualRisk:'LOW',
+    riskRationale:'Platform breadth and identity integration make near-term replacement unlikely.',
+    action:'Activate native AI selectively, measure Copilot adoption, and prevent uncontrolled premium license sprawl.',
+    savingsOpportunity:5
+  },
+  {
+    name:'ServiceNow ITSM',
+    bucket:'AGENT-AUGMENTED',
+    confidence:82,
+    rationale:'ServiceNow is a workflow system of record, but Tier 1 support, routing and knowledge retrieval can be heavily automated by AI agents. The opportunity is not full replacement first, but workflow compression and service desk deflection.',
+    benchmarks:['Gartner identifies IT service management as a leading enterprise AI automation use case','McKinsey estimates gen AI can materially reduce support handling time through knowledge automation','Forrester highlights workflow platforms as prime candidates for embedded AI augmentation'],
+    annualRisk:'MEDIUM',
+    riskRationale:'AI-native service desk layers can reduce seats and ticket volume within 12 to 24 months.',
+    action:'Model ticket deflection economics and negotiate renewal terms against lower human-agent volumes.',
+    savingsOpportunity:24
+  },
+  {
+    name:'Workday HCM',
+    bucket:'AGENT-PROOF',
+    confidence:88,
+    rationale:'Workday is a regulated HR system of record with payroll, workforce data and compliance controls. AI will augment employee service, workforce planning and analytics, but replacement risk remains low because of process criticality.',
+    benchmarks:['Deloitte identifies HR service delivery and workforce planning as leading AI augmentation areas','Gartner positions HCM suites as durable systems of record with embedded AI assistants','BCG highlights workforce analytics as a strong AI value lever'],
+    annualRisk:'LOW',
+    riskRationale:'Compliance, payroll and employee data gravity protect the core platform.',
+    action:'Use native AI for HR service automation while keeping core HCM governance intact.',
+    savingsOpportunity:5
+  },
+  {
+    name:'Zoom',
+    bucket:'AGENT-AUGMENTED',
+    confidence:78,
+    rationale:'Video meetings remain durable, but meeting summaries, follow-ups and workflow capture are increasingly agentic. The main risk is seat and add-on compression as collaboration suites absorb the same AI features.',
+    benchmarks:['Gartner notes collaboration platforms are converging around AI meeting assistants','IDC tracks strong bundling pressure across unified communications suites','Forrester highlights meeting intelligence as a fast-moving AI commoditisation area'],
+    annualRisk:'MEDIUM',
+    riskRationale:'Feature overlap with Microsoft and Google creates renewal pressure.',
+    action:'Review overlap with existing collaboration stack and renegotiate add-ons tied to AI meeting workflows.',
+    savingsOpportunity:20
+  },
+  {
+    name:'DocuSign',
+    bucket:'AGENT-AUGMENTED',
+    confidence:80,
+    rationale:'Signature workflows are embedded, but document preparation, clause review and routing can be augmented by legal and procurement agents. Replacement risk depends on contract complexity and integration depth.',
+    benchmarks:['Gartner identifies contract lifecycle management as a strong AI augmentation category','McKinsey highlights legal and procurement document workflows as gen AI automation opportunities','Forrester notes e-signature platforms face bundling pressure from broader workflow suites'],
+    annualRisk:'MEDIUM',
+    riskRationale:'AI document agents can reduce manual preparation and review workload.',
+    action:'Assess contract lifecycle overlap and use renewal pressure to bundle AI document workflow capabilities.',
+    savingsOpportunity:22
+  },
+  {
+    name:'Tableau',
+    bucket:'AGENT-AUGMENTED',
+    confidence:84,
+    rationale:'BI platforms remain important for governed reporting, but natural-language analytics and agentic insight generation reduce the need for specialist dashboard-building work. The risk is workflow compression rather than immediate platform removal.',
+    benchmarks:['Gartner forecasts analytics platforms will shift toward augmented and conversational BI','McKinsey identifies analytics translation and insight generation as major gen AI productivity pools','IDC highlights embedded analytics as a key competitive battleground'],
+    annualRisk:'MEDIUM',
+    riskRationale:'Self-serve AI analytics can reduce specialist seat demand and dashboard backlog.',
+    action:'Use AI analytics to reduce report factory work and rationalise overlapping BI licenses.',
+    savingsOpportunity:25
+  },
+  {
+    name:'Asana',
+    bucket:'AGENT-REPLACEABLE',
+    confidence:79,
+    rationale:'Project task coordination has relatively low switching cost and many workflows are rule-based. AI agents can create plans, chase updates, summarise status and coordinate handoffs across existing productivity platforms.',
+    benchmarks:['Gartner identifies work management tools as exposed to AI workflow consolidation','Forrester notes task management features are being absorbed by collaboration suites','McKinsey highlights project coordination as a knowledge-work automation opportunity'],
+    annualRisk:'HIGH',
+    riskRationale:'AI-native work orchestration can replicate much of the core workflow within existing suites.',
+    action:'Avoid long renewal commitments and test agentic work orchestration inside Microsoft or Google stack.',
+    savingsOpportunity:45
+  },
+  {
+    name:'Grammarly Business',
+    bucket:'AGENT-REPLACEABLE',
+    confidence:87,
+    rationale:'Writing assistance is highly exposed because the core capability is now native in multiple AI platforms and productivity suites. Dedicated seats become harder to justify when broader AI assistants provide comparable drafting, editing and tone control.',
+    benchmarks:['Gartner tracks rapid commoditisation of AI writing assistance across productivity platforms','IDC notes generative AI writing features are increasingly bundled into enterprise suites','Forrester identifies standalone writing tools as exposed to platform consolidation'],
+    annualRisk:'HIGH',
+    riskRationale:'The capability is easy to substitute and increasingly bundled elsewhere.',
+    action:'Freeze expansion, test replacement through existing AI suite licenses, and sunset duplicate seats where quality is acceptable.',
+    savingsOpportunity:60
+  },
+  {
+    name:'Intercom',
+    bucket:'AGENT-REPLACEABLE',
+    confidence:83,
+    rationale:'Customer support chat and triage are among the clearest agentic automation domains. AI agents can resolve high-volume Tier 1 requests, route complex issues and generate knowledge updates with measurable cost impact.',
+    benchmarks:['McKinsey identifies customer operations as one of the largest gen AI value pools','Gartner forecasts rapid adoption of AI agents in customer service workflows','BCG reports meaningful cost reduction potential from AI-enabled contact centre automation'],
+    annualRisk:'HIGH',
+    riskRationale:'Agentic support alternatives can directly reduce agent seats and ticket handling cost.',
+    action:'Run a 60-day AI support agent pilot and benchmark containment rate before renewing full seat volume.',
+    savingsOpportunity:50
+  }
+];
 
 const AGENT_CLASSIFY_PROMPT=`You are the BVF (Business Value Framework) AI Classification Agent — a senior enterprise technology advisor specialising in AI disruption risk assessment.
 
@@ -4585,7 +5245,7 @@ function agentLLMColor(name){
   return '#3B82F6';
 }
 
-let agentResults=null, agentControlResults=null;
+let agentResults=null, agentControlResults=null, agentDemoMode=false;
 
 // Tool count listener
 document.getElementById('agent-inventory').addEventListener('input',function(){
@@ -4608,6 +5268,21 @@ function renderAgent() {
 function agentLoadSample(){
   document.getElementById('agent-inventory').value=AGENT_SAMPLE;
   document.getElementById('agent-tool-count').textContent=AGENT_SAMPLE.split('\n').filter(l=>l.trim()).length+' tools entered';
+}
+
+function agentRunDemoClassification(){
+  const inventory=document.getElementById('agent-inventory');
+  const client=document.getElementById('agent-client').value.trim()||'Demo portfolio';
+  const errEl=document.getElementById('agent-error');
+  if(!inventory.value.trim()) agentLoadSample();
+  errEl.style.display='none';
+  agentControlResults=null;
+  agentDemoMode=true;
+  agentResults=AGENT_DEMO_RESULTS.map(item=>({...item}));
+  agentBuildResults(client);
+  agentShowView('results');
+  showToast('Demo classification loaded - no API key required','success');
+  updateTabProgress();
 }
 
 function agentHandleFileUpload(event){
@@ -4763,7 +5438,29 @@ async function agentCallAPI(system,userMsg,maxTokens){
 
 function agentSafeJSON(text){
   try{ return JSON.parse(text); }catch(_){}
+  try{
+    const startArr=text.indexOf('[');
+    const startObj=text.indexOf('{');
+    const start=(startArr!==-1&&(startObj===-1||startArr<startObj))?startArr:startObj;
+    if(start!==-1){
+      const open=text[start], close=open==='['?']':'}';
+      let depth=0,inStr=false,esc=false;
+      for(let i=start;i<text.length;i++){
+        const ch=text[i];
+        if(esc){esc=false;continue;}
+        if(ch==='\\'){esc=true;continue;}
+        if(ch==='"'){inStr=!inStr;continue;}
+        if(inStr) continue;
+        if(ch===open) depth++;
+        else if(ch===close){
+          depth--;
+          if(depth===0) return JSON.parse(text.slice(start,i+1));
+        }
+      }
+    }
+  }catch(_){}
   try{ const m=text.match(/\[[\s\S]*\]/); if(m) return JSON.parse(m[0]); }catch(_){}
+  try{ const m=text.match(/\{[\s\S]*\}/); if(m) return JSON.parse(m[0]); }catch(_){}
   try{ return Function('"use strict";return ('+text+')')(); }catch(_){}
   throw new Error('Could not parse API response. Please try again.');
 }
@@ -4780,12 +5477,14 @@ async function agentClassify(){
   try{
     const text=await agentCallAPI(AGENT_CLASSIFY_PROMPT,`Classify the following SaaS portfolio for ${client||'this client'}:\n\n${input}`);
     agentResults=agentSafeJSON(text);
+    agentDemoMode=false;
+    agentControlResults=null;
     agentBuildResults(client);
     agentShowView('results');
     showToast(agentResults.length+' tools classified successfully','success');
     updateTabProgress();
   }catch(e){errEl.textContent='Error: '+e.message;errEl.style.display='block';showToast('Classification failed — check your API key','error');}
-  finally{btn.disabled=false;btn.textContent='Step 1 — Run BVF classification';}
+  finally{btn.disabled=false;btn.textContent='Step 1 - Run live AI classification';}
 }
 
 // ── AGENT MODE TOGGLE ──
@@ -4921,7 +5620,9 @@ async function agentExtractStrategy(){
 
     // Import initiatives
     let imported=0;
+    let extractedCount=0;
     if(parsed.initiatives&&Array.isArray(parsed.initiatives)){
+      extractedCount=parsed.initiatives.length;
       parsed.initiatives.forEach(ini=>{
         const exists=BVF.initiatives.some(i=>i.name.toLowerCase()===ini.name.toLowerCase());
         if(!exists){
@@ -4966,16 +5667,19 @@ async function agentExtractStrategy(){
     if(typeof renderPriorities==='function') renderPriorities();
     if(typeof updateAllExecKPIs==='function') updateAllExecKPIs();
     if(typeof renderAlignment==='function') renderAlignment();
+    if(typeof updateTabProgress==='function') updateTabProgress();
 
     // Show success and switch to dashboard
     const profileMsg=parsed.profile?.company?` Company profile set to ${parsed.profile.company}.`:'';
     const priMsg=parsed.priorities?.length?` ${parsed.priorities.length} board priorities imported.`:'';
-    showToast(`${imported} initiatives extracted and added to portfolio.${profileMsg}${priMsg}`,'success',6000);
+    const duplicateMsg=extractedCount&&imported===0?' No new initiatives added because they were already in the portfolio.':'';
+    showToast(`${imported} new initiative${imported===1?'':'s'} added from ${extractedCount} extracted.${duplicateMsg}${profileMsg}${priMsg}`,'success',6000);
 
     // Switch to dashboard to show results
     setTimeout(()=>{
       switchTab('dashboard');
       if(BVF.view!=='executive') setView('executive');
+      if(typeof updateTabProgress==='function') updateTabProgress();
     },1500);
 
   }catch(e){
@@ -5001,7 +5705,6 @@ async function agentRunControl(){
   const btn=document.getElementById('agent-control-btn');
   const errEl=document.getElementById('agent-control-error');
   errEl.style.display='none';
-  if(!agentGetKey()){errEl.textContent='Enter your API key on the first screen.';errEl.style.display='block';return;}
   if(!agentResults){errEl.textContent='Run Step 1 classification first.';errEl.style.display='block';return;}
   const actionable=agentResults.filter(r=>r.bucket!=='AGENT-PROOF');
   if(!actionable.length){errEl.textContent='No Agent-Augmented or Agent-Replaceable tools to analyse.';errEl.style.display='block';return;}
@@ -5015,15 +5718,57 @@ async function agentRunControl(){
   };
   btn.disabled=true; btn.innerHTML='<span class="agent-spinner"></span> Analysing LLM stack options...';
   try{
-    const toolList=actionable.map(t=>`${t.name} (${t.bucket}): ${t.rationale}`).join('\n');
-    const userMsg=`Client context:\n${JSON.stringify(ctx,null,2)}\n\nTools to analyse:\n${toolList}`;
-    const text=await agentCallAPI(AGENT_CONTROL_PROMPT,userMsg,6000);
-    agentControlResults=agentSafeJSON(text);
+    if(agentDemoMode){
+      agentControlResults=agentBuildDemoControlResults(actionable,ctx);
+    } else {
+      if(!agentGetKey()){errEl.textContent='Enter your API key on the first screen, or use demo classification for a no-key walkthrough.';errEl.style.display='block';return;}
+      const toolList=actionable.map(t=>`${t.name} (${t.bucket}): ${t.rationale}`).join('\n');
+      const userMsg=`Client context:\n${JSON.stringify(ctx,null,2)}\n\nTools to analyse:\n${toolList}`;
+      const text=await agentCallAPI(AGENT_CONTROL_PROMPT,userMsg,6000);
+      agentControlResults=agentSafeJSON(text);
+      if(agentControlResults&&!Array.isArray(agentControlResults)){
+        agentControlResults=agentControlResults.recommendations||agentControlResults.results||agentControlResults.items||agentControlResults.tools||[];
+      }
+      if(!Array.isArray(agentControlResults)||!agentControlResults.length) throw new Error('Could not parse API response into LLM recommendations.');
+    }
     agentBuildControlPanel();
     // Update nav to show report button
     document.getElementById('agent-control-nav').innerHTML=`<button class="btn btn-ghost" onclick="agentShowView('results')">← Results</button><button class="btn btn-primary" onclick="agentBuildReport();agentShowView('report')">Board report →</button>`;
   }catch(e){errEl.textContent='Error: '+e.message;errEl.style.display='block';}
   finally{btn.disabled=false;btn.textContent='Step 2 — Run agentic control panel';}
+}
+
+function agentBuildDemoControlResults(items,ctx){
+  const regulated=(ctx.industry||'').toLowerCase().includes('financial')||(ctx.dataSovereignty||'').toLowerCase().includes('eu');
+  return items.map(item=>{
+    const replaceable=item.bucket==='AGENT-REPLACEABLE';
+    const primary=regulated
+      ? {name:'Azure OpenAI',model:'GPT-4o private deployment',deploymentModel:'Azure OpenAI',estimatedCostModel:'Enterprise token pricing plus platform controls'}
+      : {name:'Claude',model:'claude-sonnet-4-6',deploymentModel:'Public API',estimatedCostModel:'Usage-based API pricing'};
+    return {
+      toolName:item.name,
+      bucket:item.bucket,
+      primaryLLM:{
+        ...primary,
+        rationale:replaceable
+          ? `${item.name} has enough repeatable workflow structure to justify an agentic replacement pilot. The recommended stack balances reasoning quality, integration speed and governance control for a 60-90 day proof of value.`
+          : `${item.name} should be augmented rather than removed first. The recommended stack creates workflow automation around the platform while preserving the existing system of record.`,
+        fitScore:replaceable?88:82
+      },
+      alternativeLLMs:[
+        {name:'AWS Bedrock',model:'Claude / Llama managed models',rationale:'Strong option where the client is AWS-native and wants managed model choice with enterprise controls.',fitScore:78,deploymentModel:'AWS Bedrock'},
+        {name:'Open source',model:'Llama 3 / Mistral',rationale:'Useful where cost sensitivity or data sovereignty is the dominant constraint, with higher implementation effort.',fitScore:72,deploymentModel:'Private cloud'}
+      ],
+      processType:replaceable?'Agentic workflow replacement':'Human workflow augmentation',
+      buildApproach:replaceable?'Build':'Embed',
+      implementationComplexity:replaceable?'Medium':'Low',
+      complianceFlags:regulated?['EU data residency','Audit logging','Human-in-the-loop approval']:['Model monitoring','Access controls'],
+      roiTimeframe:replaceable?'6-9':'3-6',
+      overallRecommendation:replaceable
+        ? `Run a focused replacement pilot for ${item.name}, prove containment and quality metrics, then use the result in renewal negotiations.`
+        : `Keep ${item.name} as the system of record while adding an AI workflow layer to compress seats, cycle time and manual coordination.`
+    };
+  });
 }
 
 function agentBuildResults(client){
@@ -5203,18 +5948,18 @@ function agentMergeToPortfolio(){
     if(item.bucket==='AGENT-REPLACEABLE') tier='gen3';
     else if(item.bucket==='AGENT-AUGMENTED') tier='gen2';
     // Map bucket to risk
-    let risk='medium';
-    if(item.annualRisk==='LOW') risk='low';
-    else if(item.annualRisk==='HIGH') risk='high';
+    let risk='Medium';
+    if(item.annualRisk==='LOW') risk='Low';
+    else if(item.annualRisk==='HIGH') risk='High';
     // Default function based on context
-    let fn='technology';
+    let fn='it';
     const nameLower=item.name.toLowerCase();
     if(nameLower.includes('crm')||nameLower.includes('salesforce')||nameLower.includes('intercom')) fn='cx';
-    else if(nameLower.includes('workday')||nameLower.includes('hcm')||nameLower.includes('hr')) fn='people';
-    else if(nameLower.includes('tableau')||nameLower.includes('analytics')||nameLower.includes('data')) fn='data';
-    else if(nameLower.includes('servicenow')||nameLower.includes('itsm')) fn='operations';
+    else if(nameLower.includes('workday')||nameLower.includes('hcm')||nameLower.includes('hr')) fn='hr';
+    else if(nameLower.includes('tableau')||nameLower.includes('analytics')||nameLower.includes('data')) fn='finance';
+    else if(nameLower.includes('servicenow')||nameLower.includes('itsm')) fn='it';
     else if(nameLower.includes('docusign')||nameLower.includes('legal')) fn='risk';
-    else if(nameLower.includes('asana')||nameLower.includes('project')) fn='operations';
+    else if(nameLower.includes('asana')||nameLower.includes('project')) fn='supply';
 
     BVF.initiatives.push({
       id:Date.now()+'-'+Math.random().toString(36).substr(2,5),
