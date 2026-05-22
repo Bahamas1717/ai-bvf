@@ -243,6 +243,45 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
 .profile-dot.complete {
   background: var(--green-light); box-shadow: 0 0 6px var(--green-light);
 }
+.help-trigger {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 16px; background: rgba(196,137,74,0.09);
+  border: 1px solid rgba(196,137,74,0.22); border-radius: 8px;
+  color: var(--copper-light); font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+}
+.help-trigger:hover { background: rgba(196,137,74,0.14); border-color: rgba(196,137,74,0.36); color: #fff; }
+.help-overlay {
+  position: fixed; inset: 0; z-index: 9000; display: none;
+  align-items: center; justify-content: center; padding: 24px;
+  background: rgba(10,14,22,0.68); backdrop-filter: blur(10px);
+}
+.help-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+.help-panel {
+  width: min(760px, 100%); max-height: min(760px, 90vh); overflow: auto;
+  padding: 32px; background: rgba(30,37,54,0.98);
+  border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--copper);
+  border-radius: 0 16px 16px 0; box-shadow: 0 24px 80px rgba(0,0,0,0.42);
+}
+.help-head { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; margin-bottom: 22px; }
+.help-kicker { display: block; margin-bottom: 8px; font-size: 10px; letter-spacing: 2.4px; color: var(--copper); font-weight: 700; text-transform: uppercase; }
+.help-panel h2 { font-family: 'Playfair Display', serif; font-size: 26px; color: #fff; margin-bottom: 8px; }
+.help-panel p { color: var(--text-body); font-size: 14px; line-height: 1.7; }
+.help-close { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--text-body); border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+.help-close:hover { color: #fff; border-color: var(--copper-border); }
+.help-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+.help-card {
+  text-align: left; padding: 18px; border-radius: 10px; cursor: pointer;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-body); font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+}
+.help-card:hover { border-color: rgba(196,137,74,0.34); background: rgba(196,137,74,0.07); transform: translateY(-1px); }
+.help-card b { display: block; color: var(--ice); font-size: 14px; margin-bottom: 8px; }
+.help-card span { display: block; min-height: 76px; color: var(--text-body); font-size: 12px; line-height: 1.55; }
+.help-card em { display: inline-block; margin-top: 14px; color: var(--copper-light); font-style: normal; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+.help-foot { margin-top: 24px; padding: 16px 18px; background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }
+.help-foot strong { color: var(--ice); }
 
 /* ══════════════════════════════════════════════
    LAYOUT: COMPANY PROFILE (slide-down)
@@ -1474,6 +1513,39 @@ header { transition:box-shadow 0.3s ease; }
 <!-- Toast notification container -->
 <div id="toast-container"></div>
 
+<div id="help-overlay" class="help-overlay" onclick="if(event.target===this)closeHelp()">
+  <div class="help-panel" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="help-head">
+      <div>
+        <span class="help-kicker">Start here</span>
+        <h2 id="help-title">What to do next</h2>
+        <p>The BVF is only useful when it has context. Use one of these paths to create enough context for the dashboard, portfolio and board sentence to mean something.</p>
+      </div>
+      <button class="help-close" onclick="closeHelp()" type="button">Close</button>
+    </div>
+    <div class="help-grid">
+      <button class="help-card" type="button" onclick="helpAction('sample')">
+        <b>1. Take the sample tour</b>
+        <span>Load the Northstar example and read the Boardroom Sentence before changing anything.</span>
+        <em>Load sample</em>
+      </button>
+      <button class="help-card" type="button" onclick="helpAction('profile')">
+        <b>2. Map your own case</b>
+        <span>Start with company profile, board priorities and the AI initiatives already in flight.</span>
+        <em>Open profile</em>
+      </button>
+      <button class="help-card" type="button" onclick="helpAction('agent')">
+        <b>3. Use the agent path</b>
+        <span>Paste a SaaS list or strategy paper and let the agent extract what deserves attention.</span>
+        <em>Open agent</em>
+      </button>
+    </div>
+    <div class="help-foot">
+      <p><strong>Good test:</strong> ask whether the result exposes missing context. Data, ownership, governance, operating model, change capacity. The label is not the point. The argument behind it is.</p>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════════════════════════════════════
      HEADER
      ══════════════════════════════════════════════ -->
@@ -1486,6 +1558,7 @@ header { transition:box-shadow 0.3s ease; }
     </div>
   </div>
   <div class="header-controls" id="header-controls" style="display:none">
+    <button class="help-trigger" onclick="openHelp()" type="button">? Start Here</button>
     <button class="profile-trigger" onclick="toggleProfile()">
       <span class="profile-dot" id="profile-dot"></span>
       <span id="profile-trigger-text">Company Profile</span>
@@ -3598,6 +3671,36 @@ function runLandingStartAction() {
     }, 120);
     return;
   }
+  showToast('Start with company context, then add priorities and initiatives.', 'info', 5000);
+}
+
+function openHelp() {
+  const overlay = document.getElementById('help-overlay');
+  if (!overlay) return;
+  overlay.classList.add('open');
+}
+
+function closeHelp() {
+  const overlay = document.getElementById('help-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('open');
+}
+
+function helpAction(action) {
+  closeHelp();
+  if (action === 'sample') {
+    loadSampleBVF();
+    showToast('Sample case loaded. Read the Boardroom Sentence first.', 'success', 5000);
+    return;
+  }
+  if (action === 'agent') {
+    setView('practitioner');
+    switchTab('agent');
+    showToast('Agent path opened. Load a sample or paste a SaaS list.', 'info', 5000);
+    return;
+  }
+  switchTab('dashboard');
+  openProfile();
   showToast('Start with company context, then add priorities and initiatives.', 'info', 5000);
 }
 
