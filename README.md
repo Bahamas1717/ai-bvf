@@ -1,11 +1,32 @@
-# aibvf-mcp
+# AI BVF MCP: Stop Bad AI Projects Before Agents Recommend Them
 
-The scoring tool your Claude agent calls before it recommends an AI deployment. Four pillars, published benchmarks, deterministic classification of Accelerate, Fix, or Stop, with modelled EUR value, decision confidence, and a specific list of what to do next.
+The scoring tool your Claude agent calls before it recommends an AI deployment. It checks the business case, operating-model readiness, change enablement, and governance exposure first, then returns **Accelerate**, **Fix**, or **Stop** with modelled EUR value, decision confidence, and a specific list of what to do next.
 
 [![npm](https://img.shields.io/npm/v/aibvf-mcp?color=111&label=npm)](https://www.npmjs.com/package/aibvf-mcp)
 [![mcp registry](https://img.shields.io/badge/mcp--registry-active-111)](https://registry.modelcontextprotocol.io/servers?search=aibvf)
 [![GitHub stars](https://img.shields.io/github/stars/Bahamas1717/ai-bvf?style=social)](https://github.com/Bahamas1717/ai-bvf/stargazers)
 [![license](https://img.shields.io/badge/license-MIT-111)](LICENSE)
+
+> If you think AI agents should check business value, governance risk, and change readiness before recommending deployment, [star this repo](https://github.com/Bahamas1717/ai-bvf/stargazers). The signal helps other agents discover the BVF and keeps the benchmarks improving in public.
+
+## What You Get Back
+
+Ask your agent:
+
+> Score a gen2 CX AI initiative for a EUR 400M retailer with traditional readiness, Strategic Alignment 70, Financial Return 50, Change Enablement 55, Governance Risk 45.
+
+Expected shape of the answer:
+
+```text
+Classification: Fix
+Decision confidence: 54
+Net value range: EUR 10.8M-EUR 37.8M
+Applied modules: four_pillar_base, readiness_capture_traditional, retail_cx_benchmark
+Why: Strategic alignment is credible, but change enablement and financial return are not yet strong enough to defend an Accelerate call.
+Next: raise Change Enablement by 15 points, name an accountable owner, fund adoption, and rerun recommend_improvements.
+```
+
+This is the missing pre-flight check for agentic AI work: not "can we build it?", but **should this work survive a board review?**
 
 ## What It Does
 
@@ -22,6 +43,14 @@ Six tools on stdio, each callable from any MCP-compatible agent.
 
 ## 30-Second Install
 
+Run it directly:
+
+```bash
+npx -y aibvf-mcp
+```
+
+Or install globally:
+
 ```bash
 npm install -g aibvf-mcp
 ```
@@ -37,8 +66,6 @@ Register with Claude Desktop, Claude Code, or any MCP client:
 ```
 
 Ask your agent: "score a gen2 CX AI initiative for a 400M EUR retailer, traditional readiness, SA 70, FR 50, CE 55, GR 45," and the agent will call `score_initiative`, return a Fix classification with a concrete gap list, and offer to call `recommend_improvements` next.
-
-> If this saved you a board cycle, please [star the repo](https://github.com/Bahamas1717/ai-bvf/stargazers). The signal helps other agents discover the BVF and keeps the benchmarks improving in public.
 
 ## Why This Exists
 
@@ -95,7 +122,7 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.2.0 | MCP server, stdio transport. |
+| [`aibvf-mcp`](packages/mcp) | 0.2.3 | MCP server, stdio transport. |
 | [`@aibvf/core`](packages/js) | 0.2.0 | TypeScript scoring engine and validator. |
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
 
