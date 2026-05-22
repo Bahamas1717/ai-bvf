@@ -282,6 +282,10 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
 .help-card em { display: inline-block; margin-top: 14px; color: var(--copper-light); font-style: normal; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
 .help-foot { margin-top: 24px; padding: 16px 18px; background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }
 .help-foot strong { color: var(--ice); }
+.help-security { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
+.help-security-item { padding: 13px 14px; border-radius: 8px; background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08); }
+.help-security-item b { display: block; color: var(--ice); font-size: 12px; margin-bottom: 4px; }
+.help-security-item span { display: block; color: var(--text-body); font-size: 11px; line-height: 1.5; }
 
 /* ══════════════════════════════════════════════
    LAYOUT: COMPANY PROFILE (slide-down)
@@ -1189,6 +1193,34 @@ header { transition:box-shadow 0.3s ease; }
   font-weight: 700;
   text-transform: uppercase;
 }
+.lp-build {
+  max-width: 860px;
+  margin: -56px auto 72px;
+  padding: 0 32px;
+}
+.lp-build-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.lp-build-item {
+  padding: 17px 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.075);
+  border-radius: 10px;
+}
+.lp-build-item b {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ice);
+  font-size: 13px;
+}
+.lp-build-item span {
+  display: block;
+  color: var(--text-body);
+  font-size: 12px;
+  line-height: 1.55;
+}
 
 /* Section headings */
 .lp-section {
@@ -1297,6 +1329,8 @@ header { transition:box-shadow 0.3s ease; }
   .lp-start-note { max-width: none; }
   .lp-start-grid { grid-template-columns: 1fr; }
   .lp-start-card span { min-height: 0; }
+  .lp-build { margin-top: -44px; padding: 0 20px; }
+  .lp-build-grid, .help-security { grid-template-columns: 1fr; }
   .lp-hero h1 { font-size: 28px; }
   .lp-nav { padding: 16px 20px; }
 }
@@ -1529,19 +1563,33 @@ header { transition:box-shadow 0.3s ease; }
         <span>Load the Northstar example and read the Boardroom Sentence before changing anything.</span>
         <em>Load sample</em>
       </button>
-      <button class="help-card" type="button" onclick="helpAction('profile')">
-        <b>2. Map your own case</b>
-        <span>Start with company profile, board priorities and the AI initiatives already in flight.</span>
-        <em>Open profile</em>
+      <button class="help-card" type="button" onclick="helpAction('import')">
+        <b>2. Import your portfolio</b>
+        <span>Already have initiatives in Excel, CSV, Word, PDF, a board paper or a strategy deck? Bring that in first, then enrich the missing context.</span>
+        <em>Open import</em>
       </button>
-      <button class="help-card" type="button" onclick="helpAction('agent')">
-        <b>3. Use the agent path</b>
-        <span>Paste a SaaS list or strategy paper and let the agent extract what deserves attention.</span>
-        <em>Open agent</em>
+      <button class="help-card" type="button" onclick="helpAction('profile')">
+        <b>3. Start from context</b>
+        <span>Use this when the portfolio is still forming. Set company profile, board priorities and add the first initiative manually.</span>
+        <em>Open profile</em>
       </button>
     </div>
     <div class="help-foot">
       <p><strong>Good test:</strong> ask whether the result exposes missing context. Data, ownership, governance, operating model, change capacity. The label is not the point. The argument behind it is.</p>
+    </div>
+    <div class="help-security">
+      <div class="help-security-item">
+        <b>Browser-first build</b>
+        <span>The boardroom tool runs in the browser. Your portfolio is stored locally unless you choose to export or share it.</span>
+      </div>
+      <div class="help-security-item">
+        <b>Agent calls are explicit</b>
+        <span>Live classification uses your own API key. Demo mode works without a key and does not call an external model.</span>
+      </div>
+      <div class="help-security-item">
+        <b>Open MCP server</b>
+        <span>The MCP source is open. Anonymous telemetry is tool name and taxonomy only, never portfolio content.</span>
+      </div>
     </div>
   </div>
 </div>
@@ -1741,8 +1789,8 @@ header { transition:box-shadow 0.3s ease; }
       <div class="guide-step">
         <div class="guide-step-num">3</div>
         <div>
-          <h3>Build Your Portfolio</h3>
-          <p>Add each AI initiative with its budget, change management allocation, AI generation tier (Gen 1/2/3) and business function. The BVF calculates value ranges, governance gaps and pilot-trap risk automatically.</p>
+          <h3>Import or Build Your Portfolio</h3>
+          <p>Bring in the file you already have, then enrich what is missing: owner, budget, change allocation, AI tier, function, risk and priority linkage.</p>
         </div>
       </div>
       <div class="guide-step">
@@ -2344,14 +2392,14 @@ header { transition:box-shadow 0.3s ease; }
                   <span class="label">SaaS &amp; AI initiatives inventory</span>
                   <div style="display:flex;gap:8px;align-items:center">
                     <button class="agent-sample-btn" onclick="document.getElementById('agent-csv-upload').click()">
-                      <span style="margin-right:4px">📂</span> Upload CSV
+                      <span style="margin-right:4px">📂</span> Upload file
                     </button>
                     <button class="agent-sample-btn" onclick="agentLoadSample()">Load sample</button>
                   </div>
                 </div>
-                <input type="file" id="agent-csv-upload" accept=".csv,.tsv,.txt,.xlsx" style="display:none" onchange="agentHandleFileUpload(event)">
+                <input type="file" id="agent-csv-upload" accept=".csv,.tsv,.txt,.xlsx,.xls" style="display:none" onchange="agentHandleFileUpload(event)">
                 <div id="agent-upload-status" style="display:none;margin-bottom:10px;padding:10px 14px;border-radius:4px;font-size:13px;line-height:1.5"></div>
-                <textarea id="agent-inventory" rows="8" placeholder="Upload a CSV / Excel file above, or paste manually — one tool per line, e.g.:
+                <textarea id="agent-inventory" rows="8" placeholder="Upload CSV / TXT, or paste from Excel, Word, PDF, a board paper or a strategy deck. One tool or initiative per line, e.g.:
 Salesforce CRM - $420k/year, 200 seats
 ServiceNow ITSM - $350k/year, 50 seats
 Microsoft 365 - $180k/year, 300 seats"></textarea>
@@ -2491,7 +2539,7 @@ The agent will extract:
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
             <div>
               <span class="label">Merge to Portfolio</span>
-              <div style="font-size:13px;color:var(--text-body);line-height:1.6">Import classified tools as portfolio initiatives. Agent-Replaceable and Agent-Augmented tools become Gen 3 and Gen 2 initiatives respectively.</div>
+              <div style="font-size:13px;color:var(--text-body);line-height:1.6">Import classified tools and extracted initiatives into the portfolio. The import creates the first map; the BVF still needs context, ownership, budget and change assumptions to make the board view useful.</div>
             </div>
             <button class="btn btn-primary" onclick="agentMergeToPortfolio()">⚡ Import to Portfolio</button>
           </div>
@@ -3205,16 +3253,34 @@ The agent will extract:
             <span>Load a manufacturing portfolio with priorities, initiatives and governance exposure already populated.</span>
             <em class="lp-start-action">Open sample case</em>
           </button>
+          <button class="lp-start-card" type="button" onclick="lpStart('import')">
+            <b>2. Import your portfolio</b>
+            <span>Have Excel, CSV, Word, PDF, a board paper or a strategy deck? Bring that in first, then fill the gaps the framework exposes.</span>
+            <em class="lp-start-action">Open import path</em>
+          </button>
           <button class="lp-start-card" type="button" onclick="lpStart('own')">
-            <b>2. Map your own portfolio</b>
-            <span>Enter company context, board priorities and the AI initiatives already in flight.</span>
+            <b>3. Start from context</b>
+            <span>No clean file yet? Set the company profile and board priorities, then add the first initiative manually.</span>
             <em class="lp-start-action">Start from profile</em>
           </button>
-          <button class="lp-start-card" type="button" onclick="lpStart('agent')">
-            <b>3. Use the agent path</b>
-            <span>Paste a SaaS list or strategy document and let the agent classify what deserves attention.</span>
-            <em class="lp-start-action">Open agent tab</em>
-          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build & security -->
+    <div class="lp-build">
+      <div class="lp-build-grid">
+        <div class="lp-build-item">
+          <b>Browser-first decision tool</b>
+          <span>The boardroom app runs in your browser. Portfolio data stays local unless you choose to export or share it.</span>
+        </div>
+        <div class="lp-build-item">
+          <b>Agent use is explicit</b>
+          <span>Live AI classification uses your own API key. Demo mode works without a key and does not call an external model.</span>
+        </div>
+        <div class="lp-build-item">
+          <b>Open MCP path</b>
+          <span>The MCP server is open source. Telemetry is anonymous tool and taxonomy usage only, never portfolio data.</span>
         </div>
       </div>
     </div>
@@ -3244,8 +3310,8 @@ The agent will extract:
         <div class="lp-step">
           <div class="lp-step-num">3</div>
           <div>
-            <h3>Build Your Portfolio</h3>
-            <p>Add each AI initiative with budget, change management allocation, tier and function. The BVF calculates value ranges, governance gaps and risk automatically.</p>
+            <h3>Import or Build Your Portfolio</h3>
+            <p>Import the file you already have. Excel, CSV, Word, PDF, board paper, strategy deck. Add single initiatives manually when the context is still being shaped.</p>
           </div>
         </div>
         <div class="lp-step">
@@ -3663,11 +3729,11 @@ function runLandingStartAction() {
     }, 120);
     return;
   }
-  if (action === 'agent') {
+  if (action === 'agent' || action === 'import') {
     setTimeout(() => {
       setView('practitioner');
       switchTab('agent');
-      showToast('Agent path opened. Load a sample or paste a SaaS list.', 'info', 5000);
+      showToast(action === 'import' ? 'Import path opened. Upload a file, paste content, or load a sample.' : 'Agent path opened. Load a sample or paste a SaaS list.', 'info', 5000);
     }, 120);
     return;
   }
@@ -3693,10 +3759,10 @@ function helpAction(action) {
     showToast('Sample case loaded. Read the Boardroom Sentence first.', 'success', 5000);
     return;
   }
-  if (action === 'agent') {
+  if (action === 'agent' || action === 'import') {
     setView('practitioner');
     switchTab('agent');
-    showToast('Agent path opened. Load a sample or paste a SaaS list.', 'info', 5000);
+    showToast(action === 'import' ? 'Import path opened. Upload a file, paste content, or load a sample.' : 'Agent path opened. Load a sample or paste a SaaS list.', 'info', 5000);
     return;
   }
   switchTab('dashboard');
@@ -3817,7 +3883,7 @@ function setupProfileScore() {
 function setupStepAction(step) {
   if (step === 'profile') { openProfile(); return; }
   if (step === 'priorities') { switchTab('dashboard'); addPriority(); return; }
-  if (step === 'portfolio') { switchTab('portfolio'); showForm(); return; }
+  if (step === 'portfolio') { switchTab('agent'); return; }
   switchTab('governance');
 }
 
@@ -3887,7 +3953,7 @@ function renderSetupFlow() {
       id: 'portfolio',
       complete: portfolioDone,
       name: 'AI initiatives',
-      desc: portfolioDone ? `${BVF.initiatives.length} initiatives in portfolio` : 'Add the first initiative'
+      desc: portfolioDone ? `${BVF.initiatives.length} initiatives in portfolio` : 'Import a file or add the first initiative'
     },
     {
       id: 'governance',
@@ -5625,7 +5691,7 @@ function agentParseXLSX(data,filename,statusEl){
   statusEl.style.display='block';
   statusEl.style.background='rgba(196,137,74,0.10)';
   statusEl.style.color='var(--copper)';
-  statusEl.innerHTML='<strong>Excel files</strong>: For best results, please export as CSV first (<em>File → Save As → CSV</em>). Then upload the .csv file.<br>Or paste the data directly from your spreadsheet — just select the columns and Ctrl+C / Cmd+C, then paste here.';
+  statusEl.innerHTML='<strong>Excel files</strong>: For best results, export as CSV first and upload that file.<br>Or paste the rows directly from Excel, Word, PDF, a board paper or a strategy deck into the text box.';
 }
 
 function agentUpdatePips(){
