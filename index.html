@@ -1065,6 +1065,92 @@ header { transition:box-shadow 0.3s ease; }
 .lp-stat-label { font-size: 12px; color: #FFFFFF; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
 .lp-stat-source { font-size: 11px; color: #FFFFFF; opacity: 0.65; margin-top: 4px; display: block; }
 
+/* Start here tour */
+.lp-start {
+  max-width: 860px;
+  margin: -44px auto 80px;
+  padding: 0 32px;
+}
+.lp-start-panel {
+  padding: 28px;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-left: 3px solid var(--copper);
+  border-radius: 0 14px 14px 0;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.16);
+}
+.lp-start-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+.lp-start-kicker {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 10px;
+  letter-spacing: 2.6px;
+  color: var(--copper);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.lp-start h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  line-height: 1.25;
+  color: #fff;
+}
+.lp-start-note {
+  max-width: 260px;
+  font-size: 13px;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+.lp-start-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.lp-start-card {
+  text-align: left;
+  padding: 18px 18px 16px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--text-body);
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.22s ease;
+}
+.lp-start-card:hover {
+  border-color: rgba(196,137,74,0.34);
+  background: rgba(196,137,74,0.07);
+  transform: translateY(-1px);
+}
+.lp-start-card b {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--ice);
+  font-size: 14px;
+}
+.lp-start-card span {
+  display: block;
+  min-height: 64px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-body);
+}
+.lp-start-action {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: var(--copper-light);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 /* Section headings */
 .lp-section {
   padding: 0 32px 72px;
@@ -1167,6 +1253,11 @@ header { transition:box-shadow 0.3s ease; }
   .lp-stats { grid-template-columns: 1fr; }
   .lp-caps { grid-template-columns: 1fr 1fr; }
   .lp-audience { grid-template-columns: 1fr; }
+  .lp-start { margin-top: -36px; padding: 0 20px; }
+  .lp-start-head { flex-direction: column; align-items: flex-start; }
+  .lp-start-note { max-width: none; }
+  .lp-start-grid { grid-template-columns: 1fr; }
+  .lp-start-card span { min-height: 0; }
   .lp-hero h1 { font-size: 28px; }
   .lp-nav { padding: 16px 20px; }
 }
@@ -3025,6 +3116,36 @@ The agent will extract:
       </div>
     </div>
 
+    <!-- Start here -->
+    <div class="lp-start">
+      <div class="lp-start-panel">
+        <div class="lp-start-head">
+          <div>
+            <span class="lp-start-kicker">Start here</span>
+            <h2>Three useful ways to test it.</h2>
+          </div>
+          <p class="lp-start-note">Do not start with a perfect business case. Start with enough context to see what the framework exposes.</p>
+        </div>
+        <div class="lp-start-grid">
+          <button class="lp-start-card" type="button" onclick="lpStart('sample')">
+            <b>1. Take the sample tour</b>
+            <span>Load a manufacturing portfolio with priorities, initiatives and governance exposure already populated.</span>
+            <em class="lp-start-action">Open sample case</em>
+          </button>
+          <button class="lp-start-card" type="button" onclick="lpStart('own')">
+            <b>2. Map your own portfolio</b>
+            <span>Enter company context, board priorities and the AI initiatives already in flight.</span>
+            <em class="lp-start-action">Start from profile</em>
+          </button>
+          <button class="lp-start-card" type="button" onclick="lpStart('agent')">
+            <b>3. Use the agent path</b>
+            <span>Paste a SaaS list or strategy document and let the agent classify what deserves attention.</span>
+            <em class="lp-start-action">Open agent tab</em>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- How It Works -->
     <div class="lp-section">
       <div class="lp-section-header">
@@ -3214,7 +3335,20 @@ function lpEnter() {
   // If already authenticated, skip the gate too
   if (sessionStorage.getItem('bvf-auth') === '1') {
     setLayerHidden('access-gate', true);
+    const pending = sessionStorage.getItem('bvf-pending-start');
+    enterPlatform(pending === 'agent' ? 'practitioner' : 'executive');
   }
+}
+
+function lpStart(path) {
+  sessionStorage.setItem('bvf-pending-start', path);
+  if (sessionStorage.getItem('bvf-auth') === '1') {
+    setLayerHidden('landing-page', true);
+    setLayerHidden('access-gate', true);
+    enterPlatform(path === 'agent' ? 'practitioner' : 'executive');
+    return;
+  }
+  lpEnter();
 }
 // Auto-hide landing page if already authenticated
 if (sessionStorage.getItem('bvf-auth') === '1') {
@@ -3245,7 +3379,8 @@ function checkGate() {
   if (VALID_HASHES.includes(hashCode(code))) {
     sessionStorage.setItem('bvf-auth', '1');
     // Skip welcome screen — go straight to platform
-    enterPlatform('executive');
+    const pending = sessionStorage.getItem('bvf-pending-start');
+    enterPlatform(pending === 'agent' ? 'practitioner' : 'executive');
   } else {
     document.getElementById('gate-error').style.display = 'block';
     document.getElementById('gate-code').style.borderColor = '#F87171';
@@ -3440,7 +3575,30 @@ function enterPlatform(view) {
     if (!BVF.profile.company) {
       showToast('Start by entering your company profile above', 'info', 5000);
     }
+    runLandingStartAction();
   }, 350);
+}
+
+function runLandingStartAction() {
+  const action = sessionStorage.getItem('bvf-pending-start');
+  if (!action) return;
+  sessionStorage.removeItem('bvf-pending-start');
+  if (action === 'sample') {
+    setTimeout(() => {
+      loadSampleBVF();
+      showToast('Sample board case loaded. Start with the Boardroom Sentence.', 'success', 5000);
+    }, 120);
+    return;
+  }
+  if (action === 'agent') {
+    setTimeout(() => {
+      setView('practitioner');
+      switchTab('agent');
+      showToast('Agent path opened. Load a sample or paste a SaaS list.', 'info', 5000);
+    }, 120);
+    return;
+  }
+  showToast('Start with company context, then add priorities and initiatives.', 'info', 5000);
 }
 
 function showGuide() {
