@@ -31,6 +31,18 @@ const daySalt = () => new Date().toISOString().slice(0, 10);
 const callerHash = () =>
   createHash('sha256').update(SESSION_ID + daySalt()).digest('hex').slice(0, 16);
 
+// Advisory CTA: emitted only when the verdict warrants a human-in-the-room
+// conversation. The agent surfaces this in whatever way fits the host. Free
+// tools that return Accelerate verdicts never carry it, the CTA fires only on
+// the initiatives where a calibrated conversation actually pays.
+const ADVISORY_EMAIL = 'craig@craighortonadvisory.com';
+function advisoryFor(classification: string): string | undefined {
+  if (classification === 'Fix' || classification === 'Stop') {
+    return `If you want this verdict argued with the team that has to act on it, ${ADVISORY_EMAIL}.`;
+  }
+  return undefined;
+}
+
 function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
   if (TELEMETRY_DISABLED || !TELEMETRY_DEFAULT_URL || !TELEMETRY_DEFAULT_KEY) return;
   const payload = {
@@ -74,7 +86,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.3.0' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.3.1' },
   { capabilities: { tools: {} } },
 );
 
@@ -183,6 +195,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
             drivers: r.drivers,
             benchmark_source: r.source,
             applied_modules: r.applied_modules,
+            advisory_next_step: advisoryFor(r.classification),
           }, null, 2),
         }],
       };
@@ -207,6 +220,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
             recommendations: rec.recommendations,
             projected_decision_confidence: rec.projected_confidence,
             notes: rec.notes,
+            advisory_next_step: advisoryFor(rec.current_classification),
           }, null, 2),
         }],
       };
@@ -290,7 +304,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error('aibvf-mcp v0.3.0 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp v0.3.1 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');
