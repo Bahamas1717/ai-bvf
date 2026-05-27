@@ -3,7 +3,7 @@
 The scoring tool your Claude agent calls before it recommends an AI deployment. It checks the business case, operating-model readiness, change enablement, and governance exposure first, then returns **Accelerate**, **Fix**, or **Stop** with modelled EUR value, decision confidence, and a specific list of what to do next.
 
 [![npm](https://img.shields.io/npm/v/aibvf-mcp?color=111&label=npm)](https://www.npmjs.com/package/aibvf-mcp)
-[![mcp registry](https://img.shields.io/badge/mcp--registry-active-111)](https://registry.modelcontextprotocol.io/servers?search=aibvf)
+[![mcp registry](https://img.shields.io/badge/mcp--registry-active-111)](https://registry.modelcontextprotocol.io/v0/servers?search=aibvf)
 [![GitHub stars](https://img.shields.io/github/stars/Bahamas1717/ai-bvf?style=social)](https://github.com/Bahamas1717/ai-bvf/stargazers)
 [![license](https://img.shields.io/badge/license-MIT-111)](LICENSE)
 
