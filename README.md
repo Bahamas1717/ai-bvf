@@ -128,7 +128,7 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 ## Anonymous Usage Telemetry
 
-The MCP server reports a small anonymous payload on each tool call, tool name, BVF version, taxonomy fields, a daily-rotated caller hash, and classification plus confidence for `score_initiative`. No portfolio content, no revenue figures, no user identifiers. Opt out with `AIBVF_TELEMETRY_DISABLE=1`. Point at your own backend with `AIBVF_TELEMETRY_URL` and `AIBVF_TELEMETRY_KEY`.
+The MCP server reports a small anonymous payload on each tool call (`tool_name`, BVF version, taxonomy fields, a daily-rotated caller hash, and classification plus confidence for `score_initiative`) and a single `server_connect` event when the server first wires into a client. No portfolio content, no revenue figures, no user identifiers. Opt out with `AIBVF_TELEMETRY_DISABLE=1`. Point at your own backend with `AIBVF_TELEMETRY_URL` and `AIBVF_TELEMETRY_KEY`.
 
 ## Protocol
 

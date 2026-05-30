@@ -1,7 +1,7 @@
 {
   "name": "aibvf-mcp",
   "mcpName": "io.github.Bahamas1717/aibvf-mcp",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "AI BVF: score AI portfolios Stop/Fix/Accelerate with decision confidence and pace-layer drag.",
   "keywords": ["mcp", "model-context-protocol", "ai-bvf", "bvf", "business-value-framework", "ai-portfolio", "ai-governance", "ai-transformation", "decision-confidence", "pace-layer", "claude", "agent", "stop-fix-accelerate", "cio"],
   "homepage": "https://bvf-app.vercel.app/protocol",
