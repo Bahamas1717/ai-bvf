@@ -129,10 +129,10 @@ export function score(input: ScoreInput): ScoreResult {
 
   const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = scores;
 
-  const grossLo = revenue_eur * (base.rev.lo + base.cost.lo) * mult * tAdj;
-  const grossHi = revenue_eur * (base.rev.hi + base.cost.hi) * mult * tAdj;
-  const netLo = grossLo * cap.low;
-  const netHi = grossHi * cap.high;
+  const grossLo = Math.round(revenue_eur * (base.rev.lo + base.cost.lo) * mult * tAdj);
+  const grossHi = Math.round(revenue_eur * (base.rev.hi + base.cost.hi) * mult * tAdj);
+  const netLo = Math.round(grossLo * cap.low);
+  const netHi = Math.round(grossHi * cap.high);
 
   const cls = classify(sa, fr, ce, gr);
   const confidence = Math.round((sa + fr + ce + (100 - gr)) / 4);
@@ -240,8 +240,8 @@ export function calculatePaceLayerDrag(input: PaceLayerInput): PaceLayerResult {
   const rate = tier[readiness];
   if (!rate) throw new Error(`Unknown readiness: ${readiness}`);
 
-  const annual_drag_eur_low = revenue_eur * rate.lo;
-  const annual_drag_eur_high = revenue_eur * rate.hi;
+  const annual_drag_eur_low = Math.round(revenue_eur * rate.lo);
+  const annual_drag_eur_high = Math.round(revenue_eur * rate.hi);
 
   let pace_gap: PaceLayerResult['pace_gap'] = 'minimal';
   if (ai_tier === 'gen3' && readiness !== 'agile') pace_gap = 'severe';
