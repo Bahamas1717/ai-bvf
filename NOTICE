@@ -1,0 +1,17 @@
+AI BVF — Additional licensing and trademark notices
+===================================================
+
+Source code in this repository is licensed under the MIT License (see LICENSE).
+
+The following exceptions apply:
+
+Specification & schema (./spec/)
+--------------------------------
+The AI BVF Protocol specification and its associated JSON Schema, located under
+./spec/, are licensed under the Creative Commons Attribution 4.0 International
+License (CC-BY-4.0): https://creativecommons.org/licenses/by/4.0/
+
+Trademarks
+----------
+"AI BVF", "AI BVF Certified", and the AI BVF logo are trademarks of Craig Horton
+and are not licensed under the MIT License or CC-BY-4.0.
