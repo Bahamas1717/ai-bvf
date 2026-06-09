@@ -76,6 +76,8 @@ Claude will call `score_initiative` and return the classification, euro range, a
 | Tool | Purpose |
 |---|---|
 | `score_initiative` | Return classification (Accelerate/Fix/Stop), euro range, and reasoning for one initiative. |
+| `recommend_improvements` | For a Stop or Fix initiative, return concrete pillar-level actions that would flip its classification toward Accelerate. The "what do I do next" after `score_initiative`. |
+| `calculate_pace_layer_drag` | Return the annual Organisational Drag Cost in EUR from misalignment between AI tier and organisational readiness — the cost of *not* changing the operating model. |
 | `validate_portfolio` | Check a BVF portfolio JSON against the v1.0 schema. |
 | `get_benchmark` | Return the published benchmark base-rate and industry multiplier for a function + industry. |
 | `list_taxonomy` | List the valid industries, functions, AI tiers, and readiness levels. |
@@ -89,14 +91,18 @@ Claude will call `score_initiative` and return the classification, euro range, a
 To separate real agent traffic from scanner noise, aibvf-mcp can send a small, anonymous event on each tool call. The payload is:
 
 - `ts` — timestamp
-- `tool_name` — one of the four tool names above
+- `tool_name` — one of the tool names above
 - `bvf_version` — the protocol version
-- `caller_hash` — a daily-rotated hash derived from the MCP session ID
+- `caller_hash` — a daily-rotated, one-way hash that lets us count distinct installs without identifying them (see below)
 - `industry`, `function`, `ai_tier`, `readiness` — the taxonomy values (never the numeric scores, revenue, or portfolio content)
 
 No user IDs, no PII, no portfolio data, no scoring results, no stack traces.
 
-**Opt out** by setting `AIBVF_TELEMETRY_DISABLE=1` in your environment. **Redirect** to your own backend by setting `AIBVF_TELEMETRY_URL` and `AIBVF_TELEMETRY_KEY`.
+**How `caller_hash` works.** On first run the server generates 16 random bytes and stores them in `~/.config/aibvf/install-id`. The transmitted hash is `sha256(installId + currentDate)`, truncated. Because the seed is random and high-entropy, the hash cannot be reversed to identify your machine or you — it is *not* derived from your hostname, username, or any system identifier. Because the seed is stable, the same install produces the same hash within a day, which is what lets us distinguish one install running many times from many installs running once. The hash rotates every 24 hours, so there is no permanent cross-day identifier, and the install-id itself never leaves your machine.
+
+The install-id file is created only when an event is actually sent. If you opt out, no file is written. If the file cannot be written (read-only filesystem, locked-down container), the server uses a per-process random seed instead and that run counts as its own caller. To reset your anonymous identity at any time, delete `~/.config/aibvf/install-id`.
+
+**Opt out** by setting `AIBVF_TELEMETRY_DISABLE=1` in your environment — no events are sent and no install-id file is created. **Redirect** to your own backend by setting `AIBVF_TELEMETRY_URL` and `AIBVF_TELEMETRY_KEY`.
 
 ## License
 

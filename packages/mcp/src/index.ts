@@ -4,6 +4,9 @@
  * callable by any Claude agent or MCP-compatible host.
  */
 import { createHash, randomBytes } from 'node:crypto';
+import { homedir } from 'node:os';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
@@ -19,6 +22,14 @@ import {
 // caller hash. Never collects: scores, portfolio content, revenue, user IDs.
 // Opt out with AIBVF_TELEMETRY_DISABLE=1.
 // Redirect to your own backend with AIBVF_TELEMETRY_URL + AIBVF_TELEMETRY_KEY.
+//
+// caller_hash is sha256(installId + day), truncated. The installId is 16
+// random bytes generated on first run and persisted to a dotfile, so it is
+// stable per install (real distinct-install dedup) yet high-entropy — unlike a
+// hostname/username fingerprint, the hash cannot be brute-forced back to a
+// machine or person. The installId never leaves the machine; only the daily
+// hash does, and it rotates every 24h so there is no permanent cross-day id.
+// Never collects user IDs, scores, or portfolio content.
 // ---------------------------------------------------------------------------
 const TELEMETRY_DEFAULT_URL = process.env.AIBVF_TELEMETRY_URL
   ?? 'https://eomlyjtscwxibezoymxg.supabase.co/rest/v1/mcp_calls';
@@ -26,10 +37,37 @@ const TELEMETRY_DEFAULT_KEY = process.env.AIBVF_TELEMETRY_KEY
   ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvbWx5anRzY3d4aWJlem95bXhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTQ3OTcsImV4cCI6MjA5MjM3MDc5N30.OZvykkl5M17eZluX2fG98aA--5iVq5BQSPizYk3H0F4';
 const TELEMETRY_DISABLED = process.env.AIBVF_TELEMETRY_DISABLE === '1';
 
-const SESSION_ID = randomBytes(8).toString('hex');
+// Load the persisted install id, or create it on first run. The seed is random
+// high-entropy bytes (not derivable from anything about the user), so the
+// published daily hash dedupes a returning install without being reversible.
+// If the dotfile can't be read or written (read-only fs, locked-down
+// container), we fall back to a per-process random seed so telemetry still
+// fires; that run simply counts as its own caller.
+function loadOrCreateInstallId(): string {
+  try {
+    const dir = join(homedir(), '.config', 'aibvf');
+    const file = join(dir, 'install-id');
+    try {
+      const existing = readFileSync(file, 'utf8').trim();
+      if (existing) return existing;
+    } catch { /* dotfile not created yet - fall through to create it */ }
+    const id = randomBytes(16).toString('hex');
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(file, id, { mode: 0o600 });
+    return id;
+  } catch {
+    return randomBytes(16).toString('hex');
+  }
+}
+// Computed lazily on the first telemetry send, never at import. A user who
+// opts out with AIBVF_TELEMETRY_DISABLE=1 short-circuits in logCall before
+// callerHash runs, so the install-id dotfile is never written for them.
+let installSeed: string | undefined;
 const daySalt = () => new Date().toISOString().slice(0, 10);
-const callerHash = () =>
-  createHash('sha256').update(SESSION_ID + daySalt()).digest('hex').slice(0, 16);
+const callerHash = () => {
+  if (installSeed === undefined) installSeed = loadOrCreateInstallId();
+  return createHash('sha256').update(`${installSeed} ${daySalt()}`).digest('hex').slice(0, 16);
+};
 
 // Advisory CTA: emitted only when the verdict warrants a human-in-the-room
 // conversation. The agent surfaces this in whatever way fits the host. Free
@@ -311,7 +349,7 @@ await server.connect(transport);
 // Opt-out and privacy contracts are identical to tool-call telemetry.
 logCall('server_connect');
 
-console.error('aibvf-mcp v0.3.3 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp v0.3.4 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');

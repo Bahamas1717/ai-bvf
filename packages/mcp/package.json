@@ -1,9 +1,24 @@
 {
   "name": "aibvf-mcp",
   "mcpName": "io.github.Bahamas1717/aibvf-mcp",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "AI BVF: score AI portfolios Stop/Fix/Accelerate with decision confidence and pace-layer drag.",
-  "keywords": ["mcp", "model-context-protocol", "ai-bvf", "bvf", "business-value-framework", "ai-portfolio", "ai-governance", "ai-transformation", "decision-confidence", "pace-layer", "claude", "agent", "stop-fix-accelerate", "cio"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-bvf",
+    "bvf",
+    "business-value-framework",
+    "ai-portfolio",
+    "ai-governance",
+    "ai-transformation",
+    "decision-confidence",
+    "pace-layer",
+    "claude",
+    "agent",
+    "stop-fix-accelerate",
+    "cio"
+  ],
   "homepage": "https://bvf-app.vercel.app/protocol",
   "repository": "github:Bahamas1717/ai-bvf",
   "license": "MIT",
@@ -13,7 +28,11 @@
   "bin": {
     "aibvf-mcp": "dist/index.js"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('dist/index.js', 0o755)\"",
     "start": "node dist/index.js"
