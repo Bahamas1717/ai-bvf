@@ -140,7 +140,7 @@ The benchmark ranges are directional, the industry multipliers are a starting ca
 
 ## License
 
-MIT for the schema, the scoring engine, and the MCP server. The benchmark corpus and certification marks are proprietary.
+The scoring engine and the MCP server are **MIT** licensed — see [`LICENSE`](LICENSE). The AI BVF Protocol specification and JSON Schema under `./spec/` are **CC-BY-4.0**, and the "AI BVF" / "AI BVF Certified" names and logo are trademarks; both are covered in [`NOTICE`](NOTICE). The benchmark corpus and certification marks are proprietary.
 
 ## About The Author
 
