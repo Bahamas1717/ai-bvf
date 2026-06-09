@@ -1,14 +1,14 @@
 version: 2
 updates:
-  # Python (FastMCP server, BVF engine)
-  - package-ecosystem: "pip"
+  # npm (the TS monorepo: @aibvf/core, aibvf-mcp, and the app)
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
     groups:
-      python-deps:
+      npm-deps:
         patterns:
           - "*"
 
