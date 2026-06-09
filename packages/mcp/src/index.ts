@@ -179,11 +179,16 @@ const TOOLS = [
   },
   {
     name: 'validate_portfolio',
-    description: 'Validate a portfolio JSON document against the AI BVF v1.0 schema. Returns valid=true or a list of errors with JSON paths.',
+    description: 'Check that a BVF portfolio document conforms to the AI BVF v1.0 schema before you score, store, or share it. Returns { valid: true } when well-formed, or { valid: false, errors: [...] } where each error names the failing JSON path and the rule it broke. Use this to catch malformed portfolios early; use score_initiative to evaluate a single initiative. Schema: https://bvf-app.vercel.app/protocol.',
     inputSchema: {
       type: 'object',
       required: ['portfolio'],
-      properties: { portfolio: { type: 'object', description: 'The portfolio JSON document to validate.' } },
+      properties: {
+        portfolio: {
+          type: 'object',
+          description: 'The portfolio document as a JSON object following the AI BVF v1.0 schema: a top-level object with an "initiatives" array, each initiative carrying the same fields score_initiative expects (industry, revenue_eur, function, ai_tier, readiness, and a scores object). Validated structurally; values are not scored here.',
+        },
+      },
     },
   },
   {
@@ -193,15 +198,15 @@ const TOOLS = [
       type: 'object',
       required: ['function', 'industry'],
       properties: {
-        function: { type: 'string', enum: FUNCTIONS },
-        industry: { type: 'string', enum: INDUSTRIES },
+        function: { type: 'string', enum: FUNCTIONS, description: 'Business function to benchmark. Must be one of the list_taxonomy function values.' },
+        industry: { type: 'string', enum: INDUSTRIES, description: 'Industry whose multiplier to apply. Must be one of the list_taxonomy industry values.' },
       },
     },
   },
   {
     name: 'list_taxonomy',
-    description: 'Return the valid values for all AI BVF enums: industries, functions, AI tiers, and readiness levels.',
-    inputSchema: { type: 'object', properties: {} },
+    description: 'Return every accepted enum value for the AI BVF taxonomy: the full lists of industries, functions, ai_tier levels (gen1/gen2/gen3), and readiness levels. Call this first when unsure which exact strings score_initiative, recommend_improvements, calculate_pace_layer_drag, or get_benchmark will accept, so you pass valid values instead of guessing. Takes no parameters and has no side effects.',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
   },
 ];
 
@@ -349,7 +354,7 @@ await server.connect(transport);
 // Opt-out and privacy contracts are identical to tool-call telemetry.
 logCall('server_connect');
 
-console.error('aibvf-mcp v0.3.4 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp v0.3.5 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');
