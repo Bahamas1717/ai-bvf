@@ -2,6 +2,18 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, and `aibvf`, in reverse chronological order.
 
+## 0.4.0 (aibvf-mcp), 10 June 2026
+
+Added: a declared `outputSchema` on all six tools, plus a `structuredContent` field on every tool response, hand-matched to each tool's real return shape. Through 0.3.x the tools advertised no output schema, so an MCP host (and Glama's scorer) had to infer the result format from prose — Glama read `calculate_pace_layer_drag` as returning a bare EUR number when it actually returns a low/high range, a drag rate, a pace-gap severity, drivers, and a source. Each tool now ships a JSON Schema describing its output and returns `structuredContent` conforming to it alongside the existing pretty-printed `text` block, so hosts get typed, machine-readable results and the contract is self-documenting. No change to the computed values or classification logic — the numbers and verdicts are identical to 0.3.5.
+
+Two range shapes exist in the wire format and both are now schema-documented: `{low,high}` for modelled EUR/value ranges (`score_initiative`, `calculate_pace_layer_drag`) and `{lo,hi}` for the raw benchmark rates (`get_benchmark`).
+
+Changed: tool descriptions now disclose that every tool is a pure deterministic calculation/lookup with no network, auth, or side effects (the behavioural-transparency gap Glama flagged), `calculate_pace_layer_drag`'s description no longer implies a scalar EUR output, and its `readiness`/`ai_tier`/`industry` parameters carry fuller descriptions (the `readiness` enum values are spelled out; `industry` notes its `universal` default).
+
+Also synced two stale version strings to the release: the `Server({ version })` handshake and `server.json` were still reporting `0.3.3`.
+
+This is the first release to lean on `@modelcontextprotocol/sdk` semantics from the 2025-06-18 spec (`outputSchema` + `structuredContent`); the installed SDK is 1.29.0 and the dependency range `^1.0.0` is unchanged, as `structuredContent` is a plain response field the low-level `Server` passes through unmodified.
+
 ## 0.3.5 (aibvf-mcp), 9 June 2026
 
 Changed: tightened the tool definitions for `validate_portfolio`, `list_taxonomy`, and `get_benchmark` so each tool describes itself, its parameters, and its return shape well enough for an agent to use it without guessing. No behavioural change to the handlers — descriptions and JSON-schema parameter semantics only. Motivated by Glama's quality score, which is 70% Tool Definition Quality (scored per tool, with the weakest tool weighted heavily) and 30% Server Coherence: `validate_portfolio` now documents the expected portfolio shape rather than an opaque `object`, `list_taxonomy` states when to call it and that it is side-effect free, and `get_benchmark`'s `function`/`industry` parameters carry descriptions pointing back to `list_taxonomy`.

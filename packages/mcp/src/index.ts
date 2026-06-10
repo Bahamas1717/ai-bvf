@@ -124,7 +124,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.3.3' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.4.0' },
   { capabilities: { tools: {} } },
 );
 
@@ -155,31 +155,158 @@ const paceLayerInputSchema = {
   required: ['revenue_eur', 'ai_tier', 'readiness'],
   properties: {
     revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR.' },
-    ai_tier:     { type: 'string', enum: AI_TIERS, description: 'gen1=automation/RPA, gen2=GenAI, gen3=agentic.' },
-    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness. Honest self-assessment.' },
-    industry:    { type: 'string', enum: INDUSTRIES, description: 'Optional, for future vertical adjustments.' },
+    ai_tier:     { type: 'string', enum: AI_TIERS, description: 'Ambition of the AI being deployed: gen1=automation/RPA, gen2=GenAI, gen3=agentic.' },
+    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness, honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy.' },
+    industry:    { type: 'string', enum: INDUSTRIES, description: 'Optional; defaults to universal. Reserved for future vertical adjustments.' },
+  },
+};
+
+// Reusable output-schema fragments. Two range shapes exist in the wire format:
+// {low,high} for modelled EUR/value ranges, {lo,hi} for raw benchmark rates.
+const rangeLowHigh = (description: string) => ({
+  type: 'object', description, required: ['low', 'high'],
+  properties: { low: { type: 'number' }, high: { type: 'number' } },
+});
+const rangeLoHi = (description: string) => ({
+  type: 'object', description, required: ['lo', 'hi'],
+  properties: { lo: { type: 'number' }, hi: { type: 'number' } },
+});
+const stringArray = (description: string) => ({ type: 'array', items: { type: 'string' }, description });
+
+const scoreOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'classification', 'reason', 'net_value_eur', 'gross_value_eur', 'decision_confidence', 'multipliers', 'drivers', 'benchmark_source', 'applied_modules'],
+  properties: {
+    bvf_version:         { type: 'string', description: 'AI BVF protocol version used.' },
+    classification:      { type: 'string', enum: ['Accelerate', 'Fix', 'Stop'], description: 'The verdict for this initiative.' },
+    reason:              { type: 'string', description: 'One-line justification for the classification.' },
+    net_value_eur:       rangeLowHigh('Modelled net value in EUR after capture rate, low/high.'),
+    gross_value_eur:     rangeLowHigh('Modelled gross value in EUR before capture, low/high.'),
+    decision_confidence: { type: 'number', description: 'Confidence in the verdict, 0–1.' },
+    multipliers: {
+      type: 'object', description: 'Factors applied to the base rates.',
+      required: ['industry', 'tier', 'capture_low', 'capture_high'],
+      properties: {
+        industry:     { type: 'number' }, tier: { type: 'number' },
+        capture_low:  { type: 'number' }, capture_high: { type: 'number' },
+      },
+    },
+    drivers:            stringArray('Named value drivers behind the estimate.'),
+    benchmark_source:   { type: 'string', description: 'Citation for the benchmark rates applied.' },
+    applied_modules:    stringArray('BVF scoring modules that fired for this input.'),
+    advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
+  },
+};
+
+const recommendOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'current_classification', 'target_classification', 'feasible', 'recommendations', 'projected_decision_confidence', 'notes'],
+  properties: {
+    bvf_version:            { type: 'string', description: 'AI BVF protocol version used.' },
+    current_classification: { type: 'string', enum: ['Accelerate', 'Fix', 'Stop'], description: 'Verdict as the initiative stands today.' },
+    target_classification:  { type: 'string', enum: ['Accelerate', 'Fix', 'Stop'], description: 'Verdict the recommendations aim to reach.' },
+    feasible:               { type: 'boolean', description: 'Whether the target is reachable via the listed pillar moves.' },
+    recommendations: {
+      type: 'array', description: 'Per-pillar improvement actions.',
+      items: {
+        type: 'object',
+        required: ['pillar', 'current', 'target', 'delta', 'action', 'rationale'],
+        properties: {
+          pillar:    { type: 'string', enum: ['strategic_alignment', 'financial_return', 'change_enablement', 'governance_risk'] },
+          current:   { type: 'number', description: 'Current pillar score (0–100).' },
+          target:    { type: 'number', description: 'Pillar score needed to flip classification (0–100).' },
+          delta:     { type: 'number', description: 'Points of improvement required (target − current).' },
+          action:    { type: 'string', description: 'Concrete action to close the gap.' },
+          rationale: { type: 'string', description: 'Why this action moves the pillar.' },
+        },
+      },
+    },
+    projected_decision_confidence: { type: 'number', description: 'Confidence in the verdict if the recommendations land, 0–1.' },
+    notes:              stringArray('Caveats or context on the recommendation set.'),
+    advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
+  },
+};
+
+const paceLayerOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'annual_drag_eur', 'drag_rate', 'pace_gap', 'drivers', 'source'],
+  properties: {
+    bvf_version:     { type: 'string', description: 'AI BVF protocol version used.' },
+    annual_drag_eur: rangeLowHigh('Estimated annual Organisational Drag Cost in EUR, low/high.'),
+    drag_rate:       rangeLowHigh('Drag as a fraction of revenue (e.g. 0.02 = 2%), low/high.'),
+    pace_gap:        { type: 'string', enum: ['minimal', 'moderate', 'severe'], description: 'Severity of the tier↔readiness mismatch.' },
+    drivers:         stringArray('Named factors contributing to the drag.'),
+    source:          { type: 'string', description: 'Citation for the drag-rate model applied.' },
+  },
+};
+
+const validateOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'valid', 'errors'],
+  properties: {
+    bvf_version: { type: 'string', description: 'AI BVF protocol version validated against.' },
+    valid:       { type: 'boolean', description: 'True when the portfolio conforms to the schema.' },
+    errors: {
+      type: 'array', description: 'Empty when valid; otherwise one entry per schema violation.',
+      items: {
+        type: 'object', required: ['path', 'msg'],
+        properties: {
+          path: { type: 'string', description: 'JSON path to the failing field.' },
+          msg:  { type: 'string', description: 'The rule that was broken.' },
+        },
+      },
+    },
+  },
+};
+
+const benchmarkOutputSchema = {
+  type: 'object',
+  required: ['function', 'industry', 'revenue_uplift_range', 'cost_takeout_range', 'industry_multiplier', 'drivers', 'source'],
+  properties: {
+    function:             { type: 'string', description: 'Business function the rates apply to.' },
+    industry:             { type: 'string', description: 'Industry whose multiplier was applied.' },
+    revenue_uplift_range: rangeLoHi('Revenue uplift as a fraction of revenue, lo/hi.'),
+    cost_takeout_range:   rangeLoHi('Cost take-out as a fraction of revenue, lo/hi.'),
+    industry_multiplier:  { type: 'number', description: 'Multiplier applied to the base rates for this industry.' },
+    drivers:              stringArray('Named value drivers behind the benchmark.'),
+    source:               { type: 'string', description: 'Citation for the benchmark figures.' },
+  },
+};
+
+const taxonomyOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'industries', 'functions', 'ai_tiers', 'readiness'],
+  properties: {
+    bvf_version: { type: 'string', description: 'AI BVF protocol version these enums belong to.' },
+    industries:  stringArray('All accepted industry values.'),
+    functions:   stringArray('All accepted business-function values.'),
+    ai_tiers:    stringArray('All accepted ai_tier values (gen1/gen2/gen3).'),
+    readiness:   stringArray('All accepted organisational-readiness values.'),
   },
 };
 
 const TOOLS = [
   {
     name: 'score_initiative',
-    description: 'Score a single AI initiative using AI BVF v1.0. Returns classification (Accelerate / Fix / Stop), modelled EUR value range, decision confidence, applied modules, and reasoning. Use this as a pre-flight check before recommending any AI deployment.',
+    description: 'Score a single AI initiative using AI BVF v1.0. Returns classification (Accelerate / Fix / Stop), modelled EUR value range, decision confidence, applied modules, and reasoning. Use this as a pre-flight check before recommending any AI deployment. Pure deterministic calculation — no network, auth, or side effects.',
     inputSchema: scoreInputSchema,
+    outputSchema: scoreOutputSchema,
   },
   {
     name: 'recommend_improvements',
-    description: 'For an initiative classified Stop or Fix, return concrete, deterministic recommendations that would flip classification toward Accelerate. Pillar-level targets with named actions and rationale. Answers the "what do I do next" question after score_initiative.',
+    description: 'For an initiative classified Stop or Fix, return concrete, deterministic recommendations that would flip classification toward Accelerate. Pillar-level targets with named actions and rationale. Answers the "what do I do next" question after score_initiative. Pure deterministic calculation — no network, auth, or side effects.',
     inputSchema: scoreInputSchema,
+    outputSchema: recommendOutputSchema,
   },
   {
     name: 'calculate_pace_layer_drag',
-    description: 'Calculate annual Organisational Drag Cost in EUR from misalignment between AI tier and organisational readiness. The hidden cost of structural friction, not the cost of the AI build. Use to quantify the cost of NOT changing the operating model.',
+    description: 'Calculate annual Organisational Drag Cost — the hidden cost of structural friction from misalignment between AI tier and organisational readiness (NOT the cost of the AI build). Use to quantify the cost of NOT changing the operating model. Returns a low/high EUR range, the drag rate as a fraction of revenue, a pace_gap severity (minimal/moderate/severe), the contributing drivers, and the cited source. Pure deterministic calculation — no network, auth, or side effects.',
     inputSchema: paceLayerInputSchema,
+    outputSchema: paceLayerOutputSchema,
   },
   {
     name: 'validate_portfolio',
-    description: 'Check that a BVF portfolio document conforms to the AI BVF v1.0 schema before you score, store, or share it. Returns { valid: true } when well-formed, or { valid: false, errors: [...] } where each error names the failing JSON path and the rule it broke. Use this to catch malformed portfolios early; use score_initiative to evaluate a single initiative. Schema: https://bvf-app.vercel.app/protocol.',
+    description: 'Check that a BVF portfolio document conforms to the AI BVF v1.0 schema before you score, store, or share it. Returns { valid: true } when well-formed, or { valid: false, errors: [...] } where each error names the failing JSON path and the rule it broke. Use this to catch malformed portfolios early; use score_initiative to evaluate a single initiative. Schema: https://bvf-app.vercel.app/protocol. Pure deterministic validation — no network, auth, or side effects.',
     inputSchema: {
       type: 'object',
       required: ['portfolio'],
@@ -190,10 +317,11 @@ const TOOLS = [
         },
       },
     },
+    outputSchema: validateOutputSchema,
   },
   {
     name: 'get_benchmark',
-    description: 'Look up the published benchmark rates for a business function and industry. Returns revenue/cost ranges, industry multiplier, and the cited source.',
+    description: 'Look up the published benchmark rates for a business function and industry. Returns revenue/cost ranges (as fractions of revenue), the industry multiplier, the value drivers, and the cited source. Pure deterministic lookup — no network, auth, or side effects.',
     inputSchema: {
       type: 'object',
       required: ['function', 'industry'],
@@ -202,11 +330,13 @@ const TOOLS = [
         industry: { type: 'string', enum: INDUSTRIES, description: 'Industry whose multiplier to apply. Must be one of the list_taxonomy industry values.' },
       },
     },
+    outputSchema: benchmarkOutputSchema,
   },
   {
     name: 'list_taxonomy',
     description: 'Return every accepted enum value for the AI BVF taxonomy: the full lists of industries, functions, ai_tier levels (gen1/gen2/gen3), and readiness levels. Call this first when unsure which exact strings score_initiative, recommend_improvements, calculate_pace_layer_drag, or get_benchmark will accept, so you pass valid values instead of guessing. Takes no parameters and has no side effects.',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    outputSchema: taxonomyOutputSchema,
   },
 ];
 
@@ -224,23 +354,22 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         ai_tier: a.ai_tier, readiness: a.readiness,
         classification: r.classification, confidence: r.confidence,
       });
+      const payload = {
+        bvf_version: BVF_VERSION,
+        classification: r.classification,
+        reason: r.reason,
+        net_value_eur: { low: r.net_low_eur, high: r.net_high_eur },
+        gross_value_eur: { low: r.gross_low_eur, high: r.gross_high_eur },
+        decision_confidence: r.confidence,
+        multipliers: r.multipliers,
+        drivers: r.drivers,
+        benchmark_source: r.source,
+        applied_modules: r.applied_modules,
+        advisory_next_step: advisoryFor(r.classification),
+      };
       return {
-        content: [{
-          type: 'text',
-          text: JSON.stringify({
-            bvf_version: BVF_VERSION,
-            classification: r.classification,
-            reason: r.reason,
-            net_value_eur: { low: r.net_low_eur, high: r.net_high_eur },
-            gross_value_eur: { low: r.gross_low_eur, high: r.gross_high_eur },
-            decision_confidence: r.confidence,
-            multipliers: r.multipliers,
-            drivers: r.drivers,
-            benchmark_source: r.source,
-            applied_modules: r.applied_modules,
-            advisory_next_step: advisoryFor(r.classification),
-          }, null, 2),
-        }],
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
       };
     }
 
@@ -252,20 +381,19 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         ai_tier: a.ai_tier, readiness: a.readiness,
         classification: rec.current_classification,
       });
+      const payload = {
+        bvf_version: BVF_VERSION,
+        current_classification: rec.current_classification,
+        target_classification: rec.target_classification,
+        feasible: rec.feasible,
+        recommendations: rec.recommendations,
+        projected_decision_confidence: rec.projected_confidence,
+        notes: rec.notes,
+        advisory_next_step: advisoryFor(rec.current_classification),
+      };
       return {
-        content: [{
-          type: 'text',
-          text: JSON.stringify({
-            bvf_version: BVF_VERSION,
-            current_classification: rec.current_classification,
-            target_classification: rec.target_classification,
-            feasible: rec.feasible,
-            recommendations: rec.recommendations,
-            projected_decision_confidence: rec.projected_confidence,
-            notes: rec.notes,
-            advisory_next_step: advisoryFor(rec.current_classification),
-          }, null, 2),
-        }],
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
       };
     }
 
@@ -275,29 +403,27 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         industry: a.industry, ai_tier: a.ai_tier, readiness: a.readiness,
       });
       const d = calculatePaceLayerDrag(a);
+      const payload = {
+        bvf_version: BVF_VERSION,
+        annual_drag_eur: { low: d.annual_drag_eur_low, high: d.annual_drag_eur_high },
+        drag_rate: { low: d.drag_rate_low, high: d.drag_rate_high },
+        pace_gap: d.pace_gap,
+        drivers: d.drivers,
+        source: d.source,
+      };
       return {
-        content: [{
-          type: 'text',
-          text: JSON.stringify({
-            bvf_version: BVF_VERSION,
-            annual_drag_eur: { low: d.annual_drag_eur_low, high: d.annual_drag_eur_high },
-            drag_rate: { low: d.drag_rate_low, high: d.drag_rate_high },
-            pace_gap: d.pace_gap,
-            drivers: d.drivers,
-            source: d.source,
-          }, null, 2),
-        }],
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
       };
     }
 
     if (name === 'validate_portfolio') {
       logCall('validate_portfolio');
       const result = validate((args as any).portfolio);
+      const payload = { bvf_version: BVF_VERSION, ...result };
       return {
-        content: [{
-          type: 'text',
-          text: JSON.stringify({ bvf_version: BVF_VERSION, ...result }, null, 2),
-        }],
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
       };
     }
 
@@ -306,35 +432,33 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       logCall('get_benchmark', { industry, function: fn });
       const base = BASE_RATES[fn];
       const mult = (IND_MULT[industry] ?? IND_MULT.universal)[fn];
+      const payload = {
+        function: fn,
+        industry,
+        revenue_uplift_range: base.rev,
+        cost_takeout_range: base.cost,
+        industry_multiplier: mult,
+        drivers: base.drivers,
+        source: base.source,
+      };
       return {
-        content: [{
-          type: 'text',
-          text: JSON.stringify({
-            function: fn,
-            industry,
-            revenue_uplift_range: base.rev,
-            cost_takeout_range: base.cost,
-            industry_multiplier: mult,
-            drivers: base.drivers,
-            source: base.source,
-          }, null, 2),
-        }],
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
       };
     }
 
     if (name === 'list_taxonomy') {
       logCall('list_taxonomy');
+      const payload = {
+        bvf_version: BVF_VERSION,
+        industries: INDUSTRIES,
+        functions: FUNCTIONS,
+        ai_tiers: AI_TIERS,
+        readiness: READINESS,
+      };
       return {
-        content: [{
-          type: 'text',
-          text: JSON.stringify({
-            bvf_version: BVF_VERSION,
-            industries: INDUSTRIES,
-            functions: FUNCTIONS,
-            ai_tiers: AI_TIERS,
-            readiness: READINESS,
-          }, null, 2),
-        }],
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
       };
     }
 
@@ -354,7 +478,7 @@ await server.connect(transport);
 // Opt-out and privacy contracts are identical to tool-call telemetry.
 logCall('server_connect');
 
-console.error('aibvf-mcp v0.3.5 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp v0.4.0 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');

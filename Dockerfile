@@ -12,7 +12,7 @@
 FROM node:20-slim
 
 # Install the published MCP server globally.
-RUN npm install -g aibvf-mcp@0.3.5
+RUN npm install -g aibvf-mcp@0.4.0
 
 # Anonymous usage telemetry is on by default and is opt-out. Glama's build
 # environment is ephemeral infrastructure, not a real user, so disable it here
