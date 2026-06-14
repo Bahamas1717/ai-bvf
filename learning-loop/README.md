@@ -45,7 +45,15 @@ python -m sovereignty.moat_demo  # money demo #2: the moat / commoditisation tes
 Set `ANTHROPIC_API_KEY` to run the base derivation through the Claude API
 (`claude-opus-4-8` by default, with `claude-haiku-4-5` as the swap counterpart and
 a Haiku→Sonnet→Opus capability ladder for the moat). Force offline even with a key
-via `AIBVF_LL_OFFLINE=1`.
+via `AIBVF_LL_OFFLINE=1`. Validate the live path cheaply with a single call:
+
+```bash
+pip install -e '.[agent]'        # installs the Anthropic SDK
+python -m sovereignty.live_smoke # one Claude call: derive one case and print
+```
+
+The live derivation uses forced tool use, omits sampling parameters (removed on
+Opus 4.8), handles the `refusal` stop reason, and backs off on rate-limit/overload.
 
 Representative offline results (5 seeds): cold private-eval reward **0.954** →
 lifted **0.984** over 8 iterations; the Veteran Test transfers to a model the

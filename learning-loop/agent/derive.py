@@ -66,17 +66,14 @@ def _offline_derive(candidate: dict, model: str) -> dict:
 def _live_derive(candidate: dict, model: str, kb: KnowledgeBase) -> dict:
     exemplars = kb.retrieve(candidate)
     system = build_system_prompt(kb.notes_text(), exemplars)
-    resp = _client().messages.create(
-        model=model,
-        max_tokens=1024,
-        system=[{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
-        tools=[SUBMIT_BVF_TOOL],
-        tool_choice={"type": "tool", "name": "submit_bvf_inputs"},
-        messages=[{"role": "user", "content": build_user_payload(candidate)}],
-    )
+    resp = _create_with_retry(model, system, build_user_payload(candidate))
+    if getattr(resp, "stop_reason", None) == "refusal":
+        raise RuntimeError(
+            f"derivation refused by safety classifier on {model} (stop_reason=refusal)"
+        )
     tool_use = next((b for b in resp.content if b.type == "tool_use"), None)
     if tool_use is None:
-        raise RuntimeError("derivation returned no tool_use block")
+        raise RuntimeError(f"derivation returned no tool_use block (stop_reason={resp.stop_reason})")
     args = tool_use.input
     return {
         "scores": {p: int(args["scores"][p]) for p in PILLARS},
@@ -84,6 +81,35 @@ def _live_derive(candidate: dict, model: str, kb: KnowledgeBase) -> dict:
         "readiness": args["readiness"],
         "rationale": args.get("rationale", ""),
     }
+
+
+def _create_with_retry(model: str, system: str, user_payload: str, attempts: int = 4):
+    """Forced-tool-use call with backoff on transient (rate-limit/overload) errors."""
+    import time
+    from anthropic import RateLimitError, InternalServerError, APIStatusError
+
+    last = None
+    for i in range(attempts):
+        try:
+            return _client().messages.create(
+                model=model,
+                max_tokens=1024,
+                system=[{"type": "text", "text": system,
+                         "cache_control": {"type": "ephemeral"}}],
+                tools=[SUBMIT_BVF_TOOL],
+                tool_choice={"type": "tool", "name": "submit_bvf_inputs"},
+                messages=[{"role": "user", "content": user_payload}],
+            )
+        except (RateLimitError, InternalServerError) as e:
+            last = e
+            time.sleep(2 ** i)
+        except APIStatusError as e:
+            if getattr(e, "status_code", None) == 529:  # overloaded
+                last = e
+                time.sleep(2 ** i)
+            else:
+                raise
+    raise RuntimeError(f"derivation failed after {attempts} attempts: {last}")
 
 
 def derive_pillars(candidate: dict, model: str, kb: KnowledgeBase) -> dict:
