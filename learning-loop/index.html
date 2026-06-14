@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>The Compounding Firm — Learning Loop</title>
+<style>
+  :root { --navy:#1B3A5C; --orange:#C47A2B; --ink:#1f2933; --paper:#F7F5F0; --line:#e4ddd0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:Tahoma,Geneva,sans-serif; color:var(--ink); background:var(--paper); }
+  header { background:var(--navy); color:#fff; padding:32px 24px; }
+  header .kicker { color:var(--orange); font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 8px; }
+  header h1 { margin:0 0 6px; font-size:30px; }
+  header p { margin:0; max-width:760px; line-height:1.5; opacity:.92; font-size:15px; }
+  main { max-width:1040px; margin:0 auto; padding:24px; }
+  .row { display:flex; flex-wrap:wrap; gap:16px; margin:8px 0 24px; }
+  .stat { flex:1 1 180px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .stat .n { font-size:30px; font-weight:bold; color:var(--navy); }
+  .stat .n .up { color:var(--orange); }
+  .stat .l { font-size:13px; color:#5b6772; margin-top:4px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px 22px; margin-bottom:20px; }
+  .card h2 { margin:0 0 4px; font-size:19px; color:var(--navy); }
+  .card .take { margin:0 0 14px; font-size:14px; color:var(--orange); font-weight:bold; }
+  .card p { margin:0 0 6px; font-size:14px; line-height:1.55; color:#3b454f; }
+  .chart { width:100%; overflow-x:auto; }
+  .chart svg { max-width:100%; height:auto; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  .pass { display:inline-block; background:var(--navy); color:#fff; font-size:12px; font-weight:bold; padding:2px 10px; border-radius:20px; margin-left:8px; vertical-align:middle; }
+  .legend { font-size:12px; color:#5b6772; margin:8px 0 0; }
+  .legend .sw { display:inline-block; width:11px; height:11px; border-radius:2px; vertical-align:middle; margin:0 4px 0 12px; }
+  footer { max-width:1040px; margin:0 auto; padding:8px 24px 40px; color:#5b6772; font-size:13px; line-height:1.5; }
+  code { background:#efeadf; padding:1px 6px; border-radius:4px; font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">Craig Horton Advisory &middot; The Transformation Brief</p>
+  <h1>The Compounding Firm</h1>
+  <p>A firm's lasting AI advantage is not the model it picks. It is the learning loop it owns, where human capital and token capital compound. This page shows that loop running, end to end, on the AI Business Value Framework. Offline reference run, 5 seeds.</p>
+</header>
+
+<main>
+  <div class="row">
+    <div class="stat"><div class="n">0.954 &rarr; <span class="up">0.984</span></div><div class="l">Private-eval reward, cold to lifted (8 iterations)</div></div>
+    <div class="stat"><div class="n up">+0.016</div><div class="l">Lift carried to a model the policy was never fit on</div></div>
+    <div class="stat"><div class="n up">persists</div><div class="l">Firm advantage across the base-model ladder</div></div>
+  </div>
+
+  <div class="card">
+    <h2>The hill-climbing machine</h2>
+    <p class="take">As the loop experiences more of the firm's work, the private-eval reward climbs. That rising curve is token capital compounding.</p>
+    <div class="chart">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Tahoma,sans-serif">
+<rect width="640" height="360" fill="white"/>
+<text x="50" y="28" font-size="18" fill="#1B3A5C">The hill-climbing machine</text>
+<text x="50" y="46" font-size="12" fill="#1B3A5C">Private-eval reward vs loop iteration (offline, offline-strong)</text>
+<line x1="50" y1="310" x2="590" y2="310" stroke="#1B3A5C" stroke-width="1"/>
+<line x1="50" y1="50" x2="50" y2="310" stroke="#1B3A5C" stroke-width="1"/>
+<polyline points="50.0,156.5 117.5,310.0 185.0,215.7 252.5,120.8 320.0,93.1 387.5,64.1 455.0,64.1 522.5,75.7 590.0,50.0" fill="none" stroke="#1B3A5C" stroke-width="2.5"/>
+<circle cx="50.0" cy="156.5" r="4" fill="#C47A2B"/><circle cx="117.5" cy="310.0" r="4" fill="#C47A2B"/><circle cx="185.0" cy="215.7" r="4" fill="#C47A2B"/><circle cx="252.5" cy="120.8" r="4" fill="#C47A2B"/><circle cx="320.0" cy="93.1" r="4" fill="#C47A2B"/><circle cx="387.5" cy="64.1" r="4" fill="#C47A2B"/><circle cx="455.0" cy="64.1" r="4" fill="#C47A2B"/><circle cx="522.5" cy="75.7" r="4" fill="#C47A2B"/><circle cx="590.0" cy="50.0" r="4" fill="#C47A2B"/>
+<text x="50.0" y="328.0" font-size="11" fill="#1B3A5C">cold</text>
+<text x="590.0" y="328.0" font-size="11" fill="#1B3A5C">iter 8</text>
+</svg>
+    </div>
+    <p class="legend">Early dip: too few traces to fit the calibration cleanly. It recovers and compounds as real traces accumulate.</p>
+  </div>
+
+  <div class="card">
+    <h2>The Veteran Test <span class="pass">PASS</span></h2>
+    <p class="take">One owned artifact, fit on one base model, lifts a different model it was never fit on. The veteran lives in the file, not the model.</p>
+    <div class="chart">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" font-family="Tahoma,sans-serif">
+<rect width="680" height="380" fill="white"/>
+<text x="60" y="30" font-size="17" fill="#1B3A5C">The Veteran Test: one owned artifact lifts a model it was never fit on</text>
+<text x="60" y="50" font-size="12" fill="#1B3A5C">navy = cold base model, orange = base model + Veteran Capital artifact</text>
+<line x1="60" y1="320" x2="620" y2="320" stroke="#1B3A5C" stroke-width="1"/>
+<rect x="83.3" y="69.7" width="93.3" height="250.3" fill="#1B3A5C"/><rect x="176.7" y="60.0" width="93.3" height="260.0" fill="#C47A2B"/><text x="200.0" y="338.0" font-size="11" fill="#1B3A5C" text-anchor="middle">offline-strong</text><rect x="363.3" y="83.4" width="93.3" height="236.6" fill="#1B3A5C"/><rect x="456.7" y="79.3" width="93.3" height="240.7" fill="#C47A2B"/><text x="480.0" y="338.0" font-size="11" fill="#1B3A5C" text-anchor="middle">offline-weak</text>
+</svg>
+    </div>
+    <p class="legend"><span class="sw" style="background:#1B3A5C"></span>cold base model <span class="sw" style="background:#C47A2B"></span>base model + Veteran Capital. Fit on offline-strong; lifts offline-weak (+0.016) too.</p>
+  </div>
+
+  <div class="card">
+    <h2>The moat <span class="pass">PASS</span></h2>
+    <p class="take">One fixed artifact across a capability ladder. The firm advantage stays positive and does not collapse as base models get stronger.</p>
+    <div class="chart">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" font-family="Tahoma,sans-serif">
+<rect width="680" height="380" fill="white"/>
+<text x="60" y="30" font-size="17" fill="#1B3A5C">The moat: firm advantage persists as base models commoditise</text>
+<text x="60" y="50" font-size="12" fill="#1B3A5C">navy = cold base model, orange = base model + Veteran Capital artifact</text>
+<line x1="60" y1="320" x2="620" y2="320" stroke="#1B3A5C" stroke-width="1"/>
+<rect x="75.6" y="83.4" width="62.2" height="236.6" fill="#1B3A5C"/><rect x="137.8" y="79.3" width="62.2" height="240.7" fill="#C47A2B"/><text x="153.3" y="338.0" font-size="11" fill="#1B3A5C" text-anchor="middle">offline-weak</text><rect x="262.2" y="74.7" width="62.2" height="245.3" fill="#1B3A5C"/><rect x="324.4" y="73.7" width="62.2" height="246.3" fill="#C47A2B"/><text x="340.0" y="338.0" font-size="11" fill="#1B3A5C" text-anchor="middle">offline-mid</text><rect x="448.9" y="69.7" width="62.2" height="250.3" fill="#1B3A5C"/><rect x="511.1" y="60.0" width="62.2" height="260.0" fill="#C47A2B"/><text x="526.7" y="338.0" font-size="11" fill="#1B3A5C" text-anchor="middle">offline-strong</text>
+</svg>
+    </div>
+    <p class="legend">Better generalists ride on top of the owned layer rather than erasing it.</p>
+  </div>
+
+  <div class="card">
+    <h2>How to reproduce</h2>
+    <p>Everything runs with no API key. From <code>learning-loop/</code>:</p>
+    <p><code>python -m loop.run_loop</code> &middot; <code>python -m sovereignty.swap_demo</code> &middot; <code>python -m sovereignty.moat_demo</code></p>
+    <p>The charts above are regenerated into <code>artifacts/</code> on each run. Honest caveat: this is a mechanism proof on sample data, not an ROI figure.</p>
+  </div>
+</main>
+
+<footer>
+  Provenance: the thesis (human capital and token capital compounding in a firm-owned learning loop, and a frontier ecosystem rather than just a frontier model) is Satya Nadella's. The contribution here is the operational layer that makes it testable: the Veteran Capital artifact and its spec, the runnable loop, and the Veteran Test and moat proofs. His thesis, the proof built here.
+</footer>
+</body>
+</html>
