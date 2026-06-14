@@ -1,0 +1,5 @@
+{"id": "note-gov-ceremonial", "text": "Regulatory keywords that are ceremonial rather than substantive (an audit trail with no real downstream review) should not inflate governance_risk.", "source": "BVF v1.0 senior-practitioner rubric"}
+{"id": "note-fin-brittle", "text": "High automation coverage with concentrated rework signals brittle automation; discount the modelled financial_return rather than trusting the coverage figure.", "source": "BVF v1.0 senior-practitioner rubric"}
+{"id": "note-integrations-plumbing", "text": "Integration counts often include orchestration plumbing that is not real coupling; do not over-penalise change_enablement for it.", "source": "BVF v1.0 senior-practitioner rubric"}
+{"id": "note-regulated-strategic", "text": "A regulated function in a regulated industry is more strategic than the base rubric allows; weight strategic_alignment up.", "source": "Craig Horton Advisory house calibration"}
+{"id": "note-kpi-owner", "text": "A concrete, numeric KPI paired with a named executive owner on a value function is a stronger commitment signal than the base rubric scores.", "source": "Craig Horton Advisory house calibration"}

@@ -1,0 +1,1807 @@
+{
+  "protocol_version": "0.1",
+  "firm": {
+    "name": "Craig Horton Advisory (demo)",
+    "domain": "bvf-pillar-derivation",
+    "base_model_fit_on": "offline-strong"
+  },
+  "institutional_memory": {
+    "notes": [
+      {
+        "id": "note-gov-ceremonial",
+        "text": "Regulatory keywords that are ceremonial rather than substantive (an audit trail with no real downstream review) should not inflate governance_risk.",
+        "source": "BVF v1.0 senior-practitioner rubric"
+      },
+      {
+        "id": "note-fin-brittle",
+        "text": "High automation coverage with concentrated rework signals brittle automation; discount the modelled financial_return rather than trusting the coverage figure.",
+        "source": "BVF v1.0 senior-practitioner rubric"
+      },
+      {
+        "id": "note-integrations-plumbing",
+        "text": "Integration counts often include orchestration plumbing that is not real coupling; do not over-penalise change_enablement for it.",
+        "source": "BVF v1.0 senior-practitioner rubric"
+      },
+      {
+        "id": "note-regulated-strategic",
+        "text": "A regulated function in a regulated industry is more strategic than the base rubric allows; weight strategic_alignment up.",
+        "source": "Craig Horton Advisory house calibration"
+      },
+      {
+        "id": "note-kpi-owner",
+        "text": "A concrete, numeric KPI paired with a named executive owner on a value function is a stronger commitment signal than the base rubric scores.",
+        "source": "Craig Horton Advisory house calibration"
+      }
+    ],
+    "exemplars": [
+      {
+        "features": [
+          1.0,
+          0.25,
+          0.122,
+          0.141,
+          0.2,
+          3.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "hr",
+        "industry": "real_estate",
+        "scores": {
+          "strategic_alignment": 51,
+          "financial_return": 17,
+          "change_enablement": 42,
+          "governance_risk": 58
+        },
+        "reward": 0.9894,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.4,
+          0.113,
+          0.026,
+          4.0,
+          1.0,
+          2.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "function_hint": "supply",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 33,
+          "change_enablement": 59,
+          "governance_risk": 39
+        },
+        "reward": 0.9611,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.52,
+          0.166,
+          0.042,
+          1.4,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "function_hint": "finance",
+        "industry": "manufacturing",
+        "scores": {
+          "strategic_alignment": 20,
+          "financial_return": 34,
+          "change_enablement": 44,
+          "governance_risk": 40
+        },
+        "reward": 0.9594,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.82,
+          0.053,
+          0.098,
+          0.4,
+          8.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "function_hint": "it",
+        "industry": "universal",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 56,
+          "change_enablement": 52,
+          "governance_risk": 52
+        },
+        "reward": 0.9608,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.53,
+          0.05,
+          0.012,
+          0.2,
+          2.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "professional",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 50,
+          "change_enablement": 73,
+          "governance_risk": 34
+        },
+        "reward": 0.9589,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.8,
+          0.006,
+          0.029,
+          0.2,
+          3.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "universal",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 67,
+          "change_enablement": 71,
+          "governance_risk": 36
+        },
+        "reward": 0.9839,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.81,
+          0.009,
+          0.007,
+          0.4,
+          4.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "professional",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 69,
+          "change_enablement": 70,
+          "governance_risk": 31
+        },
+        "reward": 0.9839,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.77,
+          0.025,
+          0.086,
+          0.2,
+          3.0,
+          3.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "retail",
+        "scores": {
+          "strategic_alignment": 70,
+          "financial_return": 58,
+          "change_enablement": 56,
+          "governance_risk": 53
+        },
+        "reward": 0.9882,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.8,
+          0.006,
+          0.084,
+          4.0,
+          6.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "supply",
+        "industry": "logistics",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 58,
+          "change_enablement": 69,
+          "governance_risk": 47
+        },
+        "reward": 0.98,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.44,
+          0.012,
+          0.077,
+          1.4,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "public_sector",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 42,
+          "change_enablement": 74,
+          "governance_risk": 45
+        },
+        "reward": 0.976,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.2,
+          0.085,
+          0.058,
+          2.2,
+          7.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 24,
+          "change_enablement": 53,
+          "governance_risk": 45
+        },
+        "reward": 0.9805,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.08,
+          0.009,
+          0.077,
+          0.6,
+          2.0,
+          2.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "nonprofit",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 25,
+          "change_enablement": 73,
+          "governance_risk": 49
+        },
+        "reward": 0.9884,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.79,
+          0.15,
+          0.059,
+          4.0,
+          2.0,
+          2.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "function_hint": "risk",
+        "industry": "real_estate",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 46,
+          "change_enablement": 43,
+          "governance_risk": 46
+        },
+        "reward": 0.9631,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.65,
+          0.108,
+          0.117,
+          0.9,
+          5.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "sales",
+        "industry": "manufacturing",
+        "scores": {
+          "strategic_alignment": 70,
+          "financial_return": 39,
+          "change_enablement": 40,
+          "governance_risk": 55
+        },
+        "reward": 0.9816,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.19,
+          0.02,
+          0.081,
+          0.9,
+          4.0,
+          2.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "finance",
+        "industry": "nonprofit",
+        "scores": {
+          "strategic_alignment": 20,
+          "financial_return": 29,
+          "change_enablement": 56,
+          "governance_risk": 50
+        },
+        "reward": 0.9866,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.93,
+          0.045,
+          0.06,
+          0.3,
+          7.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "sales",
+        "industry": "nonprofit",
+        "scores": {
+          "strategic_alignment": 70,
+          "financial_return": 66,
+          "change_enablement": 52,
+          "governance_risk": 42
+        },
+        "reward": 0.9794,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.06,
+          0.178,
+          0.061,
+          0.3,
+          2.0,
+          3.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "sales",
+        "industry": "creative",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 10,
+          "change_enablement": 42,
+          "governance_risk": 48
+        },
+        "reward": 0.9855,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.67,
+          0.151,
+          0.112,
+          0.3,
+          2.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "finance",
+        "industry": "professional",
+        "scores": {
+          "strategic_alignment": 80,
+          "financial_return": 37,
+          "change_enablement": 43,
+          "governance_risk": 52
+        },
+        "reward": 0.9927,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.17,
+          0.038,
+          0.101,
+          0.4,
+          5.0,
+          3.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "public_sector",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 25,
+          "change_enablement": 55,
+          "governance_risk": 56
+        },
+        "reward": 0.9674,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.13,
+          0.002,
+          0.099,
+          0.2,
+          7.0,
+          3.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "sales",
+        "industry": "real_estate",
+        "scores": {
+          "strategic_alignment": 70,
+          "financial_return": 26,
+          "change_enablement": 52,
+          "governance_risk": 56
+        },
+        "reward": 0.9778,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.23,
+          0.138,
+          0.103,
+          0.4,
+          6.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "it",
+        "industry": "retail",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 18,
+          "change_enablement": 38,
+          "governance_risk": 53
+        },
+        "reward": 0.9737,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.18,
+          0.176,
+          0.025,
+          4.0,
+          8.0,
+          3.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "function_hint": "hr",
+        "industry": "manufacturing",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 16,
+          "change_enablement": 36,
+          "governance_risk": 42
+        },
+        "reward": 0.94,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.11,
+          0.156,
+          0.088,
+          0.2,
+          3.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 12,
+          "change_enablement": 41,
+          "governance_risk": 49
+        },
+        "reward": 0.9828,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.87,
+          0.14,
+          0.097,
+          4.0,
+          7.0,
+          3.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "function_hint": "hr",
+        "industry": "nonprofit",
+        "scores": {
+          "strategic_alignment": 80,
+          "financial_return": 47,
+          "change_enablement": 38,
+          "governance_risk": 55
+        },
+        "reward": 0.954,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.05,
+          0.091,
+          0.106,
+          0.9,
+          7.0,
+          3.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "creative",
+        "scores": {
+          "strategic_alignment": 41,
+          "financial_return": 12,
+          "change_enablement": 52,
+          "governance_risk": 57
+        },
+        "reward": 0.9794,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.39,
+          0.048,
+          0.148,
+          0.3,
+          7.0,
+          3.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 30,
+          "change_enablement": 53,
+          "governance_risk": 67
+        },
+        "reward": 0.9794,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.24,
+          0.098,
+          0.096,
+          0.4,
+          3.0,
+          3.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "hr",
+        "industry": "energy",
+        "scores": {
+          "strategic_alignment": 51,
+          "financial_return": 22,
+          "change_enablement": 57,
+          "governance_risk": 55
+        },
+        "reward": 0.9754,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.25,
+          0.089,
+          0.154,
+          0.9,
+          3.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "risk",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 80,
+          "financial_return": 17,
+          "change_enablement": 41,
+          "governance_risk": 63
+        },
+        "reward": 0.9855,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.49,
+          0.155,
+          0.123,
+          0.9,
+          6.0,
+          3.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "supply",
+        "industry": "real_estate",
+        "scores": {
+          "strategic_alignment": 41,
+          "financial_return": 27,
+          "change_enablement": 38,
+          "governance_risk": 61
+        },
+        "reward": 0.9766,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.87,
+          0.156,
+          0.037,
+          0.6,
+          3.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        "function_hint": "risk",
+        "industry": "public_sector",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 55,
+          "change_enablement": 57,
+          "governance_risk": 37
+        },
+        "reward": 0.936,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.19,
+          0.144,
+          0.116,
+          1.4,
+          5.0,
+          2.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "supply",
+        "industry": "energy",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 12,
+          "change_enablement": 39,
+          "governance_risk": 57
+        },
+        "reward": 0.9663,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.18,
+          0.017,
+          0.108,
+          0.3,
+          4.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "risk",
+        "industry": "universal",
+        "scores": {
+          "strategic_alignment": 80,
+          "financial_return": 26,
+          "change_enablement": 55,
+          "governance_risk": 52
+        },
+        "reward": 0.9872,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.84,
+          0.029,
+          0.002,
+          1.4,
+          8.0,
+          2.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "creative",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 67,
+          "change_enablement": 66,
+          "governance_risk": 35
+        },
+        "reward": 0.9389,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.36,
+          0.004,
+          0.144,
+          0.6,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "hr",
+        "industry": "universal",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 34,
+          "change_enablement": 59,
+          "governance_risk": 59
+        },
+        "reward": 0.9955,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.32,
+          0.177,
+          0.107,
+          0.6,
+          4.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "finance",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 18,
+          "change_enablement": 40,
+          "governance_risk": 53
+        },
+        "reward": 0.9833,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.14,
+          0.028,
+          0.135,
+          4.0,
+          4.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "finance",
+        "industry": "creative",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 17,
+          "change_enablement": 56,
+          "governance_risk": 57
+        },
+        "reward": 0.9828,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.26,
+          0.003,
+          0.135,
+          0.2,
+          1.0,
+          3.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "nonprofit",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 30,
+          "change_enablement": 58,
+          "governance_risk": 63
+        },
+        "reward": 0.995,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.36,
+          0.094,
+          0.039,
+          1.4,
+          5.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "finance",
+        "industry": "financial",
+        "scores": {
+          "strategic_alignment": 20,
+          "financial_return": 33,
+          "change_enablement": 54,
+          "governance_risk": 38
+        },
+        "reward": 0.9424,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.41,
+          0.074,
+          0.102,
+          0.4,
+          1.0,
+          2.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "hr",
+        "industry": "manufacturing",
+        "scores": {
+          "strategic_alignment": 51,
+          "financial_return": 34,
+          "change_enablement": 58,
+          "governance_risk": 54
+        },
+        "reward": 0.995,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.16,
+          0.156,
+          0.127,
+          2.2,
+          6.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "supply",
+        "industry": "healthcare",
+        "scores": {
+          "strategic_alignment": 70,
+          "financial_return": 7,
+          "change_enablement": 38,
+          "governance_risk": 57
+        },
+        "reward": 0.9595,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.78,
+          0.169,
+          0.011,
+          2.2,
+          3.0,
+          2.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "function_hint": "cx",
+        "industry": "financial",
+        "scores": {
+          "strategic_alignment": 71,
+          "financial_return": 49,
+          "change_enablement": 57,
+          "governance_risk": 37
+        },
+        "reward": 0.9334,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.45,
+          0.0,
+          0.109,
+          1.4,
+          5.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "finance",
+        "industry": "energy",
+        "scores": {
+          "strategic_alignment": 80,
+          "financial_return": 41,
+          "change_enablement": 55,
+          "governance_risk": 52
+        },
+        "reward": 0.9512,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.4,
+          0.036,
+          0.123,
+          2.2,
+          3.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "hr",
+        "industry": "universal",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 33,
+          "change_enablement": 57,
+          "governance_risk": 58
+        },
+        "reward": 0.9844,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.49,
+          0.018,
+          0.103,
+          1.4,
+          8.0,
+          3.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "risk",
+        "industry": "creative",
+        "scores": {
+          "strategic_alignment": 20,
+          "financial_return": 42,
+          "change_enablement": 52,
+          "governance_risk": 57
+        },
+        "reward": 0.9782,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.77,
+          0.125,
+          0.079,
+          2.2,
+          4.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        "function_hint": "rd",
+        "industry": "healthcare",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 47,
+          "change_enablement": 41,
+          "governance_risk": 48
+        },
+        "reward": 0.9475,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.18,
+          0.001,
+          0.01,
+          0.6,
+          5.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "sales",
+        "industry": "healthcare",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 37,
+          "change_enablement": 70,
+          "governance_risk": 32
+        },
+        "reward": 0.9708,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.38,
+          0.024,
+          0.043,
+          4.0,
+          7.0,
+          3.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "logistics",
+        "scores": {
+          "strategic_alignment": 70,
+          "financial_return": 38,
+          "change_enablement": 67,
+          "governance_risk": 46
+        },
+        "reward": 0.9423,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.78,
+          0.146,
+          0.116,
+          0.6,
+          5.0,
+          2.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "function_hint": "sales",
+        "industry": "manufacturing",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 43,
+          "change_enablement": 40,
+          "governance_risk": 57
+        },
+        "reward": 0.9596,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.62,
+          0.095,
+          0.05,
+          0.6,
+          2.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "risk",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 20,
+          "financial_return": 46,
+          "change_enablement": 57,
+          "governance_risk": 40
+        },
+        "reward": 0.9878,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.91,
+          0.176,
+          0.094,
+          0.6,
+          7.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "function_hint": "sales",
+        "industry": "logistics",
+        "scores": {
+          "strategic_alignment": 40,
+          "financial_return": 48,
+          "change_enablement": 38,
+          "governance_risk": 51
+        },
+        "reward": 0.9596,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.38,
+          0.009,
+          0.022,
+          2.2,
+          7.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "professional",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 45,
+          "change_enablement": 68,
+          "governance_risk": 36
+        },
+        "reward": 0.945,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.16,
+          0.143,
+          0.116,
+          4.0,
+          1.0,
+          3.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "hr",
+        "industry": "financial",
+        "scores": {
+          "strategic_alignment": 50,
+          "financial_return": 9,
+          "change_enablement": 43,
+          "governance_risk": 60
+        },
+        "reward": 0.9766,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.67,
+          0.158,
+          0.112,
+          2.2,
+          3.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "rd",
+        "industry": "creative",
+        "scores": {
+          "strategic_alignment": 71,
+          "financial_return": 35,
+          "change_enablement": 41,
+          "governance_risk": 52
+        },
+        "reward": 0.9866,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.82,
+          0.056,
+          0.049,
+          0.6,
+          8.0,
+          3.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "function_hint": "cx",
+        "industry": "retail",
+        "scores": {
+          "strategic_alignment": 70,
+          "financial_return": 60,
+          "change_enablement": 52,
+          "governance_risk": 46
+        },
+        "reward": 0.9273,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.68,
+          0.171,
+          0.132,
+          1.4,
+          5.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 100,
+          "financial_return": 33,
+          "change_enablement": 39,
+          "governance_risk": 58
+        },
+        "reward": 0.9799,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.79,
+          0.052,
+          0.039,
+          0.6,
+          8.0,
+          3.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "function_hint": "it",
+        "industry": "professional",
+        "scores": {
+          "strategic_alignment": 20,
+          "financial_return": 61,
+          "change_enablement": 67,
+          "governance_risk": 44
+        },
+        "reward": 0.9255,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      },
+      {
+        "features": [
+          1.0,
+          0.83,
+          0.024,
+          0.016,
+          0.3,
+          2.0,
+          2.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "function_hint": "cx",
+        "industry": "technology",
+        "scores": {
+          "strategic_alignment": 70,
+          "financial_return": 67,
+          "change_enablement": 73,
+          "governance_risk": 37
+        },
+        "reward": 0.9561,
+        "rationale": "Offline rubric derivation (offline-strong)."
+      }
+    ]
+  },
+  "calibration_policy": {
+    "kind": "ridge_linear",
+    "ridge_lambda": 2.0,
+    "feature_names": [
+      "bias",
+      "automation_coverage",
+      "rework_rate",
+      "exception_rate",
+      "cycle_scaled",
+      "integrations_count",
+      "regulatory_count",
+      "has_concrete_kpi",
+      "has_owner",
+      "is_value_function",
+      "is_regulated_function",
+      "is_regulated_industry",
+      "reg_ceremonial",
+      "brittle_automation"
+    ],
+    "feature_mean": [
+      0.0,
+      0.487969,
+      0.087016,
+      0.086641,
+      1.329687,
+      4.515625,
+      1.5,
+      0.46875,
+      0.484375,
+      0.5625,
+      0.21875,
+      0.265625,
+      0.171875,
+      0.203125
+    ],
+    "feature_std": [
+      1.0,
+      0.270018,
+      0.061916,
+      0.042522,
+      1.29936,
+      2.284405,
+      1.185854,
+      0.499022,
+      0.499756,
+      0.496078,
+      0.413399,
+      0.441665,
+      0.377272,
+      0.402325
+    ],
+    "weights": {
+      "strategic_alignment": [
+        0.859375,
+        0.689732,
+        -0.681823,
+        -0.04547,
+        -0.253896,
+        0.374476,
+        -0.558366,
+        0.007751,
+        -0.244895,
+        -0.207175,
+        1.670709,
+        1.831236,
+        0.274934,
+        -0.334022
+      ],
+      "financial_return": [
+        -4.375,
+        -0.319095,
+        -0.380086,
+        -0.047366,
+        -0.062922,
+        -0.244257,
+        -0.203416,
+        -0.172771,
+        -0.023771,
+        0.321722,
+        0.152887,
+        0.025046,
+        0.204824,
+        -7.290056
+      ],
+      "change_enablement": [
+        10.75,
+        -0.121426,
+        0.522033,
+        -0.268788,
+        0.198585,
+        4.257581,
+        -0.179785,
+        -0.050284,
+        0.115024,
+        0.624476,
+        0.178241,
+        0.337404,
+        -0.622053,
+        -0.4268
+      ],
+      "governance_risk": [
+        -1.546875,
+        -0.070737,
+        -0.483146,
+        0.685436,
+        0.143322,
+        0.275766,
+        -0.051605,
+        -0.194909,
+        0.323387,
+        -0.03519,
+        0.100589,
+        5.65704,
+        -10.465986,
+        0.137765
+      ]
+    }
+  },
+  "eval_suite": {
+    "reward_spec": {
+      "ruling_match_weight": 0.5,
+      "pillar_proximity_weight": 0.45,
+      "confidence_proximity_weight": 0.05
+    },
+    "holdout_case_ids": [
+      "case-000",
+      "case-001",
+      "case-002",
+      "case-004",
+      "case-012",
+      "case-015",
+      "case-017",
+      "case-020",
+      "case-029",
+      "case-031",
+      "case-032",
+      "case-033",
+      "case-043",
+      "case-044",
+      "case-051",
+      "case-052",
+      "case-053",
+      "case-054",
+      "case-056",
+      "case-060",
+      "case-062",
+      "case-063",
+      "case-064",
+      "case-075",
+      "case-081",
+      "case-085",
+      "case-090",
+      "case-091",
+      "case-094"
+    ]
+  },
+  "provenance": {
+    "created_at": "2026-06-14T18:22:58.306015+00:00",
+    "iterations": 9,
+    "train_case_count": 64,
+    "reward_history": [
+      0.9544,
+      0.9112,
+      0.9377,
+      0.9644,
+      0.9722,
+      0.9803,
+      0.9804,
+      0.9771,
+      0.9843
+    ]
+  }
+}

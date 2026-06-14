@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bvf-learning-loop"
+version = "0.1.0"
+description = "The Compounding Firm: a reference implementation of the learning loop (the hill-climbing machine) on top of the AI Business Value Framework. Research/experimental."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [{ name = "Craig Horton" }]
+dependencies = []
+
+[project.optional-dependencies]
+# Live base-model derivation via the Anthropic Claude API. Everything runs
+# without this; offline pseudo-models drive the full loop and demos.
+agent = ["anthropic>=0.40"]
+# Strict artifact validation against spec/veteran-capital.schema.json.
+validate = ["jsonschema>=4.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["capital", "kb", "agent", "loop", "evals", "sovereignty", "viz", "domain"]
