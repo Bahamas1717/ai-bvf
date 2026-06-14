@@ -2,6 +2,13 @@
 
 By Craig Horton, Craig Horton Advisory.
 
+Provenance. The thesis behind this work is Satya Nadella's: human capital and token
+capital compounding inside a firm-owned learning loop, and the goal of a frontier
+ecosystem rather than just a frontier model. The original contribution in this
+package is the operational layer that makes the thesis testable: the Veteran Capital
+artifact and its spec, the runnable learning loop, and the Veteran Test and moat
+proofs. His thesis, the proof built here.
+
 This is the named architecture behind The Compounding Firm, mapped to the runnable
 reference implementation in this package.
 

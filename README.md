@@ -127,7 +127,7 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
 | [`bvf-learning-loop`](learning-loop) | 0.1.0 (experimental) | Reference implementation of the learning loop ("The Compounding Firm"): a firm-owned, model-agnostic Veteran Capital artifact that compounds on top of BVF. Research, not part of the certified protocol. |
 
-BVF is the deterministic judge a firm trusts. The experimental [learning-loop](learning-loop) is the veteran apprentice that gets better at briefing it over time, while BVF's no-LLM scoring path stays untouched.
+BVF is the deterministic judge a firm trusts. The experimental [learning-loop](learning-loop) is the veteran apprentice that gets better at briefing it over time, while BVF's no-LLM scoring path stays untouched. Its underlying thesis (human capital and token capital compounding in a firm-owned learning loop, and a frontier ecosystem rather than just a frontier model) is Satya Nadella's; the contribution here is the operational layer that makes it testable.
 
 ## Anonymous Usage Telemetry
 
