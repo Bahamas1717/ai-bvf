@@ -1,5 +1,8 @@
-# Regenerable, bulky trace export (produced by `python -m loop.run_loop`).
+# Regenerable outputs (produced by `python -m loop.run_loop`).
+# The artifact carries a fresh created_at each run, so it churns; the schema
+# (spec/) and the SVG/JSON charts remain the committed proof.
 artifacts/traces.finetune.jsonl
+artifacts/veteran-capital.json
 
 # Python build/cache
 __pycache__/
