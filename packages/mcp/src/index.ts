@@ -124,7 +124,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.4.0' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.4.1' },
   { capabilities: { tools: {} } },
 );
 
@@ -172,6 +172,8 @@ const rangeLoHi = (description: string) => ({
   properties: { lo: { type: 'number' }, hi: { type: 'number' } },
 });
 const stringArray = (description: string) => ({ type: 'array', items: { type: 'string' }, description });
+const roundEur = (value: number) => Math.round(value);
+const eurRange = (low: number, high: number) => ({ low: roundEur(low), high: roundEur(high) });
 
 const scoreOutputSchema = {
   type: 'object',
@@ -182,7 +184,7 @@ const scoreOutputSchema = {
     reason:              { type: 'string', description: 'One-line justification for the classification.' },
     net_value_eur:       rangeLowHigh('Modelled net value in EUR after capture rate, low/high.'),
     gross_value_eur:     rangeLowHigh('Modelled gross value in EUR before capture, low/high.'),
-    decision_confidence: { type: 'number', description: 'Confidence in the verdict, 0–1.' },
+    decision_confidence: { type: 'number', description: 'Confidence in the verdict, 0-100.' },
     multipliers: {
       type: 'object', description: 'Factors applied to the base rates.',
       required: ['industry', 'tier', 'capture_low', 'capture_high'],
@@ -221,7 +223,7 @@ const recommendOutputSchema = {
         },
       },
     },
-    projected_decision_confidence: { type: 'number', description: 'Confidence in the verdict if the recommendations land, 0–1.' },
+    projected_decision_confidence: { type: 'number', description: 'Confidence in the verdict if the recommendations land, 0-100.' },
     notes:              stringArray('Caveats or context on the recommendation set.'),
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
   },
@@ -358,8 +360,8 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         bvf_version: BVF_VERSION,
         classification: r.classification,
         reason: r.reason,
-        net_value_eur: { low: r.net_low_eur, high: r.net_high_eur },
-        gross_value_eur: { low: r.gross_low_eur, high: r.gross_high_eur },
+        net_value_eur: eurRange(r.net_low_eur, r.net_high_eur),
+        gross_value_eur: eurRange(r.gross_low_eur, r.gross_high_eur),
         decision_confidence: r.confidence,
         multipliers: r.multipliers,
         drivers: r.drivers,
@@ -405,7 +407,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       const d = calculatePaceLayerDrag(a);
       const payload = {
         bvf_version: BVF_VERSION,
-        annual_drag_eur: { low: d.annual_drag_eur_low, high: d.annual_drag_eur_high },
+        annual_drag_eur: eurRange(d.annual_drag_eur_low, d.annual_drag_eur_high),
         drag_rate: { low: d.drag_rate_low, high: d.drag_rate_high },
         pace_gap: d.pace_gap,
         drivers: d.drivers,
@@ -478,7 +480,7 @@ await server.connect(transport);
 // Opt-out and privacy contracts are identical to tool-call telemetry.
 logCall('server_connect');
 
-console.error('aibvf-mcp v0.4.0 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp v0.4.1 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');

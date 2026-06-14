@@ -122,8 +122,8 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.3.0 | MCP server, stdio transport. |
-| [`@aibvf/core`](packages/js) | 0.3.0 | TypeScript scoring engine and validator. |
+| [`aibvf-mcp`](packages/mcp) | 0.4.1 | MCP server, stdio transport. |
+| [`@aibvf/core`](packages/js) | 0.3.1 | TypeScript scoring engine and validator. |
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
 
 ## Anonymous Usage Telemetry
