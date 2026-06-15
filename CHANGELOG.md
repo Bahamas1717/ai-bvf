@@ -2,6 +2,14 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, and `aibvf`, in reverse chronological order.
 
+## 0.4.2 (aibvf-mcp), 15 June 2026
+
+Changed: the advisory call-to-action returned on Fix and Stop verdicts now leads with a booking link (a 20-minute teardown via Calendly) instead of only an email address. The CTA fires on exactly the verdicts where a human conversation pays, so this turns a high-intent moment into a low-friction next step rather than a passive email mention. Email remains as a fallback. No change to scoring, classification, or any computed value.
+
+## 0.4.1 (aibvf-mcp), 14 June 2026
+
+Fixed: the MCP confidence schema (decision_confidence / projected_decision_confidence were documented as 0-1 but the values are 0-100) and EUR rounding at the MCP layer (net/gross value ranges are now rounded to integer EUR via a shared helper, removing floating-point dust from the structured output).
+
 ## 0.4.0 (aibvf-mcp), 10 June 2026
 
 Added: a declared `outputSchema` on all six tools, plus a `structuredContent` field on every tool response, hand-matched to each tool's real return shape. Through 0.3.x the tools advertised no output schema, so an MCP host (and Glama's scorer) had to infer the result format from prose — Glama read `calculate_pace_layer_drag` as returning a bare EUR number when it actually returns a low/high range, a drag rate, a pace-gap severity, drivers, and a source. Each tool now ships a JSON Schema describing its output and returns `structuredContent` conforming to it alongside the existing pretty-printed `text` block, so hosts get typed, machine-readable results and the contract is self-documenting. No change to the computed values or classification logic — the numbers and verdicts are identical to 0.3.5.
