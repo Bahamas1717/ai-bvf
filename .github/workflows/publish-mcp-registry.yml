@@ -60,8 +60,14 @@ jobs:
 
       - name: Publish to npm with provenance
         # Auth via npm Trusted Publishing (OIDC) — no token needed. Provenance is automatic.
+        # Publish from the package dir (not --workspace from root) so npm's OIDC
+        # check resolves the trusted publisher for aibvf-mcp itself.
         if: steps.npm-check.outputs.exists == 'false'
-        run: npm publish --workspace aibvf-mcp --provenance --access public
+        working-directory: packages/mcp
+        run: |
+          echo "npm version: $(npm --version)"
+          echo "OIDC request url present: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
+          npm publish --provenance --access public
 
       - name: Download mcp-publisher
         run: |
