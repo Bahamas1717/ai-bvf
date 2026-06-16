@@ -34,6 +34,14 @@ jobs:
           registry-url: 'https://registry.npmjs.org'   # npm needs the registry configured to start the OIDC exchange
           package-manager-cache: false
 
+      - name: Strip placeholder auth token so OIDC is used for the publish PUT
+        # setup-node writes an .npmrc with an empty `_authToken=${NODE_AUTH_TOKEN}`.
+        # That empty token is sent on PUT and 404s, overriding the OIDC credential.
+        # Rewrite the npmrc to just the registry line; OIDC handles auth.
+        run: |
+          echo "registry=https://registry.npmjs.org/" > "$NPM_CONFIG_USERCONFIG"
+          cat "$NPM_CONFIG_USERCONFIG"
+
       - name: Install dependencies
         run: npm install
 
