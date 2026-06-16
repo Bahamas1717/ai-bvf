@@ -30,8 +30,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'   # ships npm >= 11.5.1, required for OIDC Trusted Publishing
-          registry-url: 'https://registry.npmjs.org'   # npm needs the registry configured to start the OIDC exchange
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
           package-manager-cache: false
 
       - name: Install dependencies
@@ -59,15 +59,12 @@ jobs:
           fi
 
       - name: Publish to npm with provenance
-        # Auth via npm Trusted Publishing (OIDC) — no token needed. Provenance is automatic.
-        # Publish from the package dir (not --workspace from root) so npm's OIDC
-        # check resolves the trusted publisher for aibvf-mcp itself.
+        # Auth via granular access token (NPM_TOKEN secret); provenance via id-token: write.
         if: steps.npm-check.outputs.exists == 'false'
         working-directory: packages/mcp
-        run: |
-          echo "npm version: $(npm --version)"
-          echo "OIDC request url present: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
-          npm publish --provenance --access public --loglevel verbose
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Download mcp-publisher
         run: |
