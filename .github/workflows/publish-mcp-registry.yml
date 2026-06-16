@@ -33,6 +33,9 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Upgrade npm for Trusted Publishing
+        run: npm install -g npm@latest   # Trusted Publishing (OIDC) requires npm >= 11.5.1
+
       - name: Install dependencies
         run: npm install
 
@@ -58,10 +61,9 @@ jobs:
           fi
 
       - name: Publish to npm with provenance
+        # Auth via npm Trusted Publishing (OIDC) — no token needed. Provenance is automatic.
         if: steps.npm-check.outputs.exists == 'false'
         run: npm publish --workspace aibvf-mcp --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Download mcp-publisher
         run: |
