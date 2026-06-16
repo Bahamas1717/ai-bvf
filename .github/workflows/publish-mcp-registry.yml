@@ -72,7 +72,10 @@ jobs:
         # Auth via granular access token (NPM_TOKEN secret); provenance via id-token: write.
         if: steps.npm-check.outputs.exists == 'false'
         working-directory: packages/mcp
-        run: npm publish --provenance --access public
+        run: |
+          echo "Publishing aibvf-mcp@${{ steps.pkg.outputs.version }} with npm $(npm --version)"
+          npm publish --provenance --access public
+          echo "✅ Published aibvf-mcp@${{ steps.pkg.outputs.version }} to npm"
         env:
           NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN_CLEAN }}
 
