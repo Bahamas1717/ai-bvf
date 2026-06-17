@@ -26,4 +26,4 @@ What I want you to tell me I got wrong. The benchmark ranges are directional, th
 
 Repo: https://github.com/Bahamas1717/ai-bvf
 Registry: https://registry.modelcontextprotocol.io/servers?search=aibvf
-Protocol page: https://bvf-app.vercel.app/protocol
+Protocol page: https://www.aibvf.com/protocol

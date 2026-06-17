@@ -84,7 +84,7 @@ Claude will call `score_initiative` and return the classification, euro range, a
 
 ## Spec
 
-<https://bvf-app.vercel.app/protocol>
+<https://www.aibvf.com/protocol>
 
 ## Anonymous Usage Telemetry
 

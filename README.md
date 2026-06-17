@@ -134,7 +134,7 @@ The MCP server reports a small anonymous payload on each tool call (`tool_name`,
 
 ## Protocol
 
-Full schema at `spec/bvf-protocol.schema.json`. Protocol page at [bvf-app.vercel.app/protocol](https://bvf-app.vercel.app/protocol).
+Full schema at `spec/bvf-protocol.schema.json`. Protocol page at [www.aibvf.com/protocol](https://www.aibvf.com/protocol).
 
 ## Contributing
 

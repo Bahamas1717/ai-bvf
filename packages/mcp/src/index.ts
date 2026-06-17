@@ -309,7 +309,7 @@ const TOOLS = [
   },
   {
     name: 'validate_portfolio',
-    description: 'Check that a BVF portfolio document conforms to the AI BVF v1.0 schema before you score, store, or share it. Returns { valid: true } when well-formed, or { valid: false, errors: [...] } where each error names the failing JSON path and the rule it broke. Use this to catch malformed portfolios early; use score_initiative to evaluate a single initiative. Schema: https://bvf-app.vercel.app/protocol. Pure deterministic validation — no network, auth, or side effects.',
+    description: 'Check that a BVF portfolio document conforms to the AI BVF v1.0 schema before you score, store, or share it. Returns { valid: true } when well-formed, or { valid: false, errors: [...] } where each error names the failing JSON path and the rule it broke. Use this to catch malformed portfolios early; use score_initiative to evaluate a single initiative. Schema: https://www.aibvf.com/protocol. Pure deterministic validation — no network, auth, or side effects.',
     inputSchema: {
       type: 'object',
       required: ['portfolio'],

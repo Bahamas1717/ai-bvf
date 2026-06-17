@@ -47,7 +47,7 @@ print(r['net_high_eur'])     # ~247M
 
 ## Spec
 
-Full specification at <https://bvf-app.vercel.app/protocol>.
+Full specification at <https://www.aibvf.com/protocol>.
 
 ## License
 
