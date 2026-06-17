@@ -10,12 +10,6 @@ packages, not part of the certified protocol. It deliberately keeps the BVF
 scoring engine pure: BVF stays the deterministic judge, and nothing here injects
 an LLM or ML into BVF's scoring path.
 
-**Provenance.** The thesis is Satya Nadella's: human capital and token capital
-compounding inside a firm-owned learning loop, and a frontier ecosystem rather than
-just a frontier model. The original contribution here is the operational layer that
-makes it testable: the Veteran Capital artifact and its spec, the runnable learning
-loop, and the Veteran Test and moat proofs. His thesis, the proof built here.
-
 ## The idea in one line
 
 BVF is the deterministic **judge** a firm trusts. The learning loop is the firm's

@@ -15,11 +15,11 @@ makers, firms end up renting their own expertise, and the displacement lands on
 whole industries the way the first wave of globalisation hollowed out manufacturing.
 
 ### Why release now
-The thesis is already in the air. Satya Nadella has made the case for human capital
-and token capital compounding inside a firm-owned learning loop, and for a frontier
-ecosystem rather than just a frontier model. What has been missing is proof that a
-firm can actually own that loop. We built it. Releasing now plants a flag while the
-conversation is live, and it does so with a working artifact rather than another
+The thesis is already in the air: human capital and token capital compounding inside
+a firm-owned learning loop, and a frontier ecosystem rather than just a frontier
+model. What has been missing is proof that a firm can actually own that loop. We
+built it. Releasing now plants a flag while the conversation is live, and it does so
+with a working artifact rather than another
 opinion piece.
 
 ### Why release it openly
@@ -64,9 +64,7 @@ The learned layer is a calibration policy, not reinforcement learning. Gradient
 fine-tuning and embedding retrieval are named as later work, not shipped.
 
 ### Attribution
-The thesis is Satya Nadella's. The contribution we are releasing is the operational
-layer that makes it testable. Every public artifact credits him. His thesis, the
-proof built here.
+This is Craig Horton Advisory's work: the thesis, the framework, and the proof.
 
 ### Licensing
 Follow the existing repository split: MIT for code, CC-BY-4.0 for the protocol spec,
@@ -89,8 +87,8 @@ the honest caveat. Do not imply ROI we have not measured.
    real model, then the loop and both demos live, so the public claims are not
    offline-only. Capture the live numbers.
 3. Publish the narrative. A Transformation Brief edition built from the whitepaper,
-   and a LinkedIn long-form post in Craig's voice. Both credit Nadella up front and
-   link to the repo and the dashboard.
+   and a LinkedIn long-form post in Craig's voice, linking to the repo and the
+   dashboard.
 4. Optional visual. A Gamma deck from the one-page brief for talks and meetings.
 5. Hold package publication. Do not push `bvf-learning-loop` to PyPI until the live
    validation in step 2 is done and a real-data pilot is lined up. The repo and tag
@@ -98,8 +96,6 @@ the honest caveat. Do not imply ROI we have not measured.
 
 ### Pre-release checklist
 - Live validation run completed and numbers recorded.
-- Nadella credited in every public artifact, including the whitepaper and the
-  one-page brief before they circulate externally.
 - The not-claiming section present wherever results are shown.
 - README real-vs-stubbed table current.
 - Dashboard and charts regenerated from the latest run.
@@ -118,6 +114,5 @@ workflows so the next step is a pilot on your data, not a demo on ours.
 ---
 
 ## Open decisions for Craig
-- Do the whitepaper and one-page brief get the Nadella credit before external release? Recommended yes.
 - Live validation first, or release the offline proof and validate in public? Recommended live first.
 - Publish the package to PyPI now, or hold until a real-data pilot? Recommended hold.
