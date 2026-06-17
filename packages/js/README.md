@@ -44,7 +44,7 @@ console.log(r.net_high_eur);     // ~247M
 ## Spec
 
 Full specification at [www.aibvf.com/protocol](https://www.aibvf.com/protocol).
-JSON Schema at [bvf-app.vercel.app/bvf-protocol.schema.json](https://bvf-app.vercel.app/bvf-protocol.schema.json).
+JSON Schema at [www.aibvf.com/bvf-protocol.schema.json](https://www.aibvf.com/bvf-protocol.schema.json).
 
 ## License
 

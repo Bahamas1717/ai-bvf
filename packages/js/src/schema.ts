@@ -4,7 +4,7 @@
  */
 export const bvfSchema = {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'https://bvf-app.vercel.app/bvf-protocol.schema.json',
+  $id: 'https://www.aibvf.com/bvf-protocol.schema.json',
   title: 'AI BVF Portfolio v1.0',
   type: 'object',
   required: ['bvf_version', 'organization', 'initiatives'],

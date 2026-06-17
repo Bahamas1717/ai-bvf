@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bvf-app.vercel.app/bvf-protocol.schema.json",
+  "$id": "https://www.aibvf.com/bvf-protocol.schema.json",
   "title": "AI BVF Portfolio v1.0",
   "description": "AI Business Value Framework — open scoring schema for AI transformation initiatives. Dual-licensed: this schema under CC-BY-4.0; the benchmark corpus and certification marks are proprietary.",
   "type": "object",
