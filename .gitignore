@@ -20,3 +20,6 @@ publisher.tar.gz
 # Workflow Coroner per-run artefacts (decommission logs, CM plans), regenerated each run
 examples/workflow-coroner/output/
 
+
+adoption-bump-*.png
+traces/
