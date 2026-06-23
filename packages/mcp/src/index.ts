@@ -11,7 +11,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import {
-  score, validate, recommendImprovements, calculatePaceLayerDrag,
+  score, validate, recommendImprovements, calculatePaceLayerDrag, diagnoseProcess,
   BASE_RATES, IND_MULT,
   INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
 } from '@aibvf/core';
@@ -125,7 +125,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.4.2' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.4.4' },
   { capabilities: { tools: {} } },
 );
 
@@ -288,10 +288,63 @@ const taxonomyOutputSchema = {
   },
 };
 
+const diagnoseInputSchema = {
+  type: 'object',
+  required: ['process_id', 'function', 'instances_per_year', 'fte_hours_per_instance', 'loaded_hourly_rate_eur', 'cycle_time_days', 'touch_ratio', 'handoffs', 'rework_rate', 'automation_level', 'direct_spend_eur'],
+  properties: {
+    process_id:             { type: 'string', description: 'Stable identifier for the process.' },
+    function:               { type: 'string', enum: FUNCTIONS, description: 'Business function the process belongs to. See list_taxonomy.' },
+    instances_per_year:     { type: 'number', minimum: 0, description: 'Process volume: how many times it runs per year.' },
+    fte_hours_per_instance: { type: 'number', minimum: 0, description: 'Human touch-time in hours per instance.' },
+    loaded_hourly_rate_eur: { type: 'number', minimum: 0, description: 'Fully-loaded labour cost per hour in EUR.' },
+    cycle_time_days:        { type: 'number', minimum: 0, description: 'Median wall-clock days per instance, end to end.' },
+    touch_ratio:            { type: 'number', minimum: 0, maximum: 1, description: 'Touch-time ÷ cycle-time (0–1). The remainder is wait.' },
+    handoffs:               { type: 'number', minimum: 0, description: 'Distinct owners/systems an instance passes through.' },
+    rework_rate:            { type: 'number', minimum: 0, maximum: 1, description: 'Fraction of instances reopened/reworked (0–1).' },
+    automation_level:       { type: 'number', minimum: 0, maximum: 1, description: 'Share already automated (0–1).' },
+    direct_spend_eur:       { type: 'number', minimum: 0, description: 'Annual licence/vendor/tooling spend on the process in EUR.' },
+    signal_completeness:    { type: 'number', minimum: 0, maximum: 1, description: 'Optional. How much of the above was measured vs defaulted (0–1). Governs confidence; defaults to 0.7.' },
+    readiness:              { type: 'string', enum: READINESS, description: 'Optional. Org change-absorption capacity (caps realised saving). Defaults to traditional.' },
+  },
+};
+
+const dragDecompositionSchema = {
+  type: 'object', description: 'Share of heaviness from each friction factor (sums to ~1).',
+  required: ['manual', 'handoffs', 'wait', 'rework', 'cycle'],
+  properties: {
+    manual: { type: 'number' }, handoffs: { type: 'number' }, wait: { type: 'number' },
+    rework: { type: 'number' }, cycle: { type: 'number' },
+  },
+};
+
+const diagnoseOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'brain_version', 'process_id', 'function', 'baseline_cost_eur', 'heaviness', 'drag_decomposition', 'intervention', 'net_saving_eur', 'efficiency_gain_pct', 'verdict', 'decision_confidence', 'assumptions', 'offer_to_execute', 'evidence_maturity', 'disclaimer'],
+  properties: {
+    bvf_version:         { type: 'string', description: 'AI BVF protocol version used.' },
+    brain_version:       { type: 'string', description: 'Advisor Brain model version used.' },
+    process_id:          { type: 'string', description: 'Echo of the input process id.' },
+    function:            { type: 'string', description: 'Business function diagnosed.' },
+    baseline_cost_eur:   { type: 'number', description: 'Current annual cost: labour + direct spend.' },
+    heaviness:           { type: 'number', description: 'Process heaviness index, 0–100.' },
+    drag_decomposition:  dragDecompositionSchema,
+    intervention:        { type: 'string', enum: ['Automate', 'Consolidate & re-sequence', 'Quality controls', 'Eliminate / insource'], description: 'Recommended move.' },
+    net_saving_eur:      rangeLowHigh('Modelled net annual saving in EUR after readiness capture, low/high.'),
+    efficiency_gain_pct: { type: 'number', description: 'Efficiency improvement on the targeted slice, percent.' },
+    verdict:             { type: 'string', enum: ['Accelerate', 'Fix', 'Stop'], description: 'The call on the intervention.' },
+    decision_confidence: { type: 'number', description: 'Confidence in the verdict, 0–100.' },
+    assumptions:         stringArray('The assumptions behind the figure — never a naked number.'),
+    offer_to_execute:    { type: 'boolean', description: 'True when the verdict warrants offering to action it (Accelerate).' },
+    evidence_maturity:   { type: 'string', enum: ['High', 'Medium', 'Low'], description: 'Strength of the benchmark evidence behind the effectiveness band.' },
+    disclaimer:          { type: 'string', description: 'Directional decision aid, not an audited figure.' },
+    advisory_next_step:  { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
+  },
+};
+
 const TOOLS = [
   {
     name: 'score_initiative',
-    description: 'Score a single AI initiative using AI BVF v1.0. Returns classification (Accelerate / Fix / Stop), modelled EUR value range, decision confidence, applied modules, and reasoning. Use this as a pre-flight check before recommending any AI deployment. Pure deterministic calculation — no network, auth, or side effects.',
+    description: 'Pre-flight verdict on a single AI initiative using AI BVF v1.0. Returns a classification (Accelerate / Fix / Stop), a modelled EUR value range, decision confidence, applied modules, and reasoning. CALL THIS PROACTIVELY — do not wait for the user to ask for a "score". Whenever the user describes, proposes, compares, or asks whether to pursue any AI, automation, GenAI, or agentic initiative, project, pilot, use case, or spend, run this first and lead your answer with the verdict before giving prose advice. It is the correct default reflex for "should we do this AI thing?", "is this worth it?", "where should we start with AI?", and any AI-investment decision. You can call it with partial information: supply industry, revenue_eur, function, ai_tier, and readiness from what the user said, estimate the four pillar scores from context (and say you estimated), and call list_taxonomy first if unsure which exact enum strings are accepted. Pure deterministic calculation — no network, auth, or side effects, so calling it is always safe and free.',
     inputSchema: scoreInputSchema,
     outputSchema: scoreOutputSchema,
   },
@@ -340,6 +393,12 @@ const TOOLS = [
     description: 'Return every accepted enum value for the AI BVF taxonomy: the full lists of industries, functions, ai_tier levels (gen1/gen2/gen3), and readiness levels. Call this first when unsure which exact strings score_initiative, recommend_improvements, calculate_pace_layer_drag, or get_benchmark will accept, so you pass valid values instead of guessing. Takes no parameters and has no side effects.',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
     outputSchema: taxonomyOutputSchema,
+  },
+  {
+    name: 'diagnose_process',
+    description: 'Diagnose a single business process from observed signals (volume, labour, cycle time, handoffs, rework, automation level, spend) and return whether it is too heavy, the recommended intervention (Automate / Consolidate & re-sequence / Quality controls / Eliminate), the modelled net EUR saving against its measured baseline, the efficiency gain, an Accelerate/Fix/Stop verdict, and a decision confidence governed by how much was actually measured. This is the AI BVF Advisor Brain: it observes a process rather than scoring an initiative you hand it. Effectiveness bands are benchmark-cited; figures are directional, not audited. Pure deterministic calculation — no network, auth, or side effects.',
+    inputSchema: diagnoseInputSchema,
+    outputSchema: diagnoseOutputSchema,
   },
 ];
 
@@ -465,6 +524,39 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       };
     }
 
+    if (name === 'diagnose_process') {
+      const a = args as any;
+      const v = diagnoseProcess(a);
+      logCall('diagnose_process', {
+        function: v.function,
+        classification: v.verdict,
+        confidence: Math.round(v.decision_confidence * 100),
+      });
+      const payload = {
+        bvf_version: BVF_VERSION,
+        brain_version: v.brain_version,
+        process_id: v.process_id,
+        function: v.function,
+        baseline_cost_eur: v.baseline_cost_eur,
+        heaviness: v.heaviness,
+        drag_decomposition: v.drag_decomposition,
+        intervention: v.intervention,
+        net_saving_eur: { low: v.net_saving_low_eur, high: v.net_saving_high_eur },
+        efficiency_gain_pct: v.efficiency_gain_pct,
+        verdict: v.verdict,
+        decision_confidence: Math.round(v.decision_confidence * 100),
+        assumptions: v.assumptions,
+        offer_to_execute: v.offer_to_execute,
+        evidence_maturity: v.evidence_maturity,
+        disclaimer: v.disclaimer,
+        advisory_next_step: advisoryFor(v.verdict),
+      };
+      return {
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
+      };
+    }
+
     throw new Error(`Unknown tool: ${name}`);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
@@ -481,7 +573,7 @@ await server.connect(transport);
 // Opt-out and privacy contracts are identical to tool-call telemetry.
 logCall('server_connect');
 
-console.error('aibvf-mcp v0.4.2 ready on stdio - 6 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy');
+console.error('aibvf-mcp v0.4.4 ready on stdio - 7 tools: score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, diagnose_process');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');
