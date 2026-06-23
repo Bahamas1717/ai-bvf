@@ -1,8 +1,17 @@
 {
   "name": "@aibvf/core",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "AI BVF — open protocol for scoring AI investments. Validator and scoring engine.",
-  "keywords": ["ai", "bvf", "ai-governance", "enterprise-ai", "ai-scoring", "ai-roi", "eu-ai-act", "standards"],
+  "keywords": [
+    "ai",
+    "bvf",
+    "ai-governance",
+    "enterprise-ai",
+    "ai-scoring",
+    "ai-roi",
+    "eu-ai-act",
+    "standards"
+  ],
   "homepage": "https://www.aibvf.com/protocol",
   "repository": "github:Bahamas1717/ai-bvf",
   "license": "MIT",
@@ -11,10 +20,20 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
-    ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" },
-    "./schema": { "import": "./dist/schema.js", "types": "./dist/schema.d.ts" }
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./schema": {
+      "import": "./dist/schema.js",
+      "types": "./dist/schema.d.ts"
+    }
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "node --test dist/*.test.js"
