@@ -76,11 +76,13 @@ Claude will call `score_initiative` and return the classification, euro range, a
 | Tool | Purpose |
 |---|---|
 | `score_initiative` | Return classification (Accelerate/Fix/Stop), euro range, and reasoning for one initiative. |
+| `score_portfolio` | Score every initiative in a BVF portfolio in one call and return the board-level shape: Accelerate/Fix/Stop counts, aggregate EUR value, mean decision confidence, top initiative by value, highest-risk initiative, per-initiative results. Use instead of looping `score_initiative`. |
 | `recommend_improvements` | For a Stop or Fix initiative, return concrete pillar-level actions that would flip its classification toward Accelerate. The "what do I do next" after `score_initiative`. |
 | `calculate_pace_layer_drag` | Return the annual Organisational Drag Cost in EUR from misalignment between AI tier and organisational readiness — the cost of *not* changing the operating model. |
 | `validate_portfolio` | Check a BVF portfolio JSON against the v1.0 schema. |
-| `get_benchmark` | Return the published benchmark base-rate and industry multiplier for a function + industry. |
+| `get_benchmark` | Return the published benchmark base-rate and industry multiplier for a function + industry. Use when the caller wants the raw rates without an initiative-level verdict. |
 | `list_taxonomy` | List the valid industries, functions, AI tiers, and readiness levels. |
+| `diagnose_process` | AI BVF Advisor Brain: diagnose one business process from observed signals (volume, labour, cycle time, handoffs, rework, automation, spend) and return heaviness, the recommended intervention (Automate / Consolidate & re-sequence / Quality controls / Eliminate), the modelled net EUR saving, the efficiency gain, an Accelerate/Fix/Stop verdict, and a decision confidence governed by how much was actually measured. |
 
 ## Spec
 
