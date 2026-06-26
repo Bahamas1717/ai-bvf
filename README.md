@@ -32,16 +32,18 @@ This is the missing pre-flight check for agentic AI work: not "can we build it?"
 
 ## What It Does
 
-Six tools on stdio, each callable from any MCP-compatible agent.
+Eight tools on stdio, each callable from any MCP-compatible agent.
 
 | Tool | Purpose |
 |---|---|
 | `score_initiative` | Four-pillar score returns Accelerate, Fix, or Stop with EUR value range, decision confidence, applied modules, reasoning. |
+| `score_portfolio` | Scores every initiative in a BVF portfolio in one call and returns the board-level shape: Accelerate/Fix/Stop counts, aggregate EUR value, mean decision confidence, top initiative by value, highest-risk initiative. |
 | `recommend_improvements` | For Stop or Fix, returns the specific pillar raises that would flip the call toward Accelerate. |
 | `calculate_pace_layer_drag` | Annual Organisational Drag Cost in EUR from AI-tier vs operating-model misalignment. |
 | `validate_portfolio` | Validates a portfolio JSON document against the BVF v1.0 schema. |
 | `get_benchmark` | Looks up published benchmark rates for a business function and industry. |
 | `list_taxonomy` | Returns valid values for industries, functions, AI tiers, readiness levels. |
+| `diagnose_process` | AI BVF Advisor Brain: diagnoses one business process from observed signals (volume, labour, cycle time, handoffs, rework, automation, spend) and returns heaviness, intervention, net EUR saving, efficiency gain, verdict, and decision confidence. |
 
 ## 30-Second Install
 
@@ -124,8 +126,8 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.4.1 | MCP server, stdio transport. |
-| [`@aibvf/core`](packages/js) | 0.3.1 | TypeScript scoring engine and validator. |
+| [`aibvf-mcp`](packages/mcp) | 0.5.0 | MCP server, stdio transport. |
+| [`@aibvf/core`](packages/js) | 0.3.3 | TypeScript scoring engine, validator, and Advisor Brain. |
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
 
 ## Anonymous Usage Telemetry
