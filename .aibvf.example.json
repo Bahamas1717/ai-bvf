@@ -1,0 +1,29 @@
+{
+  "bvf_version": "1.0",
+  "organization": {
+    "industry": "financial",
+    "revenue_eur": 400000000
+  },
+  "policy": {
+    "fail_on": ["Stop"],
+    "max_governance_risk": 60,
+    "min_decision_confidence": 50
+  },
+  "initiatives": [
+    {
+      "id": "cx-genai-assistant",
+      "function": "cx",
+      "ai_tier": "gen2",
+      "readiness": "traditional",
+      "scores": { "strategic_alignment": 70, "financial_return": 55, "change_enablement": 55, "governance_risk": 45 },
+      "signal_completeness": 0.8
+    },
+    {
+      "id": "agentic-sales-prospecting",
+      "function": "sales",
+      "ai_tier": "gen3",
+      "readiness": "agile",
+      "scores": { "strategic_alignment": 78, "financial_return": 68, "change_enablement": 62, "governance_risk": 30 }
+    }
+  ]
+}

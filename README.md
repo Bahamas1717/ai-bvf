@@ -126,8 +126,9 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.5.0 | MCP server, stdio transport. |
-| [`@aibvf/core`](packages/js) | 0.3.3 | TypeScript scoring engine, validator, and Advisor Brain. |
+| [`aibvf-mcp`](packages/mcp) | 0.6.0 | MCP server, stdio transport — 8 tools. |
+| [`aibvf-check`](packages/cli) | 0.1.0 | CI/CD pre-flight gate ("SonarQube for AI") + GitHub Action. |
+| [`@aibvf/core`](packages/js) | 0.3.4 | TypeScript scoring engine, validator, and Advisor Brain. |
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
 
 ## Anonymous Usage Telemetry

@@ -1,0 +1,21 @@
+name: 'AI BVF Pre-Flight Gate'
+description: 'SonarQube for AI initiatives — fail the build when a declared AI initiative would not survive a board review (AI BVF v1.0).'
+author: 'Craig Horton'
+branding:
+  icon: 'shield'
+  color: 'orange'
+inputs:
+  manifest:
+    description: 'Path to the AI BVF manifest (JSON).'
+    required: false
+    default: '.aibvf.json'
+  version:
+    description: 'aibvf-check version to run (npm semver or dist-tag).'
+    required: false
+    default: 'latest'
+runs:
+  using: 'composite'
+  steps:
+    - name: Run AI BVF pre-flight gate
+      shell: bash
+      run: npx -y aibvf-check@${{ inputs.version }} --manifest "${{ inputs.manifest }}"
