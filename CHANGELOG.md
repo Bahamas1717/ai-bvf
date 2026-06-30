@@ -1,6 +1,15 @@
 # Changelog
 
-All notable changes to `aibvf-mcp`, `@aibvf/core`, and `aibvf`, in reverse chronological order.
+All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
+
+## aibvf-check 0.1.0, 30 June 2026
+
+Added: a new package and the project's first non-MCP surface — **`aibvf-check`**, the AI BVF CI/CD pre-flight gate ("SonarQube for AI"). It reads a declared manifest of AI initiatives (`.aibvf.json`), scores each with the existing deterministic `@aibvf/core` engine, applies a policy, prints a scorecard, and exits non-zero when any initiative trips the gate — so a CI pipeline goes red on AI work that would not survive a board review. The scoring belongs upstream of the slide deck; this puts it in the one place a team already trusts to block bad work.
+
+Policy supports `fail_on` (classifications that fail, default `["Stop"]`), `max_governance_risk` (hard ceiling regardless of verdict), and `min_decision_confidence` (floor). Per-initiative `signal_completeness` forwards to `score()`, so estimated inputs honestly haircut confidence and surface a caveat instead of sailing through on a confident-looking number — the 0.6.0 metadata-burden work, now enforceable in CI. Exit codes: `0` pass, `1` gate failed, `2` config error.
+
+Distribution is the point: ships as `npx aibvf-check` and as a composite **GitHub Action** (`uses: Bahamas1717/ai-bvf@<tag>` with an optional `manifest` input) so adoption is a few lines in a workflow, discoverable in the GitHub Marketplace. The gate logic is a pure, unit-tested function (`runCheck`) with side effects isolated in the CLI entry; 7 tests cover pass, each policy lever, default policy, multi-initiative aggregation, and manifest linting. Reuses 100% of the scoring engine — no new scoring maths. Manifest is human/PR-authored JSON (not auto-scraped), keeping the `signal_completeness` honesty discipline. Zero runtime dependencies beyond `@aibvf/core`. A worked example ships at `.aibvf.example.json`.
+
 
 ## 0.6.0 (aibvf-mcp) / 0.3.4 (@aibvf/core), 30 June 2026
 
