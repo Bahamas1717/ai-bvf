@@ -15,6 +15,7 @@ on:
       - 'server.json'
       - 'packages/mcp/package.json'
       - 'packages/js/package.json'
+      - 'packages/cli/package.json'
   workflow_dispatch:
 
 permissions:
@@ -104,6 +105,33 @@ jobs:
           echo "Publishing @aibvf/core@${{ steps.corepkg.outputs.version }} with npm $(npm --version)"
           npm publish --provenance --access public
           echo "✅ Published @aibvf/core@${{ steps.corepkg.outputs.version }} to npm"
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN_CLEAN }}
+
+      - name: Read aibvf-check version
+        id: clipkg
+        run: |
+          CLIV=$(node -p "require('./packages/cli/package.json').version")
+          echo "version=$CLIV" >> "$GITHUB_OUTPUT"
+          echo "aibvf-check version on disk: $CLIV"
+
+      - name: Check if aibvf-check version is on npm
+        id: cli-check
+        run: |
+          if npm view "aibvf-check@${{ steps.clipkg.outputs.version }}" version > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "aibvf-check@${{ steps.clipkg.outputs.version }} already on npm, skipping"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish aibvf-check with provenance
+        if: steps.cli-check.outputs.exists == 'false'
+        working-directory: packages/cli
+        run: |
+          echo "Publishing aibvf-check@${{ steps.clipkg.outputs.version }} with npm $(npm --version)"
+          npm publish --provenance --access public
+          echo "✅ Published aibvf-check@${{ steps.clipkg.outputs.version }} to npm"
         env:
           NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN_CLEAN }}
 
