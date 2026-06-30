@@ -2,6 +2,16 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, and `aibvf`, in reverse chronological order.
 
+## 0.6.0 (aibvf-mcp) / 0.3.4 (@aibvf/core), 30 June 2026
+
+Added: an optional `signal_completeness` (0–1) input on `score_initiative`, and a matching `caveat` output field. This answers the most substantive piece of external feedback on the framework — the "metadata burden" critique that the scoring is only as good as the change-readiness and risk metadata an organisation feeds it, so soft inputs produce a falsely confident verdict. `score_initiative` now mirrors what `diagnose_process` already does with its own `signal_completeness`: when the four pillar scores are estimated rather than measured, the caller sets `signal_completeness` below 1, decision confidence is haircut proportionally (`confidence = base × (0.5 + 0.5 × signal_completeness)`), and a `caveat` is attached telling the reader the verdict rests on soft inputs and should be re-run with measured scores before committing budget. "Garbage in" now yields "low-confidence, stated honestly" instead of "confident garbage out".
+
+Backward compatible by construction: `signal_completeness` defaults to 1 (treated as measured), at which the multiplier is exactly 1.0 and confidence is byte-identical to the pre-0.3.4 formula. Existing callers, the worked examples, and the smoke-test fixture (manufacturing GenAI predictive maintenance, confidence 62) are unaffected. `recommend_improvements` keeps the plain input schema and is unchanged; only `score_initiative` exposes the new field. `score()` clamps the value to [0,1] and never lets it change the classification — only the confidence and the caveat.
+
+Added: `packages/js/src/score.test.ts` covering the default-unchanged property, the monotonic haircut, clamping, classification-invariance, and the caveat threshold (0.7).
+
+Bumped: `@aibvf/core` 0.3.3 → 0.3.4 (new optional input + output field on `score`), `aibvf-mcp` 0.5.1 → 0.6.0 (new tool capability), and the MCP dependency range to `^0.3.4`. Version synced across the `Server({ version })` handshake, startup banner, `packages/mcp/package.json`, and `server.json`.
+
 ## 0.5.1 (aibvf-mcp), 28 June 2026
 
 Changed: rewrote the `diagnose_process` tool description, which Glama's first v0.5.0 scan scored 4.1/5 — the lowest of the eight tools and, because the server-level Tool Definition Quality score is 60% mean + 40% minimum, the one pinning the whole server's TDQS. The previous description explained what the tool does in a single run-on sentence but never told an agent when to reach for it versus `score_initiative` (the Usage Guidelines dimension) and was dense to parse (Conciseness & Structure). The new description leads with a "CALL THIS WHEN the user describes a real, running process…" trigger, explicitly frames the tool as the operational counterpart to `score_initiative` (diagnose an existing process vs score a proposed initiative), points at `list_taxonomy` for the function enum, and adds the partial-signals guidance that the high-scoring tools carry (pass what you have, set `signal_completeness` accordingly). `score_initiative`'s description gains a reciprocal pointer at `diagnose_process` so the two are cross-linked both ways. Description-only edits; no change to any handler, input/output schema, or computed value.
