@@ -60,6 +60,15 @@ export interface ScoreInput {
     change_enablement: number;
     governance_risk: number;
   };
+  /**
+   * Optional 0–1. How grounded the four pillar scores are in real evidence
+   * versus estimated from context. Defaults to 1 (treated as measured), which
+   * leaves confidence unchanged. Lower values honestly haircut decision
+   * confidence and attach a caveat — the answer to "the scoring is only as
+   * good as the metadata you feed it". Mirrors diagnose_process's
+   * signal_completeness.
+   */
+  signal_completeness?: number;
 }
 
 export interface ScoreResult {
@@ -74,6 +83,8 @@ export interface ScoreResult {
   drivers: string[];
   source: string;
   applied_modules: string[];
+  /** Present only when signal_completeness is low: warns the verdict rests on soft inputs. */
+  caveat?: string;
 }
 
 export interface RecommendInput extends ScoreInput {}

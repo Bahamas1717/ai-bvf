@@ -113,6 +113,9 @@ function appliedModules(industry: Industry, fn: FunctionId, readiness: Readiness
   return mods;
 }
 
+/** Below this signal_completeness, score() attaches a soft-inputs caveat. */
+const SIGNAL_CAVEAT_THRESHOLD = 0.7;
+
 /**
  * Score an initiative according to AI BVF v1.0.
  * Deterministic. No network. No dependencies.
@@ -135,7 +138,18 @@ export function score(input: ScoreInput): ScoreResult {
   const netHi = Math.round(grossHi * cap.high);
 
   const cls = classify(sa, fr, ce, gr);
-  const confidence = Math.round((sa + fr + ce + (100 - gr)) / 4);
+
+  // Base confidence from the pillar scores themselves.
+  const baseConfidence = (sa + fr + ce + (100 - gr)) / 4;
+  // Input-quality haircut. signal_completeness defaults to 1 (measured), which
+  // leaves confidence identical to the pre-0.3.4 formula. As the inputs become
+  // estimated rather than measured, confidence is scaled toward half — the
+  // verdict is only as trustworthy as the metadata behind it.
+  const signal = Math.max(0, Math.min(1, input.signal_completeness ?? 1));
+  const confidence = Math.round(baseConfidence * (0.5 + 0.5 * signal));
+  const caveat = signal < SIGNAL_CAVEAT_THRESHOLD
+    ? `Verdict rests on soft inputs (signal_completeness ${signal}). Decision confidence has been reduced accordingly; treat this as directional and re-run with measured pillar scores before committing budget.`
+    : undefined;
 
   return {
     classification: cls.label,
@@ -149,6 +163,7 @@ export function score(input: ScoreInput): ScoreResult {
     drivers: base.drivers,
     source: base.source,
     applied_modules: appliedModules(industry, fn, readiness),
+    ...(caveat ? { caveat } : {}),
   };
 }
 
