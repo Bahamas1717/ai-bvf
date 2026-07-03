@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI BVF — CFO One-Pager</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; background: #cfc8bb; display: flex; justify-content: center; padding: 28px 0; }
+  .sheet {
+    width: 816px; min-height: 1056px; box-sizing: border-box;
+    background: var(--bg-app); color: var(--text);
+    padding: 52px 56px 44px; position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+    font-family: var(--font-sans);
+  }
+  .sheet::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background:var(--copper); }
+
+  .top { display:flex; align-items:center; justify-content:space-between; padding-bottom:20px; border-bottom:1px solid var(--line); }
+  .brand { display:flex; align-items:center; gap:12px; }
+  .mark { width:44px; height:44px; border:2px solid var(--copper); border-radius:9px; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:14px; color:var(--copper); }
+  .brand b { font-family:var(--font-sans); font-weight:600; font-size:16px; color:var(--ice); }
+  .brand b span { color:var(--copper); }
+  .brand .s { font-size:10px; letter-spacing:2.4px; text-transform:uppercase; color:var(--copper-300); font-weight:700; margin-top:2px; }
+  .conf { text-align:right; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); font-weight:600; line-height:1.7; }
+
+  .eyebrow { display:inline-block; font-size:11px; letter-spacing:2.4px; text-transform:uppercase; font-weight:700; color:var(--copper-300); margin:30px 0 12px; }
+  h1 { font-family:var(--font-display); font-weight:700; font-size:34px; line-height:1.15; letter-spacing:-0.01em; color:var(--ice); margin:0 0 14px; }
+  .lead { font-size:15px; line-height:1.65; color:var(--text-body); max-width:660px; }
+
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius-lg); overflow:hidden; margin:26px 0 30px; }
+  .stat { background:var(--surface-card); padding:18px 20px; }
+  .stat .n { font-family:var(--font-display); font-weight:700; font-size:28px; color:var(--copper-300); line-height:1; }
+  .stat .l { font-size:12px; color:var(--text-body); margin-top:7px; line-height:1.4; }
+
+  .sec { display:inline-block; font-size:11px; letter-spacing:2px; text-transform:uppercase; font-weight:700; color:var(--copper-300); margin-bottom:14px; }
+  .pillars { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:30px; }
+  .pillar { display:flex; gap:13px; padding:15px 17px; background:var(--surface-card); border:1px solid var(--border-card); border-radius:var(--radius-md); }
+  .pillar .num { font-family:var(--font-display); font-weight:700; font-size:19px; color:var(--copper-300); line-height:1; }
+  .pillar b { font-size:14px; color:var(--ice); font-weight:600; }
+  .pillar p { font-size:12.5px; color:var(--text-body); margin:4px 0 0; line-height:1.5; }
+
+  .split { display:grid; grid-template-columns:1.15fr 1fr; gap:22px; margin-bottom:28px; }
+
+  /* verdict scorecard */
+  .card { background:var(--surface-panel); border:1px solid var(--border-card); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-sm); }
+  .card-h { padding:12px 16px; border-bottom:1px solid var(--line); font-family:var(--font-mono); font-size:12px; color:var(--text-muted); background:var(--fill-1); }
+  .row { display:grid; grid-template-columns:18px 1fr auto; gap:11px; align-items:center; padding:11px 16px; border-bottom:1px solid var(--line-soft); font-size:13px; }
+  .row:last-child { border-bottom:none; }
+  .row .nm { font-size:13.5px; color:var(--ice); font-weight:500; }
+  .v { font-family:var(--font-sans); font-weight:700; font-size:10px; letter-spacing:0.8px; text-transform:uppercase; padding:3px 9px; border-radius:var(--radius-xs); border:1px solid; }
+  .acc { color:var(--accelerate-bright); border-color:var(--accelerate-line); background:var(--accelerate-wash); }
+  .fx  { color:var(--fix-bright); border-color:var(--fix-line); background:var(--fix-wash); }
+  .st  { color:var(--stop-bright); border-color:var(--stop-line); background:var(--stop-wash); }
+  .tick { font-weight:700; }
+
+  .gets b { font-size:14px; }
+  .gets ul { list-style:none; margin:12px 0 0; padding:0; }
+  .gets li { display:flex; gap:10px; font-size:13.5px; color:var(--text-body); line-height:1.5; margin-bottom:11px; }
+  .gets li::before { content:'—'; color:var(--copper-300); font-weight:700; }
+
+  .mirror { padding:18px 22px; background:var(--copper-wash-2); border:1px solid var(--copper-line-2); border-left:3px solid var(--copper); border-radius:0 var(--radius-md) var(--radius-md) 0; margin-bottom:22px; }
+  .mirror q { font-family:var(--font-display); font-size:17px; color:var(--ice); line-height:1.5; quotes:none; }
+
+  .foot { display:flex; justify-content:space-between; align-items:center; padding-top:16px; border-top:1px solid var(--line); }
+  .foot .g { font-family:var(--font-display); font-size:14px; color:var(--copper-300); }
+  .foot .m { font-size:11px; color:var(--text-dim); letter-spacing:0.5px; }
+
+  @media print { body { background:#fff; padding:0; } .sheet { box-shadow:none; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="top">
+    <div class="brand">
+      <div class="mark">BVF</div>
+      <div><b><span>AI</span> BVF · Business Value Framework</b><div class="s">Board-review discipline for AI</div></div>
+    </div>
+    <div class="conf">Executive Brief · For the CFO<br>Craig Horton Advisory · Confidential</div>
+  </div>
+
+  <span class="eyebrow">Before the budget is committed</span>
+  <h1>Will this AI investment survive a board review?</h1>
+  <p class="lead">Agents and vendors confidently recommend AI projects with no reference to the business case, operating-model readiness, or governance exposure. AI BVF is the deterministic pre-flight check that scores every initiative <strong style="color:var(--ice)">Accelerate, Fix, or Stop</strong> — with a modelled EUR value range and decision confidence — <em style="font-style:normal;color:var(--ice)">before</em> capital is allocated.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="n">85%</div><div class="l">of AI pilots fail to scale <span style="color:var(--text-muted)">(McKinsey)</span></div></div>
+    <div class="stat"><div class="n">€20–36M</div><div class="l">annual Organisational Drag Cost at €800M revenue, gen3 on a traditional model</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">network calls or dependencies — deterministic, open, on-prem, MIT</div></div>
+  </div>
+
+  <span class="sec">The four pillars — scored 0–100</span>
+  <div class="pillars">
+    <div class="pillar"><span class="num">01</span><div><b>Strategic Alignment</b><p>How clearly this moves a board-level KPI.</p></div></div>
+    <div class="pillar"><span class="num">02</span><div><b>Financial Return</b><p>Strength of the modelled return.</p></div></div>
+    <div class="pillar"><span class="num">03</span><div><b>Change Enablement</b><p>Sponsor in place, owner named, change budget funded.</p></div></div>
+    <div class="pillar"><span class="num">04</span><div><b>Governance Risk</b><p>Regulatory and reputational exposure. Higher is worse.</p></div></div>
+  </div>
+
+  <div class="split">
+    <div>
+      <span class="sec">A portfolio, gated</span>
+      <div class="card">
+        <div class="card-h"><span style="color:var(--copper-300)">$</span> aibvf-check ./portfolio.bvf.json</div>
+        <div class="row"><span class="tick" style="color:var(--accelerate-bright)">✓</span><span class="nm">CX copilot rollout</span><span class="v acc">Accelerate</span></div>
+        <div class="row"><span class="tick" style="color:var(--accelerate-bright)">✓</span><span class="nm">HR onboarding assistant</span><span class="v acc">Accelerate</span></div>
+        <div class="row"><span class="tick" style="color:var(--fix-bright)">✓</span><span class="nm">Claims triage automation</span><span class="v fx">Fix</span></div>
+        <div class="row" style="background:var(--stop-wash)"><span class="tick" style="color:var(--stop-bright)">✕</span><span class="nm">Autonomous procurement agent</span><span class="v st">Stop</span></div>
+      </div>
+    </div>
+    <div class="gets">
+      <span class="sec">What the CFO gets</span>
+      <ul>
+        <li>Every AI line item mapped to a modelled EUR value range, not a vendor promise.</li>
+        <li>A defensible Accelerate / Fix / Stop call with decision confidence for each initiative.</li>
+        <li>Governance exposure quantified before, not after, deployment.</li>
+        <li>The same score in the boardroom, the agent, and the CI pipeline.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mirror"><q>What you don't gate, you don't govern.</q></div>
+
+  <div class="foot">
+    <span class="g">Stop bad AI projects before agents recommend them.</span>
+    <span class="m">aibvf.com · Craig Horton Advisory · Amsterdam</span>
+  </div>
+</div>
+</body>
+</html>

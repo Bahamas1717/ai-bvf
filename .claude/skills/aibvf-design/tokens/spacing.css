@@ -1,0 +1,44 @@
+/* ══════════════════════════════════════════════════════════
+   AI BVF · SPACING, RADII, SHADOW, MOTION TOKENS
+   ══════════════════════════════════════════════════════════ */
+:root {
+  /* ── Spacing scale (4px base) ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ── Radii — restrained; the brand favours small-to-medium corners ── */
+  --radius-xs: 5px;   /* badges, RAG chips        */
+  --radius-sm: 6px;   /* buttons                  */
+  --radius-md: 8px;   /* inputs, small panels     */
+  --radius-lg: 10px;  /* cards                    */
+  --radius-xl: 14px;  /* hero / feature panels    */
+  --radius-pill: 999px;
+
+  /* ── Elevation — soft, dark, low-contrast shadows on navy ── */
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.18);
+  --shadow-md:  0 8px 24px rgba(0,0,0,0.24);
+  --shadow-lg:  0 16px 48px rgba(0,0,0,0.34);
+  --shadow-accent: 0 4px 16px rgba(184,115,51,0.22);
+
+  /* Focus ring */
+  --ring-accent: 0 0 0 3px rgba(184,115,51,0.14);
+
+  /* ── Layout ── */
+  --header-h: 68px;
+  --content-max: 1200px;
+  --content-pad: 40px;
+
+  /* ── Motion ── */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --dur-fast: 0.16s; /* @kind other */
+  --dur:      0.22s; /* @kind other */
+  --dur-slow: 0.4s; /* @kind other */
+}

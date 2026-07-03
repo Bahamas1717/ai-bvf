@@ -1,0 +1,23 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Copper accent" subtitle="The single brand accent — one copper, no competing hues" -->
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:20px; background:var(--navy-900); }
+  .row { display:flex; gap:10px; }
+  .sw { flex:1; height:110px; border-radius:var(--radius-md);
+        display:flex; flex-direction:column; justify-content:flex-end; padding:12px; }
+  .n { font-family:var(--font-sans); font-size:11px; font-weight:600; }
+  .h { font-family:var(--font-mono); font-size:10px; margin-top:2px; opacity:.8; }
+  .dark .n, .dark .h { color:#2A1B0C; }
+  .lite .n, .lite .h { color:var(--ice); }
+</style></head>
+<body>
+  <div class="row">
+    <div class="sw dark" style="background:var(--copper-900)"><span class="n">copper-900</span><span class="h">#7A4A1E</span></div>
+    <div class="sw dark" style="background:var(--copper-700)"><span class="n">copper-700</span><span class="h">#9C5F2A</span></div>
+    <div class="sw dark" style="background:var(--copper)"><span class="n">copper · seed</span><span class="h">#B87333</span></div>
+    <div class="sw dark" style="background:var(--copper-300)"><span class="n">copper-300</span><span class="h">#D9A672</span></div>
+    <div class="sw lite" style="background:var(--copper-wash); border:1px solid var(--copper-line)"><span class="n" style="color:var(--copper-300)">copper-wash</span><span class="h" style="color:var(--copper-300)">10% α</span></div>
+  </div>
+</body></html>

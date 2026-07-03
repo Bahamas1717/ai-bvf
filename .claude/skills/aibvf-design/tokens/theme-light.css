@@ -1,0 +1,64 @@
+/* ══════════════════════════════════════════════════════════
+   AI BVF · LIGHT THEME
+   Set data-theme="light" on <html> (or any wrapper element).
+   Warm ivory canvas, navy ink, the SAME single copper accent.
+   Imported LAST from styles.css so every override wins the cascade
+   (including shadow tokens declared in spacing.css).
+   Default (no attribute) = the dark navy theme.
+   ══════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  /* Surfaces — navy-* remapped to ivory/white so the UI kits flip */
+  --navy-950: #E9E3D8;
+  --navy-900: #F5F1EA;   /* app canvas — warm ivory                */
+  --navy-850: #EFEAE0;
+  --navy-800: #FFFFFF;   /* raised panel / card                    */
+  --navy-700: #FFFFFF;
+  --navy-600: #F1ECE3;
+
+  /* Text ramp — navy ink on ivory */
+  --white:      #0B1626;
+  --ice:        #0F1E35;   /* headings                              */
+  --text:       #1C2A3E;   /* body                                  */
+  --text-body:  #3E4C60;   /* secondary                             */
+  --text-muted: #64748B;   /* meta                                  */
+  --text-dim:   #94A0B0;   /* faint                                 */
+
+  /* Hairlines & fills — navy alpha on light */
+  --line:        rgba(15,30,53,0.12);
+  --line-soft:   rgba(15,30,53,0.07);
+  --line-strong: rgba(15,30,53,0.18);
+  --fill-1:      rgba(15,30,53,0.03);
+  --fill-2:      rgba(15,30,53,0.05);
+  --fill-3:      rgba(15,30,53,0.08);
+
+  /* Copper — accent text darkens for AA contrast on light */
+  --copper-300: #9C5F2A;
+  --copper-200: #7A4A1E;
+  --copper-wash:   rgba(184,115,51,0.13);
+  --copper-wash-2: rgba(184,115,51,0.07);
+  --copper-line:   rgba(184,115,51,0.34);
+  --copper-line-2: rgba(184,115,51,0.20);
+
+  /* RAG — deepen the "bright" tone so verdicts stay legible on light */
+  --accelerate-bright: #1B8F53;
+  --fix-bright:        #B07714;
+  --stop-bright:       #C6392F;
+  --accelerate-wash:   rgba(52,199,123,0.16);
+  --fix-wash:          rgba(233,166,60,0.18);
+  --stop-wash:         rgba(229,84,76,0.14);
+  --accelerate-line:   rgba(27,143,83,0.34);
+  --fix-line:          rgba(176,119,20,0.34);
+  --stop-line:         rgba(198,57,47,0.34);
+
+  /* Elevation — soft warm-grey shadows (override spacing.css :root) */
+  --shadow-sm:     0 1px 3px rgba(15,30,53,0.08);
+  --shadow-md:     0 8px 24px rgba(15,30,53,0.10);
+  --shadow-lg:     0 18px 48px rgba(15,30,53,0.14);
+  --shadow-accent: 0 4px 16px rgba(184,115,51,0.22);
+  --ring-accent:   0 0 0 3px rgba(184,115,51,0.16);
+
+  /* Semantic aliases */
+  --surface-panel: #FFFFFF;
+  --surface-card:  #FFFFFF;
+  --border-card:   var(--line);
+}

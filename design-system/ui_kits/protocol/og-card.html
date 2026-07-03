@@ -1,0 +1,77 @@
+<!-- @dsCard group="Protocol" viewport="1200x630" name="Social / OG card" subtitle="1200×630 share card — the signature guiding line" -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<title>AI BVF — OG card</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  html, body { margin: 0; background: #060D18; }
+  .stage { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+  .og {
+    width: 1200px; height: 630px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(ellipse at 78% 18%, rgba(184,115,51,0.18) 0%, transparent 52%),
+      linear-gradient(160deg, #142542 0%, #0F1E35 55%, #0B1626 100%);
+    border: 1px solid var(--copper-line);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 68px 72px;
+  }
+  /* top copper hairline echoing the logo plate */
+  .og::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--copper); }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  .mark { width: 58px; height: 58px; border: 2.5px solid var(--copper); border-radius: 12px;
+          display: flex; align-items: center; justify-content: center;
+          font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--copper); }
+  .brand-name { font-family: var(--font-sans); font-weight: 600; font-size: 22px; color: var(--ice); letter-spacing: 0.5px; }
+  .brand-name b { color: var(--copper); font-weight: 600; }
+  .brand-sub { font-size: 12px; letter-spacing: 3.5px; text-transform: uppercase; color: var(--copper-300); font-weight: 600; margin-top: 3px; }
+  h1 { font-family: var(--font-display); font-weight: 700; font-size: 62px; line-height: 1.08;
+       color: #fff; letter-spacing: -0.015em; max-width: 900px; margin: 0; }
+  h1 span { color: var(--copper-300); }
+  .foot { display: flex; align-items: center; justify-content: space-between; }
+  .chips { display: flex; gap: 12px; }
+  .chip { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted);
+          padding: 8px 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; }
+  .verdicts { display: flex; gap: 10px; }
+  .v { font-family: var(--font-sans); font-weight: 700; font-size: 13px; letter-spacing: 1px;
+       text-transform: uppercase; padding: 8px 16px; border-radius: 6px; border: 1px solid; display: flex; align-items: center; gap: 8px; }
+  .v i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .acc { color: var(--accelerate-bright); border-color: var(--accelerate-line); background: var(--accelerate-wash); }
+  .acc i { background: var(--accelerate-bright); }
+  .fx  { color: var(--fix-bright); border-color: var(--fix-line); background: var(--fix-wash); }
+  .fx i { background: var(--fix-bright); }
+  .st  { color: var(--stop-bright); border-color: var(--stop-line); background: var(--stop-wash); }
+  .st i { background: var(--stop-bright); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="og">
+    <div class="brand">
+      <div class="mark">BVF</div>
+      <div>
+        <div class="brand-name"><b>AI</b> BVF · Business Value Framework</div>
+        <div class="brand-sub">Board-review discipline for enterprise AI</div>
+      </div>
+    </div>
+
+    <h1>Stop bad AI projects before<br>agents <span>recommend them.</span></h1>
+
+    <div class="foot">
+      <div class="chips">
+        <span class="chip">Deterministic</span>
+        <span class="chip">Open</span>
+        <span class="chip">On-prem</span>
+        <span class="chip">MIT</span>
+      </div>
+      <div class="verdicts">
+        <span class="v acc"><i></i>Accelerate</span>
+        <span class="v fx"><i></i>Fix</span>
+        <span class="v st"><i></i>Stop</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

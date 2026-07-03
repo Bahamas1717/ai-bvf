@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect width="400" height="400" fill="#0F1E35" rx="20"></rect>
+  <rect x="0" y="0" width="400" height="5" fill="#B87333"></rect>
+  <rect x="0" y="395" width="400" height="5" fill="#B87333"></rect>
+  <circle cx="200" cy="185" r="160" fill="none" stroke="#B87333" stroke-width="0.4" opacity="0.15"></circle>
+  <circle cx="200" cy="185" r="120" fill="none" stroke="#B87333" stroke-width="0.4" opacity="0.1"></circle>
+  <rect x="158" y="38" width="84" height="62" rx="8" fill="none" stroke="#B87333" stroke-width="2"></rect>
+  <text x="200" y="82" font-family="Georgia, serif" font-size="30" font-weight="bold" fill="#B87333" text-anchor="middle" letter-spacing="5">BVF</text>
+  <text x="200" y="132" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.5"><tspan fill="#B87333">AI</tspan> Business</text>
+  <text x="200" y="163" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.5">Value Framework</text>
+  <line x1="120" y1="182" x2="280" y2="182" stroke="#B87333" stroke-width="1" opacity="0.6"></line>
+  <text x="200" y="208" font-family="Arial, sans-serif" font-size="13" fill="#9BAEC8" text-anchor="middle" letter-spacing="5">EXECUTIVE BRIEFINGS</text>
+  <rect x="30" y="228" width="48" height="24" rx="12" fill="none" stroke="#B87333" stroke-width="1" opacity="0.6"></rect>
+  <text x="54" y="244" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#B87333" text-anchor="middle" letter-spacing="1">CEO</text>
+  <rect x="86" y="228" width="48" height="24" rx="12" fill="none" stroke="#B87333" stroke-width="1" opacity="0.6"></rect>
+  <text x="110" y="244" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#B87333" text-anchor="middle" letter-spacing="1">CFO</text>
+  <rect x="142" y="228" width="48" height="24" rx="12" fill="none" stroke="#B87333" stroke-width="1" opacity="0.6"></rect>
+  <text x="166" y="244" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#B87333" text-anchor="middle" letter-spacing="1">CDO</text>
+  <rect x="198" y="228" width="48" height="24" rx="12" fill="none" stroke="#B87333" stroke-width="1" opacity="0.6"></rect>
+  <text x="222" y="244" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#B87333" text-anchor="middle" letter-spacing="1">CIO</text>
+  <rect x="254" y="228" width="56" height="24" rx="12" fill="none" stroke="#B87333" stroke-width="1" opacity="0.6"></rect>
+  <text x="282" y="244" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#B87333" text-anchor="middle" letter-spacing="1">CHRO</text>
+  <rect x="318" y="228" width="48" height="24" rx="12" fill="none" stroke="#B87333" stroke-width="1" opacity="0.6"></rect>
+  <text x="342" y="244" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#B87333" text-anchor="middle" letter-spacing="1">CRO</text>
+  <text x="200" y="290" font-family="Arial, sans-serif" font-size="9" fill="#5A7A9A" text-anchor="middle" letter-spacing="3">CRAIG HORTON ADVISORY</text>
+</svg>
