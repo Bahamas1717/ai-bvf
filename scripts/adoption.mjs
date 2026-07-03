@@ -13,9 +13,15 @@ async function json(url) {
   if (process.env.GITHUB_TOKEN && url.includes('api.github.com')) {
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
-  const r = await fetch(url, { headers });
-  if (!r.ok) return null;
-  return r.json();
+  // Resilient: a slow, blocked, or failed endpoint returns null (rendered "—")
+  // instead of throwing and crashing the whole snapshot. 15s fail-fast timeout.
+  try {
+    const r = await fetch(url, { headers, signal: AbortSignal.timeout(15000) });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch {
+    return null;
+  }
 }
 
 async function npmDownloads(pkg, period) {
