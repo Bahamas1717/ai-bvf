@@ -26,7 +26,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI BVF — Business Value Framework</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════════
    BVF UNIFIED DESIGN SYSTEM
@@ -38,7 +38,7 @@
   --navy-light: #2A3545;
   --navy-deep: #151C28;
   --copper: #B87333;
-  --copper-light: #D4956A;
+  --copper-light: #CC8B4C;
   --copper-dim: rgba(184,115,51,0.15);
   --copper-glow: rgba(184,115,51,0.08);
   --copper-border: rgba(184,115,51,0.25);
@@ -53,21 +53,21 @@
   --slate: #9AACBB;
 
   /* RAG */
-  --green: #22C55E;
+  --green: #34C77B;
   --green-light: #34D399;
   --green-bg: rgba(34,211,153,0.1);
   --green-border: rgba(34,211,153,0.3);
-  --amber: #F59E0B;
+  --amber: #E9A63C;
   --amber-light: #FBBF24;
   --amber-bg: rgba(251,191,36,0.1);
   --amber-border: rgba(251,191,36,0.3);
   --red: #EF4444;
-  --red-light: #F87171;
+  --red-light: #F27B74;
   --red-bg: rgba(248,113,113,0.1);
   --red-border: rgba(248,113,113,0.3);
 
   /* Agent/Agentic */
-  --indigo: #7C6FCD;
+  --indigo: #9C5F2A;
   --indigo-bg: rgba(124,111,205,0.1);
   --indigo-border: rgba(124,111,205,0.4);
 
@@ -81,7 +81,7 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: #1A222E;
+  background: #0F1E35;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -130,7 +130,7 @@ h3 { font-size: 16px; }
 .btn-ghost:hover { border-color: var(--copper); color: var(--copper); }
 .btn-sm { padding: 6px 14px; font-size: 10px; letter-spacing: 1.5px; }
 .btn-indigo {
-  background: linear-gradient(135deg, #7C6FCD, #5A4FA0);
+  background: linear-gradient(135deg, #9C5F2A, #5A4FA0);
   border: 1px solid rgba(124,111,205,0.6); color: #FFFFFF;
   box-shadow: 0 0 16px rgba(124,111,205,0.3);
 }
@@ -190,7 +190,7 @@ th {
   border-bottom: 1px solid var(--copper-border); text-transform: uppercase;
 }
 td { padding: 11px 12px; font-size: 13px; }
-tr:nth-child(even) td { background: #1A222E; }
+tr:nth-child(even) td { background: #0F1E35; }
 tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 
 /* ══════════════════════════════════════════════
@@ -269,7 +269,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 #profile-panel {
   max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
   border-bottom: 1px solid transparent;
-  background: #1A222E; backdrop-filter: blur(12px);
+  background: #0F1E35; backdrop-filter: blur(12px);
 }
 #profile-panel.open {
   max-height: 200px;
@@ -497,7 +497,7 @@ header { transition:box-shadow 0.3s ease; }
   /* RAG badges keep colour */
   .rag-green { color:#1a7a3e !important; border-color:#1a7a3e !important; background:#e8f5e9 !important; }
   .rag-amber { color:#b8860b !important; border-color:#b8860b !important; background:#fff8e1 !important; }
-  .rag-red { color:#c62828 !important; border-color:#c62828 !important; background:#ffebee !important; }
+  .rag-red { color:#E5544C !important; border-color:#E5544C !important; background:#ffebee !important; }
 
   @page { margin:12mm; size:A4 landscape; }
 }
@@ -574,7 +574,7 @@ header { transition:box-shadow 0.3s ease; }
 }
 .role-tab {
   flex: 1; min-width: 90px; padding: 12px 14px;
-  background: #1A222E; border: none;
+  background: #0F1E35; border: none;
   border-right: 1px solid rgba(255,255,255,0.06);
   color: var(--slate); font-size: 10px; font-weight: 600;
   letter-spacing: 1.5px; text-transform: uppercase;
@@ -684,7 +684,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-context-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:18px; }
 .agent-context-field { display:flex; flex-direction:column; gap:5px; }
 .agent-context-label { font-size:9px; letter-spacing:2px; color:var(--indigo); font-weight:600; text-transform:uppercase; }
-.agent-run-btn { width:100%; padding:14px; border-radius:3px; background:linear-gradient(135deg,#7C6FCD,#5A4FA0); border:1px solid rgba(124,111,205,0.6); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 0 24px rgba(124,111,205,0.3); transition:all 0.2s; }
+.agent-run-btn { width:100%; padding:14px; border-radius:3px; background:linear-gradient(135deg,#9C5F2A,#5A4FA0); border:1px solid rgba(124,111,205,0.6); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 0 24px rgba(124,111,205,0.3); transition:all 0.2s; }
 .agent-run-btn:hover { box-shadow:0 0 36px rgba(124,111,205,0.5); }
 .agent-run-btn:disabled { opacity:0.5; cursor:not-allowed; }
 .agent-llm-grid { display:flex; flex-direction:column; gap:18px; }
@@ -1678,7 +1678,7 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
               <div style="margin-bottom:8px">Four organisational readiness levels with base drag rates:</div>
-              <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:1.8;font-family:monospace">
+              <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:1.8;font-family:'IBM Plex Mono',monospace">
                 Bureaucratic&nbsp;&nbsp;&nbsp;40% drag<br>
                 Traditional&nbsp;&nbsp;&nbsp;&nbsp;25% drag<br>
                 Mixed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15% drag<br>
@@ -1714,9 +1714,9 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
               <div style="margin-bottom:8px">RAG (Red-Amber-Green) thresholds for CM as % of initiative budget:</div>
               <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;margin-bottom:8px;font-size:11px;line-height:2">
-                <span style="color:#E05252;font-weight:700">RED</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;5% — Significant adoption risk<br>
-                <span style="color:#F59E0B;font-weight:700">AMBER</span>&nbsp;&nbsp;5–10% — Below recommended level<br>
-                <span style="color:#22C55E;font-weight:700">GREEN</span>&nbsp;&nbsp;&ge;10% — Aligned with Prosci benchmark
+                <span style="color:#E5544C;font-weight:700">RED</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;5% — Significant adoption risk<br>
+                <span style="color:#E9A63C;font-weight:700">AMBER</span>&nbsp;&nbsp;5–10% — Below recommended level<br>
+                <span style="color:#34C77B;font-weight:700">GREEN</span>&nbsp;&nbsp;&ge;10% — Aligned with Prosci benchmark
               </div>
               <div>These thresholds apply to each initiative individually. The BVF uses portfolio-level CM percentage to assess overall readiness for the CEO and CFO executive views.</div>
             </div>
@@ -1775,11 +1775,11 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:10px;color:var(--copper);font-weight:600;letter-spacing:1px;margin-bottom:8px">HOW WE APPLY IT</div>
             <div style="font-size:12px;color:var(--text-body);line-height:1.8">
               <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:4px;font-size:11px;line-height:2">
-                <span style="color:#4CAF80;font-weight:700">Gen 1 — Automation</span><br>
+                <span style="color:#34C77B;font-weight:700">Gen 1 — Automation</span><br>
                 RPA, rules-based, ML classification, predictive models<br><br>
-                <span style="color:#F59E0B;font-weight:700">Gen 2 — Generative AI</span><br>
+                <span style="color:#E9A63C;font-weight:700">Gen 2 — Generative AI</span><br>
                 LLM-powered assistants, content generation, semantic search<br><br>
-                <span style="color:#8B5CF6;font-weight:700">Gen 3 — Agentic AI</span><br>
+                <span style="color:#9C5F2A;font-weight:700">Gen 3 — Agentic AI</span><br>
                 Autonomous agents, multi-step reasoning, tool use, decision-making
               </div>
             </div>
@@ -1943,7 +1943,7 @@ header { transition:box-shadow 0.3s ease; }
 <!-- ══════════════════════════════════════════════
      ACCESS GATE
      ══════════════════════════════════════════════ -->
-<div id="access-gate" style="position:fixed;inset:0;z-index:9999;background:#1A222E;display:flex;align-items:center;justify-content:center">
+<div id="access-gate" style="position:fixed;inset:0;z-index:9999;background:#0F1E35;display:flex;align-items:center;justify-content:center">
   <div style="text-align:center;max-width:420px;padding:40px">
     <div style="width:64px;height:64px;border:3px solid #B87333;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#B87333;margin:0 auto 24px;box-shadow:0 0 24px rgba(184,115,51,0.3)">BVF</div>
     <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#FFFFFF;margin-bottom:6px">Business Value Framework</div>
@@ -1951,9 +1951,9 @@ header { transition:box-shadow 0.3s ease; }
     <div style="font-size:12px;color:#CBD5E1;margin-bottom:20px;line-height:1.6">This platform contains proprietary methodology and benchmark data.<br>Enter your access code to continue.</div>
     <div style="display:flex;gap:8px;margin-bottom:12px">
       <input type="password" id="gate-code" placeholder="Access code" onkeydown="if(event.key==='Enter')checkGate()" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:12px 16px;color:#FFFFFF;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;letter-spacing:2px">
-      <button onclick="checkGate()" style="padding:12px 24px;background:linear-gradient(135deg,#D4956A,#B87333);border:1px solid #B87333;border-radius:4px;color:#FFFFFF;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif">Enter</button>
+      <button onclick="checkGate()" style="padding:12px 24px;background:linear-gradient(135deg,#CC8B4C,#B87333);border:1px solid #B87333;border-radius:4px;color:#FFFFFF;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif">Enter</button>
     </div>
-    <div id="gate-error" style="font-size:11px;color:#F87171;display:none;margin-bottom:12px">Invalid access code</div>
+    <div id="gate-error" style="font-size:11px;color:#F27B74;display:none;margin-bottom:12px">Invalid access code</div>
     <div style="font-size:10px;color:#94A3B8;margin-top:20px">All data remains in your browser. Nothing is transmitted or stored.<br>
     <a href="mailto:craig@craighortonadvisory.com" style="color:#B87333;text-decoration:none">Request access →</a></div>
     <div style="font-size:9px;color:#64748B;margin-top:16px">© 2026 Craig Horton Advisory. All rights reserved.</div>
@@ -1994,7 +1994,7 @@ function checkGate() {
     sessionStorage.setItem('bvf-auth', '1');
   } else {
     document.getElementById('gate-error').style.display = 'block';
-    document.getElementById('gate-code').style.borderColor = '#F87171';
+    document.getElementById('gate-code').style.borderColor = '#F27B74';
     setTimeout(() => {
       document.getElementById('gate-error').style.display = 'none';
       document.getElementById('gate-code').style.borderColor = 'rgba(255,255,255,0.12)';
@@ -2033,9 +2033,9 @@ const LAYERS = [
   {id:"ai",label:"AI Capabilities",note:"SOUTH ↓"},
 ];
 const AI_TIERS = [
-  {id:"gen1",label:"Gen 1 — Automation",short:"Gen 1",color:"#B8CADC",desc:"RPA, rule-based automation, workflow triggers"},
+  {id:"gen1",label:"Gen 1 — Automation",short:"Gen 1",color:"#A7B6C9",desc:"RPA, rule-based automation, workflow triggers"},
   {id:"gen2",label:"Gen 2 — GenAI",short:"Gen 2",color:"#B87333",desc:"LLM-powered assistants, content generation, semantic search"},
-  {id:"gen3",label:"Gen 3 — Agentic",short:"Gen 3",color:"#8B5CF6",desc:"Autonomous multi-step agents, decision-making, self-orchestration"},
+  {id:"gen3",label:"Gen 3 — Agentic",short:"Gen 3",color:"#9C5F2A",desc:"Autonomous multi-step agents, decision-making, self-orchestration"},
 ];
 const BASE_RATES = {
   finance:{rev:{lo:0,hi:0},cost:{lo:.030,hi:.060},ebt:{lo:0,hi:0},drivers:["Automated financial close (–40% cycle time)","AI-powered FP&A & forecasting","Anomaly detection reducing write-offs"],source:"McKinsey Global Institute — finance automation benchmark"},
@@ -2066,10 +2066,10 @@ const BVF_DATA = {
   rd:{board:{c:"Innovation pipeline · Time-to-market · IP value creation"},external:{c:"Competitor innovation pace · Patent landscape · Regulatory timelines"},initiatives:{c:"Product innovation · Clinical development · R&D efficiency"},operating:{c:"Time-to-prototype · R&D cost-per-outcome · Trial success rate"},ai:{c:"Generative design · Literature synthesis · Simulation acceleration · IP analysis"}},
 };
 const REG_FRAMEWORKS = [
-  {id:"euai",label:"EU AI Act",color:"#E05252",icon:"⚖",shortLabel:"EU AI Act",risk:"High Risk",timeline:"Aug 2026 — Feb 2027",obligations:["High-risk AI systems must register in EU database","Mandatory conformity assessments for high-risk use cases","Human oversight requirements for automated decisions","Incident reporting to national authorities within 15 days"],costDrivers:["Compliance audit & gap assessment","Technical documentation & logging infrastructure","Human oversight staffing","Registration & conformity process"],costRange:{lo:.0005,hi:.002},desc:"The EU AI Act classifies AI systems by risk. High-risk categories include HR, credit scoring, critical infrastructure, and law enforcement. Full compliance mandatory by August 2026.",source:"EU AI Act — Regulation 2024/1689, Aug 2024"},
-  {id:"dora",label:"DORA",color:"#F5A623",icon:"🛡",shortLabel:"DORA",risk:"Financial Services",timeline:"Jan 2025",obligations:["ICT risk management framework with AI oversight","Third-party AI provider risk assessments","Digital operational resilience testing (TLPT)","Incident classification & reporting within 4 hours"],costDrivers:["ICT risk framework uplift for AI systems","Third-party provider due diligence","Resilience testing programme","Reporting infrastructure"],costRange:{lo:.001,hi:.003},desc:"DORA applies to all financial entities in the EU including banks, insurers, investment firms, and crypto-asset service providers. AI systems must be included in ICT risk frameworks.",source:"DORA — Regulation 2022/2554, in force Jan 2025"},
-  {id:"csrd",label:"CSRD",color:"#4CAF80",icon:"🌱",shortLabel:"CSRD",risk:"ESG Reporting",timeline:"2024–2028 phased",obligations:["Mandatory AI-assisted ESG data collection & reporting","Third-party verification of sustainability claims","Double materiality assessment including AI impact","Value chain emissions including AI energy consumption"],costDrivers:["ESG data platform & AI tooling","Third-party assurance engagement","Internal ESG reporting capability","Technology carbon footprint measurement"],costRange:{lo:.0003,hi:.0015},desc:"CSRD requires large companies to report on environmental and social impact including AI-related energy consumption. AI can both assist reporting and must be reported on.",source:"CSRD — Directive 2022/2464, phased 2024–2028"},
-  {id:"gdpr",label:"GDPR / AI",color:"#8B5CF6",icon:"🔒",shortLabel:"GDPR AI",risk:"Data Privacy",timeline:"Ongoing",obligations:["Automated decision-making rights (Art. 22) for AI","Data minimisation requirements in model training","Privacy impact assessments for AI use cases","Right to explanation for AI-driven decisions"],costDrivers:["Privacy-by-design AI development uplift","Data governance & lineage tooling","DPO capacity for AI assessments","Explainability layer development"],costRange:{lo:.0002,hi:.001},desc:"GDPR's Article 22 restricts solely automated decisions with legal effects. AI deployments in HR, credit, and customer service face the highest exposure.",source:"GDPR Art. 22 — as applied to AI systems, EDPB Guidelines 2023"},
+  {id:"euai",label:"EU AI Act",color:"#E5544C",icon:"⚖",shortLabel:"EU AI Act",risk:"High Risk",timeline:"Aug 2026 — Feb 2027",obligations:["High-risk AI systems must register in EU database","Mandatory conformity assessments for high-risk use cases","Human oversight requirements for automated decisions","Incident reporting to national authorities within 15 days"],costDrivers:["Compliance audit & gap assessment","Technical documentation & logging infrastructure","Human oversight staffing","Registration & conformity process"],costRange:{lo:.0005,hi:.002},desc:"The EU AI Act classifies AI systems by risk. High-risk categories include HR, credit scoring, critical infrastructure, and law enforcement. Full compliance mandatory by August 2026.",source:"EU AI Act — Regulation 2024/1689, Aug 2024"},
+  {id:"dora",label:"DORA",color:"#E9A63C",icon:"🛡",shortLabel:"DORA",risk:"Financial Services",timeline:"Jan 2025",obligations:["ICT risk management framework with AI oversight","Third-party AI provider risk assessments","Digital operational resilience testing (TLPT)","Incident classification & reporting within 4 hours"],costDrivers:["ICT risk framework uplift for AI systems","Third-party provider due diligence","Resilience testing programme","Reporting infrastructure"],costRange:{lo:.001,hi:.003},desc:"DORA applies to all financial entities in the EU including banks, insurers, investment firms, and crypto-asset service providers. AI systems must be included in ICT risk frameworks.",source:"DORA — Regulation 2022/2554, in force Jan 2025"},
+  {id:"csrd",label:"CSRD",color:"#34C77B",icon:"🌱",shortLabel:"CSRD",risk:"ESG Reporting",timeline:"2024–2028 phased",obligations:["Mandatory AI-assisted ESG data collection & reporting","Third-party verification of sustainability claims","Double materiality assessment including AI impact","Value chain emissions including AI energy consumption"],costDrivers:["ESG data platform & AI tooling","Third-party assurance engagement","Internal ESG reporting capability","Technology carbon footprint measurement"],costRange:{lo:.0003,hi:.0015},desc:"CSRD requires large companies to report on environmental and social impact including AI-related energy consumption. AI can both assist reporting and must be reported on.",source:"CSRD — Directive 2022/2464, phased 2024–2028"},
+  {id:"gdpr",label:"GDPR / AI",color:"#9C5F2A",icon:"🔒",shortLabel:"GDPR AI",risk:"Data Privacy",timeline:"Ongoing",obligations:["Automated decision-making rights (Art. 22) for AI","Data minimisation requirements in model training","Privacy impact assessments for AI use cases","Right to explanation for AI-driven decisions"],costDrivers:["Privacy-by-design AI development uplift","Data governance & lineage tooling","DPO capacity for AI assessments","Explainability layer development"],costRange:{lo:.0002,hi:.001},desc:"GDPR's Article 22 restricts solely automated decisions with legal effects. AI deployments in HR, credit, and customer service face the highest exposure.",source:"GDPR Art. 22 — as applied to AI systems, EDPB Guidelines 2023"},
 ];
 const PILOT_QS = [
   {key:"sponsored",q:"Does this initiative have named C-suite sponsorship?"},
@@ -2080,9 +2080,9 @@ const PILOT_QS = [
 ];
 const INDUSTRIES_LABELS = {universal:"Universal / Other",healthcare:"Healthcare / MedTech",manufacturing:"Manufacturing & Supply Chain",financial:"Financial Services",retail:"Retail / Consumer",technology:"Technology"};
 const RAG_CFG = {
-  green:{label:"COMPLIANT",bg:"rgba(46,125,82,0.2)",border:"#4CAF80",text:"#4CAF80",desc:"≥ 10% allocated — meets Prosci minimum"},
-  amber:{label:"AT RISK",bg:"rgba(192,122,26,0.2)",border:"#F5A623",text:"#F5A623",desc:"5–10% allocated — below Prosci minimum"},
-  red:{label:"CRITICAL GAP",bg:"rgba(139,32,32,0.2)",border:"#E05252",text:"#E05252",desc:"< 5% allocated — high risk of value loss"},
+  green:{label:"COMPLIANT",bg:"rgba(46,125,82,0.2)",border:"#34C77B",text:"#34C77B",desc:"≥ 10% allocated — meets Prosci minimum"},
+  amber:{label:"AT RISK",bg:"rgba(192,122,26,0.2)",border:"#E9A63C",text:"#E9A63C",desc:"5–10% allocated — below Prosci minimum"},
+  red:{label:"CRITICAL GAP",bg:"rgba(139,32,32,0.2)",border:"#E5544C",text:"#E5544C",desc:"< 5% allocated — high risk of value loss"},
 };
 
 // ── GLOBAL STATE ──────────────────────────────────────────────────────────────
@@ -2155,7 +2155,7 @@ function pilotScore(a) {
   if(vals.every(v=>!v)) return null;
   const yes = vals.filter(v=>v==="yes").length;
   const total = vals.filter(v=>v).length;
-  return {score:yes,total,label:yes>=4?"LOW RISK":yes>=2?"PILOT TRAP RISK":"CRITICAL PILOT TRAP",color:yes>=4?"#4CAF80":yes>=2?"#F5A623":"#E05252"};
+  return {score:yes,total,label:yes>=4?"LOW RISK":yes>=2?"PILOT TRAP RISK":"CRITICAL PILOT TRAP",color:yes>=4?"#34C77B":yes>=2?"#E9A63C":"#E5544C"};
 }
 function profileComplete() {
   return BVF.profile.revenue && BVF.profile.costBase && BVF.profile.ebitda;
@@ -2361,7 +2361,7 @@ function renderPriorities() {
   document.getElementById('btn-add-priority').style.display = priors.length >= 5 ? 'none' : '';
 
   list.innerHTML = priors.map((p, i) => {
-    const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#B87333',compliance:'#7C6FCD',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#8B5CF6',risk:'#E05252'};
+    const catColors = {revenue:'#34C77B',cost:'#CC8B4C',ebitda:'#B87333',compliance:'#9C5F2A',cx:'#E9A63C',workforce:'#9C5F2A',innovation:'#9C5F2A',risk:'#E5544C'};
     const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
     const col = catColors[p.category] || '#B87333';
     const mappedInits = BVF.initiatives.length; // future: real mapping
@@ -2445,14 +2445,14 @@ function renderBoardroomSentence() {
   const complete = rev > 0 && cost > 0;
 
   let sentence = `We are running <strong style="color:var(--copper)">${inits.length} AI initiative${inits.length>1?'s':''}</strong>`;
-  if (gen3Count > 0) sentence += ` including <strong style="color:#8B5CF6">${gen3Count} Agentic programme${gen3Count>1?'s':''}</strong>`;
+  if (gen3Count > 0) sentence += ` including <strong style="color:#9C5F2A">${gen3Count} Agentic programme${gen3Count>1?'s':''}</strong>`;
   if (totalBudget > 0) sentence += `, with a combined investment of <strong style="color:var(--copper)">${fmt(totalBudget)}</strong>`;
-  if (complete && sc.rH > 0) sentence += `, projecting <strong style="color:#4CAF80">${fmt(sc.rL)}–${fmt(sc.rH)}</strong> in revenue uplift`;
+  if (complete && sc.rH > 0) sentence += `, projecting <strong style="color:#34C77B">${fmt(sc.rL)}–${fmt(sc.rH)}</strong> in revenue uplift`;
   if (complete && sc.totH > 0) sentence += ` and <strong style="color:#B87333">${fmt(sc.totL)}–${fmt(sc.totH)}</strong> in combined EBITDA impact`;
   if (complete && cost > 0 && sc.cH > 0) {
     const costPctLo = ((sc.cL / cost) * 100).toFixed(0);
     const costPctHi = ((sc.cH / cost) * 100).toFixed(0);
-    sentence += `, with operational cost reduction potential of <strong style="color:#D4956A">${costPctLo}–${costPctHi}%</strong>`;
+    sentence += `, with operational cost reduction potential of <strong style="color:#CC8B4C">${costPctLo}–${costPctHi}%</strong>`;
   }
   sentence += '.';
   if (priors.length > 0) {
@@ -2614,8 +2614,8 @@ function renderBVF() {
     scorecardEl.style.display='block';
     document.getElementById('bvfScorecardTitle').textContent=`Total AI Value Potential — ${BVF.profile.company||'Your Enterprise'}`;
     document.getElementById('bvfScorecardCards').innerHTML=[
-      {l:"Revenue Uplift",lo:sc.rL,hi:sc.rH,col:"#4CAF80",base:rev,baseL:"revenue"},
-      {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#D4956A",base:cost,baseL:"cost base"},
+      {l:"Revenue Uplift",lo:sc.rL,hi:sc.rH,col:"#34C77B",base:rev,baseL:"revenue"},
+      {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#CC8B4C",base:cost,baseL:"cost base"},
       {l:"Combined EBITDA Impact",lo:sc.totL,hi:sc.totH,col:"#B87333",base:ebt,baseL:"vs current EBITDA",bold:true},
     ].map(s=>`<div style="flex:1;min-width:150px;padding:12px 16px;background:${s.bold?"rgba(184,115,51,0.1)":"rgba(255,255,255,0.04)"};border:1px solid ${s.bold?"#B87333":"rgba(184,115,51,0.15)"};border-radius:3px">
       <div style="font-size:9px;letter-spacing:1.5px;color:#D0D8E0;margin-bottom:5px">${s.l.toUpperCase()}</div>
@@ -2629,7 +2629,7 @@ function renderBVF() {
   const priors = BVF.priorities || [];
   if (priEl) {
     if (priors.length > 0) {
-      const catColors = {revenue:'#4CAF80',cost:'#D4956A',ebitda:'#B87333',compliance:'#7C6FCD',cx:'#F59E0B',workforce:'#3B82F6',innovation:'#8B5CF6',risk:'#E05252'};
+      const catColors = {revenue:'#34C77B',cost:'#CC8B4C',ebitda:'#B87333',compliance:'#9C5F2A',cx:'#E9A63C',workforce:'#9C5F2A',innovation:'#9C5F2A',risk:'#E5544C'};
       const catLabels = {revenue:'Revenue',cost:'Cost Reduction',ebitda:'EBITDA',compliance:'Compliance',cx:'CX',workforce:'Workforce',innovation:'Innovation',risk:'Risk'};
       priEl.style.display = 'block';
       priEl.innerHTML = `
@@ -2669,7 +2669,7 @@ function renderBVF() {
 
   // Function buttons
   document.getElementById('fnButtons').innerHTML = FUNCTIONS.map(fn=>`
-    <button onclick="selectFn('${fn.id}')" style="padding:7px 13px;background:${activeFn===fn.id?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.04)'};border:${activeFn===fn.id?'none':'1px solid rgba(184,115,51,0.18)'};border-radius:3px;color:${activeFn===fn.id?'#FFFFFF':'#CBD5E1'};font-size:12px;font-weight:${activeFn===fn.id?'700':'400'};cursor:pointer;font-family:'DM Sans',sans-serif">${fn.icon} ${fn.label}</button>
+    <button onclick="selectFn('${fn.id}')" style="padding:7px 13px;background:${activeFn===fn.id?'linear-gradient(135deg,#B87333,#CC8B4C)':'rgba(255,255,255,0.04)'};border:${activeFn===fn.id?'none':'1px solid rgba(184,115,51,0.18)'};border-radius:3px;color:${activeFn===fn.id?'#FFFFFF':'#CBD5E1'};font-size:12px;font-weight:${activeFn===fn.id?'700':'400'};cursor:pointer;font-family:'DM Sans',sans-serif">${fn.icon} ${fn.label}</button>
   `).join('');
 
   // Active function card
@@ -2679,15 +2679,15 @@ function renderBVF() {
     fnCard.style.display='flex';
     document.getElementById('bvfFnTitle').textContent=`${FUNCTIONS.find(f=>f.id===activeFn).icon} ${FUNCTIONS.find(f=>f.id===activeFn).label}`;
     let metrics='';
-    if(r.rev.hi>0&&rev>0) metrics+=`<div><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">REVENUE UPLIFT</div><div style="font-size:15px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(rev*r.rev.lo)} – ${fmt(rev*r.rev.hi)}</div><div style="font-size:10px;color:#D0D8E0;font-style:italic">${(r.rev.lo*100).toFixed(1)}–${(r.rev.hi*100).toFixed(1)}% of ${fmt(rev)}</div></div>`;
-    if(r.cost.hi>0&&cost>0) metrics+=`<div><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">COST REDUCTION</div><div style="font-size:15px;font-weight:700;color:#D4956A;font-family:'Playfair Display',serif">${fmt(cost*r.cost.lo)} – ${fmt(cost*r.cost.hi)}</div><div style="font-size:10px;color:#D0D8E0;font-style:italic">${(r.cost.lo*100).toFixed(1)}–${(r.cost.hi*100).toFixed(1)}% of ${fmt(cost)}</div></div>`;
+    if(r.rev.hi>0&&rev>0) metrics+=`<div><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">REVENUE UPLIFT</div><div style="font-size:15px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${fmt(rev*r.rev.lo)} – ${fmt(rev*r.rev.hi)}</div><div style="font-size:10px;color:#D0D8E0;font-style:italic">${(r.rev.lo*100).toFixed(1)}–${(r.rev.hi*100).toFixed(1)}% of ${fmt(rev)}</div></div>`;
+    if(r.cost.hi>0&&cost>0) metrics+=`<div><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">COST REDUCTION</div><div style="font-size:15px;font-weight:700;color:#CC8B4C;font-family:'Playfair Display',serif">${fmt(cost*r.cost.lo)} – ${fmt(cost*r.cost.hi)}</div><div style="font-size:10px;color:#D0D8E0;font-style:italic">${(r.cost.lo*100).toFixed(1)}–${(r.cost.hi*100).toFixed(1)}% of ${fmt(cost)}</div></div>`;
     document.getElementById('bvfFnMetrics').innerHTML=metrics;
   } else { fnCard.style.display='none'; }
 
   // Layer buttons
   document.getElementById('layerButtons').innerHTML = LAYERS.map((layer,i)=>`
-    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'linear-gradient(135deg,#B87333,#D4956A)':'rgba(255,255,255,0.10)'):'rgba(255,255,255,0.06)'};border:1px solid ${activeLayer===layer.id?'#B87333':'rgba(255,255,255,0.12)'};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
-      <div style="font-size:8px;letter-spacing:1.5px;color:#D4956A;margin-bottom:3px">${layer.note}</div>
+    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'linear-gradient(135deg,#B87333,#CC8B4C)':'rgba(255,255,255,0.10)'):'rgba(255,255,255,0.06)'};border:1px solid ${activeLayer===layer.id?'#B87333':'rgba(255,255,255,0.12)'};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:8px;letter-spacing:1.5px;color:#CC8B4C;margin-bottom:3px">${layer.note}</div>
       <div style="font-size:11px;font-weight:700;color:#FFFFFF;line-height:1.3">${layer.label}</div>
     </button>
   `).join('');
@@ -2729,7 +2729,7 @@ function renderBVF() {
           const cm=parseNum(ini.cmBudget);
           const iRAG=rag(cm,bud);
           const ps=pilotScore(ini.pilotAnswers);
-          const riskCol=ini.risk==='Low'?'#4CAF80':ini.risk==='High'?'#E05252':'#F5A623';
+          const riskCol=ini.risk==='Low'?'#34C77B':ini.risk==='High'?'#E5544C':'#E9A63C';
           return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.12);border-left:3px solid ${tier?tier.color:'#B87333'};border-radius:3px;margin-bottom:5px">
             <div style="flex:1;min-width:0">
               <div style="font-size:12px;font-weight:700;color:#EDF2F7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ini.name}</div>
@@ -2866,8 +2866,8 @@ function renderPortfolio() {
         const fn=FUNCTIONS.find(f=>f.id===init.fn);
         const tier=AI_TIERS.find(t=>t.id===init.tier);
         const ps=pilotScore(init.pilotAnswers);
-        const riskCol=init.risk==='Low'?'#4CAF80':init.risk==='High'?'#E05252':'#F5A623';
-        const statusCfg={existing:{l:'Live',c:'#4CAF80'},pilot:{l:'Pilot',c:'#F59E0B'},approved:{l:'Approved',c:'#3B82F6'},proposed:{l:'New',c:'#8B5CF6'}};
+        const riskCol=init.risk==='Low'?'#34C77B':init.risk==='High'?'#E5544C':'#E9A63C';
+        const statusCfg={existing:{l:'Live',c:'#34C77B'},pilot:{l:'Pilot',c:'#E9A63C'},approved:{l:'Approved',c:'#9C5F2A'},proposed:{l:'New',c:'#9C5F2A'}};
         const st=statusCfg[init.status||'proposed']||statusCfg.proposed;
         return `<tr>
           <td style="color:#EDF2F7;font-weight:600;max-width:150px;font-size:12px">${init.name||'—'}</td>
@@ -2892,9 +2892,9 @@ function renderPortfolio() {
     totals.style.display='flex';
     totals.innerHTML=[
       {l:'Total AI Investment',v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:'',col:'#B87333'},
-      {l:'Total CM Allocated',v:fmt(totCM),sub:`${pct(totCM,totBudget)} of portfolio`,col:totBudget>0&&totCM/totBudget>=.10?'#4CAF80':totCM/totBudget>=.05?'#F5A623':'#E05252'},
-      {l:'Gen 3 Agentic Share',v:totBudget>0?pct(gen3bud,totBudget):'—',sub:'of portfolio budget',col:'#8B5CF6'},
-      {l:'Pilot Trap Issues',v:pilotIssues||'—',sub:'initiatives with <2 readiness indicators',col:'#F5A623'},
+      {l:'Total CM Allocated',v:fmt(totCM),sub:`${pct(totCM,totBudget)} of portfolio`,col:totBudget>0&&totCM/totBudget>=.10?'#34C77B':totCM/totBudget>=.05?'#E9A63C':'#E5544C'},
+      {l:'Gen 3 Agentic Share',v:totBudget>0?pct(gen3bud,totBudget):'—',sub:'of portfolio budget',col:'#9C5F2A'},
+      {l:'Pilot Trap Issues',v:pilotIssues||'—',sub:'initiatives with <2 readiness indicators',col:'#E9A63C'},
     ].map(s=>`<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.18);border-radius:3px">
       <div style="font-size:9px;letter-spacing:1.5px;color:#D0D8E0;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:18px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.v}</div>
@@ -2987,7 +2987,7 @@ function updateCMHint() {
   const hint=document.getElementById('cmHint');
   if(bud>0&&cm>0) {
     const p=cm/bud;
-    const col=p>=.10?'#4CAF80':p>=.05?'#F5A623':'#E05252';
+    const col=p>=.10?'#34C77B':p>=.05?'#E9A63C':'#E5544C';
     const label=p>=.10?'✓ Prosci compliant':p>=.05?'⚠ Below minimum':'✗ Critical gap';
     hint.textContent=`${(p*100).toFixed(1)}% ${label}`;
     hint.style.color=col;
@@ -3049,11 +3049,11 @@ function renderCM() {
 
   document.getElementById('cmMetrics').innerHTML=[
     {l:'Total AI Portfolio',v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:'',col:'#B87333'},
-    {l:'CM Allocated',v:fmt(totCM),sub:`${cmPct.toFixed(1)}% of portfolio`,col:cmPct>=10?'#4CAF80':cmPct>=5?'#F5A623':'#E05252'},
-    {l:'Prosci Minimum (10%)',v:fmt(prosciLow),col:'#F5A623'},
-    {l:'Prosci Recommended (15%)',v:fmt(prosciHigh),col:'#4CAF80'},
-    {l:'Gap to Minimum',v:gapLow>0?fmt(gapLow):'✓ Met',col:gapLow>0?'#E05252':'#4CAF80'},
-    {l:'Gap to Recommended',v:gapHigh>0?fmt(gapHigh):'✓ Met',col:gapHigh>0?'#F5A623':'#4CAF80'},
+    {l:'CM Allocated',v:fmt(totCM),sub:`${cmPct.toFixed(1)}% of portfolio`,col:cmPct>=10?'#34C77B':cmPct>=5?'#E9A63C':'#E5544C'},
+    {l:'Prosci Minimum (10%)',v:fmt(prosciLow),col:'#E9A63C'},
+    {l:'Prosci Recommended (15%)',v:fmt(prosciHigh),col:'#34C77B'},
+    {l:'Gap to Minimum',v:gapLow>0?fmt(gapLow):'✓ Met',col:gapLow>0?'#E5544C':'#34C77B'},
+    {l:'Gap to Recommended',v:gapHigh>0?fmt(gapHigh):'✓ Met',col:gapHigh>0?'#E9A63C':'#34C77B'},
   ].map(s=>`<div style="padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.15);border-radius:3px">
     <div style="font-size:9px;letter-spacing:1.5px;color:#D0D8E0;margin-bottom:6px">${s.l.toUpperCase()}</div>
     <div style="font-size:17px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif;margin-bottom:2px">${s.v}</div>
@@ -3083,7 +3083,7 @@ function renderCM() {
         </div>
       </div>
       ${bud>0?`<div style="height:4px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden"><div style="height:100%;width:${iBarW}%;background:${irc?irc.border:'#A0B4C8'};border-radius:3px"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:3px;font-size:9px;color:#D0D8E0"><span>CM: ${p2.toFixed(1)}%</span>${cm<bud*.10?`<span style="color:#E05252">Gap to 10%: ${fmt(bud*.10-cm)}</span>`:cm>=bud*.15?`<span style="color:#4CAF80">✓ Recommended met</span>`:''}</div>`:''}
+      <div style="display:flex;justify-content:space-between;margin-top:3px;font-size:9px;color:#D0D8E0"><span>CM: ${p2.toFixed(1)}%</span>${cm<bud*.10?`<span style="color:#E5544C">Gap to 10%: ${fmt(bud*.10-cm)}</span>`:cm>=bud*.15?`<span style="color:#34C77B">✓ Recommended met</span>`:''}</div>`:''}
     </div>`;
   }).join('');
 }
@@ -3184,19 +3184,19 @@ function renderAlignment() {
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Value Potential</div>
       ${complete?`<div style="font-size:20px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif;margin-bottom:4px">${fmt(sc.totL)} – ${fmt(sc.totH)}</div>
       <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
-      ${[{l:'Revenue uplift',lo:sc.rL,hi:sc.rH,col:'#4CAF80'},{l:'Cost reduction',lo:sc.cL,hi:sc.cH,col:'#D4956A'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#D0D8E0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col}">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:'—'}</span></div>`).join('')}`
+      ${[{l:'Revenue uplift',lo:sc.rL,hi:sc.rH,col:'#34C77B'},{l:'Cost reduction',lo:sc.cL,hi:sc.cH,col:'#CC8B4C'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#D0D8E0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col}">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:'—'}</span></div>`).join('')}`
       :`<div style="font-size:12px;color:#D0D8E0;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
     </div>
     <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||'#A0B4C8'};border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">Portfolio Health</div>
       ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:${rc?.text||'#A0B4C8'};font-family:'Playfair Display',serif;margin-bottom:4px">${rc?.label||'—'}</div>
       <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
-      ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#F5A623':'#4CAF80'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#D0D8E0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#F0F4FA'}">${s.v}</span></div>`).join('')}`
+      ${[{l:'Total investment',v:fmt(totBudget)},{l:'CM allocated',v:fmt(totCM)},{l:'Initiatives',v:inits.length},{l:'Pilot trap risk',v:pilotRisk>0?`${pilotRisk} flagged`:'None flagged',col:pilotRisk>0?'#E9A63C':'#34C77B'}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#D0D8E0">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||'#F0F4FA'}">${s.v}</span></div>`).join('')}`
       :`<div style="font-size:12px;color:#D0D8E0;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #8B5CF6;border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #9C5F2A;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Generation Mix</div>
-      ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:#8B5CF6;font-family:'Playfair Display',serif;margin-bottom:4px">${tierCounts.find(t=>t.id==='gen3')?.pct||0}% Agentic</div>
+      ${inits.length>0?`<div style="font-size:20px;font-weight:700;color:#9C5F2A;font-family:'Playfair Display',serif;margin-bottom:4px">${tierCounts.find(t=>t.id==='gen3')?.pct||0}% Agentic</div>
       <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
       ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#D0D8E0;width:28px;text-align:right">${t.pct}%</span></div></div>`).join('')}`
       :`<div style="font-size:12px;color:#D0D8E0;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
@@ -3224,10 +3224,10 @@ function renderAlignment() {
     <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
       <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:#B87333;font-family:'Playfair Display',serif">${fmt(totBudget)}</div></div>
       <div style="font-size:24px;color:#D0D8E0">→</div>
-      <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
+      <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
       <div style="font-size:24px;color:#D0D8E0">→</div>
-      <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
-      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #4CAF80;border-radius:3px;text-align:center"><div style="font-size:9px;color:#4CAF80;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#4CAF80;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
+      <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
+      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #34C77B;border-radius:3px;text-align:center"><div style="font-size:9px;color:#34C77B;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
     </div>`;
   } else { amInvEl.style.display='none'; }
 
@@ -3235,7 +3235,7 @@ function renderAlignment() {
   const amPriEl=document.getElementById('amPriorities');
   if(BVF.priorities&&BVF.priorities.length>0){
     const catLabels={revenue:'Revenue Growth',cost:'Cost Reduction',ebitda:'EBITDA Impact',compliance:'Regulatory Compliance',cx:'Customer Experience',workforce:'Workforce Transformation',innovation:'Innovation',risk:'Risk Management'};
-    const catColors={revenue:'#4CAF80',cost:'#D4956A',ebitda:'#B87333',compliance:'#F59E0B',cx:'#7C6FCD',workforce:'#22C55E',innovation:'#8B5CF6',risk:'#E05252'};
+    const catColors={revenue:'#34C77B',cost:'#CC8B4C',ebitda:'#B87333',compliance:'#E9A63C',cx:'#9C5F2A',workforce:'#34C77B',innovation:'#9C5F2A',risk:'#E5544C'};
     // Map priorities to initiatives
     const priWithInit=BVF.priorities.map(p=>{
       const mapped=inits.filter(i=>{
@@ -3345,16 +3345,16 @@ Tailor ALL recommendations to the client context provided.
 Respond ONLY with valid JSON array, no markdown. Do not use apostrophes in string values - rephrase to avoid them.`;
 
 const AGENT_BUCKET_CFG={
-  'AGENT-PROOF':      {hex:'#22C55E',bg:'rgba(34,197,94,0.1)',   border:'rgba(34,197,94,0.4)',   label:'Agent-Proof',      tagline:'Protect & Enhance',        emoji:'🟢'},
-  'AGENT-AUGMENTED':  {hex:'#F59E0B',bg:'rgba(245,158,11,0.1)',  border:'rgba(245,158,11,0.4)',  label:'Agent-Augmented',  tagline:'Renegotiate & Restructure', emoji:'🟡'},
-  'AGENT-REPLACEABLE':{hex:'#FF4444',bg:'rgba(255,68,68,0.1)',   border:'rgba(255,68,68,0.4)',   label:'Agent-Replaceable',tagline:'Replace or Eliminate',      emoji:'🔴'}
+  'AGENT-PROOF':      {hex:'#34C77B',bg:'rgba(34,197,94,0.1)',   border:'rgba(34,197,94,0.4)',   label:'Agent-Proof',      tagline:'Protect & Enhance',        emoji:'🟢'},
+  'AGENT-AUGMENTED':  {hex:'#E9A63C',bg:'rgba(245,158,11,0.1)',  border:'rgba(245,158,11,0.4)',  label:'Agent-Augmented',  tagline:'Renegotiate & Restructure', emoji:'🟡'},
+  'AGENT-REPLACEABLE':{hex:'#E5544C',bg:'rgba(255,68,68,0.1)',   border:'rgba(255,68,68,0.4)',   label:'Agent-Replaceable',tagline:'Replace or Eliminate',      emoji:'🔴'}
 };
-const AGENT_RISK_COL={LOW:'#22C55E',MEDIUM:'#F59E0B',HIGH:'#FF4444'};
-const AGENT_LLM_COL={'Claude':'#B87333','GPT':'#10A37F','Gemini':'#4285F4','Open source':'#9B59B6','Azure OpenAI':'#0078D4','AWS Bedrock':'#FF9900','Specialist':'#E85050'};
+const AGENT_RISK_COL={LOW:'#34C77B',MEDIUM:'#E9A63C',HIGH:'#E5544C'};
+const AGENT_LLM_COL={'Claude':'#B87333','GPT':'#10A37F','Gemini':'#4285F4','Open source':'#9B59B6','Azure OpenAI':'#0078D4','AWS Bedrock':'#FF9900','Specialist':'#E5544C'};
 
 function agentLLMColor(name){
   for(const[k,v] of Object.entries(AGENT_LLM_COL)) if((name||'').toLowerCase().includes(k.toLowerCase())) return v;
-  return '#7C6FCD';
+  return '#9C5F2A';
 }
 
 let agentResults=null, agentControlResults=null;
@@ -3401,7 +3401,7 @@ function agentHandleFileUpload(event){
         agentParseXLSX(data,file.name,statusEl);
       }catch(err){
         statusEl.style.background='rgba(220,60,60,0.15)';
-        statusEl.style.color='#e74c3c';
+        statusEl.style.color='#E5544C';
         statusEl.textContent='Could not read spreadsheet. Try exporting as CSV first.';
       }
     };
@@ -3426,7 +3426,7 @@ function agentProcessCSVText(text,filename,statusEl){
   if(rows.length===0){
     statusEl.style.display='block';
     statusEl.style.background='rgba(220,60,60,0.15)';
-    statusEl.style.color='#e74c3c';
+    statusEl.style.color='#E5544C';
     statusEl.textContent='File appears empty.';
     return;
   }
@@ -3613,7 +3613,7 @@ function agentBuildResults(client){
 }
 
 function agentBuildControlPanel(){
-  const cxColor={Low:'#2ECC8E',Medium:'#E8A020',High:'#E85050'};
+  const cxColor={Low:'#2ECC8E',Medium:'#E9A63C',High:'#E5544C'};
   document.getElementById('agent-llm-grid').innerHTML=agentControlResults.map(item=>{
     const bc=AGENT_BUCKET_CFG[item.bucket]||AGENT_BUCKET_CFG['AGENT-AUGMENTED'];
     const pc=agentLLMColor(item.primaryLLM?.name||'');
@@ -3625,7 +3625,7 @@ function agentBuildControlPanel(){
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <span class="agent-llm-bucket" style="color:${bc.hex};border-color:${bc.hex}55;background:${bc.bg}">${item.bucket}</span>
-          <span style="font-size:10px;color:${cxColor[item.implementationComplexity]||'#E8A020'};font-weight:700;border:1px solid ${cxColor[item.implementationComplexity]||'#E8A020'}55;padding:3px 8px;border-radius:2px">${item.implementationComplexity||'Medium'} complexity</span>
+          <span style="font-size:10px;color:${cxColor[item.implementationComplexity]||'#E9A63C'};font-weight:700;border:1px solid ${cxColor[item.implementationComplexity]||'#E9A63C'}55;padding:3px 8px;border-radius:2px">${item.implementationComplexity||'Medium'} complexity</span>
           <span style="font-size:10px;color:var(--text-muted)">ROI ~${item.roiTimeframe||'6-12'} months</span>
         </div>
       </div>
@@ -3720,9 +3720,9 @@ function agentBuildReport(){
     <div class="agent-report-section">
       <h3 class="agent-report-section-title">Strategic recommendations</h3>
       <div class="agent-report-recs">
-        ${counts['AGENT-REPLACEABLE']>0?`<div class="agent-report-rec"><span style="color:#FF4444;font-weight:700">Immediate (0–90 days): </span>Do not auto-renew ${counts['AGENT-REPLACEABLE']} Agent-Replaceable tool${counts['AGENT-REPLACEABLE']>1?'s':''}. Initiate AI agent proof-of-concept within 60 days using recommended LLM stack.</div>`:''}
-        ${counts['AGENT-AUGMENTED']>0?`<div class="agent-report-rec"><span style="color:#F59E0B;font-weight:700">Near-term (90–180 days): </span>Renegotiate ${counts['AGENT-AUGMENTED']} Agent-Augmented contract${counts['AGENT-AUGMENTED']>1?'s':''}. Model 15–30% seat compression. Deploy recommended LLM augmentation layer in parallel.</div>`:''}
-        ${counts['AGENT-PROOF']>0?`<div class="agent-report-rec"><span style="color:#22C55E;font-weight:700">Strategic (next renewal): </span>Activate native AI in ${counts['AGENT-PROOF']} Agent-Proof platform${counts['AGENT-PROOF']>1?'s':''}. Negotiate AI bundling rather than separate Copilot licensing.</div>`:''}
+        ${counts['AGENT-REPLACEABLE']>0?`<div class="agent-report-rec"><span style="color:#E5544C;font-weight:700">Immediate (0–90 days): </span>Do not auto-renew ${counts['AGENT-REPLACEABLE']} Agent-Replaceable tool${counts['AGENT-REPLACEABLE']>1?'s':''}. Initiate AI agent proof-of-concept within 60 days using recommended LLM stack.</div>`:''}
+        ${counts['AGENT-AUGMENTED']>0?`<div class="agent-report-rec"><span style="color:#E9A63C;font-weight:700">Near-term (90–180 days): </span>Renegotiate ${counts['AGENT-AUGMENTED']} Agent-Augmented contract${counts['AGENT-AUGMENTED']>1?'s':''}. Model 15–30% seat compression. Deploy recommended LLM augmentation layer in parallel.</div>`:''}
+        ${counts['AGENT-PROOF']>0?`<div class="agent-report-rec"><span style="color:#34C77B;font-weight:700">Strategic (next renewal): </span>Activate native AI in ${counts['AGENT-PROOF']} Agent-Proof platform${counts['AGENT-PROOF']>1?'s':''}. Negotiate AI bundling rather than separate Copilot licensing.</div>`:''}
         <div class="agent-report-rec"><span style="color:var(--copper);font-weight:700">Portfolio-wide: </span>Average savings opportunity of ${avg}% identified. A full BVF engagement will quantify Organisational Drag Cost and produce a board-ready investment reallocation model.</div>
       </div>
     </div>
