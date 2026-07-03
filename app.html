@@ -24,9 +24,9 @@
   --navy-deep: #181E2C;
   --copper: #B87333;
   --copper-light: #D9A672;
-  --copper-dim: rgba(196,137,74,0.12);
-  --copper-glow: rgba(196,137,74,0.06);
-  --copper-border: rgba(196,137,74,0.18);
+  --copper-dim: rgba(184,115,51,0.12);
+  --copper-glow: rgba(184,115,51,0.06);
+  --copper-border: rgba(184,115,51,0.18);
 
   /* Text — brighter, more readable hierarchy */
   --white: #FFFFFF;
@@ -40,21 +40,21 @@
   /* RAG — slightly muted for softer feel */
   --green: #34C77B;
   --green-light: #4ADE80;
-  --green-bg: rgba(74,222,128,0.08);
-  --green-border: rgba(74,222,128,0.22);
+  --green-bg: rgba(95,224,160,0.08);
+  --green-border: rgba(95,224,160,0.22);
   --amber: #E9A63C;
   --amber-light: #FBBF24;
-  --amber-bg: rgba(251,191,36,0.08);
-  --amber-border: rgba(251,191,36,0.22);
+  --amber-bg: rgba(247,196,107,0.08);
+  --amber-border: rgba(247,196,107,0.22);
   --red: #EF4444;
   --red-light: #F27B74;
-  --red-bg: rgba(248,113,113,0.08);
-  --red-border: rgba(248,113,113,0.22);
+  --red-bg: rgba(242,123,116,0.08);
+  --red-border: rgba(242,123,116,0.22);
 
   /* Agent/Agentic */
   --indigo: #9C5F2A;
-  --indigo-bg: rgba(139,127,217,0.08);
-  --indigo-border: rgba(139,127,217,0.3);
+  --indigo-bg: rgba(156,95,42,0.08);
+  --indigo-border: rgba(156,95,42,0.3);
 
   /* Layout */
   --header-h: 68px;
@@ -100,9 +100,9 @@ h3 { font-size: 16px; line-height: 1.4; }
 .btn-primary {
   background: var(--copper);
   border: 1px solid transparent; color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(196,137,74,0.15);
+  box-shadow: 0 2px 8px rgba(184,115,51,0.15);
 }
-.btn-primary:hover { background: var(--copper-light); box-shadow: 0 4px 16px rgba(196,137,74,0.25); }
+.btn-primary:hover { background: var(--copper-light); box-shadow: 0 4px 16px rgba(184,115,51,0.25); }
 .btn-ghost {
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
   color: var(--text-body);
@@ -111,8 +111,8 @@ h3 { font-size: 16px; line-height: 1.4; }
 .btn-sm { padding: 8px 18px; font-size: 11px; letter-spacing: 1.5px; }
 .btn-indigo {
   background: linear-gradient(135deg, #9C5F2A, #6558B5);
-  border: 1px solid rgba(139,127,217,0.4); color: #FFFFFF;
-  box-shadow: 0 2px 12px rgba(139,127,217,0.2);
+  border: 1px solid rgba(156,95,42,0.4); color: #FFFFFF;
+  box-shadow: 0 2px 12px rgba(156,95,42,0.2);
 }
 
 /* ── FORMS ── */
@@ -123,7 +123,7 @@ input[type="text"], input[type="password"], textarea, select {
   font-family: 'DM Sans', sans-serif; transition: all 0.2s ease;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: rgba(196,137,74,0.5); background: rgba(255,255,255,0.08); box-shadow: 0 0 0 3px rgba(196,137,74,0.08);
+  border-color: rgba(184,115,51,0.5); background: rgba(255,255,255,0.08); box-shadow: 0 0 0 3px rgba(184,115,51,0.08);
 }
 input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.35); }
 select { cursor: pointer; }
@@ -150,8 +150,8 @@ select option { background: var(--navy-mid); color: #FFFFFF; }
 /* ── MIRROR QUOTE ── */
 .mirror {
   margin-top: 36px; padding: 28px 32px;
-  background: rgba(196,137,74,0.04);
-  border: 1px solid rgba(196,137,74,0.1);
+  background: rgba(184,115,51,0.04);
+  border: 1px solid rgba(184,115,51,0.1);
   border-left: 3px solid var(--copper); border-radius: 10px;
 }
 .mirror blockquote {
@@ -193,7 +193,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
   display: flex; align-items: center; justify-content: center;
   font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700;
   color: var(--copper); flex-shrink: 0;
-  background: rgba(196,137,74,0.06);
+  background: rgba(184,115,51,0.06);
 }
 .brand-title {
   font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700;
@@ -245,13 +245,13 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
 }
 .help-trigger {
   display: flex; align-items: center; gap: 8px;
-  padding: 9px 16px; background: rgba(196,137,74,0.09);
-  border: 1px solid rgba(196,137,74,0.22); border-radius: 8px;
+  padding: 9px 16px; background: rgba(184,115,51,0.09);
+  border: 1px solid rgba(184,115,51,0.22); border-radius: 8px;
   color: var(--copper-light); font-size: 12px; font-weight: 700;
   letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
   font-family: 'DM Sans', sans-serif; transition: all 0.2s;
 }
-.help-trigger:hover { background: rgba(196,137,74,0.14); border-color: rgba(196,137,74,0.36); color: #fff; }
+.help-trigger:hover { background: rgba(184,115,51,0.14); border-color: rgba(184,115,51,0.36); color: #fff; }
 .help-overlay {
   position: fixed; inset: 0; z-index: 9000; display: none;
   align-items: center; justify-content: center; padding: 24px;
@@ -276,7 +276,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
   color: var(--text-body); font-family: 'DM Sans', sans-serif; transition: all 0.2s;
 }
-.help-card:hover { border-color: rgba(196,137,74,0.34); background: rgba(196,137,74,0.07); transform: translateY(-1px); }
+.help-card:hover { border-color: rgba(184,115,51,0.34); background: rgba(184,115,51,0.07); transform: translateY(-1px); }
 .help-card b { display: block; color: var(--ice); font-size: 14px; margin-bottom: 8px; }
 .help-card span { display: block; min-height: 76px; color: var(--text-body); font-size: 12px; line-height: 1.55; }
 .help-card em { display: inline-block; margin-top: 14px; color: var(--copper-light); font-style: normal; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
@@ -377,8 +377,8 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
   font-style: normal !important;
 }
 #main .tab-panel .mirror {
-  background: linear-gradient(135deg, rgba(196,137,74,0.09), rgba(255,255,255,0.035));
-  border-color: rgba(196,137,74,0.22);
+  background: linear-gradient(135deg, rgba(184,115,51,0.09), rgba(255,255,255,0.035));
+  border-color: rgba(184,115,51,0.22);
   box-shadow: 0 16px 36px rgba(0,0,0,0.16);
 }
 #main .tab-panel .mirror blockquote {
@@ -463,9 +463,9 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
 /* ── TOAST SYSTEM ── */
 #toast-container { position:fixed; top:80px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
 .toast { pointer-events:auto; display:flex; align-items:center; gap:10px; padding:14px 22px; border-radius:10px; font-size:13px; font-weight:500; font-family:'DM Sans',sans-serif; backdrop-filter:blur(20px); border:1px solid; min-width:280px; max-width:400px; animation:toastIn 0.35s ease; box-shadow:0 8px 32px rgba(0,0,0,0.3); }
-.toast.success { background:rgba(34,100,60,0.92); border-color:var(--green-border); color:var(--green-light); }
-.toast.warning { background:rgba(120,80,10,0.92); border-color:var(--amber-border); color:var(--amber-light); }
-.toast.error { background:rgba(100,30,30,0.92); border-color:var(--red-border); color:var(--red-light); }
+.toast.success { background:rgba(52,199,123,0.92); border-color:var(--green-border); color:var(--green-light); }
+.toast.warning { background:rgba(233,166,60,0.92); border-color:var(--amber-border); color:var(--amber-light); }
+.toast.error { background:rgba(229,84,76,0.92); border-color:var(--red-border); color:var(--red-light); }
 .toast.info { background:rgba(20,40,70,0.92); border-color:var(--copper-border); color:var(--copper-light); }
 .toast.exiting { animation:toastOut 0.3s ease forwards; }
 .toast-icon { font-size:16px; flex-shrink:0; }
@@ -489,7 +489,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
 .api-key-actions { position:absolute; right:8px; top:50%; transform:translateY(-50%); display:flex; gap:4px; }
 .api-key-toggle, .api-key-save { font-size:13px; background:none; border:none; cursor:pointer; padding:4px; color:var(--text-dim); transition:color 0.2s; }
 .api-key-toggle:hover, .api-key-save:hover { color:var(--copper); }
-.api-security-badge { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--green-light); margin-top:8px; padding:8px 12px; background:rgba(22,163,74,0.06); border:1px solid rgba(22,163,74,0.15); border-radius:3px; }
+.api-security-badge { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--green-light); margin-top:8px; padding:8px 12px; background:rgba(52,199,123,0.06); border:1px solid rgba(52,199,123,0.15); border-radius:3px; }
 .api-facilitator-bar { display:flex; align-items:center; gap:10px; padding:12px 16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px; font-size:12px; color:var(--text-body); }
 .api-facilitator-bar label { display:flex; align-items:center; gap:6px; cursor:pointer; }
 .api-facilitator-bar input[type="checkbox"] { accent-color:var(--copper); }
@@ -500,7 +500,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.05); }
 .empty-state-title { font-size:15px; font-weight:600; color:var(--text); margin-bottom:8px; }
 .empty-state-text { font-size:14px; color:var(--text-body); line-height:1.7; max-width:420px; margin:0 auto 20px; }
 .empty-state-action { display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:8px; background:var(--copper); border:1px solid transparent; color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:1.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
-.empty-state-action:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(196,137,74,0.2); }
+.empty-state-action:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(184,115,51,0.2); }
 
 /* ── PANEL TRANSITIONS ── */
 .tab-panel { transition:opacity 0.3s ease; }
@@ -650,7 +650,7 @@ header { transition:box-shadow 0.3s ease; }
   cursor: pointer; transition: all 0.3s ease; text-align: left;
 }
 .path-card:hover {
-  border-color: rgba(196,137,74,0.3); background: rgba(255,255,255,0.06);
+  border-color: rgba(184,115,51,0.3); background: rgba(255,255,255,0.06);
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   transform: translateY(-2px);
 }
@@ -707,10 +707,10 @@ header { transition:box-shadow 0.3s ease; }
   border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
   transition: all 0.25s ease;
 }
-.guide-step:hover { border-color: rgba(196,137,74,0.25); background: rgba(255,255,255,0.06); }
+.guide-step:hover { border-color: rgba(184,115,51,0.25); background: rgba(255,255,255,0.06); }
 .guide-step-num {
-  width: 48px; height: 48px; border-radius: 50%; background: rgba(196,137,74,0.1);
-  border: 1px solid rgba(196,137,74,0.3); display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 50%; background: rgba(184,115,51,0.1);
+  border: 1px solid rgba(184,115,51,0.3); display: flex; align-items: center; justify-content: center;
   font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--copper);
 }
 .guide-step h3 { font-size: 17px; margin-bottom: 6px; color: var(--ice); }
@@ -723,13 +723,13 @@ header { transition:box-shadow 0.3s ease; }
   border: 1px solid rgba(255,255,255,0.07); border-radius: 10px;
   text-align: center; transition: all 0.25s ease;
 }
-.guide-tab-card:hover { border-color: rgba(196,137,74,0.2); background: rgba(255,255,255,0.05); }
+.guide-tab-card:hover { border-color: rgba(184,115,51,0.2); background: rgba(255,255,255,0.05); }
 .guide-tab-card .guide-tab-icon { font-size: 22px; margin-bottom: 8px; display: block; }
 .guide-tab-card h4 { font-size: 14px; margin-bottom: 4px; color: var(--ice); }
 .guide-tab-card p { font-size: 13px; color: var(--text-body); line-height: 1.6; }
 .guide-cta {
-  text-align: center; padding: 36px; background: rgba(196,137,74,0.04);
-  border: 1px solid rgba(196,137,74,0.15); border-radius: 12px;
+  text-align: center; padding: 36px; background: rgba(184,115,51,0.04);
+  border: 1px solid rgba(184,115,51,0.15); border-radius: 12px;
 }
 .guide-cta h3 { font-size: 18px; margin-bottom: 8px; }
 .guide-cta p { font-size: 14px; color: var(--text-body); margin-bottom: 20px; font-weight: 400; }
@@ -739,7 +739,7 @@ header { transition:box-shadow 0.3s ease; }
   letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
   font-family: 'DM Sans', sans-serif;
 }
-.guide-cta-btn:hover { background: var(--copper-light); box-shadow: 0 4px 20px rgba(196,137,74,0.3); }
+.guide-cta-btn:hover { background: var(--copper-light); box-shadow: 0 4px 20px rgba(184,115,51,0.3); }
 .guide-back {
   display: inline-flex; align-items: center; gap: 8px; font-size: 12px;
   color: var(--copper); cursor: pointer; margin-bottom: 32px;
@@ -795,8 +795,8 @@ header { transition:box-shadow 0.3s ease; }
   gap: 9px;
   padding: 11px 15px;
   border-radius: 8px;
-  border: 1px solid rgba(196,137,74,0.38);
-  background: linear-gradient(135deg, rgba(196,137,74,0.28), rgba(196,137,74,0.12));
+  border: 1px solid rgba(184,115,51,0.38);
+  background: linear-gradient(135deg, rgba(184,115,51,0.28), rgba(184,115,51,0.12));
   color: var(--ice);
   cursor: pointer;
   font-family: 'DM Sans', sans-serif;
@@ -806,7 +806,7 @@ header { transition:box-shadow 0.3s ease; }
 .priority-add-btn:hover {
   transform: translateY(-1px);
   border-color: var(--copper);
-  background: linear-gradient(135deg, rgba(196,137,74,0.38), rgba(196,137,74,0.18));
+  background: linear-gradient(135deg, rgba(184,115,51,0.38), rgba(184,115,51,0.18));
 }
 .priority-add-icon {
   width: 24px;
@@ -848,8 +848,8 @@ header { transition:box-shadow 0.3s ease; }
 .boardroom-card {
   display: none;
   padding: 22px 24px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.055), rgba(196,137,74,0.045));
-  border: 1px solid rgba(196,137,74,0.16);
+  background: linear-gradient(135deg, rgba(255,255,255,0.055), rgba(184,115,51,0.045));
+  border: 1px solid rgba(184,115,51,0.16);
   border-left: 3px solid var(--copper);
   border-radius: 0 10px 10px 0;
   margin-bottom: 12px;
@@ -972,7 +972,7 @@ header { transition:box-shadow 0.3s ease; }
   text-transform: uppercase; cursor: pointer; font-family: 'DM Sans', sans-serif;
   transition: all 0.2s;
 }
-.lp-nav-btn:hover { background: var(--copper-light); box-shadow: 0 4px 16px rgba(196,137,74,0.3); }
+.lp-nav-btn:hover { background: var(--copper-light); box-shadow: 0 4px 16px rgba(184,115,51,0.3); }
 
 /* Hero */
 .lp-hero {
@@ -1005,15 +1005,15 @@ header { transition:box-shadow 0.3s ease; }
   text-transform: uppercase; cursor: pointer; font-family: 'DM Sans', sans-serif;
   transition: all 0.25s; text-decoration: none;
 }
-.lp-btn-primary:hover { background: var(--copper-light); box-shadow: 0 6px 24px rgba(196,137,74,0.35); transform: translateY(-1px); }
+.lp-btn-primary:hover { background: var(--copper-light); box-shadow: 0 6px 24px rgba(184,115,51,0.35); transform: translateY(-1px); }
 .lp-btn-secondary {
   padding: 16px 40px; background: transparent; color: var(--copper);
-  border: 1px solid rgba(196,137,74,0.35); border-radius: 8px;
+  border: 1px solid rgba(184,115,51,0.35); border-radius: 8px;
   font-size: 13px; font-weight: 600; letter-spacing: 1.5px;
   text-transform: uppercase; cursor: pointer; font-family: 'DM Sans', sans-serif;
   transition: all 0.25s; text-decoration: none;
 }
-.lp-btn-secondary:hover { border-color: var(--copper); background: rgba(196,137,74,0.06); }
+.lp-btn-secondary:hover { border-color: var(--copper); background: rgba(184,115,51,0.06); }
 
 /* Guided setup */
 .setup-flow {
@@ -1057,9 +1057,9 @@ header { transition:box-shadow 0.3s ease; }
   cursor: pointer;
   font-family: 'DM Sans', sans-serif;
 }
-.setup-step:hover { border-color: var(--copper-border); background: rgba(196,137,74,0.06); }
-.setup-step.complete { border-color: rgba(34,197,94,0.35); background: rgba(34,197,94,0.06); }
-.setup-step.active { border-color: var(--copper); background: rgba(196,137,74,0.09); }
+.setup-step:hover { border-color: var(--copper-border); background: rgba(184,115,51,0.06); }
+.setup-step.complete { border-color: rgba(52,199,123,0.35); background: rgba(52,199,123,0.06); }
+.setup-step.active { border-color: var(--copper); background: rgba(184,115,51,0.09); }
 .setup-step-status {
   display: block;
   margin-bottom: 8px;
@@ -1167,8 +1167,8 @@ header { transition:box-shadow 0.3s ease; }
   transition: all 0.22s ease;
 }
 .lp-start-card:hover {
-  border-color: rgba(196,137,74,0.34);
-  background: rgba(196,137,74,0.07);
+  border-color: rgba(184,115,51,0.34);
+  background: rgba(184,115,51,0.07);
   transform: translateY(-1px);
 }
 .lp-start-card b {
@@ -1251,8 +1251,8 @@ header { transition:box-shadow 0.3s ease; }
   border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
 }
 .lp-step-num {
-  width: 44px; height: 44px; border-radius: 50%; background: rgba(196,137,74,0.1);
-  border: 1px solid rgba(196,137,74,0.3); display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 50%; background: rgba(184,115,51,0.1);
+  border: 1px solid rgba(184,115,51,0.3); display: flex; align-items: center; justify-content: center;
   font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--copper);
 }
 .lp-step h3 { font-family: 'Playfair Display', serif; font-size: 16px; margin-bottom: 6px; color: var(--ice); }
@@ -1395,7 +1395,7 @@ header { transition:box-shadow 0.3s ease; }
 
 .agent-step-indicator { display:flex; align-items:center; gap:0; margin-bottom:28px; justify-content:center; }
 .agent-pip { width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--text-muted); transition:all 0.3s; font-family:'DM Sans',sans-serif; }
-.agent-pip.active { border-color:var(--copper); color:var(--copper); box-shadow:0 0 8px rgba(196,137,74,0.2); }
+.agent-pip.active { border-color:var(--copper); color:var(--copper); box-shadow:0 0 8px rgba(184,115,51,0.2); }
 .agent-pip.done { background:var(--copper); border-color:var(--copper); color:#FFFFFF; }
 .agent-step-line { width:28px; height:1px; background:var(--copper-border); }
 
@@ -1404,14 +1404,14 @@ header { transition:box-shadow 0.3s ease; }
 .agent-field { display:flex; flex-direction:column; gap:7px; margin-bottom:18px; }
 .agent-label-row { display:flex; justify-content:space-between; align-items:center; }
 .agent-hint { font-size:11px; color:var(--text-muted); text-align:right; margin-top:4px; }
-.agent-classify-btn { width:100%; padding:14px 24px; border-radius:10px; background:var(--copper); border:1px solid transparent; color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 2px 12px rgba(196,137,74,0.2); transition:all 0.2s; }
-.agent-classify-btn:hover { background:var(--copper-light); box-shadow:0 4px 20px rgba(196,137,74,0.3); }
+.agent-classify-btn { width:100%; padding:14px 24px; border-radius:10px; background:var(--copper); border:1px solid transparent; color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 2px 12px rgba(184,115,51,0.2); transition:all 0.2s; }
+.agent-classify-btn:hover { background:var(--copper-light); box-shadow:0 4px 20px rgba(184,115,51,0.3); }
 .agent-classify-btn:disabled { opacity:0.5; cursor:not-allowed; }
-.agent-error { margin-top:14px; color:#FF9090; font-size:13px; text-align:center; padding:12px; background:rgba(232,80,80,0.1); border-radius:3px; border:1px solid rgba(232,80,80,0.3); }
+.agent-error { margin-top:14px; color:#FF9090; font-size:13px; text-align:center; padding:12px; background:rgba(229,84,76,0.1); border-radius:3px; border:1px solid rgba(229,84,76,0.3); }
 .agent-spinner { display:inline-block; width:14px; height:14px; border-radius:50%; border:2px solid #94A3B8; border-top-color:#EDF2F7; animation:spin 0.8s linear infinite; vertical-align:middle; margin-right:8px; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .agent-sample-btn { font-size:10px; letter-spacing:1.5px; color:var(--copper); background:transparent; border:1px solid var(--copper-border); border-radius:6px; padding:6px 14px; cursor:pointer; font-family:'DM Sans',sans-serif; text-transform:uppercase; transition:all 0.2s; }
-.agent-sample-btn:hover { border-color:var(--copper); background:rgba(196,137,74,0.06); }
+.agent-sample-btn:hover { border-color:var(--copper); background:rgba(184,115,51,0.06); }
 
 /* Agent results */
 .agent-summary-strip { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:20px 28px; margin-bottom:28px; }
@@ -1455,12 +1455,12 @@ header { transition:box-shadow 0.3s ease; }
 .agent-context-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:18px; }
 .agent-context-field { display:flex; flex-direction:column; gap:5px; }
 .agent-context-label { font-size:9px; letter-spacing:2px; color:var(--indigo); font-weight:600; text-transform:uppercase; }
-.agent-run-btn { width:100%; padding:14px; border-radius:10px; background:linear-gradient(135deg,#9C5F2A,#6558B5); border:1px solid rgba(139,127,217,0.3); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 2px 12px rgba(139,127,217,0.2); transition:all 0.2s; }
-.agent-run-btn:hover { box-shadow:0 4px 20px rgba(139,127,217,0.3); }
+.agent-run-btn { width:100%; padding:14px; border-radius:10px; background:linear-gradient(135deg,#9C5F2A,#6558B5); border:1px solid rgba(156,95,42,0.3); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 2px 12px rgba(156,95,42,0.2); transition:all 0.2s; }
+.agent-run-btn:hover { box-shadow:0 4px 20px rgba(156,95,42,0.3); }
 .agent-run-btn:disabled { opacity:0.5; cursor:not-allowed; }
 .agent-llm-grid { display:flex; flex-direction:column; gap:18px; }
-.agent-llm-card { background:rgba(255,255,255,0.03); border:1px solid rgba(139,127,217,0.15); border-radius:12px; overflow:hidden; }
-.agent-llm-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(124,111,205,0.15); background:rgba(124,111,205,0.05); flex-wrap:wrap; gap:8px; }
+.agent-llm-card { background:rgba(255,255,255,0.03); border:1px solid rgba(156,95,42,0.15); border-radius:12px; overflow:hidden; }
+.agent-llm-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(156,95,42,0.15); background:rgba(156,95,42,0.05); flex-wrap:wrap; gap:8px; }
 .agent-llm-name { font-weight:700; font-size:14px; color:var(--white); }
 .agent-llm-bucket { font-size:10px; letter-spacing:1.5px; padding:3px 8px; border-radius:2px; border:1px solid; font-weight:700; }
 .agent-llm-body { padding:18px; }
@@ -1496,7 +1496,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-report-footer { margin-top:44px; padding-top:20px; border-top:1px solid var(--copper-border); font-size:10px; color:var(--text-dim); text-align:center; letter-spacing:1.5px; text-transform:uppercase; }
 
 .agent-nav-btns { display:flex; gap:10px; justify-content:center; margin-top:24px; }
-.agent-merge-section { margin-top:28px; padding:22px 28px; background:rgba(22,163,74,0.05); border:1px solid var(--green-border); border-radius:12px; }
+.agent-merge-section { margin-top:28px; padding:22px 28px; background:rgba(52,199,123,0.05); border:1px solid var(--green-border); border-radius:12px; }
 
 @media (max-width:768px) {
   .agent-bucket-grid { grid-template-columns:1fr; }
@@ -1524,21 +1524,21 @@ header { transition:box-shadow 0.3s ease; }
       @keyframes claude-pulse {
         0% {
           box-shadow: 
-            inset 0 0 10px rgba(217, 119, 87, 0.5),
-            inset 0 0 20px rgba(217, 119, 87, 0.3),
-            inset 0 0 30px rgba(217, 119, 87, 0.1);
+            inset 0 0 10px rgba(184, 115, 51, 0.5),
+            inset 0 0 20px rgba(184, 115, 51, 0.3),
+            inset 0 0 30px rgba(184, 115, 51, 0.1);
         }
         50% {
           box-shadow: 
-            inset 0 0 15px rgba(217, 119, 87, 0.7),
-            inset 0 0 25px rgba(217, 119, 87, 0.5),
-            inset 0 0 35px rgba(217, 119, 87, 0.2);
+            inset 0 0 15px rgba(184, 115, 51, 0.7),
+            inset 0 0 25px rgba(184, 115, 51, 0.5),
+            inset 0 0 35px rgba(184, 115, 51, 0.2);
         }
         100% {
           box-shadow: 
-            inset 0 0 10px rgba(217, 119, 87, 0.5),
-            inset 0 0 20px rgba(217, 119, 87, 0.3),
-            inset 0 0 30px rgba(217, 119, 87, 0.1);
+            inset 0 0 10px rgba(184, 115, 51, 0.5),
+            inset 0 0 20px rgba(184, 115, 51, 0.3),
+            inset 0 0 30px rgba(184, 115, 51, 0.1);
         }
       }
     </style></head>
@@ -1752,7 +1752,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
     </div>
     <div style="margin-top:32px">
-      <span onclick="showGuide()" style="font-size:13px;color:var(--copper);cursor:pointer;letter-spacing:1.5px;font-weight:600;text-transform:uppercase;transition:color 0.2s;border-bottom:1px solid rgba(196,137,74,0.3);padding-bottom:2px" onmouseover="this.style.color='var(--copper-light)'" onmouseout="this.style.color='var(--copper)'">How It Works →</span>
+      <span onclick="showGuide()" style="font-size:13px;color:var(--copper);cursor:pointer;letter-spacing:1.5px;font-weight:600;text-transform:uppercase;transition:color 0.2s;border-bottom:1px solid rgba(184,115,51,0.3);padding-bottom:2px" onmouseover="this.style.color='var(--copper-light)'" onmouseout="this.style.color='var(--copper)'">How It Works →</span>
     </div>
     <div class="welcome-trust">
       <div class="trust-item"><span class="trust-icon">🔒</span> No data leaves your browser</div>
@@ -1968,7 +1968,7 @@ header { transition:box-shadow 0.3s ease; }
               The BVF maps every AI initiative against your board-level priorities, quantifies the governance gap,
               and delivers a Decision Confidence Score that tells you which investments to accelerate, fix, or stop.
             </p>
-            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(184,115,51,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:14px;color:var(--ice);line-height:1.7" id="ceo-answer">
                 Complete the Company Profile and build your Portfolio to see live strategic alignment metrics.
@@ -2010,7 +2010,7 @@ header { transition:box-shadow 0.3s ease; }
               Real ROI calculation inclusive of change management, training, and organisational drag costs
               that vendors never include in their projections. EBITDA impact per initiative.
             </p>
-            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(184,115,51,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:14px;color:var(--ice);line-height:1.7" id="cfo-answer">
                 Complete the Company Profile and build your Portfolio to see financial governance metrics.
@@ -2035,7 +2035,7 @@ header { transition:box-shadow 0.3s ease; }
             <p style="color:var(--text-body);line-height:1.75;font-weight:400">
               Gen 1/2/3 AI maturity assessment. Agent Skills Directory. Regulatory mapping across the portfolio.
             </p>
-            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(184,115,51,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:14px;color:var(--ice);line-height:1.7" id="cdo-answer">
                 Complete the Company Profile and build your Portfolio to see AI maturity and scaling metrics.
@@ -2060,7 +2060,7 @@ header { transition:box-shadow 0.3s ease; }
             <p style="color:var(--text-body);line-height:1.75;font-weight:400">
               Cross-functional governance framework. Integration complexity scoring. Technical risk posture across the AI portfolio.
             </p>
-            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(184,115,51,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:14px;color:var(--ice);line-height:1.7" id="cio-answer">
                 Complete the Company Profile and build your Portfolio to see technical governance and deployment readiness.
@@ -2086,7 +2086,7 @@ header { transition:box-shadow 0.3s ease; }
               Change readiness assessment. Prosci benchmark alignment. Reskilling investment calculation.
               The people side of every AI initiative.
             </p>
-            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(184,115,51,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:14px;color:var(--ice);line-height:1.7" id="chro-answer">
                 Complete the Company Profile and build your Portfolio to see change management and workforce readiness metrics.
@@ -2111,7 +2111,7 @@ header { transition:box-shadow 0.3s ease; }
             <p style="color:var(--text-body);line-height:1.75;font-weight:400">
               EU AI Act classification. DORA compliance posture. GDPR and AML exposure mapping across every initiative.
             </p>
-            <div style="margin-top:20px;padding:20px 24px;background:rgba(196,137,74,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
+            <div style="margin-top:20px;padding:20px 24px;background:rgba(184,115,51,0.04);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
               <span class="label" style="margin-bottom:6px">BVF Answer</span>
               <p style="font-size:14px;color:var(--ice);line-height:1.7" id="cro-answer">
                 Complete the Company Profile and build your Portfolio to see regulatory exposure and compliance posture.
@@ -2145,7 +2145,7 @@ header { transition:box-shadow 0.3s ease; }
           <button onclick="document.getElementById('practitioner-quickstart').style.display='none'" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px" title="Dismiss">✕</button>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-          <div id="qs-step1" style="padding:14px 16px;border-radius:10px;border:1px solid rgba(196,137,74,0.2);background:rgba(196,137,74,0.04);cursor:pointer" onclick="toggleProfile()">
+          <div id="qs-step1" style="padding:14px 16px;border-radius:10px;border:1px solid rgba(184,115,51,0.2);background:rgba(184,115,51,0.04);cursor:pointer" onclick="toggleProfile()">
             <div style="font-size:18px;margin-bottom:6px">①</div>
             <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Company Profile</div>
             <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Enter company name, revenue, cost base, EBITDA, and org readiness</div>
@@ -2231,7 +2231,7 @@ header { transition:box-shadow 0.3s ease; }
     </div>
     <div id="tierCards" style="display:none;flex-wrap:wrap;gap:10px;margin-bottom:20px"></div>
     <!-- Initiative Form -->
-    <div id="initForm" style="display:none;margin-bottom:20px;padding:26px 30px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,137,74,0.2);border-radius:14px">
+    <div id="initForm" style="display:none;margin-bottom:20px;padding:26px 30px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
         <span class="label" id="formTitle" style="margin-bottom:0">New AI Initiative</span>
         <button onclick="cancelForm()" style="background:transparent;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 14px;color:var(--copper);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">← Back to Portfolio</button>
@@ -2286,7 +2286,7 @@ header { transition:box-shadow 0.3s ease; }
         <div style="grid-column:1/-1"><span class="label">Expected Business Outcome</span><input type="text" id="f_outcome" placeholder="e.g. 30% AHT reduction → CX Operating KPI → Cost reduction"></div>
       </div>
       <button onclick="togglePilot()" style="margin-top:14px;background:transparent;border:1px solid var(--amber-border);border-radius:3px;padding:6px 14px;color:var(--amber-light);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">⚠ <span id="pilotToggleLabel">Run</span> Pilot Trap Diagnostic</button>
-      <div id="pilotForm" style="display:none;margin-top:12px;padding:16px 18px;background:rgba(192,122,26,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:3px">
+      <div id="pilotForm" style="display:none;margin-top:12px;padding:16px 18px;background:rgba(233,166,60,0.08);border:1px solid rgba(233,166,60,0.25);border-radius:3px">
         <span class="label" style="margin-bottom:4px">Pilot Trap Diagnostic — 5 Questions</span>
         <div style="font-size:10px;color:var(--text-dim);font-style:italic;margin-bottom:12px">42% of companies abandoned most AI projects in 2025 citing unclear value. Answer honestly.</div>
         <div id="pilotQuestions"></div>
@@ -2303,17 +2303,17 @@ header { transition:box-shadow 0.3s ease; }
         <div style="font-size:12px;color:var(--text-muted);max-width:480px;margin:0 auto;line-height:1.6">The best AI strategies build on existing investments. Add your current programmes first — even if they're early-stage or underperforming. Then add planned initiatives to see the full picture.</div>
       </div>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <div onclick="openForm('existing')" style="flex:1;max-width:220px;padding:18px;border:1px solid rgba(196,137,74,0.2);border-radius:12px;cursor:pointer;text-align:center;background:rgba(196,137,74,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--copper)'" onmouseout="this.style.borderColor='rgba(196,137,74,0.2)'">
+        <div onclick="openForm('existing')" style="flex:1;max-width:220px;padding:18px;border:1px solid rgba(184,115,51,0.2);border-radius:12px;cursor:pointer;text-align:center;background:rgba(184,115,51,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--copper)'" onmouseout="this.style.borderColor='rgba(184,115,51,0.2)'">
           <div style="font-size:22px;margin-bottom:8px">📋</div>
           <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Add Existing Initiative</div>
           <div style="font-size:10px;color:var(--text-muted);line-height:1.5">A programme already in flight — deployed, in pilot, or approved</div>
         </div>
-        <div onclick="openForm('new')" style="flex:1;max-width:220px;padding:16px;border:1px solid rgba(124,111,205,0.3);border-radius:4px;cursor:pointer;text-align:center;background:rgba(124,111,205,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--indigo)'" onmouseout="this.style.borderColor='rgba(124,111,205,0.3)'">
+        <div onclick="openForm('new')" style="flex:1;max-width:220px;padding:16px;border:1px solid rgba(156,95,42,0.3);border-radius:4px;cursor:pointer;text-align:center;background:rgba(156,95,42,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--indigo)'" onmouseout="this.style.borderColor='rgba(156,95,42,0.3)'">
           <div style="font-size:22px;margin-bottom:8px">✨</div>
           <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Add New Opportunity</div>
           <div style="font-size:10px;color:var(--text-muted);line-height:1.5">A proposed programme to evaluate for investment and board alignment</div>
         </div>
-        <div onclick="switchTab('agent')" style="flex:1;max-width:220px;padding:16px;border:1px solid rgba(124,111,205,0.3);border-radius:4px;cursor:pointer;text-align:center;background:rgba(124,111,205,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--indigo)'" onmouseout="this.style.borderColor='rgba(124,111,205,0.3)'">
+        <div onclick="switchTab('agent')" style="flex:1;max-width:220px;padding:16px;border:1px solid rgba(156,95,42,0.3);border-radius:4px;cursor:pointer;text-align:center;background:rgba(156,95,42,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--indigo)'" onmouseout="this.style.borderColor='rgba(156,95,42,0.3)'">
           <div style="font-size:22px;margin-bottom:8px">🤖</div>
           <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Use AI Agent</div>
           <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Paste a strategy doc and let AI extract and map initiatives automatically</div>
@@ -2406,7 +2406,7 @@ Microsoft 365 - $180k/year, 300 seats"></textarea>
                 <div class="agent-hint" id="agent-tool-count">0 tools entered</div>
               </div>
               <button class="agent-classify-btn" id="agent-classify-btn" onclick="agentClassify()">Step 1 - Run live AI classification</button>
-              <button class="agent-sample-btn" onclick="agentRunDemoClassification()" style="width:100%;margin-top:10px;padding:11px 18px;border-color:rgba(196,137,74,0.35);background:rgba(196,137,74,0.08);color:var(--copper-light)">Run demo classification - no API key</button>
+              <button class="agent-sample-btn" onclick="agentRunDemoClassification()" style="width:100%;margin-top:10px;padding:11px 18px;border-color:rgba(184,115,51,0.35);background:rgba(184,115,51,0.08);color:var(--copper-light)">Run demo classification - no API key</button>
               <div class="agent-hint" style="text-align:center;margin-top:8px">Live classification uses your Anthropic key. Demo mode shows the board-ready output instantly.</div>
             </div>
 
@@ -2564,9 +2564,9 @@ The agent will extract:
       <div style="margin-bottom:22px;padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
         <span class="label">CM Allocation vs Prosci Benchmark</span>
         <div style="margin-top:12px;position:relative;height:40px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden">
-          <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(224,82,82,0.1);border-right:1px dashed rgba(224,82,82,0.35)"></div>
-          <div style="position:absolute;left:33.3%;top:0;width:33.3%;height:100%;background:rgba(245,166,35,0.08);border-right:1px dashed rgba(245,166,35,0.35)"></div>
-          <div style="position:absolute;left:66.6%;top:0;width:33.4%;height:100%;background:rgba(76,175,128,0.08)"></div>
+          <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(229,84,76,0.1);border-right:1px dashed rgba(229,84,76,0.35)"></div>
+          <div style="position:absolute;left:33.3%;top:0;width:33.3%;height:100%;background:rgba(233,166,60,0.08);border-right:1px dashed rgba(233,166,60,0.35)"></div>
+          <div style="position:absolute;left:66.6%;top:0;width:33.4%;height:100%;background:rgba(52,199,123,0.08)"></div>
           <div id="cmBar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:var(--red-light);transition:width 0.5s"></div>
           <div style="position:absolute;left:33.3%;top:50%;transform:translate(-50%,-50%);font-size:9px;font-weight:700;color:var(--red-light)">5%</div>
           <div style="position:absolute;left:66.6%;top:50%;transform:translate(-50%,-50%);font-size:9px;font-weight:700;color:var(--amber-light)">10%</div>
@@ -2581,7 +2581,7 @@ The agent will extract:
       </div>
       <div id="cmMetrics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:22px"></div>
       <div id="cmInitList" style="margin-bottom:22px"></div>
-      <div style="padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
+      <div style="padding:22px 28px;background:rgba(184,115,51,0.04);border:1px solid rgba(184,115,51,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0">
         <span class="label">The Prosci Principle</span>
         <p style="margin:8px 0;font-size:13px;color:var(--text-body);line-height:1.7;font-style:italic">"Organisations that invest in change management are six times more likely to meet project objectives. A minimum of 10–15% of total project budget should be allocated to the people side."</p>
         <div style="font-size:10px;color:var(--text-dim)">Prosci Best Practices in Change Management · 11th Edition</div>
@@ -2604,7 +2604,7 @@ The agent will extract:
     <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap" id="regToggles"></div>
     <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px"></div>
     <div id="regDetails" style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px"></div>
-    <div id="regNoCost" style="display:none;padding:20px;background:rgba(192,122,26,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:3px;text-align:center">
+    <div id="regNoCost" style="display:none;padding:20px;background:rgba(233,166,60,0.1);border:1px solid rgba(233,166,60,0.3);border-radius:3px;text-align:center">
       <div style="font-size:13px;color:var(--amber-light)">Enter your annual revenue in the Company Profile to see compliance costs in your currency.</div>
     </div>
     <div class="mirror" style="margin-top:28px">
@@ -2626,7 +2626,7 @@ The agent will extract:
 
     <!-- Sub-tab navigation -->
     <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0" id="diag-sub-nav">
-      <button onclick="switchDiagSub('ce')" id="diag-btn-ce" class="diag-sub-btn active" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--copper);background:rgba(196,137,74,0.08);border:1px solid rgba(196,137,74,0.15);border-bottom:2px solid var(--copper);border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">⚙ Change Enablement</button>
+      <button onclick="switchDiagSub('ce')" id="diag-btn-ce" class="diag-sub-btn active" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--copper);background:rgba(184,115,51,0.08);border:1px solid rgba(184,115,51,0.15);border-bottom:2px solid var(--copper);border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">⚙ Change Enablement</button>
       <button onclick="switchDiagSub('pace')" id="diag-btn-pace" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.06);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s">◎ Pace Layer</button>
       <button onclick="switchDiagSub('health')" id="diag-btn-health" class="diag-sub-btn" style="padding:10px 20px;font-size:12px;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid rgba(255,255,255,0.06);border-bottom:2px solid transparent;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s;display:none">🏥 Healthcare</button>
     </div>
@@ -2638,7 +2638,7 @@ The agent will extract:
         <div style="font-size:12px;color:var(--text-muted);line-height:1.6"><strong style="color:var(--copper)">What to do:</strong> Score each of the six drivers below from 1 (weak) to 5 (strong). The composite converts to a CE percentage that weights into the DCS. If CM budget is below 10% of initiative budget, CE is capped at 40%.</div>
       </div>
 
-      <div style="padding:22px 28px;background:rgba(196,137,74,0.04);border:1px solid rgba(196,137,74,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0;margin-bottom:24px">
+      <div style="padding:22px 28px;background:rgba(184,115,51,0.04);border:1px solid rgba(184,115,51,0.12);border-left:3px solid var(--copper);border-radius:0 10px 10px 0;margin-bottom:24px">
         <span class="label" style="margin-bottom:8px">The Six Drivers</span>
         <p style="font-size:13px;color:var(--text-body);line-height:1.7;font-style:italic">"Organizations that excel in all six drivers, Lead, Inspire, Care, Empower, Build, Collaborate, see 2.6x greater value realization from transformation programmes."</p>
         <div style="font-size:10px;color:var(--text-dim);margin-top:8px">EY/Oxford Said Business School, Change Enablement Research 2022</div>
@@ -2755,7 +2755,7 @@ The agent will extract:
     </div>
 
     <!-- Last Updated -->
-    <div style="display:flex;gap:12px;align-items:center;margin-bottom:24px;padding:12px 18px;background:rgba(22,163,74,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:6px">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:24px;padding:12px 18px;background:rgba(52,199,123,0.06);border:1px solid rgba(52,199,123,0.2);border-radius:6px">
       <span style="font-size:16px">✓</span>
       <div>
         <div style="font-size:12px;font-weight:600;color:var(--green-light)">Benchmarks current as of Q1 2026</div>
@@ -2773,7 +2773,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">AI Value Potential by Function</div>
             <div style="font-size:11px;color:var(--text-muted)">Revenue uplift &amp; cost reduction ranges per business function</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.15)">CORE MODEL</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.15)">CORE MODEL</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -2802,7 +2802,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Organisational Drag Cost Model</div>
             <div style="font-size:11px;color:var(--text-muted)">Adoption friction that erodes AI ROI based on organisational readiness</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.15)">DRAG MODEL</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.15)">DRAG MODEL</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -2838,7 +2838,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Change Management Allocation Benchmarks</div>
             <div style="font-size:11px;color:var(--text-muted)">RAG thresholds for CM investment as percentage of programme budget</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.15)">CM MODEL</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.08);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.15)">CM MODEL</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -2871,7 +2871,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Pilot Trap Diagnostic</div>
             <div style="font-size:11px;color:var(--text-muted)">5-question readiness check to assess whether an initiative can scale beyond pilot</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(245,158,11,0.1);color:var(--amber-light);font-weight:600;border:1px solid rgba(245,158,11,0.2)">DIAGNOSTIC</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(233,166,60,0.1);color:var(--amber-light);font-weight:600;border:1px solid rgba(233,166,60,0.2)">DIAGNOSTIC</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -2900,7 +2900,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">AI Generation Tier Classification</div>
             <div style="font-size:11px;color:var(--text-muted)">Gen 1 / Gen 2 / Gen 3 framework for categorising AI maturity</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(124,111,205,0.1);color:var(--indigo);font-weight:600;border:1px solid rgba(124,111,205,0.2)">TAXONOMY</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(156,95,42,0.1);color:var(--indigo);font-weight:600;border:1px solid rgba(156,95,42,0.2)">TAXONOMY</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -2934,7 +2934,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Regulatory Compliance Frameworks</div>
             <div style="font-size:11px;color:var(--text-muted)">EU AI Act and DORA compliance mapping</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(224,82,82,0.1);color:var(--red-light);font-weight:600;border:1px solid rgba(224,82,82,0.2)">REGULATION</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(229,84,76,0.1);color:var(--red-light);font-weight:600;border:1px solid rgba(229,84,76,0.2)">REGULATION</span>
         </div>
         <div style="font-size:12px;color:var(--text-body);line-height:1.8">
           <div style="margin-bottom:6px"><strong style="color:var(--ice)">EU AI Act</strong> — Regulation (EU) 2024/1689. Entered into force 1 August 2024. Prohibitions apply from Feb 2025; high-risk obligations from Aug 2026. The BVF maps initiative risk classifications against the Act's four-tier risk system (Unacceptable → High → Limited → Minimal).</div>
@@ -2950,7 +2950,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">EY/Oxford Six Drivers of Change Enablement</div>
             <div style="font-size:11px;color:var(--text-muted)">People-side capability assessment powering the CE dimension of the DCS</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.2)">v2.0 DIAGNOSTIC</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.2)">v2.0 DIAGNOSTIC</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -2987,7 +2987,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Healthcare Readiness Factor</div>
             <div style="font-size:11px;color:var(--text-muted)">Sector-specific multiplier for healthcare and MedTech AI initiatives</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.2)">v2.0 VERTICAL</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.2)">v2.0 VERTICAL</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -3023,7 +3023,7 @@ The agent will extract:
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Pace Layer Diagnostic &amp; Organisational Drag Cost</div>
             <div style="font-size:11px;color:var(--text-muted)">Organisation-level misalignment detector across three transformation horizons</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(196,137,74,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(196,137,74,0.2)">v2.0 DIAGNOSTIC</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(184,115,51,0.12);color:var(--copper);font-weight:600;border:1px solid rgba(184,115,51,0.2)">v2.0 DIAGNOSTIC</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -3637,9 +3637,9 @@ const PILOT_QS = [
 ];
 const INDUSTRIES_LABELS = {universal:"Universal / Other",healthcare:"Healthcare / MedTech",manufacturing:"Manufacturing & Supply Chain",financial:"Financial Services",retail:"Retail / Consumer",technology:"Technology"};
 const RAG_CFG = {
-  green:{label:"COMPLIANT",bg:"rgba(46,125,82,0.2)",border:"#34C77B",text:"#34C77B",desc:"≥ 10% allocated — meets Prosci minimum"},
-  amber:{label:"AT RISK",bg:"rgba(192,122,26,0.2)",border:"#E9A63C",text:"#E9A63C",desc:"5–10% allocated — below Prosci minimum"},
-  red:{label:"CRITICAL GAP",bg:"rgba(139,32,32,0.2)",border:"#E5544C",text:"#E5544C",desc:"< 5% allocated — high risk of value loss"},
+  green:{label:"COMPLIANT",bg:"rgba(52,199,123,0.2)",border:"#34C77B",text:"#34C77B",desc:"≥ 10% allocated — meets Prosci minimum"},
+  amber:{label:"AT RISK",bg:"rgba(233,166,60,0.2)",border:"#E9A63C",text:"#E9A63C",desc:"5–10% allocated — below Prosci minimum"},
+  red:{label:"CRITICAL GAP",bg:"rgba(229,84,76,0.2)",border:"#E5544C",text:"#E5544C",desc:"< 5% allocated — high risk of value loss"},
 };
 
 // ── GLOBAL STATE ──────────────────────────────────────────────────────────────
@@ -4042,8 +4042,8 @@ function switchDiagSub(sub) {
   const activeBtn = document.getElementById('diag-btn-' + sub);
   if (activeBtn) {
     activeBtn.style.color = 'var(--copper)';
-    activeBtn.style.background = 'rgba(196,137,74,0.08)';
-    activeBtn.style.borderColor = 'rgba(196,137,74,0.15)';
+    activeBtn.style.background = 'rgba(184,115,51,0.08)';
+    activeBtn.style.borderColor = 'rgba(184,115,51,0.15)';
     activeBtn.style.borderBottomColor = 'var(--copper)';
   }
   // Toggle sub-panels
@@ -4742,7 +4742,7 @@ function renderBVF() {
       {l:"Revenue Uplift",lo:sc.rL,hi:sc.rH,col:"#34C77B",base:rev,baseL:"revenue"},
       {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#CC8B4C",base:cost,baseL:"cost base"},
       {l:"Combined EBITDA Impact",lo:sc.totL,hi:sc.totH,col:"#B87333",base:ebt,baseL:"vs current EBITDA",bold:true},
-    ].map(s=>`<div style="flex:1;min-width:150px;padding:14px 18px;background:${s.bold?"rgba(196,137,74,0.08)":"rgba(255,255,255,0.04)"};border:1px solid ${s.bold?"rgba(196,137,74,0.25)":"rgba(255,255,255,0.08)"};border-radius:10px">
+    ].map(s=>`<div style="flex:1;min-width:150px;padding:14px 18px;background:${s.bold?"rgba(184,115,51,0.08)":"rgba(255,255,255,0.04)"};border:1px solid ${s.bold?"rgba(184,115,51,0.25)":"rgba(255,255,255,0.08)"};border-radius:10px">
       <div style="font-size:9px;letter-spacing:1.5px;color:#D0D8E0;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:${s.bold?'20':'17'}px;font-weight:700;color:${s.col};font-family:'Playfair Display',serif">${s.lo>0?`${fmt(s.lo)} – ${fmt(s.hi)}`:'—'}</div>
       ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#D0D8E0;margin-top:2px;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:''}
@@ -4811,7 +4811,7 @@ function renderBVF() {
 
   // Layer buttons
   document.getElementById('layerButtons').innerHTML = LAYERS.map((layer,i)=>`
-    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'var(--copper)':'rgba(255,255,255,0.10)'):'rgba(255,255,255,0.06)'};border:1px solid ${activeLayer===layer.id?'rgba(196,137,74,0.30)':'rgba(255,255,255,0.08)'};border-radius:8px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
+    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?'var(--copper)':'rgba(255,255,255,0.10)'):'rgba(255,255,255,0.06)'};border:1px solid ${activeLayer===layer.id?'rgba(184,115,51,0.30)':'rgba(255,255,255,0.08)'};border-radius:8px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
       <div style="font-size:8px;letter-spacing:1.5px;color:#CC8B4C;margin-bottom:3px">${layer.note}</div>
       <div style="font-size:11px;font-weight:700;color:#FFFFFF;line-height:1.3">${layer.label}</div>
     </button>
@@ -4868,14 +4868,14 @@ function renderBVF() {
             </div>
           </div>`;
         }).join('')}
-        <div style="margin-top:6px;text-align:right"><button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(196,137,74,0.25);border-radius:8px;padding:4px 10px;color:var(--copper);font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif">+ Add Initiative</button></div>
+        <div style="margin-top:6px;text-align:right"><button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(184,115,51,0.25);border-radius:8px;padding:4px 10px;color:var(--copper);font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif">+ Add Initiative</button></div>
       </div>`;
     }
     // Initiatives layer — prompt to add if empty and expanded
     else if(isActive&&isInitiatives&&fnInits.length===0) {
       extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08)">
         <div style="font-size:11px;color:#D0D8E0;font-style:italic;margin-bottom:8px">No AI initiatives mapped to ${FUNCTIONS.find(f=>f.id===activeFn).label} yet.</div>
-        <button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(196,137,74,0.25);border-radius:8px;padding:6px 14px;color:var(--copper);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Go to Portfolio → Add Initiative</button>
+        <button onclick="event.stopPropagation();switchTab('portfolio')" style="background:transparent;border:1px solid rgba(184,115,51,0.25);border-radius:8px;padding:6px 14px;color:var(--copper);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Go to Portfolio → Add Initiative</button>
       </div>`;
     }
 
@@ -4883,10 +4883,10 @@ function renderBVF() {
     const hasData = isInitiatives&&fnInits.length>0;
     let mainContent = cell.c;
     if(hasData) {
-      mainContent = `<span style="display:flex;justify-content:space-between;align-items:center"><span>${cell.c}</span><span style="font-size:10px;font-weight:700;color:var(--copper);background:rgba(196,137,74,0.10);padding:2px 8px;border-radius:5px">${fnInits.length} initiative${fnInits.length>1?'s':''}</span></span>`;
+      mainContent = `<span style="display:flex;justify-content:space-between;align-items:center"><span>${cell.c}</span><span style="font-size:10px;font-weight:700;color:var(--copper);background:rgba(184,115,51,0.10);padding:2px 8px;border-radius:5px">${fnInits.length} initiative${fnInits.length>1?'s':''}</span></span>`;
     }
 
-    return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?'rgba(196,137,74,0.10)':hasData?'rgba(196,137,74,0.06)':'rgba(255,255,255,0.10)'):(hasData?'rgba(196,137,74,0.04)':'rgba(255,255,255,0.06)')};border:1px solid ${isActive?'rgba(196,137,74,0.30)':(hasData?'rgba(196,137,74,0.15)':'rgba(255,255,255,0.08)')};border-left:${isLast?'4px solid var(--copper)':isActive?'4px solid rgba(196,137,74,0.4)':(hasData?'4px solid rgba(196,137,74,0.25)':'4px solid rgba(255,255,255,0.10)')};border-radius:10px;cursor:pointer;min-height:58px">
+    return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?'rgba(184,115,51,0.10)':hasData?'rgba(184,115,51,0.06)':'rgba(255,255,255,0.10)'):(hasData?'rgba(184,115,51,0.04)':'rgba(255,255,255,0.06)')};border:1px solid ${isActive?'rgba(184,115,51,0.30)':(hasData?'rgba(184,115,51,0.15)':'rgba(255,255,255,0.08)')};border-left:${isLast?'4px solid var(--copper)':isActive?'4px solid rgba(184,115,51,0.4)':(hasData?'4px solid rgba(184,115,51,0.25)':'4px solid rgba(255,255,255,0.10)')};border-radius:10px;cursor:pointer;min-height:58px">
       <div style="font-size:13px;font-weight:600;color:#FFFFFF;line-height:1.45">${mainContent}</div>
       ${extra}
     </div>`;
@@ -4941,7 +4941,7 @@ function updateQuickStart() {
     }
     if (stepEl) {
       stepEl.style.borderColor = s.done ? 'var(--green-border)' : 'var(--copper-border)';
-      stepEl.style.background = s.done ? 'rgba(22,163,74,0.06)' : 'rgba(196,137,74,0.04)';
+      stepEl.style.background = s.done ? 'rgba(52,199,123,0.06)' : 'rgba(184,115,51,0.04)';
     }
   });
 }
@@ -5196,7 +5196,7 @@ function renderCM() {
     const p2=bud>0?(cm/bud)*100:0;
     const iBarW=Math.min(100,p2/15*100);
     const ps=pilotScore(init.pilotAnswers);
-    return `<div style="padding:14px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${irc?irc.border:'rgba(196,137,74,0.2)'};border-radius:10px;margin-bottom:7px">
+    return `<div style="padding:14px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${irc?irc.border:'rgba(184,115,51,0.2)'};border-radius:10px;margin-bottom:7px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px">
         <div>
           <div style="font-size:12px;font-weight:700;color:#EDF2F7">${init.name||'Unnamed'}</div>
@@ -5237,7 +5237,7 @@ function renderRegulatory() {
     costBanner.style.display='block';
     costBanner.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:8px;text-transform:uppercase">Estimated Regulatory Compliance Investment${BVF.profile.company?` — ${BVF.profile.company}`:''}</div>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <div style="flex:1;min-width:160px;padding:14px 18px;background:rgba(196,137,74,0.06);border:1px solid rgba(196,137,74,0.25);border-radius:10px">
+      <div style="flex:1;min-width:160px;padding:14px 18px;background:rgba(184,115,51,0.06);border:1px solid rgba(184,115,51,0.25);border-radius:10px">
         <div style="font-size:9px;color:#D0D8E0;letter-spacing:1.5px;margin-bottom:5px">TOTAL COMPLIANCE COST RANGE</div>
         <div style="font-size:22px;font-weight:700;color:var(--copper);font-family:'Playfair Display',serif">${fmt(totalLo)} – ${fmt(totalHi)}</div>
         <div style="font-size:10px;color:#D0D8E0;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
@@ -5335,7 +5335,7 @@ function renderAlignment() {
     topFnsEl.style.display='block';
     topFnsEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:10px;text-transform:uppercase">Top 3 Value Functions — ${BVF.profile.company||'Your Enterprise'}</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
-      ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:14px 16px;background:${i===0?'rgba(196,137,74,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${i===0?'rgba(196,137,74,0.25)':'rgba(255,255,255,0.08)'};border-radius:10px">
+      ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:14px 16px;background:${i===0?'rgba(184,115,51,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${i===0?'rgba(184,115,51,0.25)':'rgba(255,255,255,0.08)'};border-radius:10px">
         <div style="font-size:9px;letter-spacing:1.5px;color:var(--copper);margin-bottom:5px">#${i+1} PRIORITY</div>
         <div style="font-size:14px;font-weight:700;color:#EDF2F7;margin-bottom:4px">${fn.icon} ${fn.label}</div>
         <div style="font-size:15px;font-weight:700;color:var(--copper);font-family:'Playfair Display',serif">${fmt(lo)} – ${fmt(hi)}</div>
@@ -5354,7 +5354,7 @@ function renderAlignment() {
       <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
       <div style="font-size:24px;color:#D0D8E0">→</div>
       <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
-      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #34C77B;border-radius:10px;text-align:center"><div style="font-size:9px;color:#34C77B;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
+      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(52,199,123,0.08);border:1px solid #34C77B;border-radius:10px;text-align:center"><div style="font-size:9px;color:#34C77B;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
     </div>`;
   } else { amInvEl.style.display='none'; }
 
@@ -5588,9 +5588,9 @@ Tailor ALL recommendations to the client context provided.
 Respond ONLY with valid JSON array, no markdown. Do not use apostrophes in string values - rephrase to avoid them.`;
 
 const AGENT_BUCKET_CFG={
-  'AGENT-PROOF':      {hex:'#34C77B',bg:'rgba(34,197,94,0.1)',   border:'rgba(34,197,94,0.4)',   label:'Agent-Proof',      tagline:'Protect & Enhance',        emoji:'🟢'},
-  'AGENT-AUGMENTED':  {hex:'#E9A63C',bg:'rgba(245,158,11,0.1)',  border:'rgba(245,158,11,0.4)',  label:'Agent-Augmented',  tagline:'Renegotiate & Restructure', emoji:'🟡'},
-  'AGENT-REPLACEABLE':{hex:'#E5544C',bg:'rgba(255,68,68,0.1)',   border:'rgba(255,68,68,0.4)',   label:'Agent-Replaceable',tagline:'Replace or Eliminate',      emoji:'🔴'}
+  'AGENT-PROOF':      {hex:'#34C77B',bg:'rgba(52,199,123,0.1)',   border:'rgba(52,199,123,0.4)',   label:'Agent-Proof',      tagline:'Protect & Enhance',        emoji:'🟢'},
+  'AGENT-AUGMENTED':  {hex:'#E9A63C',bg:'rgba(233,166,60,0.1)',  border:'rgba(233,166,60,0.4)',  label:'Agent-Augmented',  tagline:'Renegotiate & Restructure', emoji:'🟡'},
+  'AGENT-REPLACEABLE':{hex:'#E5544C',bg:'rgba(229,84,76,0.1)',   border:'rgba(229,84,76,0.4)',   label:'Agent-Replaceable',tagline:'Replace or Eliminate',      emoji:'🔴'}
 };
 const AGENT_RISK_COL={LOW:'#34C77B',MEDIUM:'#E9A63C',HIGH:'#E5544C'};
 const AGENT_LLM_COL={'Claude':'#B87333','GPT':'#10A37F','Gemini':'#4285F4','Open source':'#9B59B6','Azure OpenAI':'#0078D4','AWS Bedrock':'#FF9900','Specialist':'#E5544C'};
@@ -5648,7 +5648,7 @@ function agentHandleFileUpload(event){
 
   if(ext==='xlsx'||ext==='xls'){
     statusEl.style.display='block';
-    statusEl.style.background='rgba(196,137,74,0.10)';
+    statusEl.style.background='rgba(184,115,51,0.10)';
     statusEl.style.color='var(--copper)';
     statusEl.textContent='Reading spreadsheet...';
     const reader=new FileReader();
@@ -5658,7 +5658,7 @@ function agentHandleFileUpload(event){
         const data=new Uint8Array(e.target.result);
         agentParseXLSX(data,file.name,statusEl);
       }catch(err){
-        statusEl.style.background='rgba(220,60,60,0.15)';
+        statusEl.style.background='rgba(229,84,76,0.15)';
         statusEl.style.color='#E5544C';
         statusEl.textContent='Could not read spreadsheet. Try exporting as CSV first.';
       }
@@ -5683,7 +5683,7 @@ function agentProcessCSVText(text,filename,statusEl){
   const rows=text.split('\n').map(r=>r.trim()).filter(r=>r);
   if(rows.length===0){
     statusEl.style.display='block';
-    statusEl.style.background='rgba(220,60,60,0.15)';
+    statusEl.style.background='rgba(229,84,76,0.15)';
     statusEl.style.color='#E5544C';
     statusEl.textContent='File appears empty.';
     return;
@@ -5705,7 +5705,7 @@ function agentProcessCSVText(text,filename,statusEl){
   document.getElementById('agent-tool-count').textContent=lines.length+' tools loaded';
 
   statusEl.style.display='block';
-  statusEl.style.background='rgba(46,204,113,0.12)';
+  statusEl.style.background='rgba(52,199,123,0.12)';
   statusEl.style.color='var(--green-light)';
   statusEl.innerHTML='<strong>\u2713 '+filename+'</strong> — '+lines.length+' tools loaded'+(hasHeader?' (header row skipped)':'');
 }
@@ -5717,7 +5717,7 @@ function agentParseXLSX(data,filename,statusEl){
   // or guide user to export as CSV
   // Since we don't have a full XLSX library, give a helpful message
   statusEl.style.display='block';
-  statusEl.style.background='rgba(196,137,74,0.10)';
+  statusEl.style.background='rgba(184,115,51,0.10)';
   statusEl.style.color='var(--copper)';
   statusEl.innerHTML='<strong>Excel files</strong>: For best results, export as CSV first and upload that file.<br>Or paste the rows directly from Excel, Word, PDF, a board paper or a strategy deck into the text box.';
 }
@@ -6135,7 +6135,7 @@ function agentBuildResults(client){
     <div class="agent-summary-title">${client||'Portfolio'} Analysis — ${total} initiatives classified</div>
     <div class="agent-summary-stats">
       ${Object.entries(AGENT_BUCKET_CFG).map(([k,c])=>`<div class="agent-stat-pill"><span class="agent-stat-dot" style="background:${c.hex}"></span><span style="color:${c.hex};font-weight:700">${counts[k]||0}</span><span style="color:var(--text-body)">${c.label}</span></div>`).join('')}
-      <div class="agent-stat-pill" style="border-color:rgba(196,137,74,0.3)"><span style="color:var(--copper);font-weight:700">${avg}%</span><span style="color:var(--text-body)">avg savings opp.</span></div>
+      <div class="agent-stat-pill" style="border-color:rgba(184,115,51,0.3)"><span style="color:var(--copper);font-weight:700">${avg}%</span><span style="color:var(--text-body)">avg savings opp.</span></div>
     </div>`;
 
   document.getElementById('agent-bucket-grid').innerHTML=Object.entries(AGENT_BUCKET_CFG).map(([bk,cfg])=>{
@@ -6236,7 +6236,7 @@ function agentBuildReport(){
             <span style="font-weight:700;font-size:14px;color:var(--white)">${item.toolName}</span>
             <span class="rag" style="color:${bc.hex};border-color:${bc.hex}55;background:transparent">${item.bucket}</span>
           </div>
-          <div style="margin-top:8px;padding:12px 14px;background:rgba(124,111,205,0.06);border:1px solid rgba(124,111,205,0.25);border-radius:8px">
+          <div style="margin-top:8px;padding:12px 14px;background:rgba(156,95,42,0.06);border:1px solid rgba(156,95,42,0.25);border-radius:8px">
             <span style="font-size:9px;letter-spacing:2px;color:var(--indigo);font-weight:600;display:block;margin-bottom:6px;text-transform:uppercase">Primary recommendation</span>
             <p style="font-size:12px;color:var(--text-body);line-height:1.75"><strong style="color:${pc}">${item.primaryLLM?.name||'—'} (${item.primaryLLM?.model||''})</strong> — Fit: ${item.primaryLLM?.fitScore||'—'}/100 · ${item.primaryLLM?.deploymentModel||''} · ${item.buildApproach||''} approach</p>
             <p style="font-size:12px;color:var(--text-body);line-height:1.75;margin-top:6px">${item.primaryLLM?.rationale||''}</p>
@@ -6272,7 +6272,7 @@ function agentBuildReport(){
           <div class="agent-report-item-header"><span style="font-weight:700;font-size:14px;color:var(--white)">${item.name}</span><span class="rag" style="color:${AGENT_RISK_COL[item.annualRisk]};border-color:${AGENT_RISK_COL[item.annualRisk]}66;background:transparent">${item.annualRisk} annual risk</span></div>
           <p style="font-size:12px;color:var(--text-body);line-height:1.8;margin-bottom:8px">${item.rationale}</p>
           ${item.riskRationale?`<p style="font-size:11px;color:#B8A88A;font-style:italic;margin-bottom:8px">⚡ ${item.riskRationale}</p>`:''}
-          ${item.benchmarks&&item.benchmarks.length?`<div style="margin-bottom:10px;padding:12px 14px;background:rgba(196,137,74,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px"><span class="agent-benchmark-label">Supporting benchmarks</span>${item.benchmarks.map(b=>`<div class="agent-benchmark-item">${b}</div>`).join('')}</div>`:''}
+          ${item.benchmarks&&item.benchmarks.length?`<div style="margin-bottom:10px;padding:12px 14px;background:rgba(184,115,51,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px"><span class="agent-benchmark-label">Supporting benchmarks</span>${item.benchmarks.map(b=>`<div class="agent-benchmark-item">${b}</div>`).join('')}</div>`:''}
           <p style="font-size:12px;font-weight:700;color:${cfg.hex}">→ ${item.action}</p>
         </div>`).join('')}
       </div>`;
@@ -6578,7 +6578,7 @@ function renderFacStep() {
         </div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
-        <div style="padding:16px 18px;background:rgba(196,137,74,0.04);border:1px solid rgba(255,255,255,0.08);border-left:3px solid var(--copper);border-radius:0 8px 8px 0">
+        <div style="padding:16px 18px;background:rgba(184,115,51,0.04);border:1px solid rgba(255,255,255,0.08);border-left:3px solid var(--copper);border-radius:0 8px 8px 0">
           <div style="font-size:9px;letter-spacing:2px;color:var(--copper);font-weight:600;margin-bottom:8px">💬 SAY</div>
           <div style="font-size:13px;color:var(--ice);line-height:1.7;font-style:italic">"${s.say}"</div>
         </div>
@@ -6586,7 +6586,7 @@ function renderFacStep() {
           <div style="font-size:9px;letter-spacing:2px;color:var(--green-light);font-weight:600;margin-bottom:8px">✓ DO</div>
           <div style="font-size:13px;color:var(--text-body);line-height:1.7">${s.do}</div>
         </div>
-        <div style="padding:16px 18px;background:rgba(124,111,205,0.06);border:1px solid rgba(124,111,205,0.15);border-left:3px solid var(--indigo);border-radius:0 6px 6px 0">
+        <div style="padding:16px 18px;background:rgba(156,95,42,0.06);border:1px solid rgba(156,95,42,0.15);border-left:3px solid var(--indigo);border-radius:0 6px 6px 0">
           <div style="font-size:9px;letter-spacing:2px;color:var(--indigo);font-weight:600;margin-bottom:8px">❓ ASK</div>
           <div style="font-size:13px;color:var(--ice);line-height:1.7;font-style:italic">${s.ask}</div>
         </div>
@@ -6614,14 +6614,14 @@ function renderFacilitate() {
   ];
   const allReady = checks.every(c => c.done);
   document.getElementById('fac-readiness').innerHTML = checks.map(c =>
-    `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.done?'rgba(22,163,74,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${c.done?'rgba(22,163,74,0.15)':'rgba(255,255,255,0.06)'};border-radius:4px">
+    `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.done?'rgba(52,199,123,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${c.done?'rgba(52,199,123,0.15)':'rgba(255,255,255,0.06)'};border-radius:4px">
       <span style="font-size:16px;flex-shrink:0">${c.done?'✅':'⬜'}</span>
       <div style="flex:1">
         <div style="font-size:12px;font-weight:600;color:${c.done?'var(--green-light)':'var(--ice)'}">${c.label}</div>
         ${!c.done?`<div style="font-size:11px;color:var(--text-muted)">${c.tip}</div>`:''}
       </div>
     </div>`
-  ).join('') + (allReady ? `<div style="padding:10px 14px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:4px;font-size:12px;color:var(--green-light);font-weight:600;text-align:center">✓ All checks passed — you're ready to run the session</div>` : '');
+  ).join('') + (allReady ? `<div style="padding:10px 14px;background:rgba(52,199,123,0.08);border:1px solid rgba(52,199,123,0.2);border-radius:4px;font-size:12px;color:var(--green-light);font-weight:600;text-align:center">✓ All checks passed — you're ready to run the session</div>` : '');
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -6701,4 +6701,4 @@ window.addEventListener('load', function() {
 
 
 
-<div id="claude-agent-glow-border" style="position: fixed; inset: 0px; pointer-events: none; z-index: 2147483646; opacity: 0; transition: opacity 0.3s ease-in-out; animation: 2s ease-in-out 0s infinite normal none running claude-pulse; box-shadow: rgba(217, 119, 87, 0.5) 0px 0px 10px inset, rgba(217, 119, 87, 0.3) 0px 0px 20px inset, rgba(217, 119, 87, 0.1) 0px 0px 30px inset;"></div></body></html>
+<div id="claude-agent-glow-border" style="position: fixed; inset: 0px; pointer-events: none; z-index: 2147483646; opacity: 0; transition: opacity 0.3s ease-in-out; animation: 2s ease-in-out 0s infinite normal none running claude-pulse; box-shadow: rgba(184, 115, 51, 0.5) 0px 0px 10px inset, rgba(184, 115, 51, 0.3) 0px 0px 20px inset, rgba(184, 115, 51, 0.1) 0px 0px 30px inset;"></div></body></html>
