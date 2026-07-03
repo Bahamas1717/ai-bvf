@@ -1,0 +1,11 @@
+/* ══════════════════════════════════════════════════════════
+   AI BVF DESIGN SYSTEM · GLOBAL ENTRY
+   Consumers link THIS file. It is an @import manifest only —
+   no rules are declared here directly.
+   ══════════════════════════════════════════════════════════ */
+@import url('tokens/fonts.css');
+@import url('tokens/colors.css');
+@import url('tokens/typography.css');
+@import url('tokens/spacing.css');
+@import url('tokens/base.css');
+@import url('tokens/theme-light.css');

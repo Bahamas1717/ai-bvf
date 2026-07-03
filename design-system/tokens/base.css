@@ -1,0 +1,31 @@
+/* ══════════════════════════════════════════════════════════
+   AI BVF · BASE / RESET
+   Minimal element defaults so specimen cards & kits inherit the
+   navy canvas, serif headings, and sans body without extra work.
+   ══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--bg-app);
+  color: var(--text-default);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--fw-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The copper micro-label / eyebrow used across every surface */
+.bvf-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  font-weight: var(--fw-label);
+  color: var(--text-label);
+}
+
+::selection { background: var(--copper-wash); color: var(--ice); }

@@ -1,0 +1,10 @@
+/* ══════════════════════════════════════════════════════════
+   AI BVF · WEBFONTS
+   Playfair Display (display serif), DM Sans (UI/body), IBM Plex Mono (data).
+   Served from Google Fonts CDN. See readme.md → Visual Foundations.
+   NOTE: substitution flag — the original pages loaded Playfair Display +
+   DM Sans directly from Google Fonts (no self-hosted binaries in the repo),
+   so these @import URLs mirror that exactly. IBM Plex Mono is an addition
+   for score/EUR figures; swap if a different mono is preferred.
+   ══════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');

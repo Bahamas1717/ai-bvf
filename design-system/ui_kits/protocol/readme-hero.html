@@ -1,0 +1,100 @@
+<!-- @dsCard group="Protocol" viewport="900x760" name="README hero + tool table" subtitle="GitHub README banner, badges, and the 8-tool table" -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI BVF — README</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html, body { background: var(--bg-deep); }
+  #root { min-height: 100vh; display: flex; justify-content: center; padding: 40px 24px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { Label, VerdictBadge, GateBadge } = window.AIBVFDesignSystem_ab2d84;
+
+function Badge({ label, value, tone }) {
+  const c = tone === 'copper' ? 'var(--copper)' : 'var(--fill-3)';
+  return (
+    <span style={{ display: 'inline-flex', fontFamily: 'var(--font-mono)', fontSize: '11px', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--line)' }}>
+      <span style={{ padding: '4px 8px', background: 'var(--fill-2)', color: 'var(--text-muted)' }}>{label}</span>
+      <span style={{ padding: '4px 8px', background: c, color: tone === 'copper' ? '#fff' : 'var(--text)' }}>{value}</span>
+    </span>
+  );
+}
+
+const tools = [
+  ['score_initiative', 'Four-pillar score → Accelerate / Fix / Stop with EUR value, confidence, modules.'],
+  ['score_portfolio', 'Scores every initiative in one call; returns the board-level shape.'],
+  ['recommend_improvements', 'The pillar raises that would flip Stop/Fix toward Accelerate.'],
+  ['calculate_pace_layer_drag', 'Annual Organisational Drag Cost in EUR from tier vs readiness.'],
+  ['validate_portfolio', 'Validates a portfolio JSON against the BVF v1.0 schema.'],
+  ['get_benchmark', 'Published benchmark rates by business function and industry.'],
+  ['list_taxonomy', 'Valid industries, functions, AI tiers, readiness levels.'],
+  ['diagnose_process', 'Advisor Brain: diagnoses one process → verdict + net EUR saving.'],
+];
+
+function Readme() {
+  return (
+    <div style={{ width: '820px', background: 'var(--surface-panel)', border: '1px solid var(--border-card)', borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: 'var(--shadow-lg)' }}>
+      {/* Hero banner */}
+      <div style={{ padding: '44px 40px 34px', background: 'radial-gradient(ellipse at 30% 0%, var(--copper-wash) 0%, transparent 60%)', borderBottom: '1px solid var(--line)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
+          <div style={{ width: '44px', height: '44px', border: '2px solid var(--copper)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--copper)' }}>BVF</div>
+          <div>
+            <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '16px', color: 'var(--ice)' }}><span style={{ color: 'var(--copper)' }}>AI</span> BVF · aibvf-mcp</div>
+            <div style={{ fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--copper-300)', fontWeight: 600 }}>Business Value Framework</div>
+          </div>
+        </div>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '30px', color: 'var(--ice)', lineHeight: 1.2, letterSpacing: '-0.01em', marginBottom: '14px' }}>
+          Stop bad AI projects before<br />agents <span style={{ color: 'var(--copper-300)' }}>recommend them.</span>
+        </h1>
+        <p style={{ fontSize: '15px', color: 'var(--text-body)', lineHeight: 1.65, maxWidth: '620px' }}>
+          The scoring tool your Claude agent calls before it recommends an AI deployment — business case, readiness, change enablement and governance exposure, checked first.
+        </p>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '20px' }}>
+          <Badge label="npm" value="v0.6.0" tone="copper" />
+          <Badge label="mcp-registry" value="active" />
+          <Badge label="license" value="MIT" />
+          <Badge label="downloads" value="/mo" />
+        </div>
+      </div>
+
+      {/* Tool table */}
+      <div style={{ padding: '30px 40px 40px' }}>
+        <Label>8 tools on stdio</Label>
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '16px' }}>
+          <thead>
+            <tr>
+              <th style={{ textAlign: 'left', padding: '10px 12px', fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '1.4px', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 600, borderBottom: '1px solid var(--line)', width: '38%' }}>Tool</th>
+              <th style={{ textAlign: 'left', padding: '10px 12px', fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '1.4px', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 600, borderBottom: '1px solid var(--line)' }}>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tools.map(([name, desc]) => (
+              <tr key={name}>
+                <td style={{ padding: '13px 12px', borderBottom: '1px solid var(--line-soft)', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--copper-300)', verticalAlign: 'top' }}>{name}</td>
+                <td style={{ padding: '13px 12px', borderBottom: '1px solid var(--line-soft)', fontFamily: 'var(--font-sans)', fontSize: '14px', color: 'var(--text-body)', lineHeight: 1.5 }}>{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '22px', flexWrap: 'wrap' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--text)', background: 'var(--fill-2)', border: '1px solid var(--line)', borderRadius: 'var(--radius-sm)', padding: '8px 14px' }}><span style={{ color: 'var(--copper-300)' }}>$</span> npx -y aibvf-mcp</span>
+          <GateBadge status="pass" />
+        </div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Readme />);
+</script>
+</body>
+</html>

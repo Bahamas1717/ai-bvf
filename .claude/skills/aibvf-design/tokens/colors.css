@@ -1,0 +1,77 @@
+/* ══════════════════════════════════════════════════════════
+   AI BVF · COLOR TOKENS
+   One accent (copper) on deep navy. Executive / advisory tone.
+   Brand seed: navy #0F1E35 + copper #B87333.
+   ══════════════════════════════════════════════════════════ */
+:root {
+  /* ── Navy scale (surfaces run dark → less dark via elevation) ── */
+  --navy-950: #0B1626;   /* deepest — page base behind everything */
+  --navy-900: #0F1E35;   /* brand seed — primary app background     */
+  --navy-850: #132540;
+  --navy-800: #172C4B;   /* raised panel                            */
+  --navy-700: #1F3757;   /* card / header fill                      */
+  --navy-600: #294667;   /* hover raise                             */
+
+  /* ── Copper accent (THE single brand accent) ── */
+  --copper-900: #7A4A1E;
+  --copper-700: #9C5F2A;
+  --copper:     #B87333;  /* brand seed accent                      */
+  --copper-400: #CC8B4C;
+  --copper-300: #D9A672;  /* light — hover / bright accent text     */
+  --copper-200: #E8C39A;
+
+  /* Copper as translucent washes on navy */
+  --copper-wash:   rgba(184,115,51,0.10);
+  --copper-wash-2: rgba(184,115,51,0.06);
+  --copper-line:   rgba(184,115,51,0.22);
+  --copper-line-2: rgba(184,115,51,0.14);
+
+  /* ── Neutral text ramp (on navy) ── */
+  --white:      #FFFFFF;
+  --ice:        #F6F9FD;   /* headings / brightest text             */
+  --text:       #F1F4FA;   /* default body on navy — crisp white    */
+  --text-body:  #DCE4EF;   /* secondary body — still bright         */
+  --text-muted: #A7B6C9;   /* captions / meta                       */
+  --text-dim:   #7688A0;   /* faint / disabled                      */
+
+  /* ── Hairlines & fills over navy (white alpha) ── */
+  --line:      rgba(255,255,255,0.08);
+  --line-soft: rgba(255,255,255,0.05);
+  --line-strong: rgba(255,255,255,0.14);
+  --fill-1:    rgba(255,255,255,0.04);
+  --fill-2:    rgba(255,255,255,0.06);
+  --fill-3:    rgba(255,255,255,0.09);
+
+  /* ── RAG verdict system (functional signal — Accelerate/Fix/Stop) ── */
+  --accelerate:        #34C77B;   /* green — Accelerate                */
+  --accelerate-bright: #5FE0A0;
+  --accelerate-wash:   rgba(52,199,123,0.10);
+  --accelerate-line:   rgba(52,199,123,0.28);
+
+  --fix:        #E9A63C;   /* amber — Fix                             */
+  --fix-bright: #F7C46B;
+  --fix-wash:   rgba(233,166,60,0.10);
+  --fix-line:   rgba(233,166,60,0.28);
+
+  --stop:        #E5544C;  /* red — Stop                              */
+  --stop-bright: #F27B74;
+  --stop-wash:   rgba(229,84,76,0.10);
+  --stop-line:   rgba(229,84,76,0.28);
+
+  /* ── Semantic aliases ── */
+  --bg-app:        var(--navy-900);
+  --bg-deep:       var(--navy-950);
+  --surface-panel: var(--navy-800);
+  --surface-card:  var(--fill-2);
+  --surface-raise: var(--fill-3);
+  --border-card:   var(--line);
+  --border-focus:  rgba(184,115,51,0.50);
+
+  --text-heading:  var(--ice);
+  --text-default:  var(--text);
+  --text-label:    var(--copper-300);
+
+  --accent:        var(--copper);
+  --accent-hover:  var(--copper-300);
+  --on-accent:     #FFFFFF;
+}
