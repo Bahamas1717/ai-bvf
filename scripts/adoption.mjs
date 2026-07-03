@@ -2,10 +2,11 @@
 // Usage: node scripts/adoption.mjs   (or: npm run adoption)
 // Requires Node 18+ (native fetch).
 
-const JS_PKG  = '@aibvf/core';
-const MCP_PKG = 'aibvf-mcp';
-const PY_PKG  = 'aibvf';
-const GH_REPO = 'Bahamas1717/ai-bvf';
+const JS_PKG    = '@aibvf/core';
+const MCP_PKG   = 'aibvf-mcp';
+const CHECK_PKG = 'aibvf-check';
+const PY_PKG    = 'aibvf';
+const GH_REPO   = 'Bahamas1717/ai-bvf';
 
 async function json(url) {
   const headers = {};
@@ -42,16 +43,23 @@ async function pypiStats(pkg) {
 
 function pad(n, w = 7) { return n == null ? ('—'.padStart(w, ' ')) : String(n).padStart(w, ' '); }
 
-const [jsD, jsW, jsM, mcpD, mcpW, mcpM, py, gh] = await Promise.all([
+const [jsD, jsW, jsM, mcpD, mcpW, mcpM, ckD, ckW, ckM, py, gh] = await Promise.all([
   npmDownloads(JS_PKG, 'last-day'),
   npmDownloads(JS_PKG, 'last-week'),
   npmDownloads(JS_PKG, 'last-month'),
   npmDownloads(MCP_PKG, 'last-day'),
   npmDownloads(MCP_PKG, 'last-week'),
   npmDownloads(MCP_PKG, 'last-month'),
+  npmDownloads(CHECK_PKG, 'last-day'),
+  npmDownloads(CHECK_PKG, 'last-week'),
+  npmDownloads(CHECK_PKG, 'last-month'),
   pypiStats(PY_PKG),
   githubStats(GH_REPO),
 ]);
+
+// npm totals (day/week/month) across all three packages, where a number exists.
+const sum = (...xs) => xs.some((x) => x != null) ? xs.reduce((a, x) => a + (x ?? 0), 0) : null;
+const [npmD, npmW, npmM] = [sum(jsD, mcpD, ckD), sum(jsW, mcpW, ckW), sum(jsM, mcpM, ckM)];
 
 const line = '─'.repeat(56);
 console.log('\nAI BVF · adoption snapshot · ' + new Date().toISOString().slice(0, 10));
@@ -60,6 +68,8 @@ console.log('npm downloads           day     week    month');
 console.log(line);
 console.log(`  @aibvf/core       ${pad(jsD)}  ${pad(jsW)}  ${pad(jsM)}`);
 console.log(`  aibvf-mcp         ${pad(mcpD)}  ${pad(mcpW)}  ${pad(mcpM)}`);
+console.log(`  aibvf-check       ${pad(ckD)}  ${pad(ckW)}  ${pad(ckM)}`);
+console.log(`  npm total         ${pad(npmD)}  ${pad(npmW)}  ${pad(npmM)}`);
 console.log(line);
 console.log('PyPI downloads          day     week    month');
 console.log(`  aibvf             ${pad(py?.last_day)}  ${pad(py?.last_week)}  ${pad(py?.last_month)}`);
@@ -78,6 +88,7 @@ console.log();
 console.log('Dashboards:');
 console.log(`  npm (core):   https://www.npmjs.com/package/${JS_PKG}`);
 console.log(`  npm (mcp):    https://www.npmjs.com/package/${MCP_PKG}`);
+console.log(`  npm (check):  https://www.npmjs.com/package/${CHECK_PKG}`);
 console.log(`  pypi:         https://pypi.org/project/${PY_PKG}/`);
 console.log(`  github:       https://github.com/${GH_REPO}`);
 console.log(`  npm-stat:     https://npm-stat.com/charts.html?package=${encodeURIComponent(JS_PKG)}&from=2026-04-19`);
