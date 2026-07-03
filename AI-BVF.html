@@ -55,21 +55,21 @@
   /* RAG */
   --green: #34C77B;
   --green-light: #34D399;
-  --green-bg: rgba(34,211,153,0.1);
-  --green-border: rgba(34,211,153,0.3);
+  --green-bg: rgba(52,199,123,0.1);
+  --green-border: rgba(52,199,123,0.3);
   --amber: #E9A63C;
   --amber-light: #FBBF24;
-  --amber-bg: rgba(251,191,36,0.1);
-  --amber-border: rgba(251,191,36,0.3);
+  --amber-bg: rgba(247,196,107,0.1);
+  --amber-border: rgba(247,196,107,0.3);
   --red: #EF4444;
   --red-light: #F27B74;
-  --red-bg: rgba(248,113,113,0.1);
-  --red-border: rgba(248,113,113,0.3);
+  --red-bg: rgba(242,123,116,0.1);
+  --red-border: rgba(242,123,116,0.3);
 
   /* Agent/Agentic */
   --indigo: #9C5F2A;
-  --indigo-bg: rgba(124,111,205,0.1);
-  --indigo-border: rgba(124,111,205,0.4);
+  --indigo-bg: rgba(156,95,42,0.1);
+  --indigo-border: rgba(156,95,42,0.4);
 
   /* Layout */
   --header-h: 64px;
@@ -131,8 +131,8 @@ h3 { font-size: 16px; }
 .btn-sm { padding: 6px 14px; font-size: 10px; letter-spacing: 1.5px; }
 .btn-indigo {
   background: linear-gradient(135deg, #9C5F2A, #5A4FA0);
-  border: 1px solid rgba(124,111,205,0.6); color: #FFFFFF;
-  box-shadow: 0 0 16px rgba(124,111,205,0.3);
+  border: 1px solid rgba(156,95,42,0.6); color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(156,95,42,0.3);
 }
 
 /* ── FORMS ── */
@@ -382,9 +382,9 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 /* ── TOAST SYSTEM ── */
 #toast-container { position:fixed; top:80px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
 .toast { pointer-events:auto; display:flex; align-items:center; gap:10px; padding:12px 20px; border-radius:4px; font-size:12px; font-weight:500; font-family:'DM Sans',sans-serif; backdrop-filter:blur(20px); border:1px solid; min-width:280px; max-width:400px; animation:toastIn 0.35s ease; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
-.toast.success { background:rgba(34,100,60,0.92); border-color:var(--green-border); color:var(--green-light); }
-.toast.warning { background:rgba(120,80,10,0.92); border-color:var(--amber-border); color:var(--amber-light); }
-.toast.error { background:rgba(100,30,30,0.92); border-color:var(--red-border); color:var(--red-light); }
+.toast.success { background:rgba(52,199,123,0.92); border-color:var(--green-border); color:var(--green-light); }
+.toast.warning { background:rgba(233,166,60,0.92); border-color:var(--amber-border); color:var(--amber-light); }
+.toast.error { background:rgba(229,84,76,0.92); border-color:var(--red-border); color:var(--red-light); }
 .toast.info { background:rgba(20,40,70,0.92); border-color:var(--copper-border); color:var(--copper-light); }
 .toast.exiting { animation:toastOut 0.3s ease forwards; }
 .toast-icon { font-size:16px; flex-shrink:0; }
@@ -408,7 +408,7 @@ tr td { border-bottom: 1px solid rgba(255,255,255,0.06); }
 .api-key-actions { position:absolute; right:8px; top:50%; transform:translateY(-50%); display:flex; gap:4px; }
 .api-key-toggle, .api-key-save { font-size:13px; background:none; border:none; cursor:pointer; padding:4px; color:var(--text-dim); transition:color 0.2s; }
 .api-key-toggle:hover, .api-key-save:hover { color:var(--copper); }
-.api-security-badge { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--green-light); margin-top:8px; padding:8px 12px; background:rgba(22,163,74,0.06); border:1px solid rgba(22,163,74,0.15); border-radius:3px; }
+.api-security-badge { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--green-light); margin-top:8px; padding:8px 12px; background:rgba(52,199,123,0.06); border:1px solid rgba(52,199,123,0.15); border-radius:3px; }
 .api-facilitator-bar { display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(184,115,51,0.06); border:1px solid rgba(184,115,51,0.15); border-radius:3px; margin-top:10px; font-size:11px; color:var(--text-body); }
 .api-facilitator-bar label { display:flex; align-items:center; gap:6px; cursor:pointer; }
 .api-facilitator-bar input[type="checkbox"] { accent-color:var(--copper); }
@@ -636,7 +636,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-classify-btn { width:100%; padding:14px 24px; border-radius:3px; background:linear-gradient(135deg,var(--copper-light),var(--copper)); border:1px solid var(--copper); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 0 30px rgba(184,115,51,0.3); transition:all 0.2s; }
 .agent-classify-btn:hover { box-shadow:0 0 44px rgba(184,115,51,0.5); }
 .agent-classify-btn:disabled { opacity:0.5; cursor:not-allowed; }
-.agent-error { margin-top:14px; color:#FF9090; font-size:13px; text-align:center; padding:12px; background:rgba(232,80,80,0.1); border-radius:3px; border:1px solid rgba(232,80,80,0.3); }
+.agent-error { margin-top:14px; color:#FF9090; font-size:13px; text-align:center; padding:12px; background:rgba(229,84,76,0.1); border-radius:3px; border:1px solid rgba(229,84,76,0.3); }
 .agent-spinner { display:inline-block; width:14px; height:14px; border-radius:50%; border:2px solid #94A3B8; border-top-color:#EDF2F7; animation:spin 0.8s linear infinite; vertical-align:middle; margin-right:8px; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .agent-sample-btn { font-size:10px; letter-spacing:1.5px; color:var(--copper); background:transparent; border:1px solid var(--copper-border); border-radius:3px; padding:5px 12px; cursor:pointer; font-family:'DM Sans',sans-serif; text-transform:uppercase; transition:all 0.2s; }
@@ -684,12 +684,12 @@ header { transition:box-shadow 0.3s ease; }
 .agent-context-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:18px; }
 .agent-context-field { display:flex; flex-direction:column; gap:5px; }
 .agent-context-label { font-size:9px; letter-spacing:2px; color:var(--indigo); font-weight:600; text-transform:uppercase; }
-.agent-run-btn { width:100%; padding:14px; border-radius:3px; background:linear-gradient(135deg,#9C5F2A,#5A4FA0); border:1px solid rgba(124,111,205,0.6); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 0 24px rgba(124,111,205,0.3); transition:all 0.2s; }
-.agent-run-btn:hover { box-shadow:0 0 36px rgba(124,111,205,0.5); }
+.agent-run-btn { width:100%; padding:14px; border-radius:3px; background:linear-gradient(135deg,#9C5F2A,#5A4FA0); border:1px solid rgba(156,95,42,0.6); color:#FFFFFF; font-size:11px; font-weight:600; cursor:pointer; letter-spacing:2.5px; text-transform:uppercase; font-family:'DM Sans',sans-serif; box-shadow:0 0 24px rgba(156,95,42,0.3); transition:all 0.2s; }
+.agent-run-btn:hover { box-shadow:0 0 36px rgba(156,95,42,0.5); }
 .agent-run-btn:disabled { opacity:0.5; cursor:not-allowed; }
 .agent-llm-grid { display:flex; flex-direction:column; gap:18px; }
-.agent-llm-card { background:rgba(20,40,64,0.75); border:1px solid rgba(124,111,205,0.2); border-radius:4px; overflow:hidden; }
-.agent-llm-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(124,111,205,0.15); background:rgba(124,111,205,0.05); flex-wrap:wrap; gap:8px; }
+.agent-llm-card { background:rgba(20,40,64,0.75); border:1px solid rgba(156,95,42,0.2); border-radius:4px; overflow:hidden; }
+.agent-llm-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(156,95,42,0.15); background:rgba(156,95,42,0.05); flex-wrap:wrap; gap:8px; }
 .agent-llm-name { font-weight:700; font-size:14px; color:var(--white); }
 .agent-llm-bucket { font-size:10px; letter-spacing:1.5px; padding:3px 8px; border-radius:2px; border:1px solid; font-weight:700; }
 .agent-llm-body { padding:18px; }
@@ -725,7 +725,7 @@ header { transition:box-shadow 0.3s ease; }
 .agent-report-footer { margin-top:44px; padding-top:20px; border-top:1px solid var(--copper-border); font-size:10px; color:var(--text-dim); text-align:center; letter-spacing:1.5px; text-transform:uppercase; }
 
 .agent-nav-btns { display:flex; gap:10px; justify-content:center; margin-top:24px; }
-.agent-merge-section { margin-top:28px; padding:20px 24px; background:rgba(22,163,74,0.06); border:1px solid var(--green-border); border-radius:4px; }
+.agent-merge-section { margin-top:28px; padding:20px 24px; background:rgba(52,199,123,0.06); border:1px solid var(--green-border); border-radius:4px; }
 
 @media (max-width:768px) {
   .agent-bucket-grid { grid-template-columns:1fr; }
@@ -1241,7 +1241,7 @@ header { transition:box-shadow 0.3s ease; }
       </div>
     </div>
     <!-- Trust-building context banner -->
-    <div id="portfolioContext" style="margin-bottom:18px;padding:14px 18px;background:linear-gradient(135deg,rgba(184,115,51,0.06),rgba(124,111,205,0.04));border:1px solid rgba(184,115,51,0.15);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
+    <div id="portfolioContext" style="margin-bottom:18px;padding:14px 18px;background:linear-gradient(135deg,rgba(184,115,51,0.06),rgba(156,95,42,0.04));border:1px solid rgba(184,115,51,0.15);border-left:3px solid var(--copper);border-radius:0 4px 4px 0">
       <div style="font-size:12px;color:var(--ice);font-weight:600;margin-bottom:6px">Why map your AI portfolio?</div>
       <div style="font-size:11px;color:var(--text-body);line-height:1.7">Most organisations already have AI initiatives in flight — some delivering value, others stuck in pilot. This isn't about starting over. It's about getting a <span style="color:var(--copper);font-weight:600">complete picture</span> of what you've invested, what's working, and where the gaps are. Add your existing programmes first, then layer in new opportunities. The BVF will show you how each initiative connects to board-level outcomes.</div>
     </div>
@@ -1302,7 +1302,7 @@ header { transition:box-shadow 0.3s ease; }
         <div style="grid-column:1/-1"><span class="label">Expected Business Outcome</span><input type="text" id="f_outcome" placeholder="e.g. 30% AHT reduction → CX Operating KPI → Cost reduction"></div>
       </div>
       <button onclick="togglePilot()" style="margin-top:14px;background:transparent;border:1px solid var(--amber-border);border-radius:3px;padding:6px 14px;color:var(--amber-light);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">⚠ <span id="pilotToggleLabel">Run</span> Pilot Trap Diagnostic</button>
-      <div id="pilotForm" style="display:none;margin-top:12px;padding:16px 18px;background:rgba(192,122,26,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:3px">
+      <div id="pilotForm" style="display:none;margin-top:12px;padding:16px 18px;background:rgba(233,166,60,0.08);border:1px solid rgba(233,166,60,0.25);border-radius:3px">
         <span class="label" style="margin-bottom:4px">Pilot Trap Diagnostic — 5 Questions</span>
         <div style="font-size:10px;color:var(--text-dim);font-style:italic;margin-bottom:12px">42% of companies abandoned most AI projects in 2025 citing unclear value. Answer honestly.</div>
         <div id="pilotQuestions"></div>
@@ -1324,12 +1324,12 @@ header { transition:box-shadow 0.3s ease; }
           <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Add Existing Initiative</div>
           <div style="font-size:10px;color:var(--text-muted);line-height:1.5">A programme already in flight — deployed, in pilot, or approved</div>
         </div>
-        <div onclick="openForm('new')" style="flex:1;max-width:220px;padding:16px;border:1px solid rgba(124,111,205,0.3);border-radius:4px;cursor:pointer;text-align:center;background:rgba(124,111,205,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--indigo)'" onmouseout="this.style.borderColor='rgba(124,111,205,0.3)'">
+        <div onclick="openForm('new')" style="flex:1;max-width:220px;padding:16px;border:1px solid rgba(156,95,42,0.3);border-radius:4px;cursor:pointer;text-align:center;background:rgba(156,95,42,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--indigo)'" onmouseout="this.style.borderColor='rgba(156,95,42,0.3)'">
           <div style="font-size:22px;margin-bottom:8px">✨</div>
           <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Add New Opportunity</div>
           <div style="font-size:10px;color:var(--text-muted);line-height:1.5">A proposed programme to evaluate for investment and board alignment</div>
         </div>
-        <div onclick="switchTab('agent')" style="flex:1;max-width:220px;padding:16px;border:1px solid rgba(124,111,205,0.3);border-radius:4px;cursor:pointer;text-align:center;background:rgba(124,111,205,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--indigo)'" onmouseout="this.style.borderColor='rgba(124,111,205,0.3)'">
+        <div onclick="switchTab('agent')" style="flex:1;max-width:220px;padding:16px;border:1px solid rgba(156,95,42,0.3);border-radius:4px;cursor:pointer;text-align:center;background:rgba(156,95,42,0.04);transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--indigo)'" onmouseout="this.style.borderColor='rgba(156,95,42,0.3)'">
           <div style="font-size:22px;margin-bottom:8px">🤖</div>
           <div style="font-size:12px;font-weight:600;color:var(--ice);margin-bottom:4px">Use AI Agent</div>
           <div style="font-size:10px;color:var(--text-muted);line-height:1.5">Paste a strategy doc and let AI extract and map initiatives automatically</div>
@@ -1532,9 +1532,9 @@ header { transition:box-shadow 0.3s ease; }
       <div style="margin-bottom:22px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.18);border-radius:4px">
         <span class="label">CM Allocation vs Prosci Benchmark</span>
         <div style="margin-top:12px;position:relative;height:40px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden">
-          <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(224,82,82,0.1);border-right:1px dashed rgba(224,82,82,0.35)"></div>
-          <div style="position:absolute;left:33.3%;top:0;width:33.3%;height:100%;background:rgba(245,166,35,0.08);border-right:1px dashed rgba(245,166,35,0.35)"></div>
-          <div style="position:absolute;left:66.6%;top:0;width:33.4%;height:100%;background:rgba(76,175,128,0.08)"></div>
+          <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(229,84,76,0.1);border-right:1px dashed rgba(229,84,76,0.35)"></div>
+          <div style="position:absolute;left:33.3%;top:0;width:33.3%;height:100%;background:rgba(233,166,60,0.08);border-right:1px dashed rgba(233,166,60,0.35)"></div>
+          <div style="position:absolute;left:66.6%;top:0;width:33.4%;height:100%;background:rgba(52,199,123,0.08)"></div>
           <div id="cmBar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:var(--red-light);transition:width 0.5s"></div>
           <div style="position:absolute;left:33.3%;top:50%;transform:translate(-50%,-50%);font-size:9px;font-weight:700;color:var(--red-light)">5%</div>
           <div style="position:absolute;left:66.6%;top:50%;transform:translate(-50%,-50%);font-size:9px;font-weight:700;color:var(--amber-light)">10%</div>
@@ -1572,7 +1572,7 @@ header { transition:box-shadow 0.3s ease; }
     <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap" id="regToggles"></div>
     <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:18px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.2);border-radius:4px"></div>
     <div id="regDetails" style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px"></div>
-    <div id="regNoCost" style="display:none;padding:20px;background:rgba(192,122,26,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:3px;text-align:center">
+    <div id="regNoCost" style="display:none;padding:20px;background:rgba(233,166,60,0.1);border:1px solid rgba(233,166,60,0.3);border-radius:3px;text-align:center">
       <div style="font-size:13px;color:var(--amber-light)">Enter your annual revenue in the Company Profile to see compliance costs in your currency.</div>
     </div>
     <div class="mirror" style="margin-top:28px">
@@ -1615,7 +1615,7 @@ header { transition:box-shadow 0.3s ease; }
     </div>
 
     <!-- Last Updated -->
-    <div style="display:flex;gap:12px;align-items:center;margin-bottom:24px;padding:12px 18px;background:rgba(22,163,74,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:6px">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:24px;padding:12px 18px;background:rgba(52,199,123,0.06);border:1px solid rgba(52,199,123,0.2);border-radius:6px">
       <span style="font-size:16px">✓</span>
       <div>
         <div style="font-size:12px;font-weight:600;color:var(--green-light)">Benchmarks current as of Q1 2026</div>
@@ -1731,7 +1731,7 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Pilot Trap Diagnostic</div>
             <div style="font-size:11px;color:var(--text-muted)">5-question readiness check to assess whether an initiative can scale beyond pilot</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(245,158,11,0.1);color:var(--amber-light);font-weight:600;border:1px solid rgba(245,158,11,0.2)">DIAGNOSTIC</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(233,166,60,0.1);color:var(--amber-light);font-weight:600;border:1px solid rgba(233,166,60,0.2)">DIAGNOSTIC</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -1760,7 +1760,7 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:13px;font-weight:700;color:var(--ice)">AI Generation Tier Classification</div>
             <div style="font-size:11px;color:var(--text-muted)">Gen 1 / Gen 2 / Gen 3 framework for categorising AI maturity</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(124,111,205,0.1);color:var(--indigo);font-weight:600;border:1px solid rgba(124,111,205,0.2)">TAXONOMY</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(156,95,42,0.1);color:var(--indigo);font-weight:600;border:1px solid rgba(156,95,42,0.2)">TAXONOMY</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
@@ -1794,7 +1794,7 @@ header { transition:box-shadow 0.3s ease; }
             <div style="font-size:13px;font-weight:700;color:var(--ice)">Regulatory Compliance Frameworks</div>
             <div style="font-size:11px;color:var(--text-muted)">EU AI Act and DORA compliance mapping</div>
           </div>
-          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(224,82,82,0.1);color:var(--red-light);font-weight:600;border:1px solid rgba(224,82,82,0.2)">REGULATION</span>
+          <span style="font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:rgba(229,84,76,0.1);color:var(--red-light);font-weight:600;border:1px solid rgba(229,84,76,0.2)">REGULATION</span>
         </div>
         <div style="font-size:12px;color:var(--text-body);line-height:1.8">
           <div style="margin-bottom:6px"><strong style="color:var(--ice)">EU AI Act</strong> — Regulation (EU) 2024/1689. Entered into force 1 August 2024. Prohibitions apply from Feb 2025; high-risk obligations from Aug 2026. The BVF maps initiative risk classifications against the Act's four-tier risk system (Unacceptable → High → Limited → Minimal).</div>
@@ -2080,9 +2080,9 @@ const PILOT_QS = [
 ];
 const INDUSTRIES_LABELS = {universal:"Universal / Other",healthcare:"Healthcare / MedTech",manufacturing:"Manufacturing & Supply Chain",financial:"Financial Services",retail:"Retail / Consumer",technology:"Technology"};
 const RAG_CFG = {
-  green:{label:"COMPLIANT",bg:"rgba(46,125,82,0.2)",border:"#34C77B",text:"#34C77B",desc:"≥ 10% allocated — meets Prosci minimum"},
-  amber:{label:"AT RISK",bg:"rgba(192,122,26,0.2)",border:"#E9A63C",text:"#E9A63C",desc:"5–10% allocated — below Prosci minimum"},
-  red:{label:"CRITICAL GAP",bg:"rgba(139,32,32,0.2)",border:"#E5544C",text:"#E5544C",desc:"< 5% allocated — high risk of value loss"},
+  green:{label:"COMPLIANT",bg:"rgba(52,199,123,0.2)",border:"#34C77B",text:"#34C77B",desc:"≥ 10% allocated — meets Prosci minimum"},
+  amber:{label:"AT RISK",bg:"rgba(233,166,60,0.2)",border:"#E9A63C",text:"#E9A63C",desc:"5–10% allocated — below Prosci minimum"},
+  red:{label:"CRITICAL GAP",bg:"rgba(229,84,76,0.2)",border:"#E5544C",text:"#E5544C",desc:"< 5% allocated — high risk of value loss"},
 };
 
 // ── GLOBAL STATE ──────────────────────────────────────────────────────────────
@@ -2816,7 +2816,7 @@ function updateQuickStart() {
     }
     if (stepEl) {
       stepEl.style.borderColor = s.done ? 'var(--green-border)' : 'var(--copper-border)';
-      stepEl.style.background = s.done ? 'rgba(22,163,74,0.06)' : 'rgba(184,115,51,0.06)';
+      stepEl.style.background = s.done ? 'rgba(52,199,123,0.06)' : 'rgba(184,115,51,0.06)';
     }
   });
 }
@@ -3227,7 +3227,7 @@ function renderAlignment() {
       <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${fmt(sc.totL)}</div></div>
       <div style="font-size:24px;color:#D0D8E0">→</div>
       <div style="text-align:center"><div style="font-size:9px;color:#D0D8E0;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${fmt(sc.totH)}</div></div>
-      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #34C77B;border-radius:3px;text-align:center"><div style="font-size:9px;color:#34C77B;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
+      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(52,199,123,0.08);border:1px solid #34C77B;border-radius:3px;text-align:center"><div style="font-size:9px;color:#34C77B;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#34C77B;font-family:'Playfair Display',serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
     </div>`;
   } else { amInvEl.style.display='none'; }
 
@@ -3345,9 +3345,9 @@ Tailor ALL recommendations to the client context provided.
 Respond ONLY with valid JSON array, no markdown. Do not use apostrophes in string values - rephrase to avoid them.`;
 
 const AGENT_BUCKET_CFG={
-  'AGENT-PROOF':      {hex:'#34C77B',bg:'rgba(34,197,94,0.1)',   border:'rgba(34,197,94,0.4)',   label:'Agent-Proof',      tagline:'Protect & Enhance',        emoji:'🟢'},
-  'AGENT-AUGMENTED':  {hex:'#E9A63C',bg:'rgba(245,158,11,0.1)',  border:'rgba(245,158,11,0.4)',  label:'Agent-Augmented',  tagline:'Renegotiate & Restructure', emoji:'🟡'},
-  'AGENT-REPLACEABLE':{hex:'#E5544C',bg:'rgba(255,68,68,0.1)',   border:'rgba(255,68,68,0.4)',   label:'Agent-Replaceable',tagline:'Replace or Eliminate',      emoji:'🔴'}
+  'AGENT-PROOF':      {hex:'#34C77B',bg:'rgba(52,199,123,0.1)',   border:'rgba(52,199,123,0.4)',   label:'Agent-Proof',      tagline:'Protect & Enhance',        emoji:'🟢'},
+  'AGENT-AUGMENTED':  {hex:'#E9A63C',bg:'rgba(233,166,60,0.1)',  border:'rgba(233,166,60,0.4)',  label:'Agent-Augmented',  tagline:'Renegotiate & Restructure', emoji:'🟡'},
+  'AGENT-REPLACEABLE':{hex:'#E5544C',bg:'rgba(229,84,76,0.1)',   border:'rgba(229,84,76,0.4)',   label:'Agent-Replaceable',tagline:'Replace or Eliminate',      emoji:'🔴'}
 };
 const AGENT_RISK_COL={LOW:'#34C77B',MEDIUM:'#E9A63C',HIGH:'#E5544C'};
 const AGENT_LLM_COL={'Claude':'#B87333','GPT':'#10A37F','Gemini':'#4285F4','Open source':'#9B59B6','Azure OpenAI':'#0078D4','AWS Bedrock':'#FF9900','Specialist':'#E5544C'};
@@ -3400,7 +3400,7 @@ function agentHandleFileUpload(event){
         const data=new Uint8Array(e.target.result);
         agentParseXLSX(data,file.name,statusEl);
       }catch(err){
-        statusEl.style.background='rgba(220,60,60,0.15)';
+        statusEl.style.background='rgba(229,84,76,0.15)';
         statusEl.style.color='#E5544C';
         statusEl.textContent='Could not read spreadsheet. Try exporting as CSV first.';
       }
@@ -3425,7 +3425,7 @@ function agentProcessCSVText(text,filename,statusEl){
   const rows=text.split('\n').map(r=>r.trim()).filter(r=>r);
   if(rows.length===0){
     statusEl.style.display='block';
-    statusEl.style.background='rgba(220,60,60,0.15)';
+    statusEl.style.background='rgba(229,84,76,0.15)';
     statusEl.style.color='#E5544C';
     statusEl.textContent='File appears empty.';
     return;
@@ -3447,7 +3447,7 @@ function agentProcessCSVText(text,filename,statusEl){
   document.getElementById('agent-tool-count').textContent=lines.length+' tools loaded';
 
   statusEl.style.display='block';
-  statusEl.style.background='rgba(46,204,113,0.12)';
+  statusEl.style.background='rgba(52,199,123,0.12)';
   statusEl.style.color='var(--green-light)';
   statusEl.innerHTML='<strong>\u2713 '+filename+'</strong> — '+lines.length+' tools loaded'+(hasHeader?' (header row skipped)':'');
 }
@@ -3675,7 +3675,7 @@ function agentBuildReport(){
             <span style="font-weight:700;font-size:14px;color:var(--white)">${item.toolName}</span>
             <span class="rag" style="color:${bc.hex};border-color:${bc.hex}55;background:transparent">${item.bucket}</span>
           </div>
-          <div style="margin-top:8px;padding:12px 14px;background:rgba(124,111,205,0.06);border:1px solid rgba(124,111,205,0.25);border-radius:3px">
+          <div style="margin-top:8px;padding:12px 14px;background:rgba(156,95,42,0.06);border:1px solid rgba(156,95,42,0.25);border-radius:3px">
             <span style="font-size:9px;letter-spacing:2px;color:var(--indigo);font-weight:600;display:block;margin-bottom:6px;text-transform:uppercase">Primary recommendation</span>
             <p style="font-size:12px;color:var(--text-body);line-height:1.75"><strong style="color:${pc}">${item.primaryLLM?.name||'—'} (${item.primaryLLM?.model||''})</strong> — Fit: ${item.primaryLLM?.fitScore||'—'}/100 · ${item.primaryLLM?.deploymentModel||''} · ${item.buildApproach||''} approach</p>
             <p style="font-size:12px;color:var(--text-body);line-height:1.75;margin-top:6px">${item.primaryLLM?.rationale||''}</p>
@@ -4025,7 +4025,7 @@ function renderFacStep() {
           <div style="font-size:9px;letter-spacing:2px;color:var(--green-light);font-weight:600;margin-bottom:8px">✓ DO</div>
           <div style="font-size:13px;color:var(--text-body);line-height:1.7">${s.do}</div>
         </div>
-        <div style="padding:16px 18px;background:rgba(124,111,205,0.06);border:1px solid rgba(124,111,205,0.15);border-left:3px solid var(--indigo);border-radius:0 6px 6px 0">
+        <div style="padding:16px 18px;background:rgba(156,95,42,0.06);border:1px solid rgba(156,95,42,0.15);border-left:3px solid var(--indigo);border-radius:0 6px 6px 0">
           <div style="font-size:9px;letter-spacing:2px;color:var(--indigo);font-weight:600;margin-bottom:8px">❓ ASK</div>
           <div style="font-size:13px;color:var(--ice);line-height:1.7;font-style:italic">${s.ask}</div>
         </div>
@@ -4053,14 +4053,14 @@ function renderFacilitate() {
   ];
   const allReady = checks.every(c => c.done);
   document.getElementById('fac-readiness').innerHTML = checks.map(c =>
-    `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.done?'rgba(22,163,74,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${c.done?'rgba(22,163,74,0.15)':'rgba(255,255,255,0.06)'};border-radius:4px">
+    `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.done?'rgba(52,199,123,0.06)':'rgba(255,255,255,0.04)'};border:1px solid ${c.done?'rgba(52,199,123,0.15)':'rgba(255,255,255,0.06)'};border-radius:4px">
       <span style="font-size:16px;flex-shrink:0">${c.done?'✅':'⬜'}</span>
       <div style="flex:1">
         <div style="font-size:12px;font-weight:600;color:${c.done?'var(--green-light)':'var(--ice)'}">${c.label}</div>
         ${!c.done?`<div style="font-size:11px;color:var(--text-muted)">${c.tip}</div>`:''}
       </div>
     </div>`
-  ).join('') + (allReady ? `<div style="padding:10px 14px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:4px;font-size:12px;color:var(--green-light);font-weight:600;text-align:center">✓ All checks passed — you're ready to run the session</div>` : '');
+  ).join('') + (allReady ? `<div style="padding:10px 14px;background:rgba(52,199,123,0.08);border:1px solid rgba(52,199,123,0.2);border-radius:4px;font-size:12px;color:var(--green-light);font-weight:600;text-align:center">✓ All checks passed — you're ready to run the session</div>` : '');
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
