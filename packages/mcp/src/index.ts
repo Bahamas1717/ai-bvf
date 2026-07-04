@@ -126,7 +126,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.6.0' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.6.1' },
   { capabilities: { tools: {} } },
 );
 
@@ -134,19 +134,20 @@ const scoreInputSchema = {
   type: 'object',
   required: ['industry', 'revenue_eur', 'function', 'ai_tier', 'readiness', 'scores'],
   properties: {
-    industry:    { type: 'string', enum: INDUSTRIES, description: 'Your industry. See list_taxonomy if unsure.' },
-    revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR.' },
-    function:    { type: 'string', enum: FUNCTIONS, description: 'Business function where the AI will operate.' },
-    ai_tier:     { type: 'string', enum: AI_TIERS, description: 'gen1=automation/RPA, gen2=GenAI, gen3=agentic.' },
-    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness. Honest self-assessment.' },
+    industry:    { type: 'string', enum: INDUSTRIES, description: 'Your industry, as one of the accepted enum values — used to select the benchmark rate multiplier applied to the modelled EUR value. Call list_taxonomy for the exact strings if unsure.' },
+    revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR (must be ≥ 0). Scales the whole output: the benchmark rates are applied as fractions of this figure, so the modelled EUR value range grows with it. A rough order-of-magnitude estimate is fine.' },
+    function:    { type: 'string', enum: FUNCTIONS, description: 'Business function where the AI will operate, as one of the accepted enum values — selects which benchmark value drivers and rate ranges apply. Call list_taxonomy for the exact strings if unsure.' },
+    ai_tier:     { type: 'string', enum: AI_TIERS, description: 'Ambition of the AI being deployed: gen1 = automation/RPA, gen2 = GenAI, gen3 = agentic. Interacts with readiness — a more ambitious tier running on lower readiness widens the pace-layer gap, which discounts the modelled EUR value even when the four pillar scores are strong.' },
+    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness, honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy. Sets the value-capture rate and, paired with ai_tier, the pace-layer drag — lower readiness against a higher tier reduces the captured value.' },
     scores: {
       type: 'object',
+      description: 'The four AI BVF pillars, each an honest 0–100 self-assessment. They combine deterministically into the verdict: governance_risk ≥ 70 OR financial_return ≤ 20 returns Stop; strategic_alignment, financial_return and change_enablement all ≥ 60 with governance_risk ≤ 40 returns Accelerate; everything else returns Fix. Estimate them from context if you must and lower signal_completeness to say so.',
       required: ['strategic_alignment', 'financial_return', 'change_enablement', 'governance_risk'],
       properties: {
-        strategic_alignment: { type: 'number', minimum: 0, maximum: 100, description: 'How clearly this moves a board-level KPI (0-100).' },
-        financial_return:    { type: 'number', minimum: 0, maximum: 100, description: 'Strength of modelled return (0-100).' },
-        change_enablement:   { type: 'number', minimum: 0, maximum: 100, description: 'Sponsor, owner, funded change budget (0-100).' },
-        governance_risk:     { type: 'number', minimum: 0, maximum: 100, description: 'Regulatory / reputational exposure. Higher = more risk (0-100).' },
+        strategic_alignment: { type: 'number', minimum: 0, maximum: 100, description: 'How clearly this moves a board-level KPI (0–100, higher is better). Must be ≥ 60 — together with financial_return ≥ 60, change_enablement ≥ 60 and governance_risk ≤ 40 — for an Accelerate verdict.' },
+        financial_return:    { type: 'number', minimum: 0, maximum: 100, description: 'Strength of the modelled return (0–100, higher is better). A value ≤ 20 forces a Stop on its own, regardless of the other pillars; ≥ 60 is one of the four conditions required for Accelerate.' },
+        change_enablement:   { type: 'number', minimum: 0, maximum: 100, description: 'Sponsor in place, owner named, change budget funded (0–100, higher is better). Must be ≥ 60 — with strategic_alignment and financial_return ≥ 60 and governance_risk ≤ 40 — for an Accelerate verdict.' },
+        governance_risk:     { type: 'number', minimum: 0, maximum: 100, description: 'Regulatory and reputational exposure (0–100). This pillar is INVERTED: higher means MORE risk. A value ≥ 70 forces a Stop on its own; it must be ≤ 40 for an Accelerate verdict.' },
       },
     },
   },
@@ -846,7 +847,7 @@ await server.connect(transport);
 // Opt-out and privacy contracts are identical to tool-call telemetry.
 logCall('server_connect');
 
-console.error('aibvf-mcp v0.6.0 ready on stdio - 8 tools: score_initiative, score_portfolio, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, diagnose_process');
+console.error('aibvf-mcp v0.6.1 ready on stdio - 8 tools: score_initiative, score_portfolio, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, diagnose_process');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');
