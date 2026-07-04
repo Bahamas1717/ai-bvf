@@ -5,6 +5,11 @@
    ══════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Brand rule: no italics, anywhere. Emphasis is carried by weight and the
+   copper accent, never by slant. !important so it also overrides inline
+   style="font-style:italic" and default <em>/<i>/<cite> rendering. */
+*, *::before, *::after { font-style: normal !important; }
+
 body {
   margin: 0;
   font-family: var(--font-sans);

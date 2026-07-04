@@ -10,6 +10,10 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  /* Brand rule: no italics, anywhere. Emphasis via weight + copper, never slant.
+     !important so it overrides inline style="font-style:italic" and <em>/<i>. */
+  *, *::before, *::after { font-style: normal !important; }
+
   :root {
     --navy: #172C4B;
     --navy-dark: #0F1E35;

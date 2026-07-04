@@ -31,6 +31,9 @@
 /* ══════════════════════════════════════════════
    BVF UNIFIED DESIGN SYSTEM
    ══════════════════════════════════════════════ */
+/* Brand rule: no italics, anywhere. Emphasis via weight + copper, never slant.
+   !important so it overrides inline style="font-style:italic" and <em>/<i>. */
+*, *::before, *::after { font-style: normal !important; }
 :root {
   /* Brand */
   --navy: #1C2433;
