@@ -171,10 +171,10 @@ const paceLayerInputSchema = {
   type: 'object',
   required: ['revenue_eur', 'ai_tier', 'readiness'],
   properties: {
-    revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR.' },
-    ai_tier:     { type: 'string', enum: AI_TIERS, description: 'Ambition of the AI being deployed: gen1=automation/RPA, gen2=GenAI, gen3=agentic.' },
-    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness, honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy.' },
-    industry:    { type: 'string', enum: INDUSTRIES, description: 'Optional; defaults to universal. Reserved for future vertical adjustments.' },
+    revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR (must be ≥ 0). The result scales with this: annual_drag_eur is returned as an absolute range and as drag_rate, a fraction of this revenue (e.g. 0.02 = 2%).' },
+    ai_tier:     { type: 'string', enum: AI_TIERS, description: 'Ambition of the AI operating model: gen1 = automation/RPA, gen2 = GenAI, gen3 = agentic. Paired with readiness to set pace_gap severity — gen3 on any readiness below agile, or gen2 on siloed, is severe; a higher tier against a slower operating model widens the gap and raises the drag.' },
+    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness, honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy. Agile readiness yields minimal drag at any tier; the mismatch between a fast AI tier and a slower operating model is what generates the Organisational Drag Cost.' },
+    industry:    { type: 'string', enum: INDUSTRIES, description: 'Optional; defaults to universal if omitted. Reserved for future vertical drag-rate adjustments — does not change the result today. Call list_taxonomy for accepted values.' },
   },
 };
 
@@ -311,12 +311,12 @@ const scorePortfolioInputSchema = {
   properties: {
     portfolio: {
       type: 'object',
-      description: 'A portfolio document conforming to the AI BVF v1.0 schema: bvf_version, organization (name, industry, optional revenue_eur), and a non-empty initiatives array. Each initiative carries id, name, function, ai_tier, and a scores object whose four pillars each carry a numeric value (0–100). organization.revenue_eur is required to model EUR value; initiatives that cannot be scored (missing revenue, unknown function/ai_tier) appear in skipped_initiatives rather than scored_initiatives. Schema: https://www.aibvf.com/protocol.',
+      description: 'A portfolio document conforming to the AI BVF v1.0 schema: bvf_version, organization (name, industry, optional revenue_eur), and a non-empty initiatives array. Each initiative carries id, name, function, ai_tier, and a scores object whose four pillars each carry a numeric value (0–100). Every initiative is run through the same rule as score_initiative — governance_risk ≥ 70 OR financial_return ≤ 20 → Stop; all of strategic_alignment/financial_return/change_enablement ≥ 60 with governance_risk ≤ 40 → Accelerate; else Fix — and the verdicts are aggregated into portfolio counts. organization.revenue_eur is required to model EUR value; initiatives that cannot be scored (missing revenue, unknown function/ai_tier) appear in skipped_initiatives rather than scored_initiatives. Validate first with validate_portfolio if the document may be malformed. Schema: https://www.aibvf.com/protocol.',
     },
     readiness: {
       type: 'string',
       enum: READINESS,
-      description: 'Organisational readiness applied to every initiative in the portfolio. Honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy. The portfolio schema does not carry per-initiative readiness; this single value sets the capture rate for the whole portfolio.',
+      description: 'Organisational readiness applied to every initiative in the portfolio. Honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy. The portfolio schema does not carry per-initiative readiness; this single value sets the capture rate for the whole portfolio and, paired with the ai_tier of each initiative, its pace-layer drag — lower readiness against a higher tier discounts the modelled EUR value.',
     },
   },
 };
@@ -413,17 +413,17 @@ const diagnoseInputSchema = {
   properties: {
     process_id:             { type: 'string', description: 'Stable identifier for the process.' },
     function:               { type: 'string', enum: FUNCTIONS, description: 'Business function the process belongs to. See list_taxonomy.' },
-    instances_per_year:     { type: 'number', minimum: 0, description: 'Process volume: how many times it runs per year.' },
-    fte_hours_per_instance: { type: 'number', minimum: 0, description: 'Human touch-time in hours per instance.' },
-    loaded_hourly_rate_eur: { type: 'number', minimum: 0, description: 'Fully-loaded labour cost per hour in EUR.' },
-    cycle_time_days:        { type: 'number', minimum: 0, description: 'Median wall-clock days per instance, end to end.' },
-    touch_ratio:            { type: 'number', minimum: 0, maximum: 1, description: 'Touch-time ÷ cycle-time (0–1). The remainder is wait.' },
-    handoffs:               { type: 'number', minimum: 0, description: 'Distinct owners/systems an instance passes through.' },
-    rework_rate:            { type: 'number', minimum: 0, maximum: 1, description: 'Fraction of instances reopened/reworked (0–1).' },
-    automation_level:       { type: 'number', minimum: 0, maximum: 1, description: 'Share already automated (0–1).' },
-    direct_spend_eur:       { type: 'number', minimum: 0, description: 'Annual licence/vendor/tooling spend on the process in EUR.' },
-    signal_completeness:    { type: 'number', minimum: 0, maximum: 1, description: 'Optional. How much of the above was measured vs defaulted (0–1). Governs confidence; defaults to 0.7.' },
-    readiness:              { type: 'string', enum: READINESS, description: 'Optional. Org change-absorption capacity (caps realised saving). Defaults to traditional.' },
+    instances_per_year:     { type: 'number', minimum: 0, description: 'Process volume: how many times it runs per year. Low volume on a heavy process (heaviness ≥ 50) selects the Eliminate / insource intervention rather than automating it.' },
+    fte_hours_per_instance: { type: 'number', minimum: 0, description: 'Human touch-time in hours per instance. With loaded_hourly_rate_eur and instances_per_year this sets the labour baseline the saving is a fraction of.' },
+    loaded_hourly_rate_eur: { type: 'number', minimum: 0, description: 'Fully-loaded labour cost per hour in EUR (salary + on-costs). Multiplies fte_hours_per_instance × instances_per_year into the annual labour baseline.' },
+    cycle_time_days:        { type: 'number', minimum: 0, description: 'Median wall-clock days per instance, end to end. Long cycles relative to touch-time signal wait/latency drag.' },
+    touch_ratio:            { type: 'number', minimum: 0, maximum: 1, description: 'Touch-time ÷ cycle-time (0–1). The remainder is wait; a low value means the process is mostly waiting, which pushes the intervention toward Consolidate & re-sequence.' },
+    handoffs:               { type: 'number', minimum: 0, description: 'Distinct owners/systems an instance passes through. Weighed against the per-function median; many handoffs make handoff drag dominant and point to Consolidate & re-sequence.' },
+    rework_rate:            { type: 'number', minimum: 0, maximum: 1, description: 'Fraction of instances reopened/reworked (0–1). When rework is the dominant drag factor the intervention becomes Quality controls, and it also sets the addressable share for that path.' },
+    automation_level:       { type: 'number', minimum: 0, maximum: 1, description: 'Share already automated (0–1). Low automation makes manual effort the dominant drag and selects Automate; the un-automated remainder is the addressable share.' },
+    direct_spend_eur:       { type: 'number', minimum: 0, description: 'Annual licence/vendor/tooling spend on the process in EUR. Added to the labour baseline and shifts how much of the saving is labour- vs spend-addressable.' },
+    signal_completeness:    { type: 'number', minimum: 0, maximum: 1, description: 'Optional 0–1. How much of the above was measured versus defaulted. Governs decision_confidence proportionally — lower it when you estimated inputs so the verdict stays honest. Defaults to 0.7.' },
+    readiness:              { type: 'string', enum: READINESS, description: 'Optional. Org change-absorption capacity — agile / traditional / siloed — which caps the realised (net) saving below the gross potential. Defaults to traditional.' },
   },
 };
 
@@ -498,7 +498,7 @@ const TOOLS = [
       properties: {
         portfolio: {
           type: 'object',
-          description: 'The portfolio document as a JSON object following the AI BVF v1.0 schema: a top-level object with an "initiatives" array, each initiative carrying the same fields score_initiative expects (industry, revenue_eur, function, ai_tier, readiness, and a scores object). Validated structurally; values are not scored here.',
+          description: 'The portfolio document as a JSON object following the AI BVF v1.0 schema: a top-level object with bvf_version, organization, and a non-empty "initiatives" array, each initiative carrying the same fields score_initiative expects (industry, revenue_eur, function, ai_tier, readiness, and a scores object with the four 0–100 pillars). Checked structurally only — required fields present, correct types, enum values valid, pillar numbers in range; the pillar values are NOT scored or judged here (use score_initiative or score_portfolio for that). On failure, errors[] names each failing JSON path and the rule it broke.',
         },
       },
     },
@@ -512,8 +512,8 @@ const TOOLS = [
       type: 'object',
       required: ['function', 'industry'],
       properties: {
-        function: { type: 'string', enum: FUNCTIONS, description: 'Business function to benchmark. Must be one of the list_taxonomy function values.' },
-        industry: { type: 'string', enum: INDUSTRIES, description: 'Industry whose multiplier to apply. Must be one of the list_taxonomy industry values.' },
+        function: { type: 'string', enum: FUNCTIONS, description: 'Business function to benchmark — must be one of the list_taxonomy function values. Selects the base revenue-uplift and cost-reduction rate ranges (returned as fractions of revenue) and the value drivers.' },
+        industry: { type: 'string', enum: INDUSTRIES, description: 'Industry whose multiplier to apply — must be one of the list_taxonomy industry values. The returned industry_multiplier is applied to the function base rates; pass "universal" for the un-adjusted rates.' },
       },
     },
     outputSchema: benchmarkOutputSchema,
