@@ -4,25 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BVF — Platform Access</title>
+<link rel="stylesheet" href="../design-system/styles.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --navy: #1B2B4B;
-    --navy-mid: #223460;
-    --copper: #C17E3A;
-    --copper-light: #D4944A;
+    /* Copper + navy unified onto the canonical design system (../design-system/styles.css).
+       Warm light access-card surfaces (off-white / pale / grey) are intentional and preserved. */
+    --navy: var(--navy-900);
+    --navy-mid: var(--navy-700);
+    --copper-light: var(--copper-300);
     --copper-pale: #FDF6EE;
-    --white: #FFFFFF;
     --off-white: #F8F6F2;
     --grey: #666666;
   }
 
   body {
     font-family: 'Montserrat', sans-serif;
-    background: #0E1520;
+    background: var(--bg-deep);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -265,7 +266,7 @@
 
   .mock-hero p {
     font-size: 10px;
-    color: #8899BB;
+    color: var(--text-muted);
     line-height: 1.6;
     max-width: 340px;
     margin: 0 auto;
@@ -417,8 +418,8 @@
 
   /* Notes section */
   .notes-section {
-    background: #141E2E;
-    border: 1px solid #1E2D42;
+    background: var(--navy-850);
+    border: 1px solid var(--navy-700);
     border-radius: 4px;
     padding: 20px 24px;
   }
@@ -487,10 +488,10 @@
         <div class="qr-centre">
           <svg viewBox="0 0 120 120" fill="none" width="42" height="42">
             <circle cx="60" cy="60" r="52" stroke="#D0C8BC" stroke-width="8"/>
-            <circle cx="60" cy="60" r="52" stroke="#C17E3A" stroke-width="8"
+            <circle cx="60" cy="60" r="52" stroke="#B87333" stroke-width="8"
               stroke-dasharray="220 327" stroke-dashoffset="-82" stroke-linecap="round"/>
             <text x="60" y="67" text-anchor="middle" font-family="Montserrat,sans-serif"
-              font-size="24" font-weight="800" fill="#1B2B4B">B</text>
+              font-size="24" font-weight="800" fill="#0F1E35">B</text>
           </svg>
         </div>
       </div>
@@ -513,8 +514,8 @@
         <canvas id="qr-dark" width="220" height="220"></canvas>
         <div class="qr-centre" style="background:var(--navy);">
           <svg viewBox="0 0 120 120" fill="none" width="42" height="42">
-            <circle cx="60" cy="60" r="52" stroke="#2A3D5C" stroke-width="8"/>
-            <circle cx="60" cy="60" r="52" stroke="#C17E3A" stroke-width="8"
+            <circle cx="60" cy="60" r="52" stroke="#294667" stroke-width="8"/>
+            <circle cx="60" cy="60" r="52" stroke="#B87333" stroke-width="8"
               stroke-dasharray="220 327" stroke-dashoffset="-82" stroke-linecap="round"/>
             <text x="60" y="67" text-anchor="middle" font-family="Montserrat,sans-serif"
               font-size="24" font-weight="800" fill="#FFFFFF">B</text>
@@ -747,8 +748,8 @@
   }
 
   window.addEventListener('load', function() {
-    drawQR('qr-light', 'https://www.aibvf.com', '#1B2B4B', '#F8F6F2');
-    drawQR('qr-dark', 'https://www.aibvf.com', '#C17E3A', '#1B2B4B');
+    drawQR('qr-light', 'https://www.aibvf.com', '#0F1E35', '#F8F6F2');
+    drawQR('qr-dark', 'https://www.aibvf.com', '#B87333', '#0F1E35');
   });
 
   // Path card toggle interaction
