@@ -60,26 +60,15 @@ jobs:
             echo "v${{ steps.pkg.outputs.version }} not on npm, will publish"
           fi
 
-      - name: Normalize NPM token (strip stray whitespace/newlines)
-        # A trailing newline in the secret makes npm's Authorization header
-        # "not a legal HTTP header value". Strip all whitespace defensively.
-        env:
-          RAW_NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          CLEAN=$(printf '%s' "$RAW_NPM_TOKEN" | tr -d '[:space:]')
-          echo "::add-mask::$CLEAN"
-          echo "NPM_TOKEN_CLEAN=$CLEAN" >> "$GITHUB_ENV"
-
       - name: Publish to npm with provenance
-        # Auth via granular access token (NPM_TOKEN secret); provenance via id-token: write.
+        # Auth via GitHub OIDC trusted publishing (no token). npm >= 11.5 exchanges
+        # the id-token for a short-lived publish credential; provenance via id-token: write.
         if: steps.npm-check.outputs.exists == 'false'
         working-directory: packages/mcp
         run: |
           echo "Publishing aibvf-mcp@${{ steps.pkg.outputs.version }} with npm $(npm --version)"
           npm publish --provenance --access public
           echo "✅ Published aibvf-mcp@${{ steps.pkg.outputs.version }} to npm"
-        env:
-          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN_CLEAN }}
 
       - name: Read @aibvf/core version
         id: corepkg
@@ -105,8 +94,6 @@ jobs:
           echo "Publishing @aibvf/core@${{ steps.corepkg.outputs.version }} with npm $(npm --version)"
           npm publish --provenance --access public
           echo "✅ Published @aibvf/core@${{ steps.corepkg.outputs.version }} to npm"
-        env:
-          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN_CLEAN }}
 
       - name: Read aibvf-check version
         id: clipkg
@@ -132,8 +119,6 @@ jobs:
           echo "Publishing aibvf-check@${{ steps.clipkg.outputs.version }} with npm $(npm --version)"
           npm publish --provenance --access public
           echo "✅ Published aibvf-check@${{ steps.clipkg.outputs.version }} to npm"
-        env:
-          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN_CLEAN }}
 
       - name: Download mcp-publisher
         run: |
