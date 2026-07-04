@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Business Value Framework — Executive Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/styles.css">
 <style>
   :root {
-    --navy: #0F1E35;
-    --navy-mid: #142840;
-    --navy-light: #1B3456;
-    --copper: #B87333;
-    --copper-light: #D4956A;
-    --copper-dim: rgba(184,115,51,0.15);
-    --white: #FFFFFF;
-    --grey-1: #E8EEF5;
-    --grey-2: #9BAEC8;
-    --grey-3: #5A7A9A;
-    --border: rgba(184,115,51,0.2);
-    --border-light: rgba(255,255,255,0.06);
+    /* Remapped onto the canonical AI BVF design system (../design-system/styles.css) */
+    --navy: var(--navy-900);
+    --navy-mid: var(--navy-850);
+    --navy-light: var(--navy-700);
+    --copper-light: var(--copper-300);
+    --copper-dim: var(--copper-wash);
+    --grey-1: var(--text);
+    --grey-2: var(--text-muted);
+    --grey-3: var(--text-dim);
+    --border: var(--copper-line);
+    --border-light: var(--line-soft);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,7 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(15,30,53,0.95);
+    background: color-mix(in srgb, var(--navy-900) 95%, transparent);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -400,7 +400,7 @@
 
   .industry-insight {
     padding: 16px 20px;
-    background: rgba(255,255,255,0.03);
+    background: var(--fill-1);
     border: 1px solid var(--border-light);
     border-radius: 4px;
     font-size: 13px;
@@ -537,7 +537,7 @@
     margin-top: 14px;
     padding: 14px 18px;
     border-left: 3px solid var(--copper);
-    background: rgba(184,115,51,0.08);
+    background: var(--copper-wash-2);
     font-family: 'Playfair Display', serif;
     font-size: 14px;
     font-style: italic;
@@ -548,8 +548,8 @@
   .audio-placeholder {
     margin-top: 10px;
     padding: 16px;
-    background: rgba(255,255,255,0.03);
-    border: 1px dashed rgba(184,115,51,0.25);
+    background: var(--fill-1);
+    border: 1px dashed var(--copper-line);
     border-radius: 4px;
     font-size: 11px;
     color: var(--grey-3);
