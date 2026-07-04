@@ -4,20 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Business Value Framework v5 · Craig Horton</title>
+<link rel="stylesheet" href="../design-system/styles.css">
 <style>
   :root {
-    --navy: #0D1F3C; --navy2: #162D4E; --navy3: #1C3A62;
-    --copper: #B87333; --copperL: #D4956A;
-    --ice: #E8EEF5; --muted: #6B7E9A; --slate: #9BAEC8; --white: #FFFFFF;
-    --green: #2E7D52; --greenL: #4CAF80;
-    --amber: #C07A1A; --amberL: #F5A623;
-    --red: #8B2020; --redL: #E05252;
+    /* Remapped onto the canonical AI BVF design system (../design-system/styles.css).
+       Copper was already on-brand; navy scale, text ramp and RAG (green/amber/red
+       -> Accelerate/Fix/Stop) unified. --copper/--ice/--white inherited from
+       canonical. Purple 4th-accent preserved. Body/JS colour literals below are
+       swapped to the matching canonical hex values. */
+    --navy: var(--navy-900); --navy2: var(--navy-800); --navy3: var(--navy-700);
+    --copperL: var(--copper-300);
+    --muted: var(--text-dim); --slate: var(--text-muted);
+    --green: var(--accelerate); --greenL: var(--accelerate-bright);
+    --amber: var(--fix); --amberL: var(--fix-bright);
+    --red: var(--stop); --redL: var(--stop-bright);
     --purpleL: #8B5CF6;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Georgia', 'Palatino Linotype', serif;
-    background: linear-gradient(160deg, var(--navy) 0%, #0A1628 100%);
+    background: linear-gradient(160deg, var(--navy) 0%, #0B1626 100%);
     min-height: 100vh;
     color: var(--white);
     font-size: 14px;
@@ -240,8 +246,8 @@
         </div>
         <div style="grid-column:1/-1"><span class="fl">Expected Business Outcome</span><input type="text" id="f_outcome" placeholder="e.g. 30% AHT reduction → CX Operating KPI → Cost reduction"></div>
       </div>
-      <button onclick="togglePilot()" style="margin-top:14px;background:transparent;border:1px solid rgba(245,166,35,0.3);border-radius:3px;padding:6px 14px;color:var(--amberL);font-size:11px;font-family:'Trebuchet MS',sans-serif;cursor:pointer">⚠ <span id="pilotToggleLabel">Run</span> Pilot Trap Diagnostic</button>
-      <div id="pilotForm" style="display:none;margin-top:12px;padding:16px 18px;background:rgba(192,122,26,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:3px">
+      <button onclick="togglePilot()" style="margin-top:14px;background:transparent;border:1px solid rgba(247,196,107,0.3);border-radius:3px;padding:6px 14px;color:var(--amberL);font-size:11px;font-family:'Trebuchet MS',sans-serif;cursor:pointer">⚠ <span id="pilotToggleLabel">Run</span> Pilot Trap Diagnostic</button>
+      <div id="pilotForm" style="display:none;margin-top:12px;padding:16px 18px;background:rgba(233,166,60,0.08);border:1px solid rgba(247,196,107,0.25);border-radius:3px">
         <span class="fl" style="margin-bottom:4px">Pilot Trap Diagnostic — 5 Questions</span>
         <div style="font-size:10px;color:var(--muted);font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-bottom:12px">42% of companies abandoned most AI projects in 2025 citing unclear value. Answer honestly.</div>
         <div id="pilotQuestions"></div>
@@ -273,9 +279,9 @@
       <div style="margin-bottom:22px;padding:18px 22px;background:rgba(0,0,0,0.2);border:1px solid rgba(184,115,51,0.18);border-radius:4px">
         <span class="fl">CM Allocation vs Prosci Benchmark</span>
         <div style="margin-top:12px;position:relative;height:40px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden">
-          <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(224,82,82,0.1);border-right:1px dashed rgba(224,82,82,0.35)"></div>
-          <div style="position:absolute;left:33.3%;top:0;width:33.3%;height:100%;background:rgba(245,166,35,0.08);border-right:1px dashed rgba(245,166,35,0.35)"></div>
-          <div style="position:absolute;left:66.6%;top:0;width:33.4%;height:100%;background:rgba(76,175,128,0.08)"></div>
+          <div style="position:absolute;left:0;top:0;width:33.3%;height:100%;background:rgba(242,123,116,0.1);border-right:1px dashed rgba(242,123,116,0.35)"></div>
+          <div style="position:absolute;left:33.3%;top:0;width:33.3%;height:100%;background:rgba(247,196,107,0.08);border-right:1px dashed rgba(247,196,107,0.35)"></div>
+          <div style="position:absolute;left:66.6%;top:0;width:33.4%;height:100%;background:rgba(95,224,160,0.08)"></div>
           <div id="cmBar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:var(--redL);transition:width 0.5s"></div>
           <div style="position:absolute;left:33.3%;top:50%;transform:translate(-50%,-50%);font-size:9px;font-family:'Trebuchet MS',sans-serif;font-weight:700;color:var(--redL)">5%</div>
           <div style="position:absolute;left:66.6%;top:50%;transform:translate(-50%,-50%);font-size:9px;font-family:'Trebuchet MS',sans-serif;font-weight:700;color:var(--amberL)">10%</div>
@@ -312,7 +318,7 @@
     <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap" id="regToggles"></div>
     <div id="regCostBanner" style="display:none;margin-bottom:22px;padding:18px 22px;background:rgba(0,0,0,0.2);border:1px solid rgba(184,115,51,0.2);border-radius:4px"></div>
     <div id="regDetails" style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px"></div>
-    <div id="regNoCost" style="display:none;padding:20px;background:rgba(192,122,26,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:3px;text-align:center">
+    <div id="regNoCost" style="display:none;padding:20px;background:rgba(233,166,60,0.1);border:1px solid rgba(247,196,107,0.3);border-radius:3px;text-align:center">
       <div style="font-size:13px;color:var(--amberL);font-family:'Trebuchet MS',sans-serif">Enter your annual revenue in the Company Profile to see compliance costs in your currency.</div>
     </div>
     <div class="mirror">
@@ -328,7 +334,7 @@
       <span class="fl">AI Alignment Map — Board Summary</span>
       <div style="font-size:13px;color:var(--slate);font-family:'Trebuchet MS',sans-serif">One-page board-ready view. Complete the Company Profile and build your Portfolio to activate all sections.</div>
     </div>
-    <div style="padding:18px 24px;background:linear-gradient(135deg,rgba(13,31,60,0.8),rgba(22,45,78,0.8));border:1px solid rgba(184,115,51,0.3);border-radius:4px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div style="padding:18px 24px;background:linear-gradient(135deg,rgba(15,30,53,0.8),rgba(23,44,75,0.8));border:1px solid rgba(184,115,51,0.3);border-radius:4px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
       <div>
         <div style="font-size:9px;letter-spacing:3px;color:var(--copper);font-family:'Trebuchet MS',sans-serif;margin-bottom:6px">AI ALIGNMENT MAP · CRAIG HORTON ADVISORY · 2026</div>
         <div id="amCompany" style="font-size:22px;font-weight:700;color:var(--white);font-family:Georgia,serif">[Company Name]</div>
@@ -350,8 +356,8 @@
   <div id="tab5" class="tab-content">
     <div style="margin-bottom:24px;padding:20px 26px;background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(139,92,246,0.04));border:1px solid #8B5CF6;border-radius:4px">
       <div style="font-size:9px;letter-spacing:3px;color:#8B5CF6;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:8px">FACILITATOR MODE — WORKSHOP GUIDE</div>
-      <h2 style="font-size:18px;font-weight:700;color:#E8EEF5;margin-bottom:6px">Run This Session Like a Pro</h2>
-      <p style="font-size:12px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.6">This guide is for you, not the client. Use it to structure the conversation, navigate conflicts, and deliver the mirror moment with maximum impact. Designed for Zoom/Teams with mixed stakeholder groups.</p>
+      <h2 style="font-size:18px;font-weight:700;color:#F6F9FD;margin-bottom:6px">Run This Session Like a Pro</h2>
+      <p style="font-size:12px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.6">This guide is for you, not the client. Use it to structure the conversation, navigate conflicts, and deliver the mirror moment with maximum impact. Designed for Zoom/Teams with mixed stakeholder groups.</p>
     </div>
 
     <!-- SESSION PLANNER -->
@@ -360,15 +366,15 @@
       <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
         <button onclick="showAgenda('2hr')" id="btn_2hr" class="btn-sec" style="flex:1;min-width:140px;padding:12px;text-align:left;border:1px solid rgba(184,115,51,0.3)">
           <div style="font-size:11px;font-weight:700;color:#B87333;margin-bottom:4px">2-HOUR EXECUTIVE BRIEFING</div>
-          <div style="font-size:10px;color:#6B7E9A;line-height:1.4">Quick diagnostic. C-suite only. Company Profile + BVF tab + Mirror moment.</div>
+          <div style="font-size:10px;color:#7688A0;line-height:1.4">Quick diagnostic. C-suite only. Company Profile + BVF tab + Mirror moment.</div>
         </button>
         <button onclick="showAgenda('halfday')" id="btn_halfday" class="btn-sec" style="flex:1;min-width:140px;padding:12px;text-align:left;border:1px solid rgba(184,115,51,0.3)">
           <div style="font-size:11px;font-weight:700;color:#B87333;margin-bottom:4px">HALF-DAY DEEP DIVE</div>
-          <div style="font-size:10px;color:#6B7E9A;line-height:1.4">Portfolio build + CM health check. Mixed stakeholders. All 5 tabs + action planning.</div>
+          <div style="font-size:10px;color:#7688A0;line-height:1.4">Portfolio build + CM health check. Mixed stakeholders. All 5 tabs + action planning.</div>
         </button>
         <button onclick="showAgenda('fullday')" id="btn_fullday" class="btn-sec" style="flex:1;min-width:140px;padding:12px;text-align:left;border:1px solid rgba(184,115,51,0.3)">
           <div style="font-size:11px;font-weight:700;color:#B87333;margin-bottom:4px">FULL-DAY STRATEGY</div>
-          <div style="font-size:10px;color:#6B7E9A;line-height:1.4">Complete transformation roadmap. Function leads present. Build portfolio from scratch + regulatory + 90-day plan.</div>
+          <div style="font-size:10px;color:#7688A0;line-height:1.4">Complete transformation roadmap. Function leads present. Build portfolio from scratch + regulatory + 90-day plan.</div>
         </button>
       </div>
       <div id="agendaDisplay" style="display:none;margin-top:16px;padding:16px 20px;background:rgba(0,0,0,0.2);border-radius:3px"></div>
@@ -404,7 +410,7 @@
     <!-- DISCUSSION PROMPTS -->
     <div style="margin-bottom:20px;padding:18px 22px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.2);border-radius:4px">
       <span class="fl">3. Discussion Prompts Library — Unlock Insight</span>
-      <p style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;margin-bottom:12px;font-style:italic">Click to reveal prompts when you need them. Progress from safe to provocative.</p>
+      <p style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;margin-bottom:12px;font-style:italic">Click to reveal prompts when you need them. Progress from safe to provocative.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
         <button onclick="togglePrompts('bvf_prompts')" class="btn-sec" style="padding:10px 14px;text-align:left">BVF Tab Prompts</button>
         <button onclick="togglePrompts('portfolio_prompts')" class="btn-sec" style="padding:10px 14px;text-align:left">Portfolio Prompts</button>
@@ -420,27 +426,27 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:10px">
         <div style="padding:12px;background:rgba(0,0,0,0.2);border-radius:3px">
           <div style="font-size:10px;font-weight:700;color:#B87333;margin-bottom:6px;font-family:'Trebuchet MS',sans-serif">SCREEN SHARING</div>
-          <div style="font-size:11px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Share this HTML file via screen share. Keep facilitator tab open in second window for reference. Toggle between tabs live as you build the narrative.</div>
+          <div style="font-size:11px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Share this HTML file via screen share. Keep facilitator tab open in second window for reference. Toggle between tabs live as you build the narrative.</div>
         </div>
         <div style="padding:12px;background:rgba(0,0,0,0.2);border-radius:3px">
           <div style="font-size:10px;font-weight:700;color:#B87333;margin-bottom:6px;font-family:'Trebuchet MS',sans-serif">CAMERA PROTOCOL</div>
-          <div style="font-size:11px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Cameras on for opening & mirror moment. Cameras optional during data entry. Watch body language when revealing CM gap.</div>
+          <div style="font-size:11px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Cameras on for opening & mirror moment. Cameras optional during data entry. Watch body language when revealing CM gap.</div>
         </div>
         <div style="padding:12px;background:rgba(0,0,0,0.2);border-radius:3px">
           <div style="font-size:10px;font-weight:700;color:#B87333;margin-bottom:6px;font-family:'Trebuchet MS',sans-serif">BREAKOUTS</div>
-          <div style="font-size:11px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Use breakouts for Portfolio tab (by function) if group >12. Reconvene to consolidate. Assign scribes to capture initiatives.</div>
+          <div style="font-size:11px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Use breakouts for Portfolio tab (by function) if group >12. Reconvene to consolidate. Assign scribes to capture initiatives.</div>
         </div>
         <div style="padding:12px;background:rgba(0,0,0,0.2);border-radius:3px">
           <div style="font-size:10px;font-weight:700;color:#B87333;margin-bottom:6px;font-family:'Trebuchet MS',sans-serif">CHAT & POLLS</div>
-          <div style="font-size:11px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Use chat for async input during Portfolio build. Run quick polls: "CM <5%: Red flag?" Get consensus visible.</div>
+          <div style="font-size:11px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Use chat for async input during Portfolio build. Run quick polls: "CM <5%: Red flag?" Get consensus visible.</div>
         </div>
         <div style="padding:12px;background:rgba(0,0,0,0.2);border-radius:3px">
           <div style="font-size:10px;font-weight:700;color:#B87333;margin-bottom:6px;font-family:'Trebuchet MS',sans-serif">ENERGY BREAKS</div>
-          <div style="font-size:11px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Break every 60 mins. 10 mins max. Schedule break BEFORE CM tab so they come back fresh for the reveal.</div>
+          <div style="font-size:11px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Break every 60 mins. 10 mins max. Schedule break BEFORE CM tab so they come back fresh for the reveal.</div>
         </div>
         <div style="padding:12px;background:rgba(0,0,0,0.2);border-radius:3px">
           <div style="font-size:10px;font-weight:700;color:#B87333;margin-bottom:6px;font-family:'Trebuchet MS',sans-serif">RED FLAGS</div>
-          <div style="font-size:11px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Watch for: multitasking (emails during mirror moment), sidebar chats, early departures. Call it out kindly: "Can I get everyone back?"</div>
+          <div style="font-size:11px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.5">Watch for: multitasking (emails during mirror moment), sidebar chats, early departures. Call it out kindly: "Can I get everyone back?"</div>
         </div>
       </div>
     </div>
@@ -448,10 +454,10 @@
     <!-- QUICK REFERENCE -->
     <div style="padding:18px 22px;background:rgba(184,115,51,0.07);border:1px solid rgba(184,115,51,0.28);border-left:4px solid #B87333;border-radius:3px">
       <span class="fl">Quick Reference — Your North Star</span>
-      <div style="font-size:12px;color:#E8EEF5;font-family:'Trebuchet MS',sans-serif;line-height:1.7;margin-bottom:10px">
+      <div style="font-size:12px;color:#F6F9FD;font-family:'Trebuchet MS',sans-serif;line-height:1.7;margin-bottom:10px">
         <strong style="color:#B87333">The job of this session:</strong> Get the client to see the gap between their AI ambition and their change management investment. Everything else is setup for that conversation.
       </div>
-      <div style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;line-height:1.6">
+      <div style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;line-height:1.6">
         • <strong>You succeed</strong> when they commit to closing the CM gap with budget and ownership<br>
         • <strong>You fail</strong> when they leave thinking "interesting tool" but take no action<br>
         • <strong>The Mirror works</strong> when someone senior says the quiet part out loud: "We've never funded this properly"<br>
@@ -488,7 +494,7 @@ const LAYERS = [
   {id:"ai",label:"AI Capabilities",note:"SOUTH ↓"},
 ];
 const AI_TIERS = [
-  {id:"gen1",label:"Gen 1 — Automation",short:"Gen 1",color:"#9BAEC8",desc:"RPA, rule-based automation, workflow triggers"},
+  {id:"gen1",label:"Gen 1 — Automation",short:"Gen 1",color:"#A7B6C9",desc:"RPA, rule-based automation, workflow triggers"},
   {id:"gen2",label:"Gen 2 — GenAI",short:"Gen 2",color:"#B87333",desc:"LLM-powered assistants, content generation, semantic search"},
   {id:"gen3",label:"Gen 3 — Agentic",short:"Gen 3",color:"#8B5CF6",desc:"Autonomous multi-step agents, decision-making, self-orchestration"},
 ];
@@ -521,9 +527,9 @@ const BVF_DATA = {
   rd:{board:{c:"Innovation pipeline · Time-to-market · IP value creation"},external:{c:"Competitor innovation pace · Patent landscape · Regulatory timelines"},initiatives:{c:"Product innovation · Clinical development · R&D efficiency"},operating:{c:"Time-to-prototype · R&D cost-per-outcome · Trial success rate"},ai:{c:"Generative design · Literature synthesis · Simulation acceleration · IP analysis"}},
 };
 const REG_FRAMEWORKS = [
-  {id:"euai",label:"EU AI Act",color:"#E05252",icon:"⚖",shortLabel:"EU AI Act",risk:"High Risk",timeline:"Aug 2026 — Feb 2027",obligations:["High-risk AI systems must register in EU database","Mandatory conformity assessments for high-risk use cases","Human oversight requirements for automated decisions","Incident reporting to national authorities within 15 days"],costDrivers:["Compliance audit & gap assessment","Technical documentation & logging infrastructure","Human oversight staffing","Registration & conformity process"],costRange:{lo:.0005,hi:.002},desc:"The EU AI Act classifies AI systems by risk. High-risk categories include HR, credit scoring, critical infrastructure, and law enforcement. Full compliance mandatory by August 2026.",source:"EU AI Act — Regulation 2024/1689, Aug 2024"},
-  {id:"dora",label:"DORA",color:"#F5A623",icon:"🛡",shortLabel:"DORA",risk:"Financial Services",timeline:"Jan 2025",obligations:["ICT risk management framework with AI oversight","Third-party AI provider risk assessments","Digital operational resilience testing (TLPT)","Incident classification & reporting within 4 hours"],costDrivers:["ICT risk framework uplift for AI systems","Third-party provider due diligence","Resilience testing programme","Reporting infrastructure"],costRange:{lo:.001,hi:.003},desc:"DORA applies to all financial entities in the EU including banks, insurers, investment firms, and crypto-asset service providers. AI systems must be included in ICT risk frameworks.",source:"DORA — Regulation 2022/2554, in force Jan 2025"},
-  {id:"csrd",label:"CSRD",color:"#4CAF80",icon:"🌱",shortLabel:"CSRD",risk:"ESG Reporting",timeline:"2024–2028 phased",obligations:["Mandatory AI-assisted ESG data collection & reporting","Third-party verification of sustainability claims","Double materiality assessment including AI impact","Value chain emissions including AI energy consumption"],costDrivers:["ESG data platform & AI tooling","Third-party assurance engagement","Internal ESG reporting capability","Technology carbon footprint measurement"],costRange:{lo:.0003,hi:.0015},desc:"CSRD requires large companies to report on environmental and social impact including AI-related energy consumption. AI can both assist reporting and must be reported on.",source:"CSRD — Directive 2022/2464, phased 2024–2028"},
+  {id:"euai",label:"EU AI Act",color:"#F27B74",icon:"⚖",shortLabel:"EU AI Act",risk:"High Risk",timeline:"Aug 2026 — Feb 2027",obligations:["High-risk AI systems must register in EU database","Mandatory conformity assessments for high-risk use cases","Human oversight requirements for automated decisions","Incident reporting to national authorities within 15 days"],costDrivers:["Compliance audit & gap assessment","Technical documentation & logging infrastructure","Human oversight staffing","Registration & conformity process"],costRange:{lo:.0005,hi:.002},desc:"The EU AI Act classifies AI systems by risk. High-risk categories include HR, credit scoring, critical infrastructure, and law enforcement. Full compliance mandatory by August 2026.",source:"EU AI Act — Regulation 2024/1689, Aug 2024"},
+  {id:"dora",label:"DORA",color:"#F7C46B",icon:"🛡",shortLabel:"DORA",risk:"Financial Services",timeline:"Jan 2025",obligations:["ICT risk management framework with AI oversight","Third-party AI provider risk assessments","Digital operational resilience testing (TLPT)","Incident classification & reporting within 4 hours"],costDrivers:["ICT risk framework uplift for AI systems","Third-party provider due diligence","Resilience testing programme","Reporting infrastructure"],costRange:{lo:.001,hi:.003},desc:"DORA applies to all financial entities in the EU including banks, insurers, investment firms, and crypto-asset service providers. AI systems must be included in ICT risk frameworks.",source:"DORA — Regulation 2022/2554, in force Jan 2025"},
+  {id:"csrd",label:"CSRD",color:"#5FE0A0",icon:"🌱",shortLabel:"CSRD",risk:"ESG Reporting",timeline:"2024–2028 phased",obligations:["Mandatory AI-assisted ESG data collection & reporting","Third-party verification of sustainability claims","Double materiality assessment including AI impact","Value chain emissions including AI energy consumption"],costDrivers:["ESG data platform & AI tooling","Third-party assurance engagement","Internal ESG reporting capability","Technology carbon footprint measurement"],costRange:{lo:.0003,hi:.0015},desc:"CSRD requires large companies to report on environmental and social impact including AI-related energy consumption. AI can both assist reporting and must be reported on.",source:"CSRD — Directive 2022/2464, phased 2024–2028"},
   {id:"gdpr",label:"GDPR / AI",color:"#8B5CF6",icon:"🔒",shortLabel:"GDPR AI",risk:"Data Privacy",timeline:"Ongoing",obligations:["Automated decision-making rights (Art. 22) for AI","Data minimisation requirements in model training","Privacy impact assessments for AI use cases","Right to explanation for AI-driven decisions"],costDrivers:["Privacy-by-design AI development uplift","Data governance & lineage tooling","DPO capacity for AI assessments","Explainability layer development"],costRange:{lo:.0002,hi:.001},desc:"GDPR's Article 22 restricts solely automated decisions with legal effects. AI deployments in HR, credit, and customer service face the highest exposure.",source:"GDPR Art. 22 — as applied to AI systems, EDPB Guidelines 2023"},
 ];
 const PILOT_QS = [
@@ -535,9 +541,9 @@ const PILOT_QS = [
 ];
 const INDUSTRIES_LABELS = {universal:"Universal / Other",healthcare:"Healthcare / MedTech",manufacturing:"Manufacturing & Supply Chain",financial:"Financial Services",retail:"Retail / Consumer",technology:"Technology"};
 const RAG_CFG = {
-  green:{label:"COMPLIANT",bg:"rgba(46,125,82,0.2)",border:"#4CAF80",text:"#4CAF80",desc:"≥ 10% allocated — meets Prosci minimum"},
-  amber:{label:"AT RISK",bg:"rgba(192,122,26,0.2)",border:"#F5A623",text:"#F5A623",desc:"5–10% allocated — below Prosci minimum"},
-  red:{label:"CRITICAL GAP",bg:"rgba(139,32,32,0.2)",border:"#E05252",text:"#E05252",desc:"< 5% allocated — high risk of value loss"},
+  green:{label:"COMPLIANT",bg:"rgba(52,199,123,0.2)",border:"#5FE0A0",text:"#5FE0A0",desc:"≥ 10% allocated — meets Prosci minimum"},
+  amber:{label:"AT RISK",bg:"rgba(233,166,60,0.2)",border:"#F7C46B",text:"#F7C46B",desc:"5–10% allocated — below Prosci minimum"},
+  red:{label:"CRITICAL GAP",bg:"rgba(229,84,76,0.2)",border:"#F27B74",text:"#F27B74",desc:"< 5% allocated — high risk of value loss"},
 };
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -605,7 +611,7 @@ function pilotScore(a) {
   if(vals.every(v=>!v)) return null;
   const yes = vals.filter(v=>v==="yes").length;
   const total = vals.filter(v=>v).length;
-  return {score:yes,total,label:yes>=4?"LOW RISK":yes>=2?"PILOT TRAP RISK":"CRITICAL PILOT TRAP",color:yes>=4?"#4CAF80":yes>=2?"#F5A623":"#E05252"};
+  return {score:yes,total,label:yes>=4?"LOW RISK":yes>=2?"PILOT TRAP RISK":"CRITICAL PILOT TRAP",color:yes>=4?"#5FE0A0":yes>=2?"#F7C46B":"#F27B74"};
 }
 function profileComplete() { return profile.revenue&&profile.costBase&&profile.ebitda; }
 
@@ -624,9 +630,9 @@ function updateProfile() {
   const complete = profileComplete();
   const dot = document.getElementById("profileDot");
   const status = document.getElementById("profileStatus");
-  dot.style.background = complete?"#4CAF80":"#F5A623";
-  dot.style.boxShadow = complete?"0 0 6px #4CAF80":"0 0 6px #F5A623";
-  status.style.color = complete?"#4CAF80":"#F5A623";
+  dot.style.background = complete?"#5FE0A0":"#F7C46B";
+  dot.style.boxShadow = complete?"0 0 6px #5FE0A0":"0 0 6px #F7C46B";
+  status.style.color = complete?"#5FE0A0":"#F7C46B";
   status.textContent = complete?"COMPANY PROFILE ACTIVE":"STEP 1 — ENTER COMPANY PROFILE";
   const hint = document.getElementById("profileHint");
   if(hint) hint.style.display = complete?"none":"inline";
@@ -637,7 +643,7 @@ function updateProfile() {
     summary.innerHTML=[
       {l:"Company",v:profile.company||"—"},{l:"Industry",v:INDUSTRIES_LABELS[profile.industry]||"—"},
       {l:"Revenue",v:fmt(rev)},{l:"Cost Base",v:fmt(cost)},{l:"EBITDA",v:fmt(ebt)}
-    ].map(s=>`<div style="display:flex;gap:6px;align-items:baseline"><span style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">${s.l.toUpperCase()}</span><span style="font-size:12px;color:#E8EEF5;font-family:'Trebuchet MS',sans-serif;font-weight:600">${s.v}</span></div>`).join("");
+    ].map(s=>`<div style="display:flex;gap:6px;align-items:baseline"><span style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">${s.l.toUpperCase()}</span><span style="font-size:12px;color:#F6F9FD;font-family:'Trebuchet MS',sans-serif;font-weight:600">${s.v}</span></div>`).join("");
   } else { summary.style.display="none"; }
   renderBVF();
   renderAlignment();
@@ -651,7 +657,7 @@ function switchTab(i) {
   document.getElementById(`tab${i}`).classList.add("active");
   document.querySelectorAll(".tab-btn").forEach((b,j)=>{
     b.style.borderBottom = j===i?"2px solid #B87333":"2px solid transparent";
-    b.style.color = j===i?"#B87333":"#6B7E9A";
+    b.style.color = j===i?"#B87333":"#7688A0";
     b.style.fontWeight = j===i?"700":"400";
   });
   currentTab = i;
@@ -673,19 +679,19 @@ function renderBVF() {
     scorecardEl.style.display="block";
     document.getElementById("bvfScorecardTitle").textContent=`Total AI Value Potential — ${profile.company||"Your Enterprise"}`;
     document.getElementById("bvfScorecardCards").innerHTML=[
-      {l:"Revenue Uplift",lo:sc.rL,hi:sc.rH,col:"#4CAF80",base:rev,baseL:"revenue"},
-      {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#D4956A",base:cost,baseL:"cost base"},
+      {l:"Revenue Uplift",lo:sc.rL,hi:sc.rH,col:"#5FE0A0",base:rev,baseL:"revenue"},
+      {l:"Cost Reduction",lo:sc.cL,hi:sc.cH,col:"#D9A672",base:cost,baseL:"cost base"},
       {l:"Combined EBITDA Impact",lo:sc.totL,hi:sc.totH,col:"#B87333",base:ebt,baseL:"vs current EBITDA",bold:true},
     ].map(s=>`<div style="flex:1;min-width:150px;padding:12px 16px;background:${s.bold?"rgba(184,115,51,0.1)":"rgba(255,255,255,0.03)"};border:1px solid ${s.bold?"#B87333":"rgba(184,115,51,0.15)"};border-radius:3px">
-      <div style="font-size:9px;letter-spacing:1.5px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;margin-bottom:5px">${s.l.toUpperCase()}</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:${s.bold?"20":"17"}px;font-weight:700;color:${s.col};font-family:Georgia,serif">${s.lo>0?`${fmt(s.lo)} – ${fmt(s.hi)}`:"—"}</div>
-      ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#6B7E9A;margin-top:2px;font-family:'Trebuchet MS',sans-serif;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:""}
+      ${s.lo>0&&s.base>0?`<div style="font-size:10px;color:#7688A0;margin-top:2px;font-family:'Trebuchet MS',sans-serif;font-style:italic">${((s.lo/s.base)*100).toFixed(1)}–${((s.hi/s.base)*100).toFixed(1)}% of ${fmt(s.base)} ${s.baseL}</div>`:""}
     </div>`).join("");
   } else { scorecardEl.style.display="none"; }
 
   // Function buttons
   document.getElementById("fnButtons").innerHTML = FUNCTIONS.map(fn=>`
-    <button onclick="selectFn('${fn.id}')" id="fnBtn_${fn.id}" style="padding:7px 13px;background:${activeFn===fn.id?"linear-gradient(135deg,#B87333,#D4956A)":"rgba(255,255,255,0.04)"};border:${activeFn===fn.id?"none":"1px solid rgba(184,115,51,0.18)"};border-radius:3px;color:${activeFn===fn.id?"#FFFFFF":"#9BAEC8"};font-size:12px;font-family:'Trebuchet MS',sans-serif;font-weight:${activeFn===fn.id?"700":"400"};cursor:pointer">${fn.icon} ${fn.label}</button>
+    <button onclick="selectFn('${fn.id}')" id="fnBtn_${fn.id}" style="padding:7px 13px;background:${activeFn===fn.id?"linear-gradient(135deg,#B87333,#D9A672)":"rgba(255,255,255,0.04)"};border:${activeFn===fn.id?"none":"1px solid rgba(184,115,51,0.18)"};border-radius:3px;color:${activeFn===fn.id?"#FFFFFF":"#A7B6C9"};font-size:12px;font-family:'Trebuchet MS',sans-serif;font-weight:${activeFn===fn.id?"700":"400"};cursor:pointer">${fn.icon} ${fn.label}</button>
   `).join("");
 
   // Active function card
@@ -695,16 +701,16 @@ function renderBVF() {
     fnCard.style.display="flex";
     document.getElementById("bvfFnTitle").textContent=`${FUNCTIONS.find(f=>f.id===activeFn).icon} ${FUNCTIONS.find(f=>f.id===activeFn).label}`;
     let metrics="";
-    if(r.rev.hi>0&&rev>0) metrics+=`<div><div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">REVENUE UPLIFT</div><div style="font-size:15px;font-weight:700;color:#4CAF80;font-family:Georgia,serif">${fmt(rev*r.rev.lo)} – ${fmt(rev*r.rev.hi)}</div><div style="font-size:10px;color:#6B7E9A;font-style:italic;font-family:'Trebuchet MS',sans-serif">${(r.rev.lo*100).toFixed(1)}–${(r.rev.hi*100).toFixed(1)}% of ${fmt(rev)}</div></div>`;
-    if(r.cost.hi>0&&cost>0) metrics+=`<div><div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">COST REDUCTION</div><div style="font-size:15px;font-weight:700;color:#D4956A;font-family:Georgia,serif">${fmt(cost*r.cost.lo)} – ${fmt(cost*r.cost.hi)}</div><div style="font-size:10px;color:#6B7E9A;font-style:italic;font-family:'Trebuchet MS',sans-serif">${(r.cost.lo*100).toFixed(1)}–${(r.cost.hi*100).toFixed(1)}% of ${fmt(cost)}</div></div>`;
+    if(r.rev.hi>0&&rev>0) metrics+=`<div><div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">REVENUE UPLIFT</div><div style="font-size:15px;font-weight:700;color:#5FE0A0;font-family:Georgia,serif">${fmt(rev*r.rev.lo)} – ${fmt(rev*r.rev.hi)}</div><div style="font-size:10px;color:#7688A0;font-style:italic;font-family:'Trebuchet MS',sans-serif">${(r.rev.lo*100).toFixed(1)}–${(r.rev.hi*100).toFixed(1)}% of ${fmt(rev)}</div></div>`;
+    if(r.cost.hi>0&&cost>0) metrics+=`<div><div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">COST REDUCTION</div><div style="font-size:15px;font-weight:700;color:#D9A672;font-family:Georgia,serif">${fmt(cost*r.cost.lo)} – ${fmt(cost*r.cost.hi)}</div><div style="font-size:10px;color:#7688A0;font-style:italic;font-family:'Trebuchet MS',sans-serif">${(r.cost.lo*100).toFixed(1)}–${(r.cost.hi*100).toFixed(1)}% of ${fmt(cost)}</div></div>`;
     document.getElementById("bvfFnMetrics").innerHTML=metrics;
   } else { fnCard.style.display="none"; }
 
   // Layer buttons
   document.getElementById("layerButtons").innerHTML = LAYERS.map((layer,i)=>`
-    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?"linear-gradient(135deg,#B87333,#D4956A)":"rgba(255,255,255,0.09)"):"rgba(255,255,255,0.03)"};border:1px solid ${activeLayer===layer.id?"#B87333":"rgba(184,115,51,0.12)"};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
+    <button onclick="selectLayer('${layer.id}')" style="padding:10px;background:${activeLayer===layer.id?(i===4?"linear-gradient(135deg,#B87333,#D9A672)":"rgba(255,255,255,0.09)"):"rgba(255,255,255,0.03)"};border:1px solid ${activeLayer===layer.id?"#B87333":"rgba(184,115,51,0.12)"};border-radius:3px;cursor:pointer;text-align:left;min-height:58px;display:flex;flex-direction:column;justify-content:center">
       <div style="font-size:8px;letter-spacing:1.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;margin-bottom:3px">${layer.note}</div>
-      <div style="font-size:11px;font-weight:700;font-family:'Trebuchet MS',sans-serif;color:#E8EEF5;line-height:1.3">${layer.label}</div>
+      <div style="font-size:11px;font-weight:700;font-family:'Trebuchet MS',sans-serif;color:#F6F9FD;line-height:1.3">${layer.label}</div>
     </button>
   `).join("");
 
@@ -716,11 +722,11 @@ function renderBVF() {
     if(isActive&&isLast) {
       extra=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(184,115,51,0.2)">
         <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:6px;text-transform:uppercase">Value Drivers · ${FUNCTIONS.find(f=>f.id===activeFn).label}</div>
-        ${r.drivers.map(d=>`<div style="display:flex;gap:8px;margin-bottom:5px"><span style="color:#B87333;font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:12px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.5">${d}</span></div>`).join("")}
+        ${r.drivers.map(d=>`<div style="display:flex;gap:8px;margin-bottom:5px"><span style="color:#B87333;font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:12px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.5">${d}</span></div>`).join("")}
       </div>`;
     }
     return `<div onclick="selectLayer('${layer.id}')" style="padding:14px 18px;background:${isActive?(isLast?"rgba(184,115,51,0.1)":"rgba(255,255,255,0.06)"):"rgba(255,255,255,0.02)"};border:1px solid ${isActive?"#B87333":"rgba(184,115,51,0.1)"};border-left:${isLast?"4px solid #B87333":isActive?"4px solid rgba(184,115,51,0.5)":"4px solid rgba(184,115,51,0.1)"};border-radius:3px;cursor:pointer;min-height:58px">
-      <div style="font-size:13px;font-weight:600;color:#E8EEF5;font-family:'Trebuchet MS',sans-serif;line-height:1.45">${cell.c}</div>
+      <div style="font-size:13px;font-weight:600;color:#F6F9FD;font-family:'Trebuchet MS',sans-serif;line-height:1.45">${cell.c}</div>
       ${extra}
     </div>`;
   }).join("");
@@ -760,9 +766,9 @@ function renderPortfolio() {
       const bud=initiatives.filter(i=>i.tier===t.id).reduce((s,i)=>s+parseNum(i.budget),0);
       return `<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-top:3px solid ${t.color};border-radius:3px">
         <div style="font-size:9px;letter-spacing:1.5px;color:${t.color};font-family:'Trebuchet MS',sans-serif;font-weight:700;margin-bottom:5px">${t.short}</div>
-        <div style="font-size:18px;font-weight:700;color:#E8EEF5;font-family:Georgia,serif">${count} <span style="font-size:11px;color:#6B7E9A;font-weight:400">initiatives</span></div>
-        <div style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif">${fmt(bud)}</div>
-        <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:3px">${t.desc}</div>
+        <div style="font-size:18px;font-weight:700;color:#F6F9FD;font-family:Georgia,serif">${count} <span style="font-size:11px;color:#7688A0;font-weight:400">initiatives</span></div>
+        <div style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif">${fmt(bud)}</div>
+        <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:3px">${t.desc}</div>
       </div>`;
     }).join("");
   } else { tierCards.style.display="none"; }
@@ -782,19 +788,19 @@ function renderPortfolio() {
         const fn=FUNCTIONS.find(f=>f.id===init.fn);
         const tier=AI_TIERS.find(t=>t.id===init.tier);
         const ps=pilotScore(init.pilotAnswers);
-        const riskCol=init.risk==="Low"?"#4CAF80":init.risk==="High"?"#E05252":"#F5A623";
+        const riskCol=init.risk==="Low"?"#5FE0A0":init.risk==="High"?"#F27B74":"#F7C46B";
         return `<tr>
-          <td style="color:#E8EEF5;font-weight:600;max-width:150px;font-size:12px">${init.name||"—"}</td>
-          <td style="color:#9BAEC8;white-space:nowrap">${fn?.icon} ${fn?.label}</td>
+          <td style="color:#F6F9FD;font-weight:600;max-width:150px;font-size:12px">${init.name||"—"}</td>
+          <td style="color:#A7B6C9;white-space:nowrap">${fn?.icon} ${fn?.label}</td>
           <td style="white-space:nowrap">${tier?`<span style="color:${tier.color};font-weight:700;font-size:11px">${tier.short}</span>`:"—"}</td>
-          <td style="color:#E8EEF5;white-space:nowrap">${fmt(bud)}</td>
-          <td style="color:#6B7E9A;white-space:nowrap">${rev>0?pct(bud,rev):"—"}</td>
-          <td style="color:#E8EEF5;white-space:nowrap">${fmt(cm)}</td>
+          <td style="color:#F6F9FD;white-space:nowrap">${fmt(bud)}</td>
+          <td style="color:#7688A0;white-space:nowrap">${rev>0?pct(bud,rev):"—"}</td>
+          <td style="color:#F6F9FD;white-space:nowrap">${fmt(cm)}</td>
           <td style="white-space:nowrap">${rc?`<span class="rag-badge" style="background:${rc.bg};color:${rc.text};border:1px solid ${rc.border}">${pct(cm,bud)}</span>`:"—"}</td>
-          <td style="color:#9BAEC8;white-space:nowrap">${init.horizon}</td>
-          <td style="color:#9BAEC8">${init.owner||"—"}</td>
+          <td style="color:#A7B6C9;white-space:nowrap">${init.horizon}</td>
+          <td style="color:#A7B6C9">${init.owner||"—"}</td>
           <td style="white-space:nowrap"><span style="color:${riskCol};font-weight:700">${init.risk}</span></td>
-          <td style="white-space:nowrap">${ps?`<span style="color:${ps.color};font-size:10px;font-weight:700">${ps.score}/${ps.total}</span>`:`<span style="color:#6B7E9A;font-size:10px">—</span>`}</td>
+          <td style="white-space:nowrap">${ps?`<span style="color:${ps.color};font-size:10px;font-weight:700">${ps.score}/${ps.total}</span>`:`<span style="color:#7688A0;font-size:10px">—</span>`}</td>
           <td style="white-space:nowrap"><button class="btn-sec btn-sm" onclick="editInit('${init.id}')">Edit</button> <button class="btn-ghost btn-sm" onclick="removeInit('${init.id}')" style="padding:4px 10px;font-size:11px">✕</button></td>
         </tr>`;
       }).join("")}</tbody>
@@ -805,13 +811,13 @@ function renderPortfolio() {
     totals.style.display="flex";
     totals.innerHTML=[
       {l:"Total AI Investment",v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:"",col:"#B87333"},
-      {l:"Total CM Allocated",v:fmt(totCM),sub:`${pct(totCM,totBudget)} of portfolio`,col:totBudget>0&&totCM/totBudget>=.10?"#4CAF80":totCM/totBudget>=.05?"#F5A623":"#E05252"},
+      {l:"Total CM Allocated",v:fmt(totCM),sub:`${pct(totCM,totBudget)} of portfolio`,col:totBudget>0&&totCM/totBudget>=.10?"#5FE0A0":totCM/totBudget>=.05?"#F7C46B":"#F27B74"},
       {l:"Gen 3 Agentic Share",v:totBudget>0?pct(gen3bud,totBudget):"—",sub:"of portfolio budget",col:"#8B5CF6"},
-      {l:"Pilot Trap Issues",v:pilotIssues||"—",sub:"initiatives with <2 readiness indicators",col:"#F5A623"},
+      {l:"Pilot Trap Issues",v:pilotIssues||"—",sub:"initiatives with <2 readiness indicators",col:"#F7C46B"},
     ].map(s=>`<div style="flex:1;min-width:130px;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(184,115,51,0.18);border-radius:3px">
-      <div style="font-size:9px;letter-spacing:1.5px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;margin-bottom:5px">${s.l.toUpperCase()}</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;margin-bottom:5px">${s.l.toUpperCase()}</div>
       <div style="font-size:18px;font-weight:700;color:${s.col};font-family:Georgia,serif">${s.v}</div>
-      ${s.sub?`<div style="font-size:10px;color:#6B7E9A;margin-top:2px;font-family:'Trebuchet MS',sans-serif;font-style:italic">${s.sub}</div>`:""}
+      ${s.sub?`<div style="font-size:10px;color:#7688A0;margin-top:2px;font-family:'Trebuchet MS',sans-serif;font-style:italic">${s.sub}</div>`:""}
     </div>`).join("");
   }
 
@@ -890,7 +896,7 @@ function updateCMHint() {
   const hint=document.getElementById("cmHint");
   if(bud>0&&cm>0) {
     const p=cm/bud;
-    const col=p>=.10?"#4CAF80":p>=.05?"#F5A623":"#E05252";
+    const col=p>=.10?"#5FE0A0":p>=.05?"#F7C46B":"#F27B74";
     const label=p>=.10?"✓ Prosci compliant":p>=.05?"⚠ Below minimum":"✗ Critical gap";
     hint.textContent=`${(p*100).toFixed(1)}% ${label}`;
     hint.style.color=col;
@@ -904,9 +910,9 @@ function togglePilot() {
 function renderPilotQuestions() {
   document.getElementById("pilotQuestions").innerHTML=PILOT_QS.map(q=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
-      <span style="font-size:12px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;flex:1;padding-right:16px">${q.q}</span>
+      <span style="font-size:12px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;flex:1;padding-right:16px">${q.q}</span>
       <div style="display:flex;gap:6px;flex-shrink:0">
-        ${["yes","no","partial"].map(v=>`<button onclick="setPilot('${q.key}','${v}')" id="pq_${q.key}_${v}" style="padding:4px 10px;background:${pilotAnswers[q.key]===v?(v==="yes"?"#2E7D52":v==="no"?"#8B2020":"#C07A1A"):"rgba(255,255,255,0.05)"};border:none;border-radius:2px;color:white;font-size:10px;font-family:'Trebuchet MS',sans-serif;cursor:pointer;font-weight:${pilotAnswers[q.key]===v?"700":"400"}">${v}</button>`).join("")}
+        ${["yes","no","partial"].map(v=>`<button onclick="setPilot('${q.key}','${v}')" id="pq_${q.key}_${v}" style="padding:4px 10px;background:${pilotAnswers[q.key]===v?(v==="yes"?"#34C77B":v==="no"?"#E5544C":"#E9A63C"):"rgba(255,255,255,0.05)"};border:none;border-radius:2px;color:white;font-size:10px;font-family:'Trebuchet MS',sans-serif;cursor:pointer;font-weight:${pilotAnswers[q.key]===v?"700":"400"}">${v}</button>`).join("")}
       </div>
     </div>
   `).join("");
@@ -918,7 +924,7 @@ function updatePilotResult() {
   const el=document.getElementById("pilotResult");
   if(ps) {
     el.style.display="flex";
-    el.innerHTML=`<span style="font-size:13px;font-weight:700;color:${ps.color};font-family:'Trebuchet MS',sans-serif">${ps.label}</span><span style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif">${ps.score}/${ps.total} readiness indicators met</span>`;
+    el.innerHTML=`<span style="font-size:13px;font-weight:700;color:${ps.color};font-family:'Trebuchet MS',sans-serif">${ps.label}</span><span style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif">${ps.score}/${ps.total} readiness indicators met</span>`;
   } else { el.style.display="none"; }
 }
 
@@ -940,7 +946,7 @@ function renderCM() {
   if(rc) {
     const banner=document.getElementById("cmRagBanner");
     banner.style.background=rc.bg; banner.style.border=`1px solid ${rc.border}`;
-    banner.innerHTML=`<div style="font-size:24px;font-weight:700;color:${rc.text};font-family:'Trebuchet MS',sans-serif">${rc.label}</div><div style="flex:1"><div style="font-size:13px;color:#E8EEF5;font-family:'Trebuchet MS',sans-serif;margin-bottom:2px">${rc.desc}</div><div style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic">Portfolio CM: ${cmPct.toFixed(1)}% · Prosci min: 10% · Recommended: 15%${rev>0?` · Gap = ${pct(gapLow,rev)}–${pct(gapHigh,rev)} of revenue`:""}</div></div>`;
+    banner.innerHTML=`<div style="font-size:24px;font-weight:700;color:${rc.text};font-family:'Trebuchet MS',sans-serif">${rc.label}</div><div style="flex:1"><div style="font-size:13px;color:#F6F9FD;font-family:'Trebuchet MS',sans-serif;margin-bottom:2px">${rc.desc}</div><div style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic">Portfolio CM: ${cmPct.toFixed(1)}% · Prosci min: 10% · Recommended: 15%${rev>0?` · Gap = ${pct(gapLow,rev)}–${pct(gapHigh,rev)} of revenue`:""}</div></div>`;
   }
   const cmBar=document.getElementById("cmBar");
   cmBar.style.width=barW+"%";
@@ -949,15 +955,15 @@ function renderCM() {
 
   document.getElementById("cmMetrics").innerHTML=[
     {l:"Total AI Portfolio",v:fmt(totBudget),sub:rev>0?`${pct(totBudget,rev)} of revenue`:"",col:"#B87333"},
-    {l:"CM Allocated",v:fmt(totCM),sub:`${cmPct.toFixed(1)}% of portfolio`,col:cmPct>=10?"#4CAF80":cmPct>=5?"#F5A623":"#E05252"},
-    {l:"Prosci Minimum (10%)",v:fmt(prosciLow),col:"#F5A623"},
-    {l:"Prosci Recommended (15%)",v:fmt(prosciHigh),col:"#4CAF80"},
-    {l:"Gap to Minimum",v:gapLow>0?fmt(gapLow):"✓ Met",col:gapLow>0?"#E05252":"#4CAF80"},
-    {l:"Gap to Recommended",v:gapHigh>0?fmt(gapHigh):"✓ Met",col:gapHigh>0?"#F5A623":"#4CAF80"},
+    {l:"CM Allocated",v:fmt(totCM),sub:`${cmPct.toFixed(1)}% of portfolio`,col:cmPct>=10?"#5FE0A0":cmPct>=5?"#F7C46B":"#F27B74"},
+    {l:"Prosci Minimum (10%)",v:fmt(prosciLow),col:"#F7C46B"},
+    {l:"Prosci Recommended (15%)",v:fmt(prosciHigh),col:"#5FE0A0"},
+    {l:"Gap to Minimum",v:gapLow>0?fmt(gapLow):"✓ Met",col:gapLow>0?"#F27B74":"#5FE0A0"},
+    {l:"Gap to Recommended",v:gapHigh>0?fmt(gapHigh):"✓ Met",col:gapHigh>0?"#F7C46B":"#5FE0A0"},
   ].map(s=>`<div style="padding:14px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.15);border-radius:3px">
-    <div style="font-size:9px;letter-spacing:1.5px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;margin-bottom:6px">${s.l.toUpperCase()}</div>
+    <div style="font-size:9px;letter-spacing:1.5px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;margin-bottom:6px">${s.l.toUpperCase()}</div>
     <div style="font-size:17px;font-weight:700;color:${s.col};font-family:Georgia,serif;margin-bottom:2px">${s.v}</div>
-    ${s.sub?`<div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic">${s.sub}</div>`:""}
+    ${s.sub?`<div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic">${s.sub}</div>`:""}
   </div>`).join("");
 
   document.getElementById("cmInitList").innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:10px;text-transform:uppercase">Initiative-Level CM Status</div>`+
@@ -972,18 +978,18 @@ function renderCM() {
     return `<div style="padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.12);border-left:4px solid ${irc?irc.border:"rgba(184,115,51,0.2)"};border-radius:3px;margin-bottom:7px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px">
         <div>
-          <div style="font-size:12px;font-weight:700;color:#E8EEF5;font-family:'Trebuchet MS',sans-serif">${init.name||"Unnamed"}</div>
-          <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;margin-top:2px">${fn?.icon} ${fn?.label}${tier?`<span style="color:${tier.color}"> · ${tier.short}</span>`:""} · ${init.horizon}</div>
+          <div style="font-size:12px;font-weight:700;color:#F6F9FD;font-family:'Trebuchet MS',sans-serif">${init.name||"Unnamed"}</div>
+          <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;margin-top:2px">${fn?.icon} ${fn?.label}${tier?`<span style="color:${tier.color}"> · ${tier.short}</span>`:""} · ${init.horizon}</div>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <div style="text-align:right"><div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif">Budget</div><div style="font-size:13px;font-weight:700;color:#B87333;font-family:Georgia,serif">${fmt(bud)}</div></div>
-          <div style="text-align:right"><div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif">CM</div><div style="font-size:13px;font-weight:700;color:${irc?.text||"#6B7E9A"};font-family:Georgia,serif">${fmt(cm)}</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif">Budget</div><div style="font-size:13px;font-weight:700;color:#B87333;font-family:Georgia,serif">${fmt(bud)}</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif">CM</div><div style="font-size:13px;font-weight:700;color:${irc?.text||"#7688A0"};font-family:Georgia,serif">${fmt(cm)}</div></div>
           ${irc?`<span class="rag-badge" style="background:${irc.bg};color:${irc.text};border:1px solid ${irc.border}">${irc.label}</span>`:""}
           ${ps?`<span class="rag-badge" style="background:rgba(0,0,0,0.2);color:${ps.color};border:1px solid ${ps.color}">PILOT ${ps.label}</span>`:""}
         </div>
       </div>
-      ${bud>0?`<div style="height:4px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden"><div style="height:100%;width:${iBarW}%;background:${irc?irc.border:"#6B7E9A"};border-radius:3px"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:3px;font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif"><span>CM: ${p2.toFixed(1)}%</span>${cm<bud*.10?`<span style="color:#E05252">Gap to 10%: ${fmt(bud*.10-cm)}</span>`:cm>=bud*.15?`<span style="color:#4CAF80">✓ Recommended met</span>`:""}</div>`:""}
+      ${bud>0?`<div style="height:4px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden"><div style="height:100%;width:${iBarW}%;background:${irc?irc.border:"#7688A0"};border-radius:3px"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:3px;font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif"><span>CM: ${p2.toFixed(1)}%</span>${cm<bud*.10?`<span style="color:#F27B74">Gap to 10%: ${fmt(bud*.10-cm)}</span>`:cm>=bud*.15?`<span style="color:#5FE0A0">✓ Recommended met</span>`:""}</div>`:""}
     </div>`;
   }).join("");
 }
@@ -994,8 +1000,8 @@ function renderRegulatory() {
   // Toggles
   document.getElementById("regToggles").innerHTML=REG_FRAMEWORKS.map(r=>`
     <button onclick="toggleReg('${r.id}')" style="padding:10px 16px;background:${selectedRegs.includes(r.id)?`rgba(${r.id==="euai"?"224,82,82":r.id==="dora"?"245,166,35":r.id==="csrd"?"76,175,128":"139,92,246"},0.15)`:"rgba(255,255,255,0.04)"};border:1px solid ${selectedRegs.includes(r.id)?r.color:"rgba(255,255,255,0.1)"};border-radius:3px;cursor:pointer;text-align:left">
-      <div style="font-size:11px;font-weight:700;color:${selectedRegs.includes(r.id)?r.color:"#6B7E9A"};font-family:'Trebuchet MS',sans-serif">${r.icon} ${r.label}</div>
-      <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;margin-top:2px">${r.risk} · ${r.timeline}</div>
+      <div style="font-size:11px;font-weight:700;color:${selectedRegs.includes(r.id)?r.color:"#7688A0"};font-family:'Trebuchet MS',sans-serif">${r.icon} ${r.label}</div>
+      <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;margin-top:2px">${r.risk} · ${r.timeline}</div>
     </button>
   `).join("");
 
@@ -1009,14 +1015,14 @@ function renderRegulatory() {
     costBanner.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:8px;text-transform:uppercase">Estimated Regulatory Compliance Investment${profile.company?` — ${profile.company}`:""}</div>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
       <div style="flex:1;min-width:160px;padding:12px 16px;background:rgba(184,115,51,0.08);border:1px solid #B87333;border-radius:3px">
-        <div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;letter-spacing:1.5px;margin-bottom:5px">TOTAL COMPLIANCE COST RANGE</div>
+        <div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;letter-spacing:1.5px;margin-bottom:5px">TOTAL COMPLIANCE COST RANGE</div>
         <div style="font-size:22px;font-weight:700;color:#B87333;font-family:Georgia,serif">${fmt(totalLo)} – ${fmt(totalHi)}</div>
-        <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
+        <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:3px">${((totalLo/rev)*100).toFixed(2)}–${((totalHi/rev)*100).toFixed(2)}% of ${fmt(rev)} revenue</div>
       </div>
       ${activeRegs.map(r=>`<div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(255,255,255,0.03);border-top:3px solid ${r.color};border-radius:3px">
         <div style="font-size:9px;color:${r.color};font-family:'Trebuchet MS',sans-serif;font-weight:700;letter-spacing:1px;margin-bottom:5px">${r.shortLabel}</div>
-        <div style="font-size:17px;font-weight:700;color:#E8EEF5;font-family:Georgia,serif">${fmt(rev*r.costRange.lo)}–${fmt(rev*r.costRange.hi)}</div>
-        <div style="font-size:10px;color:#6B7E9A;margin-top:2px;font-family:'Trebuchet MS',sans-serif;font-style:italic">${(r.costRange.lo*100).toFixed(2)}–${(r.costRange.hi*100).toFixed(2)}% of rev</div>
+        <div style="font-size:17px;font-weight:700;color:#F6F9FD;font-family:Georgia,serif">${fmt(rev*r.costRange.lo)}–${fmt(rev*r.costRange.hi)}</div>
+        <div style="font-size:10px;color:#7688A0;margin-top:2px;font-family:'Trebuchet MS',sans-serif;font-style:italic">${(r.costRange.lo*100).toFixed(2)}–${(r.costRange.hi*100).toFixed(2)}% of rev</div>
       </div>`).join("")}
     </div>`;
     document.getElementById("regNoCost").style.display="none";
@@ -1029,21 +1035,21 @@ function renderRegulatory() {
     <div style="padding:18px 22px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-left:4px solid ${r.color};border-radius:3px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div>
-          <div style="font-size:14px;font-weight:700;color:#E8EEF5;font-family:'Trebuchet MS',sans-serif">${r.icon} ${r.label} — ${r.risk}</div>
-          <div style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;margin-top:2px">Effective: ${r.timeline}</div>
+          <div style="font-size:14px;font-weight:700;color:#F6F9FD;font-family:'Trebuchet MS',sans-serif">${r.icon} ${r.label} — ${r.risk}</div>
+          <div style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;margin-top:2px">Effective: ${r.timeline}</div>
         </div>
-        ${rev>0?`<div style="text-align:right"><div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif">Estimated Cost</div><div style="font-size:16px;font-weight:700;color:${r.color};font-family:Georgia,serif">${fmt(rev*r.costRange.lo)} – ${fmt(rev*r.costRange.hi)}</div></div>`:""}
+        ${rev>0?`<div style="text-align:right"><div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif">Estimated Cost</div><div style="font-size:16px;font-weight:700;color:${r.color};font-family:Georgia,serif">${fmt(rev*r.costRange.lo)} – ${fmt(rev*r.costRange.hi)}</div></div>`:""}
       </div>
-      <p style="margin:0 0 10px;font-size:12px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.6">${r.desc}</p>
+      <p style="margin:0 0 10px;font-size:12px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.6">${r.desc}</p>
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:4px;text-transform:uppercase">Key Obligations</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:5px;margin-bottom:8px">
-        ${r.obligations.map(o=>`<div style="display:flex;gap:7px;padding:5px 0"><span style="color:${r.color};font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:11px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif;line-height:1.5">${o}</span></div>`).join("")}
+        ${r.obligations.map(o=>`<div style="display:flex;gap:7px;padding:5px 0"><span style="color:${r.color};font-size:9px;margin-top:3px;flex-shrink:0">◆</span><span style="font-size:11px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif;line-height:1.5">${o}</span></div>`).join("")}
       </div>
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:4px;text-transform:uppercase">Cost Drivers</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-        ${r.costDrivers.map(d=>`<span style="padding:3px 9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:2px;font-size:10px;color:#9BAEC8;font-family:'Trebuchet MS',sans-serif">${d}</span>`).join("")}
+        ${r.costDrivers.map(d=>`<span style="padding:3px 9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:2px;font-size:10px;color:#A7B6C9;font-family:'Trebuchet MS',sans-serif">${d}</span>`).join("")}
       </div>
-      <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic">Source: ${r.source}</div>
+      <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic">Source: ${r.source}</div>
     </div>
   `).join("");
 }
@@ -1076,23 +1082,23 @@ function renderAlignment() {
     <div style="padding:16px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #B87333;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Value Potential</div>
       ${complete?`<div style="font-size:20px;font-weight:700;color:#B87333;font-family:Georgia,serif;margin-bottom:4px">${fmt(sc.totL)} – ${fmt(sc.totH)}</div>
-      <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
-      ${[{l:"Revenue uplift",lo:sc.rL,hi:sc.rH,col:"#4CAF80"},{l:"Cost reduction",lo:sc.cL,hi:sc.cH,col:"#D4956A"}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col};font-family:'Trebuchet MS',sans-serif">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:"—"}</span></div>`).join("")}`
-      :`<div style="font-size:12px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
+      <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-bottom:10px">Combined annual EBITDA impact</div>
+      ${[{l:"Revenue uplift",lo:sc.rL,hi:sc.rH,col:"#5FE0A0"},{l:"Cost reduction",lo:sc.cL,hi:sc.cH,col:"#D9A672"}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col};font-family:'Trebuchet MS',sans-serif">${s.lo>0?`${fmt(s.lo)}–${fmt(s.hi)}`:"—"}</span></div>`).join("")}`
+      :`<div style="font-size:12px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:8px">Enter financials in Company Profile</div>`}
     </div>
-    <div style="padding:16px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||"#6B7E9A"};border-radius:3px">
+    <div style="padding:16px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.2);border-top:3px solid ${rc?.border||"#7688A0"};border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:6px;text-transform:uppercase">Portfolio Health</div>
-      ${initiatives.length>0?`<div style="font-size:20px;font-weight:700;color:${rc?.text||"#6B7E9A"};font-family:Georgia,serif;margin-bottom:4px">${rc?.label||"—"}</div>
-      <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
-      ${[{l:"Total investment",v:fmt(totBudget)},{l:"CM allocated",v:fmt(totCM)},{l:"Initiatives",v:initiatives.length},{l:"Pilot trap risk",v:pilotRisk>0?`${pilotRisk} flagged`:"None flagged",col:pilotRisk>0?"#F5A623":"#4CAF80"}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||"#E8EEF5"};font-family:'Trebuchet MS',sans-serif">${s.v}</span></div>`).join("")}`
-      :`<div style="font-size:12px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
+      ${initiatives.length>0?`<div style="font-size:20px;font-weight:700;color:${rc?.text||"#7688A0"};font-family:Georgia,serif;margin-bottom:4px">${rc?.label||"—"}</div>
+      <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-bottom:10px">CM rate: ${cmPct.toFixed(1)}% · Prosci min: 10%</div>
+      ${[{l:"Total investment",v:fmt(totBudget)},{l:"CM allocated",v:fmt(totCM)},{l:"Initiatives",v:initiatives.length},{l:"Pilot trap risk",v:pilotRisk>0?`${pilotRisk} flagged`:"None flagged",col:pilotRisk>0?"#F7C46B":"#5FE0A0"}].map(s=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif">${s.l}</span><span style="font-size:11px;font-weight:700;color:${s.col||"#F6F9FD"};font-family:'Trebuchet MS',sans-serif">${s.v}</span></div>`).join("")}`
+      :`<div style="font-size:12px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
     <div style="padding:16px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(184,115,51,0.2);border-top:3px solid #8B5CF6;border-radius:3px">
       <div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:6px;text-transform:uppercase">AI Generation Mix</div>
       ${initiatives.length>0?`<div style="font-size:20px;font-weight:700;color:#8B5CF6;font-family:Georgia,serif;margin-bottom:4px">${tierCounts.find(t=>t.id==="gen3")?.pct||0}% Agentic</div>
-      <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
-      ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-family:'Trebuchet MS',sans-serif;font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;width:28px;text-align:right">${t.pct}%</span></div></div>`).join("")}`
-      :`<div style="font-size:12px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
+      <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-bottom:10px">Gen 3 share of portfolio</div>
+      ${tierCounts.map(t=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center"><span style="font-size:11px;color:${t.color};font-family:'Trebuchet MS',sans-serif;font-weight:700">${t.short}</span><div style="display:flex;gap:8px;align-items:center"><div style="width:60px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden"><div style="height:100%;width:${t.pct}%;background:${t.color};border-radius:2px"></div></div><span style="font-size:11px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;width:28px;text-align:right">${t.pct}%</span></div></div>`).join("")}`
+      :`<div style="font-size:12px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:8px">Add initiatives in Portfolio tab</div>`}
     </div>
   `;
 
@@ -1103,9 +1109,9 @@ function renderAlignment() {
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       ${topFns.map((fn,i)=>{const r=rates[fn.id];const lo=(rev*r.rev.lo+cost*r.cost.lo+ebt*r.ebt.lo);const hi=(rev*r.rev.hi+cost*r.cost.hi+ebt*r.ebt.hi);return`<div style="flex:1;min-width:140px;padding:12px 14px;background:${i===0?"rgba(184,115,51,0.08)":"rgba(255,255,255,0.03)"};border:1px solid ${i===0?"#B87333":"rgba(184,115,51,0.15)"};border-radius:3px">
         <div style="font-size:9px;letter-spacing:1.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;margin-bottom:5px">#${i+1} PRIORITY</div>
-        <div style="font-size:14px;font-weight:700;color:#E8EEF5;font-family:'Trebuchet MS',sans-serif;margin-bottom:4px">${fn.icon} ${fn.label}</div>
+        <div style="font-size:14px;font-weight:700;color:#F6F9FD;font-family:'Trebuchet MS',sans-serif;margin-bottom:4px">${fn.icon} ${fn.label}</div>
         <div style="font-size:15px;font-weight:700;color:#B87333;font-family:Georgia,serif">${fmt(lo)} – ${fmt(hi)}</div>
-        <div style="font-size:10px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:2px">estimated annual impact</div>
+        <div style="font-size:10px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;font-style:italic;margin-top:2px">estimated annual impact</div>
       </div>`;}).join("")}
     </div>`;
   } else { topFnsEl.style.display="none"; }
@@ -1115,12 +1121,12 @@ function renderAlignment() {
     amInvEl.style.display="block";
     amInvEl.innerHTML=`<div style="font-size:9px;letter-spacing:2.5px;color:#B87333;font-family:'Trebuchet MS',sans-serif;font-weight:600;margin-bottom:8px;text-transform:uppercase">Investment vs Value Potential</div>
     <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
-      <div style="text-align:center"><div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:#B87333;font-family:Georgia,serif">${fmt(totBudget)}</div></div>
-      <div style="font-size:24px;color:#6B7E9A">→</div>
-      <div style="text-align:center"><div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:Georgia,serif">${fmt(sc.totL)}</div></div>
-      <div style="font-size:24px;color:#6B7E9A">→</div>
-      <div style="text-align:center"><div style="font-size:9px;color:#6B7E9A;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#4CAF80;font-family:Georgia,serif">${fmt(sc.totH)}</div></div>
-      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(76,175,128,0.08);border:1px solid #4CAF80;border-radius:3px;text-align:center"><div style="font-size:9px;color:#4CAF80;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#4CAF80;font-family:Georgia,serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
+      <div style="text-align:center"><div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">AI INVESTMENT</div><div style="font-size:22px;font-weight:700;color:#B87333;font-family:Georgia,serif">${fmt(totBudget)}</div></div>
+      <div style="font-size:24px;color:#7688A0">→</div>
+      <div style="text-align:center"><div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">VALUE POTENTIAL (LOW)</div><div style="font-size:22px;font-weight:700;color:#5FE0A0;font-family:Georgia,serif">${fmt(sc.totL)}</div></div>
+      <div style="font-size:24px;color:#7688A0">→</div>
+      <div style="text-align:center"><div style="font-size:9px;color:#7688A0;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px">VALUE POTENTIAL (HIGH)</div><div style="font-size:22px;font-weight:700;color:#5FE0A0;font-family:Georgia,serif">${fmt(sc.totH)}</div></div>
+      <div style="flex:1;min-width:130px;padding:10px 14px;background:rgba(95,224,160,0.08);border:1px solid #5FE0A0;border-radius:3px;text-align:center"><div style="font-size:9px;color:#5FE0A0;font-family:'Trebuchet MS',sans-serif;letter-spacing:1px;margin-bottom:3px">INDICATIVE ROI RANGE</div><div style="font-size:18px;font-weight:700;color:#5FE0A0;font-family:Georgia,serif">${(sc.totL/totBudget).toFixed(1)}× – ${(sc.totH/totBudget).toFixed(1)}×</div></div>
     </div>`;
   } else { amInvEl.style.display="none"; }
 }
