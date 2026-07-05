@@ -1,10 +1,20 @@
 {
   "name": "aibvf-check",
   "version": "0.1.0",
-  "description": "SonarQube for AI initiatives — a CI/CD pre-flight gate that fails the build when an AI initiative would not survive a board review. Deterministic, runs on AI BVF v1.0.",
+  "description": "SonarQube for AI initiatives \u2014 a CI/CD pre-flight gate that fails the build when an AI initiative would not survive a board review. Deterministic, runs on AI BVF v1.0.",
   "keywords": [
-    "ai-bvf", "bvf", "ci", "ci-cd", "pre-flight", "gate", "ai-governance",
-    "ai-roi", "policy", "eu-ai-act", "github-action", "sonarqube-for-ai"
+    "ai-bvf",
+    "bvf",
+    "ci",
+    "ci-cd",
+    "pre-flight",
+    "gate",
+    "ai-governance",
+    "ai-roi",
+    "policy",
+    "eu-ai-act",
+    "github-action",
+    "sonarqube-for-ai"
   ],
   "homepage": "https://www.aibvf.com/protocol",
   "repository": "github:Bahamas1717/ai-bvf",
@@ -15,7 +25,11 @@
   "bin": {
     "aibvf-check": "dist/cli.js"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('dist/cli.js', 0o755)\"",
     "test": "node --test dist/*.test.js"
@@ -24,7 +38,7 @@
     "@aibvf/core": "^0.3.4"
   },
   "devDependencies": {
-    "typescript": "^5.4.0",
-    "@types/node": "^20.0.0"
+    "typescript": "^6.0.3",
+    "@types/node": "^26.1.0"
   }
 }
