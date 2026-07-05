@@ -1,7 +1,7 @@
 {
   "name": "aibvf-mcp",
   "mcpName": "io.github.Bahamas1717/aibvf-mcp",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "AI BVF: score AI portfolios Stop/Fix/Accelerate with decision confidence and pace-layer drag.",
   "keywords": [
     "mcp",
@@ -44,5 +44,11 @@
   "devDependencies": {
     "typescript": "^5.4.0",
     "@types/node": "^20.0.0"
+  },
+  "exports": {
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    }
   }
 }

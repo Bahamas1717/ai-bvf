@@ -2,7 +2,7 @@
   "name": "ai-bvf",
   "private": true,
   "version": "0.1.0",
-  "description": "AI BVF monorepo — open protocol for scoring AI investments",
+  "description": "AI BVF monorepo \u2014 open protocol for scoring AI investments",
   "workspaces": [
     "packages/js",
     "packages/mcp",
@@ -19,5 +19,9 @@
     "fast-uri": "^3.1.2",
     "hono": "^4.12.25",
     "ip-address": "^10.2.0"
+  },
+  "dependencies": {
+    "aibvf-mcp": "*",
+    "@modelcontextprotocol/sdk": "^1.0.0"
   }
 }
