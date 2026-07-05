@@ -3,6 +3,7 @@ export {
   score,
   recommendImprovements,
   calculatePaceLayerDrag,
+  estimatePillars, resolvePillars,
   BASE_RATES, IND_MULT, TIER_ADJ, READINESS_CAPTURE, PACE_DRAG_RATE,
 } from './score.js';
 export {

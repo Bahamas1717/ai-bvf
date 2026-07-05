@@ -2,8 +2,10 @@ import type {
   ScoreInput, ScoreResult, Classification,
   RecommendInput, RecommendResult, Recommendation,
   PaceLayerInput, PaceLayerResult,
+  PillarScores, PillarBasis,
   Industry, FunctionId, AiTier, Readiness,
 } from './types.js';
+import { REGULATED_FUNCTIONS, REGULATED_INDUSTRIES } from './taxonomy.js';
 // Deferred-access import: buildChangePlan is only called inside
 // recommendImprovements, so the score <-> changePlan module cycle is safe.
 import { buildChangePlan } from './changePlan.js';
@@ -120,11 +122,71 @@ function appliedModules(industry: Industry, fn: FunctionId, readiness: Readiness
 const SIGNAL_CAVEAT_THRESHOLD = 0.7;
 
 /**
+ * Deterministic pillar estimation for callers who do not have measured
+ * pillar scores. Every prior is anchored to something the engine already
+ * knows, and every estimated value sits in unproven territory by design:
+ * an estimate can force caution (a Stop) but can never hand out the
+ * evidence-cleared scores an Accelerate requires.
+ *
+ * - strategic_alignment: flat 50. Alignment to a board KPI cannot be read
+ *   from industry or function; 50 means unproven, ask the board-anchor
+ *   question.
+ * - financial_return: anchored to the published benchmark upside for the
+ *   function (BASE_RATES). Strong upside estimates 52, mid 46, thin 40.
+ *   Never above 60 (an unmodelled case is unproven), never at or below 20
+ *   (no evidence of a bad case either).
+ * - change_enablement: from readiness, the engine's change-capability
+ *   proxy. agile 55, traditional 45, siloed 32.
+ * - governance_risk: from tier plus regulated context. gen1 30, gen2 42,
+ *   gen3 55, +10 in a regulated function, +8 in a regulated industry.
+ *   Agentic AI in a regulated function and industry estimates at 73,
+ *   which forces a Stop until governance evidence exists — deliberate.
+ */
+export function estimatePillars(
+  input: Pick<ScoreInput, 'industry' | 'function' | 'ai_tier' | 'readiness'>,
+): PillarScores {
+  const base = BASE_RATES[input.function];
+  const upside = base ? base.rev.hi + base.cost.hi : 0;
+  const financial_return = upside >= 0.10 ? 52 : upside >= 0.07 ? 46 : 40;
+
+  const CE_BY_READINESS: Record<string, number> = { agile: 55, traditional: 45, siloed: 32 };
+  const change_enablement = CE_BY_READINESS[input.readiness] ?? 45;
+
+  const GR_BY_TIER: Record<string, number> = { gen1: 30, gen2: 42, gen3: 55 };
+  let governance_risk = GR_BY_TIER[input.ai_tier] ?? 42;
+  if (REGULATED_FUNCTIONS.has(input.function)) governance_risk += 10;
+  if (input.industry && REGULATED_INDUSTRIES.has(input.industry)) governance_risk += 8;
+  governance_risk = Math.min(100, governance_risk);
+
+  return { strategic_alignment: 50, financial_return, change_enablement, governance_risk };
+}
+
+/** Resolve given + estimated pillars into a full set, with provenance. */
+export function resolvePillars(input: ScoreInput): {
+  scores: PillarScores;
+  basis: PillarBasis;
+  givenCount: number;
+} {
+  const est = estimatePillars(input);
+  const given = input.scores ?? {};
+  const pillars = ['strategic_alignment', 'financial_return', 'change_enablement', 'governance_risk'] as const;
+  const scores = {} as PillarScores;
+  const basis = {} as PillarBasis;
+  let givenCount = 0;
+  for (const p of pillars) {
+    const v = given[p];
+    if (typeof v === 'number') { scores[p] = v; basis[p] = 'given'; givenCount++; }
+    else { scores[p] = est[p]; basis[p] = 'estimated'; }
+  }
+  return { scores, basis, givenCount };
+}
+
+/**
  * Score an initiative according to AI BVF v1.0.
  * Deterministic. No network. No dependencies.
  */
 export function score(input: ScoreInput): ScoreResult {
-  const { industry, revenue_eur, function: fn, ai_tier, readiness, scores } = input;
+  const { industry, revenue_eur, function: fn, ai_tier, readiness } = input;
   const base = BASE_RATES[fn];
   if (!base) throw new Error(`Unknown function: ${fn}`);
   const mult = (IND_MULT[industry] ?? IND_MULT.universal)[fn] ?? 1;
@@ -133,26 +195,43 @@ export function score(input: ScoreInput): ScoreResult {
   const cap = READINESS_CAPTURE[readiness];
   if (!cap) throw new Error(`Unknown readiness: ${readiness}`);
 
-  const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = scores;
+  const { scores: resolved, basis, givenCount } = resolvePillars(input);
+  const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = resolved;
+  const allEstimated = givenCount === 0;
+  const anyEstimated = givenCount < 4;
 
   const grossLo = Math.round(revenue_eur * (base.rev.lo + base.cost.lo) * mult * tAdj);
   const grossHi = Math.round(revenue_eur * (base.rev.hi + base.cost.hi) * mult * tAdj);
   const netLo = Math.round(grossLo * cap.low);
   const netHi = Math.round(grossHi * cap.high);
 
-  const cls = classify(sa, fr, ce, gr);
+  let cls = classify(sa, fr, ce, gr);
+  // Stop-first invariant: a fully-estimated pass can never hand out a green
+  // light. The priors already make this structurally impossible (estimated
+  // strategic_alignment is 50), this guard keeps the promise even if the
+  // priors ever change.
+  if (allEstimated && cls.label === 'Accelerate') {
+    cls = { label: 'Fix', reason: 'Clears the Accelerate thresholds on estimated pillars only. Confirm the four pillar scores with evidence to unlock the Go.' };
+  }
 
   // Base confidence from the pillar scores themselves.
   const baseConfidence = (sa + fr + ce + (100 - gr)) / 4;
-  // Input-quality haircut. signal_completeness defaults to 1 (measured), which
-  // leaves confidence identical to the pre-0.3.4 formula. As the inputs become
-  // estimated rather than measured, confidence is scaled toward half — the
-  // verdict is only as trustworthy as the metadata behind it.
-  const signal = Math.max(0, Math.min(1, input.signal_completeness ?? 1));
+  // Input-quality haircut. When the caller does not supply
+  // signal_completeness it defaults from how many pillars were actually
+  // given: all four = 1 (identical to the pre-0.5.0 behaviour), none = 0.5.
+  const defaultSignal = 0.5 + 0.125 * givenCount;
+  const signal = Math.max(0, Math.min(1, input.signal_completeness ?? defaultSignal));
   const confidence = Math.round(baseConfidence * (0.5 + 0.5 * signal));
-  const caveat = signal < SIGNAL_CAVEAT_THRESHOLD
-    ? `Verdict rests on soft inputs (signal_completeness ${signal}). Decision confidence has been reduced accordingly; treat this as directional and re-run with measured pillar scores before committing budget.`
-    : undefined;
+
+  const caveatParts: string[] = [];
+  if (anyEstimated) {
+    const estimated = (Object.keys(basis) as Array<keyof PillarBasis>).filter(k => basis[k] === 'estimated');
+    caveatParts.push(`Estimated pillars: ${estimated.join(', ')} (deterministic priors from readiness, tier, function and benchmarks, see pillar_basis). Confirm them with evidence before committing budget.`);
+  }
+  if (signal < SIGNAL_CAVEAT_THRESHOLD) {
+    caveatParts.push(`Verdict rests on soft inputs (signal_completeness ${signal}). Decision confidence has been reduced accordingly; treat this as directional.`);
+  }
+  const caveat = caveatParts.length ? caveatParts.join(' ') : undefined;
 
   return {
     classification: cls.label,
@@ -166,6 +245,8 @@ export function score(input: ScoreInput): ScoreResult {
     drivers: base.drivers,
     source: base.source,
     applied_modules: appliedModules(industry, fn, readiness),
+    scores_used: resolved,
+    pillar_basis: basis,
     ...(caveat ? { caveat } : {}),
   };
 }
@@ -200,12 +281,19 @@ const GOV_LOWER_TARGET = 35;
  * high to recover.
  */
 export function recommendImprovements(input: RecommendInput): RecommendResult {
-  const { scores } = input;
-  const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = scores;
+  const { scores: resolved, basis, givenCount } = resolvePillars(input);
+  const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = resolved;
 
-  const current = classify(sa, fr, ce, gr).label;
+  let current = classify(sa, fr, ce, gr).label;
+  // Same Stop-first invariant as score(): fully-estimated pillars never
+  // produce an Accelerate, they produce a Fix pending confirmation.
+  if (givenCount === 0 && current === 'Accelerate') current = 'Fix';
   const recs: Recommendation[] = [];
   const notes: string[] = [];
+  if (givenCount < 4) {
+    const estimated = (Object.keys(basis) as Array<keyof PillarBasis>).filter(k => basis[k] === 'estimated');
+    notes.push(`Estimated pillars: ${estimated.join(', ')} (deterministic priors from readiness, tier, function and benchmarks). The plan below is provisional on those pillars; confirm them with evidence and re-run.`);
+  }
 
   if (current === 'Accelerate') {
     return {
@@ -242,7 +330,7 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
     recommendations: recs,
     projected_confidence: projectedConfidence,
     notes,
-    change_plan: buildChangePlan(input, recs, feasible),
+    change_plan: buildChangePlan(input, resolved, recs, feasible),
   };
 }
 

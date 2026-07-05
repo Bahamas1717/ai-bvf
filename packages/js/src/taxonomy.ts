@@ -26,3 +26,11 @@ export const TIER_LABEL: Record<string, string> = {
   gen2: 'Gen 2 — GenAI',
   gen3: 'Gen 3 — Agentic',
 };
+
+/**
+ * Contexts where governance exposure defaults to regulatory. Shared by the
+ * pillar estimator and the change-leader play selector so both infer the
+ * same way from the same facts.
+ */
+export const REGULATED_FUNCTIONS: ReadonlySet<string> = new Set(['risk', 'finance', 'hr']);
+export const REGULATED_INDUSTRIES: ReadonlySet<string> = new Set(['financial', 'healthcare', 'public_sector', 'energy']);

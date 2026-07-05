@@ -18,13 +18,10 @@
  * Deterministic, like everything in the engine: same inputs, same plan.
  */
 import type {
-  RecommendInput, Recommendation, ChangePlan, ChangePlay, ResistanceType, RiskType,
+  RecommendInput, Recommendation, ChangePlan, ChangePlay, PillarScores, ResistanceType, RiskType,
 } from './types.js';
 import { PACE_DRAG_RATE } from './score.js';
-
-/** Functions and industries where governance exposure defaults to regulatory. */
-const REGULATED_FUNCTIONS = new Set(['risk', 'finance', 'hr']);
-const REGULATED_INDUSTRIES = new Set(['financial', 'healthcare', 'public_sector', 'energy']);
+import { REGULATED_FUNCTIONS, REGULATED_INDUSTRIES } from './taxonomy.js';
 
 const ACCELERATE_FLOOR = 60;
 const GOV_CEILING = 40;
@@ -303,10 +300,11 @@ function inferResistanceType(input: RecommendInput): ResistanceType {
 
 export function buildChangePlan(
   input: RecommendInput,
+  resolved: PillarScores,
   recommendations: Recommendation[],
   feasible: boolean,
 ): ChangePlan {
-  const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = input.scores;
+  const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = resolved;
 
   // Severity per pillar: distance from the Accelerate thresholds, with the
   // forcing conditions (GR >= 70, FR <= 20) dominating everything else.

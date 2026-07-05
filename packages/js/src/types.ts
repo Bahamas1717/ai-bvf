@@ -48,25 +48,37 @@ export interface Portfolio {
   initiatives: Initiative[];
 }
 
+/** The four pillars, fully resolved (every pillar carries a number). */
+export interface PillarScores {
+  strategic_alignment: number;
+  financial_return: number;
+  change_enablement: number;
+  governance_risk: number;
+}
+
+/** Where each resolved pillar value came from. */
+export type PillarBasis = Record<keyof PillarScores, 'given' | 'estimated'>;
+
 export interface ScoreInput {
   industry: Industry;
   revenue_eur: number;
   function: FunctionId;
   ai_tier: AiTier;
   readiness: Readiness;
-  scores: {
-    strategic_alignment: number;
-    financial_return: number;
-    change_enablement: number;
-    governance_risk: number;
-  };
+  /**
+   * Optional, and each pillar inside it is optional. Give the pillars you
+   * have evidence for; any missing pillar is estimated deterministically
+   * from readiness, tier, function and the published benchmarks, the result
+   * reports which were estimated via pillar_basis, and a fully-estimated
+   * pass can never return Accelerate.
+   */
+  scores?: Partial<PillarScores>;
   /**
    * Optional 0–1. How grounded the four pillar scores are in real evidence
-   * versus estimated from context. Defaults to 1 (treated as measured), which
-   * leaves confidence unchanged. Lower values honestly haircut decision
-   * confidence and attach a caveat — the answer to "the scoring is only as
-   * good as the metadata you feed it". Mirrors diagnose_process's
-   * signal_completeness.
+   * versus estimated from context. When omitted it defaults from the count
+   * of pillars actually given (all four = 1, none = 0.5), which haircuts
+   * decision confidence and attaches a caveat on soft inputs. Mirrors
+   * diagnose_process's signal_completeness.
    */
   signal_completeness?: number;
 }
@@ -83,7 +95,11 @@ export interface ScoreResult {
   drivers: string[];
   source: string;
   applied_modules: string[];
-  /** Present only when signal_completeness is low: warns the verdict rests on soft inputs. */
+  /** The four pillar values the verdict was computed on, given or estimated. */
+  scores_used: PillarScores;
+  /** Which pillars were given by the caller and which were estimated by the engine. */
+  pillar_basis: PillarBasis;
+  /** Present when signal_completeness is low or any pillar was estimated: warns the verdict rests on soft inputs. */
   caveat?: string;
 }
 
