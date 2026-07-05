@@ -125,7 +125,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.10.0';
+export const VERSION = '0.10.1';
 
 const scoreInputSchema = {
   type: 'object',

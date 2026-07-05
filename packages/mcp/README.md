@@ -1,10 +1,18 @@
 # aibvf-mcp
 
-MCP server exposing AI BVF v1.0 to any Claude agent. Pre-flight-check your AI initiatives before you deploy them.
+MCP server exposing AI BVF v1.0 to any Claude agent, nine deterministic tools that pre-flight-check AI initiatives before the budget is committed: score honestly from whatever is known (a fully estimated pass can never return Accelerate), return the change plan when the verdict is Fix, and measure organisational readiness from process data instead of self-report.
 
 > **Source:** [github.com/Bahamas1717/ai-bvf](https://github.com/Bahamas1717/ai-bvf) · ⭐ star if this helped · [Issues](https://github.com/Bahamas1717/ai-bvf/issues) · Built by [Craig Horton Advisory](https://craighortonadvisory.com)
 
-## Install and run
+## No install: use it on claude.ai
+
+Settings, then Connectors, then Add custom connector, and paste the hosted endpoint. Works on web and mobile, all nine tools, same deterministic engine:
+
+```
+https://mcp.aibvf.com/api/mcp
+```
+
+## Install and run (stdio)
 
 ```bash
 npx aibvf-mcp
@@ -83,6 +91,7 @@ Claude will call `score_initiative` and return the classification, euro range, a
 | `get_benchmark` | Return the published benchmark base-rate and industry multiplier for a function + industry. Use when the caller wants the raw rates without an initiative-level verdict. |
 | `list_taxonomy` | List the valid industries, functions, AI tiers, and readiness levels. |
 | `diagnose_process` | AI BVF Advisor Brain: diagnose one business process from observed signals (volume, labour, cycle time, handoffs, rework, automation, spend) and return heaviness, the recommended intervention (Automate / Consolidate & re-sequence / Quality controls / Eliminate), the modelled net EUR saving, the efficiency gain, an Accelerate/Fix/Stop verdict, and a decision confidence governed by how much was actually measured. |
+| `infer_readiness` | Measures organisational readiness from process signals (hand-offs, rework, touch ratio, automation, cycle time vs function medians) instead of accepting self-report. Returns the classification the data supports, per-signal reasoning, and a confidence set by coverage and agreement. When the measured answer is lower than the claimed one, that gap is itself a change-readiness finding. |
 
 ## Spec
 
