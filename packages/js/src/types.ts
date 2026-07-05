@@ -87,7 +87,17 @@ export interface ScoreResult {
   caveat?: string;
 }
 
-export interface RecommendInput extends ScoreInput {}
+/** What kind of resistance sits behind a low change-enablement score. */
+export type ResistanceType = 'will' | 'skill';
+/** What kind of exposure sits behind a high governance-risk score. */
+export type RiskType = 'regulatory' | 'reputational' | 'operational';
+
+export interface RecommendInput extends ScoreInput {
+  /** Optional. Whether people do not WANT the change (will) or cannot yet DO it (skill). Sharpens the change plan; inferred from readiness when absent. */
+  resistance_type?: ResistanceType;
+  /** Optional. The nature of the governance exposure. Sharpens the change plan; inferred from tier, function and industry when absent. */
+  risk_type?: RiskType;
+}
 
 export interface Recommendation {
   pillar: 'strategic_alignment' | 'financial_return' | 'change_enablement' | 'governance_risk';
@@ -98,6 +108,48 @@ export interface Recommendation {
   rationale: string;
 }
 
+/** One move at one altitude: the organisation (Kotter) or the person (ADKAR). */
+export interface ChangeMove {
+  method: string;
+  action: string;
+}
+
+/** A named, context-selected change play. The unit of advice in the change plan. */
+export interface ChangePlay {
+  id: string;
+  pillar: Recommendation['pillar'] | 'pace_gap';
+  diagnosis: string;
+  org_move: ChangeMove;
+  person_move: ChangeMove;
+  steps: string[];
+  diagnostic_questions: string[];
+  owner: string;
+  timeline_weeks: [number, number];
+  /** Present when the honest escalation from this play is Stop, and under what condition. */
+  stop_condition?: string;
+  /** True when the play was inferred from context rather than told via resistance_type / risk_type. */
+  provisional: boolean;
+  source: string;
+}
+
+export interface RescoreGate {
+  clears_when: string;
+  deadline_weeks: number;
+}
+
+/** The change-leader layer: a specific, sequenced route from Fix or Stop toward Go. */
+export interface ChangePlan {
+  binding_constraint: string;
+  position: 'near_go' | 'contested' | 'near_stop';
+  position_detail: string;
+  plays: ChangePlay[];
+  cost_of_waiting_eur: { low: number; high: number };
+  cost_of_waiting: string;
+  rescore_gate: RescoreGate;
+  /** Present when the truthful call is Stop rather than Fix. */
+  honest_stop?: string;
+}
+
 export interface RecommendResult {
   current_classification: Classification;
   target_classification: Classification;
@@ -105,6 +157,8 @@ export interface RecommendResult {
   recommendations: Recommendation[];
   projected_confidence: number;
   notes: string[];
+  /** Absent when the initiative is already Accelerate. */
+  change_plan?: ChangePlan;
 }
 
 export interface PaceLayerInput {

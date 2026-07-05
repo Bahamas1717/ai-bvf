@@ -126,7 +126,7 @@ function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 const server = new Server(
-  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.6.1' },
+  { name: 'io.github.Bahamas1717/aibvf-mcp', version: '0.7.0' },
   { capabilities: { tools: {} } },
 );
 
@@ -155,7 +155,7 @@ const scoreInputSchema = {
 
 // score_initiative accepts everything scoreInputSchema does, plus an optional
 // signal_completeness so a caller can flag estimated-vs-measured pillar scores.
-// recommend_improvements keeps the plain scoreInputSchema (it doesn't use it).
+// recommend_improvements uses recommendInputSchema (score inputs + optional diagnostics).
 const scoreInitiativeInputSchema = {
   ...scoreInputSchema,
   properties: {
@@ -163,6 +163,24 @@ const scoreInitiativeInputSchema = {
     signal_completeness: {
       type: 'number', minimum: 0, maximum: 1,
       description: 'Optional 0–1. How grounded the four pillar scores are in real evidence versus estimated from context. Defaults to 1 (treated as measured). If the organisation lacks formal change-readiness or risk metadata, estimate the pillars from what you know AND set this lower to say so — decision confidence is reduced proportionally and a caveat is attached, instead of returning a falsely confident verdict on soft inputs.',
+    },
+  },
+};
+
+// recommend_improvements takes everything score_initiative scores on, plus two
+// optional diagnostics that select the change play. When absent, the engine
+// infers them from readiness / tier / function and marks the play provisional.
+const recommendInputSchema = {
+  ...scoreInputSchema,
+  properties: {
+    ...scoreInputSchema.properties,
+    resistance_type: {
+      type: 'string', enum: ['will', 'skill'],
+      description: 'Optional. What sits behind a low change-enablement score: "will" = people do not want the change (power shifts, fear, no case for change), "skill" = people cannot yet do it (capability and capacity gap). Selects between a coalition-building play (Kotter 1-2 + ADKAR Awareness/Desire) and an owner-and-capability play (ADKAR Knowledge/Ability). If you do not know, omit it: the engine infers from readiness (agile infers skill, traditional/siloed infers will) and marks the play provisional. Ask the user "is the resistance about not wanting this, or not being able to do it yet?" and re-call to sharpen.',
+    },
+    risk_type: {
+      type: 'string', enum: ['regulatory', 'reputational', 'operational'],
+      description: 'Optional. The nature of a high governance-risk score: "regulatory" = statute applies (EU AI Act, GDPR Article 22, DORA), "reputational" = the risk is how failure looks and lands publicly, "operational" = the system failing quietly inside a process. Selects between a regulatory remediation sequence, visible trust guardrails, and a proportionate governance review. If you do not know, omit it: the engine infers (gen3 tier, or a regulated function/industry, infers regulatory) and marks the play provisional.',
     },
   },
 };
@@ -243,6 +261,40 @@ const recommendOutputSchema = {
     },
     projected_decision_confidence: { type: 'number', description: 'Confidence in the verdict if the recommendations land, 0-100.' },
     notes:              stringArray('Caveats or context on the recommendation set.'),
+    change_plan: {
+      type: 'object',
+      description: 'The change-leader layer: a specific, sequenced route from Fix or Stop toward Go, aimed at the organisation. Present for Fix/Stop, absent when the initiative is already Accelerate. Present this to the user as the plan, not as raw data.',
+      properties: {
+        binding_constraint: { type: 'string', description: 'The one thing standing between this initiative and a Go. Lead with this; a single named blocker gets acted on where a list of four gets skimmed.' },
+        position:           { type: 'string', enum: ['near_go', 'contested', 'near_stop'], description: 'Where this Fix sits between Go and Stop. near_go = a funding decision waiting on evidence; near_stop = one adverse finding from Stop, run only the first play then re-score.' },
+        position_detail:    { type: 'string', description: 'One-paragraph read of the position, written for the organisation.' },
+        plays: {
+          type: 'array',
+          description: 'Named change plays, worst pillar first, each selected from the failing pillar AND the organisational context. Every play works two altitudes: the organisation (Kotter) and the person (Prosci ADKAR).',
+          items: {
+            type: 'object',
+            properties: {
+              id:        { type: 'string', description: 'Play identifier, e.g. coalition-first, regulatory-remediation, value-rescope.' },
+              pillar:    { type: 'string', description: 'The pillar this play repairs, or pace_gap for the cross-cutting operating-model play.' },
+              diagnosis: { type: 'string', description: 'What is actually blocking, in plain language.' },
+              org_move:  { type: 'object', description: 'The organisation-level move (method + action), typically a Kotter step.' },
+              person_move: { type: 'object', description: 'The individual-level move (method + action), typically an ADKAR stage.' },
+              steps:     { type: 'array', items: { type: 'string' }, description: 'Sequenced actions, in order. Order matters: e.g. desire before change budget.' },
+              diagnostic_questions: { type: 'array', items: { type: 'string' }, description: 'Questions to put to the organisation to sharpen or challenge the play. Ask these before executing.' },
+              owner:     { type: 'string', description: 'The role that owns the play, to be filled with a named individual.' },
+              timeline_weeks: { type: 'array', items: { type: 'number' }, description: 'Expected duration range in weeks, [low, high].' },
+              stop_condition: { type: 'string', description: 'Present when the honest escalation from this play is Stop, and the condition that triggers it.' },
+              provisional: { type: 'boolean', description: 'True when the play was inferred from readiness/tier/function rather than told via resistance_type or risk_type. When true, ask the diagnostic questions and re-call with the answer to sharpen the plan.' },
+              source:    { type: 'string', description: 'The named method behind the play: Kotter, Prosci ADKAR, EU AI Act, benchmark sources.' },
+            },
+          },
+        },
+        cost_of_waiting_eur: { type: 'object', description: 'Estimated organisational drag over the plan window, {low, high} in EUR, from the pace-layer model. The price of sitting in Fix.' },
+        cost_of_waiting:     { type: 'string', description: 'The cost of delay framed as a decision rule: fix if the plays cost less than the waiting, stop if they cost more.' },
+        rescore_gate: { type: 'object', description: 'What must be true, and by when, for the re-score to arbitrate. Fix is a decision with a deadline, not a limbo state.' },
+        honest_stop:  { type: 'string', description: 'Present when the truthful call is Stop rather than Fix. Surface this verbatim; it is the most valuable sentence in the response when it appears.' },
+      },
+    },
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
   },
 };
@@ -477,8 +529,8 @@ const TOOLS = [
   },
   {
     name: 'recommend_improvements',
-    description: 'For an initiative classified Stop or Fix, return concrete, deterministic recommendations that would flip classification toward Accelerate. Pillar-level targets with named actions and rationale. Answers the "what do I do next" question after score_initiative. Pure deterministic calculation — no network, auth, or side effects.',
-    inputSchema: scoreInputSchema,
+    description: 'For an initiative classified Stop or Fix, return the route to a Go: pillar-level targets AND a change_plan, the change-leader layer that turns the verdict into a specific, sequenced plan for the organisation. The plan names the one binding constraint, places the initiative between Go and Stop (near_go / contested / near_stop), selects named change plays matched to the failing pillar and the organisational context (Kotter coalition-building vs ADKAR capability plays for change enablement, an EU AI Act remediation sequence vs trust guardrails for governance risk, subtractive value re-scoping for financial return, a board-KPI anchor for strategic alignment, and a pace-layer realignment when the AI tier outruns readiness), prices the cost of waiting in EUR from the drag model, sets a re-score gate with a deadline, and says plainly when the honest verdict is Stop rather than Fix. Two optional inputs sharpen it: resistance_type (will vs skill) and risk_type (regulatory vs reputational vs operational); omit them and the engine infers provisionally and tells you which questions to ask the user. ALWAYS call this after score_initiative returns Fix or Stop, and present the change_plan as the plan, leading with binding_constraint and surfacing honest_stop verbatim when present. Pure deterministic calculation — no network, auth, or side effects.',
+    inputSchema: recommendInputSchema,
     outputSchema: recommendOutputSchema,
     annotations: { title: 'Recommend pillar improvements', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
@@ -725,6 +777,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         recommendations: rec.recommendations,
         projected_decision_confidence: rec.projected_confidence,
         notes: rec.notes,
+        ...(rec.change_plan ? { change_plan: rec.change_plan } : {}),
         advisory_next_step: advisoryFor(rec.current_classification),
       };
       return {
@@ -847,7 +900,7 @@ await server.connect(transport);
 // Opt-out and privacy contracts are identical to tool-call telemetry.
 logCall('server_connect');
 
-console.error('aibvf-mcp v0.6.1 ready on stdio - 8 tools: score_initiative, score_portfolio, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, diagnose_process');
+console.error('aibvf-mcp v0.7.0 ready on stdio - 8 tools: score_initiative, score_portfolio, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, diagnose_process');
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (!TELEMETRY_DISABLED && TELEMETRY_DEFAULT_URL && TELEMETRY_DEFAULT_KEY) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');

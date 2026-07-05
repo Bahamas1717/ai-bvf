@@ -4,6 +4,9 @@ import type {
   PaceLayerInput, PaceLayerResult,
   Industry, FunctionId, AiTier, Readiness,
 } from './types.js';
+// Deferred-access import: buildChangePlan is only called inside
+// recommendImprovements, so the score <-> changePlan module cycle is safe.
+import { buildChangePlan } from './changePlan.js';
 
 interface BaseRate {
   rev: { lo: number; hi: number };
@@ -239,6 +242,7 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
     recommendations: recs,
     projected_confidence: projectedConfidence,
     notes,
+    change_plan: buildChangePlan(input, recs, feasible),
   };
 }
 
