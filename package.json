@@ -21,7 +21,7 @@
     "ip-address": "^10.2.0"
   },
   "dependencies": {
-    "aibvf-mcp": "*",
     "@modelcontextprotocol/sdk": "^1.0.0"
-  }
+  },
+  "type": "module"
 }

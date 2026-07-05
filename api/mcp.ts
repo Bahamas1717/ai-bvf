@@ -12,7 +12,10 @@
  * are identical to the stdio path.
  */
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { createAibvfServer } from 'aibvf-mcp/server';
+// Relative import into the workspace build output: the function bundler traces
+// plain file imports reliably, where package-name imports through workspace
+// symlinks (with an ESM-only exports map) resolve as CJS and fail at runtime.
+import { createAibvfServer } from '../packages/mcp/dist/server.js';
 
 export default async function handler(req: any, res: any) {
   const server = createAibvfServer();
