@@ -11,6 +11,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import {
   score, validate, recommendImprovements, calculatePaceLayerDrag, diagnoseProcess, inferReadiness,
+  sequencePortfolio, mapToTaxonomy,
   BASE_RATES, IND_MULT,
   INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
 } from '@aibvf/core';
@@ -125,7 +126,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.10.1';
+export const VERSION = '0.11.0';
 
 const scoreInputSchema = {
   type: 'object',
@@ -206,6 +207,17 @@ const stringArray = (description: string) => ({ type: 'array', items: { type: 's
 const roundEur = (value: number) => Math.round(value);
 const eurRange = (low: number, high: number) => ({ low: roundEur(low), high: roundEur(high) });
 
+const auditSchema = {
+  type: 'object',
+  description: 'Reproducibility record: engine version, the rules that fired, and the resolved inputs. Deterministic, no timestamps. If the verdict is challenged months later, the same inputs on the same engine version reproduce it exactly.',
+  properties: {
+    engine: { type: 'string' }, engine_version: { type: 'string' }, bvf_version: { type: 'string' },
+    rules_fired: { type: 'array', items: { type: 'string' }, description: 'The rules that actually fired, in order: estimation, gates, classification, value arithmetic.' },
+    inputs_used: { type: 'object', description: 'The resolved inputs the result was computed on, including estimated pillar values.' },
+    note: { type: 'string' },
+  },
+};
+
 const scoreOutputSchema = {
   type: 'object',
   required: ['bvf_version', 'classification', 'reason', 'net_value_eur', 'gross_value_eur', 'decision_confidence', 'multipliers', 'drivers', 'benchmark_source', 'applied_modules'],
@@ -243,6 +255,16 @@ const scoreOutputSchema = {
         governance_risk:     { type: 'string', enum: ['given', 'estimated'] },
       },
     },
+    sensitivity: {
+      type: 'object',
+      description: 'What moves this verdict, computed deterministically: the value if readiness were one notch worse, the value at revenue minus 20 percent, and the nearest single-pillar movements that flip the classification. Boards trust ranges with visible assumptions over point estimates; show this.',
+      properties: {
+        readiness_one_notch_down: { type: 'object', description: 'Null when readiness is already siloed.' },
+        revenue_minus_20pct: { type: 'object' },
+        verdict_flips: { type: 'array', items: { type: 'string' } },
+      },
+    },
+    audit: auditSchema,
     benchmark_source:   { type: 'string', description: 'Citation for the benchmark rates applied.' },
     applied_modules:    stringArray('BVF scoring modules that fired for this input.'),
     caveat:             { type: 'string', description: 'Present only when signal_completeness was low: warns the verdict rests on soft inputs and confidence was reduced.' },
@@ -275,6 +297,7 @@ const recommendOutputSchema = {
     },
     projected_decision_confidence: { type: 'number', description: 'Confidence in the verdict if the recommendations land, 0-100.' },
     notes:              stringArray('Caveats or context on the recommendation set.'),
+    audit: auditSchema,
     change_plan: {
       type: 'object',
       description: 'The change-leader layer: a specific, sequenced route from Fix or Stop toward Go, aimed at the organisation. Present for Fix/Stop, absent when the initiative is already Accelerate. Present this to the user as the plan, not as raw data.',
@@ -536,6 +559,7 @@ const inferReadinessInputSchema = {
     touch_ratio: { type: 'number', minimum: 0, maximum: 1, description: 'Touch-time divided by cycle-time (0-1); the remainder is waiting. Under 0.15 reads siloed (the process lives in queues), 0.15-0.4 traditional, above 0.4 agile.' },
     automation_level: { type: 'number', minimum: 0, maximum: 1, description: 'Share of the process already automated (0-1). Under 0.2 reads siloed, 0.2-0.5 traditional, above 0.5 agile.' },
     cycle_time_days: { type: 'number', minimum: 0, description: 'Median wall-clock days per instance. Read against the function median, same bands as handoffs.' },
+    claimed_readiness: { type: 'string', enum: ['agile', 'traditional', 'siloed'], description: 'Optional. What the organisation says about itself. The measured result is compared against it and the gap returned as readiness_gap plus a gap_finding, because an organisation whose self-image runs ahead of its process data has just told you where the change work starts.' },
   },
 };
 
@@ -557,7 +581,102 @@ const inferReadinessOutputSchema = {
       } },
     },
     disagreement: { type: 'string', description: 'Present when signals point in opposing directions: readiness is uneven across the process, read the per-signal detail.' },
+    claimed_readiness: { type: 'string', enum: ['agile', 'traditional', 'siloed'], description: 'Echo of the claim, when supplied.' },
+    readiness_gap: { type: 'number', description: 'Ordinal distance claimed-to-measured. Positive: the organisation claims better than it measures.' },
+    gap_finding: { type: 'string', description: 'The claimed-versus-measured gap read as a change-readiness finding. Surface verbatim when present.' },
     guidance:     { type: 'string', description: 'How to use the result downstream, including what a gap between measured and self-reported readiness means.' },
+    audit: auditSchema,
+  },
+};
+
+const sequenceInputSchema = {
+  type: 'object',
+  required: ['organization', 'initiatives', 'readiness'],
+  properties: {
+    organization: {
+      type: 'object', required: ['industry', 'revenue_eur'],
+      properties: {
+        name: { type: 'string', description: 'Optional organisation name.' },
+        industry: { type: 'string', enum: INDUSTRIES, description: 'Industry for benchmark multipliers. Call map_to_taxonomy for everyday-language mapping.' },
+        revenue_eur: { type: 'number', minimum: 0, description: 'Annual revenue in EUR; scales every modelled value.' },
+      },
+    },
+    initiatives: {
+      type: 'array', minItems: 1,
+      description: 'The portfolio to sequence. Each initiative carries flat 0-100 pillar numbers (not the nested value objects of the portfolio wire format).',
+      items: {
+        type: 'object', required: ['id', 'name', 'function', 'ai_tier', 'scores'],
+        properties: {
+          id: { type: 'string' }, name: { type: 'string' },
+          function: { type: 'string', enum: FUNCTIONS },
+          ai_tier: { type: 'string', enum: AI_TIERS },
+          scores: {
+            type: 'object', required: ['strategic_alignment', 'financial_return', 'change_enablement', 'governance_risk'],
+            properties: {
+              strategic_alignment: { type: 'number', minimum: 0, maximum: 100 },
+              financial_return: { type: 'number', minimum: 0, maximum: 100 },
+              change_enablement: { type: 'number', minimum: 0, maximum: 100 },
+              governance_risk: { type: 'number', minimum: 0, maximum: 100 },
+            },
+          },
+        },
+      },
+    },
+    readiness: { type: 'string', enum: READINESS, description: 'Organisational readiness applied across the portfolio; sets capture rates and pacing. Measure it with infer_readiness when process numbers exist.' },
+    constraints: {
+      type: 'object',
+      description: 'Change-capacity constraints. The defaults encode the core principle: no function absorbs unlimited concurrent change.',
+      properties: {
+        max_parallel_per_function: { type: 'number', minimum: 1, description: 'Max initiatives landing on one business function per wave. Default 2. Overflow defers to the next wave and is reported as a capacity conflict, because the constraint is itself a finding.' },
+        horizon_days: { type: 'number', minimum: 30, description: 'Planning horizon in days, split into three equal waves. Default 90.' },
+      },
+    },
+  },
+};
+
+const sequenceOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'waves', 'capacity_conflicts', 'totals', 'sequencing_principles', 'audit'],
+  properties: {
+    bvf_version: { type: 'string' },
+    waves: {
+      type: 'array',
+      description: 'Three waves with named gates: Stops first (free the budget), quick Accelerates second (buy trust), complex Accelerates plus Fixes third (spend the trust). Present this to the user as the rollout plan.',
+      items: { type: 'object', properties: {
+        wave: { type: 'number' }, window_days: { type: 'array', items: { type: 'number' } },
+        theme: { type: 'string' }, rationale: { type: 'string' },
+        initiatives: { type: 'array', items: { type: 'object' } },
+        gate_to_next: { type: 'string', description: 'What must be true before the next wave starts. Null on the final wave.' },
+      } },
+    },
+    capacity_conflicts: { type: 'array', description: 'Where more initiatives land on one function than it can absorb per wave, with the deferral applied. Surface these: an overloaded function is how good portfolios fail.', items: { type: 'object' } },
+    deferred_beyond_horizon: { type: 'array', items: { type: 'object' }, description: 'Initiatives that did not fit the horizon under the capacity constraint; they need their own decision.' },
+    skipped: { type: 'array', items: { type: 'object' } },
+    totals: { type: 'object', description: 'Counts: stopped, quick_wins, complex_or_fix, deferred.' },
+    aggregate_accelerate_value_eur: { type: 'object', description: 'Sum of modelled net EUR for the sequenced Accelerates, low and high.' },
+    sequencing_principles: { type: 'array', items: { type: 'string' } },
+    audit: auditSchema,
+  },
+};
+
+const mapTaxonomyInputSchema = {
+  type: 'object',
+  properties: {
+    industry: { type: 'string', description: 'Everyday industry language, e.g. banking, ecommerce, pharma. Resolved to the canonical enum.' },
+    function: { type: 'string', description: 'Everyday function language, e.g. customer service, procurement, legal, people. Resolved to cx, supply, risk, hr and so on.' },
+    ai_tier: { type: 'string', description: 'Everyday AI language, e.g. RPA, GenAI copilot, autonomous agents. Resolved to gen1/gen2/gen3.' },
+    readiness: { type: 'string', description: 'Everyday culture language, e.g. bureaucratic, cross-functional, hierarchical. Resolved to agile/traditional/siloed.' },
+  },
+};
+
+const mapTaxonomyOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'guidance'],
+  properties: {
+    bvf_version: { type: 'string' },
+    industry: { type: 'object', description: 'input, resolved and matched_on; or resolved null with suggestions when no confident match.' },
+    function: { type: 'object' }, ai_tier: { type: 'object' }, readiness: { type: 'object' },
+    guidance: { type: 'string' },
   },
 };
 
@@ -640,6 +759,20 @@ const TOOLS = [
     inputSchema: inferReadinessInputSchema,
     outputSchema: inferReadinessOutputSchema,
     annotations: { title: 'Measure readiness from process signals', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  },
+  {
+    name: 'sequence_portfolio',
+    description: 'Turn a scored portfolio into a rollout plan an organisation can actually absorb: three waves with named gates over a configurable horizon (default 90 days). Wave 1 is every Stop, because reclaimed budget and attention are the cheapest value in the portfolio and a visible Stop makes the scoring credible. Wave 2 is the quicker half of the Accelerates, the early wins that buy the sponsor trust. Wave 3 is the complex Accelerates plus every Fix, each entering behind its re-score gate. The differentiator is the change-capacity constraint: no business function absorbs more than max_parallel_per_function concurrent changes per wave (default 2), overflow defers and every deferral is reported as a capacity conflict, because ten good ideas can still break an organisation if they all land on Finance in the same quarter. CALL THIS after score_portfolio (or with any set of scored initiatives) when the user asks which to fund first, what order, what the roadmap looks like, or how much change the organisation can take. Pure deterministic calculation, no network, auth, or side effects.',
+    inputSchema: sequenceInputSchema,
+    outputSchema: sequenceOutputSchema,
+    annotations: { title: 'Sequence a portfolio into waves', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  },
+  {
+    name: 'map_to_taxonomy',
+    description: 'Map everyday business language onto the canonical AI BVF enums, deterministically. Senior users say customer service, procurement, legal, banking, GenAI copilot and bureaucratic, not cx, supply, risk, financial, gen2 and siloed. Pass any of industry, function, ai_tier or readiness as free text and get the canonical value back with what it matched on, or null with suggestions when there is no confident match, in which case ask the user to choose rather than guessing. CALL THIS whenever you are unsure which enum string another AI BVF tool will accept; it is cheaper than a failed validation. Pure deterministic lookup, no network, auth, or side effects.',
+    inputSchema: mapTaxonomyInputSchema,
+    outputSchema: mapTaxonomyOutputSchema,
+    annotations: { title: 'Map language to taxonomy', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
 ];
 
@@ -946,6 +1079,28 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const a = args as any;
       const r = inferReadiness(a);
       logCall('infer_readiness', { function: a.function, readiness: r.readiness });
+      const payload = { bvf_version: BVF_VERSION, ...r };
+      return {
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
+      };
+    }
+
+    if (name === 'sequence_portfolio') {
+      const a = args as any;
+      const r = sequencePortfolio(a);
+      logCall('sequence_portfolio', { industry: a.organization?.industry, readiness: a.readiness });
+      const payload = { bvf_version: BVF_VERSION, ...r };
+      return {
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
+      };
+    }
+
+    if (name === 'map_to_taxonomy') {
+      const a = args as any;
+      const r = mapToTaxonomy(a);
+      logCall('map_to_taxonomy', {});
       const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],

@@ -18,6 +18,7 @@
  */
 import type { FunctionId, Readiness, InferReadinessInput, InferReadinessResult, SignalRead } from './types.js';
 import { FUNCTION_MEDIANS } from './diagnose.js';
+import { buildAudit } from './audit.js';
 
 type Lean = 0 | 1 | 2; // 0 = agile-leaning, 1 = traditional-leaning, 2 = siloed-leaning
 
@@ -89,6 +90,21 @@ export function inferReadiness(input: InferReadinessInput): InferReadinessResult
     ? 'The signals disagree with each other, some read agile while others read siloed, which usually means readiness is uneven across the process rather than one thing. Treat the classification as the centre of gravity and look at the per-signal reads.'
     : undefined;
 
+  // Claimed versus measured: when the organisation's self-image and its
+  // process data disagree, the gap is the finding, not a rounding error.
+  const ORDER: Record<Readiness, number> = { agile: 0, traditional: 1, siloed: 2 };
+  let claimedBlock: Pick<InferReadinessResult, 'claimed_readiness' | 'readiness_gap' | 'gap_finding'> = {};
+  if (input.claimed_readiness) {
+    const gap = ORDER[readiness] - ORDER[input.claimed_readiness];
+    claimedBlock = {
+      claimed_readiness: input.claimed_readiness,
+      readiness_gap: gap,
+      ...(gap > 0 ? { gap_finding: `The organisation describes itself as ${input.claimed_readiness} and measures as ${readiness}, ${gap === 1 ? 'one notch' : 'two notches'} below its self-image. That gap is itself a change-readiness finding: plan the change work for the measured level, because the process data is what the initiative will actually land on.` }
+        : gap < 0 ? { gap_finding: `The organisation describes itself as ${input.claimed_readiness} but measures as ${readiness}, better than it claims. Understated capacity is rare and useful: there is more change absorption available than the self-report suggests.` }
+        : { gap_finding: `Claimed and measured readiness agree at ${readiness}: the self-report holds up against the process data, which strengthens confidence in every score built on it.` }),
+    };
+  }
+
   return {
     readiness,
     readiness_basis: 'measured',
@@ -96,6 +112,17 @@ export function inferReadiness(input: InferReadinessInput): InferReadinessResult
     signals_used: leans.length,
     signal_reads: reads,
     ...(disagreement ? { disagreement } : {}),
+    ...claimedBlock,
     guidance: `Pass readiness="${readiness}" to score_initiative, score_portfolio, recommend_improvements or calculate_pace_layer_drag. If this measured classification is lower than the self-reported one, trust the process data: the gap between what an organisation says and what its hand-offs show is itself a change-readiness finding.`,
+    audit: buildAudit(
+      [
+        `signals:${leans.length}`,
+        `mean_lean:${(leans.reduce((a: number, b) => a + b, 0) / leans.length).toFixed(2)}`,
+        `classify:${readiness}`,
+        `confidence:${confidence}(coverage_base-disagreement)`,
+        ...(input.claimed_readiness ? [`claimed_vs_measured:${input.claimed_readiness}->${readiness}`] : []),
+      ],
+      { function: input.function, signals_provided: leans.length, ...(input.claimed_readiness ? { claimed_readiness: input.claimed_readiness } : {}) },
+    ),
   };
 }

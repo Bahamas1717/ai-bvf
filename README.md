@@ -32,7 +32,7 @@ This is the missing pre-flight check for agentic AI work: not "can we build it?"
 
 ## What It Does
 
-Nine tools, callable from any MCP-compatible agent over stdio (npx) or as a hosted remote connector at https://mcp.aibvf.com/api/mcp (claude.ai: Settings, Connectors, Add custom connector).
+Eleven tools, callable from any MCP-compatible agent over stdio (npx) or as a hosted remote connector at https://mcp.aibvf.com/api/mcp (claude.ai: Settings, Connectors, Add custom connector).
 
 | Tool | Purpose |
 |---|---|
@@ -45,6 +45,8 @@ Nine tools, callable from any MCP-compatible agent over stdio (npx) or as a host
 | `list_taxonomy` | Returns valid values for industries, functions, AI tiers, readiness levels. |
 | `diagnose_process` | AI BVF Advisor Brain: diagnoses one business process from observed signals (volume, labour, cycle time, handoffs, rework, automation, spend) and returns heaviness, intervention, net EUR saving, efficiency gain, verdict, and decision confidence. |
 | `infer_readiness` | Measures organisational readiness from process signals (hand-offs, rework, touch ratio, automation, cycle time vs function medians) instead of accepting self-report. Returns the classification the data supports, per-signal reasoning, and a confidence set by coverage and agreement. When the measured answer is lower than the claimed one, that gap is itself a change-readiness finding. |
+| `sequence_portfolio` | Turns a scored portfolio into a three-wave rollout plan with named gates: Stops first (free the budget), quick Accelerates second (buy trust), complex work and Fixes third. Enforces change capacity per function, because ten good ideas can still break an organisation if they all land in one place. |
+| `map_to_taxonomy` | Maps everyday business language (customer service, procurement, banking, GenAI copilot, bureaucratic) onto the canonical enums, deterministically, with suggestions instead of guesses when there is no confident match. |
 
 ## 30-Second Install
 
@@ -127,9 +129,9 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.10.1 | MCP server — 9 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
+| [`aibvf-mcp`](packages/mcp) | 0.11.0 | MCP server — 11 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
 | [`aibvf-check`](packages/cli) | 0.1.0 | CI/CD pre-flight gate ("SonarQube for AI") + GitHub Action. |
-| [`@aibvf/core`](packages/js) | 0.6.0 | TypeScript scoring engine, validator, change-leader plans, readiness inference, and Advisor Brain. |
+| [`@aibvf/core`](packages/js) | 0.7.0 | TypeScript scoring engine, validator, change-leader plans, readiness inference, and Advisor Brain. |
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
 
 ## Anonymous Usage Telemetry

@@ -2,10 +2,11 @@ import type {
   ScoreInput, ScoreResult, Classification,
   RecommendInput, RecommendResult, Recommendation,
   PaceLayerInput, PaceLayerResult,
-  PillarScores, PillarBasis,
+  PillarScores, PillarBasis, ScoreSensitivity,
   Industry, FunctionId, AiTier, Readiness,
 } from './types.js';
 import { REGULATED_FUNCTIONS, REGULATED_INDUSTRIES } from './taxonomy.js';
+import { buildAudit } from './audit.js';
 // Deferred-access import: buildChangePlan is only called inside
 // recommendImprovements, so the score <-> changePlan module cycle is safe.
 import { buildChangePlan } from './changePlan.js';
@@ -181,6 +182,40 @@ export function resolvePillars(input: ScoreInput): {
   return { scores, basis, givenCount };
 }
 
+const NOTCH_DOWN: Record<string, string | null> = { agile: 'traditional', traditional: 'siloed', siloed: null };
+
+/** The nearest single-pillar movements that change the verdict, in plain language. */
+function verdictFlips(sa: number, fr: number, ce: number, gr: number, label: Classification): string[] {
+  const flips: string[] = [];
+  if (label === 'Accelerate') {
+    const raw: Array<[string, number]> = [
+      [`governance_risk +${41 - gr} (to 41) drops this to Fix`, 41 - gr],
+      [`strategic_alignment -${sa - 59} (to 59) drops this to Fix`, sa - 59],
+      [`financial_return -${fr - 59} (to 59) drops this to Fix`, fr - 59],
+      [`change_enablement -${ce - 59} (to 59) drops this to Fix`, ce - 59],
+    ];
+    const margins = raw.filter(([, d]) => d > 0);
+    margins.sort((a, b) => a[1] - b[1]);
+    flips.push(...margins.slice(0, 2).map(m => m[0]));
+  } else if (label === 'Stop') {
+    if (gr >= 70) flips.push(`governance_risk -${gr - 69} (to 69) lifts the Stop gate`);
+    if (fr <= 20) flips.push(`financial_return +${21 - fr} (to 21) lifts the Stop gate`);
+  } else {
+    const gaps: string[] = [];
+    if (sa < 60) gaps.push(`strategic_alignment +${60 - sa}`);
+    if (fr < 60) gaps.push(`financial_return +${60 - fr}`);
+    if (ce < 60) gaps.push(`change_enablement +${60 - ce}`);
+    if (gr > 40) gaps.push(`governance_risk -${gr - 40}`);
+    if (gaps.length) flips.push(`to Accelerate: ${gaps.join(', ')}`);
+    const toStop: Array<[string, number]> = [];
+    if (gr < 70) toStop.push([`governance_risk +${70 - gr} (to 70) forces Stop`, 70 - gr]);
+    if (fr > 20) toStop.push([`financial_return -${fr - 20} (to 20) forces Stop`, fr - 20]);
+    toStop.sort((a, b) => a[1] - b[1]);
+    if (toStop.length) flips.push(`nearest Stop: ${toStop[0][0]}`);
+  }
+  return flips;
+}
+
 /**
  * Score an initiative according to AI BVF v1.0.
  * Deterministic. No network. No dependencies.
@@ -233,6 +268,34 @@ export function score(input: ScoreInput): ScoreResult {
   }
   const caveat = caveatParts.length ? caveatParts.join(' ') : undefined;
 
+  // Sensitivity: what moves this verdict, computed deterministically.
+  const notch = NOTCH_DOWN[readiness];
+  let readinessDown: ScoreSensitivity['readiness_one_notch_down'] = null;
+  if (notch) {
+    const capDown = READINESS_CAPTURE[notch as Readiness];
+    const clsDown = classify(sa, fr, ce, gr); // pillars unchanged; readiness moves value + confidence context
+    readinessDown = {
+      readiness: notch as Readiness,
+      classification: clsDown.label,
+      net_value_eur: { low: Math.round(grossLo * capDown.low), high: Math.round(grossHi * capDown.high) },
+      decision_confidence: confidence,
+    };
+  }
+  const sensitivity: ScoreSensitivity = {
+    readiness_one_notch_down: readinessDown,
+    revenue_minus_20pct: { net_value_eur: { low: Math.round(netLo * 0.8), high: Math.round(netHi * 0.8) } },
+    verdict_flips: verdictFlips(sa, fr, ce, gr, cls.label),
+  };
+
+  const estimated = (Object.keys(basis) as Array<keyof PillarBasis>).filter(k => basis[k] === 'estimated');
+  const rules = [
+    ...(estimated.length ? [`estimate:${estimated.join(',')}`] : []),
+    `signal_completeness:${signal}${input.signal_completeness === undefined ? '(defaulted)' : '(given)'}`,
+    `classify:${cls.label}`,
+    ...(allEstimated && cls.label === 'Fix' && sa >= 60 && fr >= 60 && ce >= 60 && gr <= 40 ? ['downgrade:estimated_accelerate_to_fix'] : []),
+    `value:BASE_RATES[${fn}] x IND_MULT[${industry}]=${mult} x TIER_ADJ[${ai_tier}]=${tAdj} x CAPTURE[${readiness}]=${cap.low}-${cap.high}`,
+  ];
+
   return {
     classification: cls.label,
     reason: cls.reason,
@@ -247,6 +310,8 @@ export function score(input: ScoreInput): ScoreResult {
     applied_modules: appliedModules(industry, fn, readiness),
     scores_used: resolved,
     pillar_basis: basis,
+    sensitivity,
+    audit: buildAudit(rules, { industry, revenue_eur, function: fn, ai_tier, readiness, scores: resolved, pillar_basis: basis }),
     ...(caveat ? { caveat } : {}),
   };
 }
@@ -303,6 +368,7 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
       recommendations: [],
       projected_confidence: Math.round((sa + fr + ce + (100 - gr)) / 4),
       notes: ['Initiative is already classified Accelerate. No flip required.'],
+      audit: buildAudit(['classify:Accelerate', 'no_flip_required'], { function: input.function, ai_tier: input.ai_tier, readiness: input.readiness, scores: resolved }),
     };
   }
 
@@ -331,6 +397,14 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
     projected_confidence: projectedConfidence,
     notes,
     change_plan: buildChangePlan(input, resolved, recs, feasible),
+    audit: buildAudit(
+      [
+        `classify:${current}`,
+        `feasible:${feasible}`,
+        ...recs.map(r => `gap:${r.pillar}:${r.current}->${r.target}`),
+      ],
+      { industry: input.industry, revenue_eur: input.revenue_eur, function: input.function, ai_tier: input.ai_tier, readiness: input.readiness, scores: resolved },
+    ),
   };
 }
 

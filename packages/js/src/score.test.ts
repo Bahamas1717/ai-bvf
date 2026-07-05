@@ -25,8 +25,13 @@ test('default (no signal_completeness) leaves confidence at the pre-0.3.4 value'
   assert.equal(v.caveat, undefined);
 });
 
-test('signal_completeness = 1 is identical to omitting it', () => {
-  assert.deepEqual(score({ ...base, signal_completeness: 1 }), score(base));
+test('signal_completeness = 1 behaves identically to omitting it (audit provenance may differ)', () => {
+  const { audit: a1, ...explicit } = score({ ...base, signal_completeness: 1 });
+  const { audit: a2, ...omitted } = score(base);
+  assert.deepEqual(explicit, omitted);
+  // the audit legitimately records given vs defaulted provenance
+  assert.ok(a1.rules_fired.some(r => r.includes('(given)')));
+  assert.ok(a2.rules_fired.some(r => r.includes('(defaulted)')));
 });
 
 test('low signal_completeness haircuts confidence and attaches a caveat', () => {

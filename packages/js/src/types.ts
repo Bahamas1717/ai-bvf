@@ -83,6 +83,32 @@ export interface ScoreInput {
   signal_completeness?: number;
 }
 
+/** Reproducibility record attached to every scoring call. Deterministic: no timestamps. */
+export interface AuditRecord {
+  engine: string;
+  engine_version: string;
+  bvf_version: string;
+  /** The rules that actually fired, in order, e.g. estimation, gates, classification. */
+  rules_fired: string[];
+  /** The resolved inputs the result was computed on. */
+  inputs_used: Record<string, unknown>;
+  note: string;
+}
+
+/** What moves the verdict: deterministic perturbations of the same call. */
+export interface ScoreSensitivity {
+  /** Null when readiness is already siloed. */
+  readiness_one_notch_down: null | {
+    readiness: Readiness;
+    classification: Classification;
+    net_value_eur: { low: number; high: number };
+    decision_confidence: number;
+  };
+  revenue_minus_20pct: { net_value_eur: { low: number; high: number } };
+  /** The nearest single-pillar movements that change the verdict, in plain language. */
+  verdict_flips: string[];
+}
+
 export interface ScoreResult {
   classification: Classification;
   reason: string;
@@ -99,6 +125,8 @@ export interface ScoreResult {
   scores_used: PillarScores;
   /** Which pillars were given by the caller and which were estimated by the engine. */
   pillar_basis: PillarBasis;
+  sensitivity: ScoreSensitivity;
+  audit: AuditRecord;
   /** Present when signal_completeness is low or any pillar was estimated: warns the verdict rests on soft inputs. */
   caveat?: string;
 }
@@ -175,6 +203,7 @@ export interface RecommendResult {
   notes: string[];
   /** Absent when the initiative is already Accelerate. */
   change_plan?: ChangePlan;
+  audit: AuditRecord;
 }
 
 /** Input for infer_readiness: measured process signals, at least two required. */
@@ -185,6 +214,8 @@ export interface InferReadinessInput {
   touch_ratio?: number;
   automation_level?: number;
   cycle_time_days?: number;
+  /** Optional. What the organisation says about itself; the measured result is compared against it and the gap reported as a finding. */
+  claimed_readiness?: Readiness;
 }
 
 /** One measured signal and the readiness it points toward. */
@@ -204,7 +235,14 @@ export interface InferReadinessResult {
   signal_reads: SignalRead[];
   /** Present when the signals point in opposing directions. */
   disagreement?: string;
+  /** Echo of claimed_readiness when supplied. */
+  claimed_readiness?: Readiness;
+  /** Ordinal distance between claimed and measured: positive means the organisation claims better than it measures. */
+  readiness_gap?: number;
+  /** Present when claimed and measured differ: the gap read as a change-readiness finding. */
+  gap_finding?: string;
   guidance: string;
+  audit: AuditRecord;
 }
 
 export interface PaceLayerInput {
@@ -287,4 +325,82 @@ export interface BrainVerdict {
   evidence_maturity: EvidenceMaturity;
   brain_version: string;
   disclaimer: string;
+}
+
+/** One initiative inside a sequencing request (flat pillar numbers). */
+export interface SequenceInitiative {
+  id: string;
+  name: string;
+  function: FunctionId;
+  ai_tier: AiTier;
+  scores: PillarScores;
+}
+
+export interface SequenceConstraints {
+  /** Max initiatives landing on one business function per wave. Default 2. */
+  max_parallel_per_function?: number;
+  /** Planning horizon in days. Default 90 (three 30-day waves). */
+  horizon_days?: number;
+}
+
+export interface SequenceInput {
+  organization: { name?: string; industry: Industry; revenue_eur: number };
+  initiatives: SequenceInitiative[];
+  readiness: Readiness;
+  constraints?: SequenceConstraints;
+}
+
+export interface SequencedItem {
+  id: string;
+  name: string;
+  function: FunctionId;
+  ai_tier: AiTier;
+  classification: Classification;
+  action: string;
+  reason: string;
+  net_value_eur: { low: number; high: number };
+  decision_confidence: number;
+}
+
+export interface SequenceWave {
+  wave: number;
+  window_days: [number, number];
+  theme: string;
+  rationale: string;
+  initiatives: SequencedItem[];
+  gate_to_next: string | null;
+}
+
+export interface CapacityConflict {
+  function: FunctionId;
+  wave: number;
+  overflow: string[];
+  resolution: string;
+}
+
+export interface SequenceResult {
+  waves: SequenceWave[];
+  capacity_conflicts: CapacityConflict[];
+  deferred_beyond_horizon: SequencedItem[];
+  skipped: Array<{ id: string; name: string; reason: string }>;
+  totals: { stopped: number; quick_wins: number; complex_or_fix: number; deferred: number };
+  aggregate_accelerate_value_eur: { low: number; high: number };
+  sequencing_principles: string[];
+  audit: AuditRecord;
+}
+
+/** Result of mapping free text onto the canonical taxonomy. */
+export interface TaxonomyMatch {
+  input: string;
+  resolved: string | null;
+  matched_on?: string;
+  suggestions?: string[];
+}
+
+export interface MapTaxonomyResult {
+  industry?: TaxonomyMatch;
+  function?: TaxonomyMatch;
+  ai_tier?: TaxonomyMatch;
+  readiness?: TaxonomyMatch;
+  guidance: string;
 }
