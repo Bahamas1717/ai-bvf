@@ -126,7 +126,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.11.0';
+export const VERSION = '0.11.1';
 
 const scoreInputSchema = {
   type: 'object',
@@ -591,7 +591,7 @@ const inferReadinessOutputSchema = {
 
 const sequenceInputSchema = {
   type: 'object',
-  required: ['organization', 'initiatives', 'readiness'],
+  required: ['readiness'],
   properties: {
     organization: {
       type: 'object', required: ['industry', 'revenue_eur'],
@@ -622,6 +622,7 @@ const sequenceInputSchema = {
         },
       },
     },
+    portfolio: { type: 'object', description: 'Alternative input: the same AI BVF v1.0 portfolio document score_portfolio accepts (organization + initiatives with nested {value} pillar scores). Pass either this OR the top-level organization + initiatives; nested score values are flattened automatically, and missing pillars are estimated honestly.' },
     readiness: { type: 'string', enum: READINESS, description: 'Organisational readiness applied across the portfolio; sets capture rates and pacing. Measure it with infer_readiness when process numbers exist.' },
     constraints: {
       type: 'object',
@@ -646,7 +647,7 @@ const sequenceOutputSchema = {
         wave: { type: 'number' }, window_days: { type: 'array', items: { type: 'number' } },
         theme: { type: 'string' }, rationale: { type: 'string' },
         initiatives: { type: 'array', items: { type: 'object' } },
-        gate_to_next: { type: 'string', description: 'What must be true before the next wave starts. Null on the final wave.' },
+        gate_to_next: { type: ['string', 'null'], description: 'What must be true before the next wave starts. Null on the final wave.' },
       } },
     },
     capacity_conflicts: { type: 'array', description: 'Where more initiatives land on one function than it can absorb per wave, with the deferral applied. Surface these: an overloaded function is how good portfolios fail.', items: { type: 'object' } },

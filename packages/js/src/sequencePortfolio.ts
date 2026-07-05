@@ -29,7 +29,49 @@ function complexity(item: SequencedItem): number {
   return (TIER_COMPLEXITY[item.ai_tier] ?? 2) + (item.decision_confidence < 50 ? 2 : 0);
 }
 
-export function sequencePortfolio(input: SequenceInput): SequenceResult {
+/**
+ * Accept both input shapes: the flat SequenceInput, and the score_portfolio
+ * wire document ({ portfolio: { organization, initiatives } }) with nested
+ * { value } pillar scores. Agents naturally reuse the portfolio document
+ * across the two tools; refusing it was a field-reported failure.
+ */
+function normalizeSequenceInput(raw: any): SequenceInput {
+  const src = raw?.portfolio && !raw?.initiatives ? raw.portfolio : raw;
+  const organization = src?.organization ?? raw?.organization;
+  const rawInits = src?.initiatives;
+  if (!organization || typeof organization.industry !== 'string') {
+    throw new Error('sequence_portfolio needs organization.industry and organization.revenue_eur, either top-level or inside a portfolio document.');
+  }
+  if (!Array.isArray(rawInits) || rawInits.length === 0) {
+    throw new Error('sequence_portfolio needs a non-empty initiatives array, either top-level or inside a portfolio document.');
+  }
+  const flat = (v: any): number | undefined =>
+    typeof v === 'number' ? v : (v && typeof v.value === 'number' ? v.value : undefined);
+  const initiatives = rawInits.map((i: any, idx: number) => {
+    const sc = i?.scores ?? {};
+    const scores: any = {};
+    for (const k of ['strategic_alignment', 'financial_return', 'change_enablement', 'governance_risk']) {
+      const n = flat(sc[k]);
+      if (n !== undefined) scores[k] = n;
+    }
+    return {
+      id: String(i?.id ?? `initiative-${idx + 1}`),
+      name: String(i?.name ?? i?.id ?? `Initiative ${idx + 1}`),
+      function: i?.function,
+      ai_tier: i?.ai_tier,
+      scores, // partial is fine: score() estimates missing pillars honestly
+    };
+  });
+  return {
+    organization,
+    initiatives,
+    readiness: raw?.readiness ?? src?.readiness,
+    constraints: raw?.constraints,
+  } as SequenceInput;
+}
+
+export function sequencePortfolio(rawInput: SequenceInput | Record<string, unknown>): SequenceResult {
+  const input = normalizeSequenceInput(rawInput);
   const { organization, initiatives, readiness } = input;
   const maxParallel = Math.max(1, input.constraints?.max_parallel_per_function ?? 2);
   const horizon = input.constraints?.horizon_days ?? 90;

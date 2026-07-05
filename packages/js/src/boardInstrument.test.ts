@@ -141,3 +141,26 @@ test('no em-dashes or banned vocabulary in any new output text', () => {
     assert.ok(!blobs.toLowerCase().includes(w), `banned word: ${w}`);
   }
 });
+
+test('sequencer accepts the score_portfolio document shape with nested value scores', () => {
+  const r = sequencePortfolio({
+    portfolio: {
+      bvf_version: '1.0',
+      organization: { name: 'Health Group', industry: 'healthcare', revenue_eur: 800_000_000 },
+      initiatives: [
+        { id: 'amb', name: 'Ambient documentation', function: 'cx', ai_tier: 'gen2',
+          scores: { strategic_alignment: { value: 72 }, financial_return: { value: 64 }, change_enablement: { value: 48 }, governance_risk: { value: 35 } } },
+      ],
+    },
+    readiness: 'siloed',
+  } as any);
+  assert.equal(r.waves.length, 3);
+  const placed = r.waves.flatMap(w => w.initiatives);
+  assert.equal(placed.length, 1);
+  assert.equal(placed[0].id, 'amb');
+});
+
+test('sequencer gives a plain-language error on malformed input, never a TypeError', () => {
+  assert.throws(() => sequencePortfolio({ readiness: 'agile' } as any), /organization\.industry/);
+  assert.throws(() => sequencePortfolio({ organization: { industry: 'retail', revenue_eur: 1 }, initiatives: [], readiness: 'agile' } as any), /non-empty initiatives/);
+});
