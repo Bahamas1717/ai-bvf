@@ -11,6 +11,7 @@ export {
   BRAIN_VERSION, EVIDENCE, FUNCTION_MEDIANS,
 } from './diagnose.js';
 export { buildChangePlan } from './changePlan.js';
+export { inferReadiness } from './inferReadiness.js';
 export { bvfSchema } from './schema.js';
 export { INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, INDUSTRY_LABEL, FUNCTION_LABEL, TIER_LABEL } from './taxonomy.js';
 export type * from './types.js';

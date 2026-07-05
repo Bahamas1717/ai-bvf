@@ -1,7 +1,7 @@
 {
   "name": "@aibvf/core",
-  "version": "0.5.0",
-  "description": "AI BVF — open protocol for scoring AI investments. Validator and scoring engine.",
+  "version": "0.6.0",
+  "description": "AI BVF \u2014 open protocol for scoring AI investments. Validator and scoring engine.",
   "keywords": [
     "ai",
     "bvf",

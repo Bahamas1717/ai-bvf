@@ -177,6 +177,36 @@ export interface RecommendResult {
   change_plan?: ChangePlan;
 }
 
+/** Input for infer_readiness: measured process signals, at least two required. */
+export interface InferReadinessInput {
+  function: FunctionId;
+  handoffs?: number;
+  rework_rate?: number;
+  touch_ratio?: number;
+  automation_level?: number;
+  cycle_time_days?: number;
+}
+
+/** One measured signal and the readiness it points toward. */
+export interface SignalRead {
+  signal: string;
+  value: number;
+  leans: Readiness;
+  note: string;
+}
+
+export interface InferReadinessResult {
+  readiness: Readiness;
+  /** Always 'measured': this classification came from process data, not self-report. */
+  readiness_basis: 'measured';
+  confidence: number;
+  signals_used: number;
+  signal_reads: SignalRead[];
+  /** Present when the signals point in opposing directions. */
+  disagreement?: string;
+  guidance: string;
+}
+
 export interface PaceLayerInput {
   revenue_eur: number;
   ai_tier: AiTier;

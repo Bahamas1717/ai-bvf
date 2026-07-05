@@ -40,7 +40,7 @@ export default async function handler(req: any, res: any) {
 </style></head><body><div class="card">
 <div class="mark">BVF</div>
 <h1>This is a live MCP endpoint, built for AI agents rather than browsers.</h1>
-<p>It serves the AI Business Value Framework: eight deterministic tools that score an AI initiative Stop, Fix or Accelerate before the budget is committed, and return the change plan when the verdict is Fix.</p>
+<p>It serves the AI Business Value Framework: nine deterministic tools that score an AI initiative Stop, Fix or Accelerate before the budget is committed, and return the change plan when the verdict is Fix.</p>
 <p>To use it on claude.ai (web or mobile): Settings, then Connectors, then Add custom connector, and paste this URL:</p>
 <div class="url">https://mcp.aibvf.com/api/mcp</div>
 <p class="dim">Then ask Claude about any AI initiative you are weighing. The protocol, docs and open-source code live at <a href="https://www.aibvf.com/protocol">aibvf.com/protocol</a>.</p>

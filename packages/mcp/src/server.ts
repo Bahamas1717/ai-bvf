@@ -10,7 +10,7 @@ import { join } from 'node:path';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import {
-  score, validate, recommendImprovements, calculatePaceLayerDrag, diagnoseProcess,
+  score, validate, recommendImprovements, calculatePaceLayerDrag, diagnoseProcess, inferReadiness,
   BASE_RATES, IND_MULT,
   INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
 } from '@aibvf/core';
@@ -125,7 +125,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.9.1';
+export const VERSION = '0.10.0';
 
 const scoreInputSchema = {
   type: 'object',
@@ -135,7 +135,7 @@ const scoreInputSchema = {
     revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR (must be ≥ 0). Scales the whole output: the benchmark rates are applied as fractions of this figure, so the modelled EUR value range grows with it. A rough order-of-magnitude estimate is fine.' },
     function:    { type: 'string', enum: FUNCTIONS, description: 'Business function where the AI will operate, as one of the accepted enum values — selects which benchmark value drivers and rate ranges apply. Call list_taxonomy for the exact strings if unsure.' },
     ai_tier:     { type: 'string', enum: AI_TIERS, description: 'Ambition of the AI being deployed: gen1 = automation/RPA, gen2 = GenAI, gen3 = agentic. Interacts with readiness — a more ambitious tier running on lower readiness widens the pace-layer gap, which discounts the modelled EUR value even when the four pillar scores are strong.' },
-    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness, honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy. Sets the value-capture rate and, paired with ai_tier, the pace-layer drag — lower readiness against a higher tier reduces the captured value.' },
+    readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness, honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy. Sets the value-capture rate and, paired with ai_tier, the pace-layer drag — lower readiness against a higher tier reduces the captured value. Self-report is gameable: when the user has real process numbers, call infer_readiness first and pass its measured classification here instead.' },
     scores: {
       type: 'object',
       description: 'OPTIONAL, and each pillar inside it is optional. The four AI BVF pillars, each an honest 0–100 self-assessment, combining deterministically into the verdict: governance_risk ≥ 70 OR financial_return ≤ 20 returns Stop; strategic_alignment, financial_return and change_enablement all ≥ 60 with governance_risk ≤ 40 returns Accelerate; everything else returns Fix. Pass ONLY the pillars the user has real evidence for — do NOT invent numbers for the rest. Missing pillars are estimated deterministically by the engine (from readiness, tier, function and published benchmarks), the response reports which via pillar_basis and scores_used, decision confidence is haircut by how much was estimated, and a fully-estimated pass can never return Accelerate (it returns Fix pending confirmation). So call immediately with whatever the user gave you, then ask for evidence on the estimated pillars and re-call to firm the verdict up.',
@@ -526,6 +526,41 @@ const diagnoseOutputSchema = {
   },
 };
 
+const inferReadinessInputSchema = {
+  type: 'object',
+  required: ['function'],
+  properties: {
+    function: { type: 'string', enum: FUNCTIONS, description: 'Business function the process belongs to. Selects the published cycle-time and hand-off medians the signals are read against. Call list_taxonomy if unsure.' },
+    handoffs: { type: 'number', minimum: 0, description: 'Distinct owners or systems an instance passes through. Read against the function median: 1.5x or more the median reads siloed, at or above the median reads traditional, below it reads agile.' },
+    rework_rate: { type: 'number', minimum: 0, maximum: 1, description: 'Fraction of instances reopened or reworked (0-1). 15% or more reads siloed, 5-15% traditional, under 5% agile.' },
+    touch_ratio: { type: 'number', minimum: 0, maximum: 1, description: 'Touch-time divided by cycle-time (0-1); the remainder is waiting. Under 0.15 reads siloed (the process lives in queues), 0.15-0.4 traditional, above 0.4 agile.' },
+    automation_level: { type: 'number', minimum: 0, maximum: 1, description: 'Share of the process already automated (0-1). Under 0.2 reads siloed, 0.2-0.5 traditional, above 0.5 agile.' },
+    cycle_time_days: { type: 'number', minimum: 0, description: 'Median wall-clock days per instance. Read against the function median, same bands as handoffs.' },
+  },
+};
+
+const inferReadinessOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'readiness', 'readiness_basis', 'confidence', 'signals_used', 'signal_reads', 'guidance'],
+  properties: {
+    bvf_version:     { type: 'string', description: 'AI BVF protocol version used.' },
+    readiness:       { type: 'string', enum: ['agile', 'traditional', 'siloed'], description: 'The readiness classification the measured signals support.' },
+    readiness_basis: { type: 'string', enum: ['measured'], description: 'Always measured: this came from process data, not self-report.' },
+    confidence:      { type: 'number', description: 'Confidence 0-100, set by signal coverage (2 signals ~45, 5 signals ~90) and discounted when signals disagree.' },
+    signals_used:    { type: 'number', description: 'How many of the five signals were provided.' },
+    signal_reads: {
+      type: 'array', description: 'Per-signal read: the value, which readiness it leans toward, and why in plain language. Show these to the user.',
+      items: { type: 'object', properties: {
+        signal: { type: 'string' }, value: { type: 'number' },
+        leans: { type: 'string', enum: ['agile', 'traditional', 'siloed'] },
+        note: { type: 'string' },
+      } },
+    },
+    disagreement: { type: 'string', description: 'Present when signals point in opposing directions: readiness is uneven across the process, read the per-signal detail.' },
+    guidance:     { type: 'string', description: 'How to use the result downstream, including what a gap between measured and self-reported readiness means.' },
+  },
+};
+
 const TOOLS = [
   {
     name: 'score_initiative',
@@ -598,6 +633,13 @@ const TOOLS = [
     inputSchema: diagnoseInputSchema,
     outputSchema: diagnoseOutputSchema,
     annotations: { title: 'Diagnose business process', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  },
+  {
+    name: 'infer_readiness',
+    description: 'Measure organisational readiness from process data instead of accepting self-report. Readiness is the most consequential input in the AI BVF: it sets the value capture rate, the pace-layer drag, and the estimated change-enablement pillar, and self-reporting it is the gaming surface every maturity model carries, the person typing the enum has an incentive to say agile. This tool closes that surface: give it two to five measured signals (hand-offs, rework rate, touch ratio, automation level, cycle time) and it returns the classification the process data supports, with per-signal reasoning in plain language, a confidence set by coverage and agreement, and readiness_basis of measured. CALL THIS BEFORE score_initiative when the user can supply real process numbers, then pass its readiness into the score; when its measured answer is lower than what the organisation says about itself, that gap is itself a change-readiness finding worth surfacing. Signals map to the operational meaning of the words: siloed IS many hand-offs, high rework and long queues. Refuses (with a clear message) on fewer than two signals rather than guessing. Pure deterministic calculation, no network, auth, or side effects.',
+    inputSchema: inferReadinessInputSchema,
+    outputSchema: inferReadinessOutputSchema,
+    annotations: { title: 'Measure readiness from process signals', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
 ];
 
@@ -894,6 +936,17 @@ const CALL_TOOL_HANDLER = async (req: any) => {
         disclaimer: v.disclaimer,
         advisory_next_step: advisoryFor(v.verdict),
       };
+      return {
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
+      };
+    }
+
+    if (name === 'infer_readiness') {
+      const a = args as any;
+      const r = inferReadiness(a);
+      logCall('infer_readiness', { function: a.function, readiness: r.readiness });
+      const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
         structuredContent: payload,
