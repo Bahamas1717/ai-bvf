@@ -18,6 +18,36 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import { createAibvfServer } from '../packages/mcp/dist/server.js';
 
 export default async function handler(req: any, res: any) {
+  // A human clicking the link in a browser sends GET without the MCP Accept
+  // header. Give them a landing page instead of a protocol error; real MCP
+  // clients (POST JSON-RPC, or GET accepting text/event-stream) pass through.
+  const accept = String(req.headers?.accept ?? '');
+  if (req.method === 'GET' && !accept.includes('text/event-stream')) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.statusCode = 200;
+    res.end(`<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI BVF · MCP endpoint</title>
+<style>
+  body { margin:0; background:#0F1E35; color:#DCE4EF; font-family:Georgia,'Palatino Linotype',serif; display:flex; min-height:100vh; align-items:center; justify-content:center; }
+  .card { max-width:560px; padding:48px 40px; }
+  .mark { width:44px; height:44px; border:2px solid #B87333; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#B87333; font-weight:700; font-size:13px; letter-spacing:1px; margin-bottom:22px; }
+  h1 { color:#F6F9FD; font-size:26px; line-height:1.3; margin:0 0 14px; font-weight:700; }
+  p { line-height:1.7; margin:0 0 14px; font-size:16px; }
+  .url { font-family:Consolas,Menlo,monospace; font-size:14px; color:#D9A672; background:rgba(184,115,51,0.08); border:1px solid rgba(184,115,51,0.25); border-radius:6px; padding:10px 14px; word-break:break-all; margin:0 0 14px; }
+  a { color:#D9A672; }
+  .dim { color:#A7B6C9; font-size:14px; }
+</style></head><body><div class="card">
+<div class="mark">BVF</div>
+<h1>This is a live MCP endpoint, built for AI agents rather than browsers.</h1>
+<p>It serves the AI Business Value Framework: eight deterministic tools that score an AI initiative Stop, Fix or Accelerate before the budget is committed, and return the change plan when the verdict is Fix.</p>
+<p>To use it on claude.ai (web or mobile): Settings, then Connectors, then Add custom connector, and paste this URL:</p>
+<div class="url">https://mcp.aibvf.com/api/mcp</div>
+<p class="dim">Then ask Claude about any AI initiative you are weighing. The protocol, docs and open-source code live at <a href="https://www.aibvf.com/protocol">aibvf.com/protocol</a>.</p>
+</div></body></html>`);
+    return;
+  }
+
   const server = createAibvfServer();
   const transport = new StreamableHTTPServerTransport({
     sessionIdGenerator: undefined, // stateless: no sessions, safe behind serverless
