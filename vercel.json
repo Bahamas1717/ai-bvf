@@ -1,5 +1,8 @@
 {
   "buildCommand": "npm run build -w @aibvf/core -w aibvf-mcp",
   "outputDirectory": ".",
-  "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in dependabot/*) exit 0;; *) exit 1;; esac"
+  "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in dependabot/*) exit 0;; *) exit 1;; esac",
+  "crons": [
+    { "path": "/api/agent/sweep", "schedule": "0 2 * * *" }
+  ]
 }
