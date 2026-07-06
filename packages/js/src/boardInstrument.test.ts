@@ -4,6 +4,7 @@ import { score, recommendImprovements } from './score.js';
 import { inferReadiness } from './inferReadiness.js';
 import { sequencePortfolio } from './sequencePortfolio.js';
 import { mapToTaxonomy } from './aliases.js';
+import { validate } from './validate.js';
 import { CORE_VERSION } from './audit.js';
 import type { ScoreInput, SequenceInput } from './types.js';
 
@@ -158,6 +159,21 @@ test('sequencer accepts the score_portfolio document shape with nested value sco
   const placed = r.waves.flatMap(w => w.initiatives);
   assert.equal(placed.length, 1);
   assert.equal(placed[0].id, 'amb');
+});
+
+test('validate accepts bare numeric pillar scores and the { value } shape equally', () => {
+  const doc = (scores: any) => ({
+    bvf_version: '1.0',
+    organization: { name: 'Health Group', industry: 'healthcare', revenue_eur: 800_000_000 },
+    initiatives: [{ id: 'amb', name: 'Ambient documentation', function: 'cx', ai_tier: 'gen2', scores }],
+  });
+  const bare = validate(doc({ strategic_alignment: 72, financial_return: 64, change_enablement: 48, governance_risk: 35 }));
+  assert.equal(bare.valid, true, JSON.stringify(bare.errors));
+  const nested = validate(doc({ strategic_alignment: { value: 72 }, financial_return: { value: 64 }, change_enablement: { value: 48 }, governance_risk: { value: 35 } }));
+  assert.equal(nested.valid, true);
+  const outOfRange = validate(doc({ strategic_alignment: 172, financial_return: 64, change_enablement: 48, governance_risk: 35 }));
+  assert.equal(outOfRange.valid, false);
+  assert.ok(outOfRange.errors.some(e => e.path.includes('strategic_alignment')));
 });
 
 test('sequencer gives a plain-language error on malformed input, never a TypeError', () => {

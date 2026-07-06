@@ -126,7 +126,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.11.1';
+export const VERSION = '0.11.2';
 
 const scoreInputSchema = {
   type: 'object',
@@ -206,6 +206,10 @@ const rangeLoHi = (description: string) => ({
 const stringArray = (description: string) => ({ type: 'array', items: { type: 'string' }, description });
 const roundEur = (value: number) => Math.round(value);
 const eurRange = (low: number, high: number) => ({ low: roundEur(low), high: roundEur(high) });
+
+/** Pillar scores arrive as bare numbers or as { value }; accept both, same as validate() and the sequencer. */
+const pillarValue = (s: unknown): number | undefined =>
+  typeof s === 'number' ? s : (s && typeof (s as any).value === 'number' ? (s as any).value : undefined);
 
 const auditSchema = {
   type: 'object',
@@ -400,7 +404,7 @@ const scorePortfolioInputSchema = {
   properties: {
     portfolio: {
       type: 'object',
-      description: 'A portfolio document conforming to the AI BVF v1.0 schema: bvf_version, organization (name, industry, optional revenue_eur), and a non-empty initiatives array. Each initiative carries id, name, function, ai_tier, and a scores object whose four pillars each carry a numeric value (0–100). Every initiative is run through the same rule as score_initiative — governance_risk ≥ 70 OR financial_return ≤ 20 → Stop; all of strategic_alignment/financial_return/change_enablement ≥ 60 with governance_risk ≤ 40 → Accelerate; else Fix — and the verdicts are aggregated into portfolio counts. organization.revenue_eur is required to model EUR value; initiatives that cannot be scored (missing revenue, unknown function/ai_tier) appear in skipped_initiatives rather than scored_initiatives. Validate first with validate_portfolio if the document may be malformed. Schema: https://www.aibvf.com/protocol.',
+      description: 'A portfolio document conforming to the AI BVF v1.0 schema: bvf_version, organization (name, industry, optional revenue_eur), and a non-empty initiatives array. Each initiative carries id, name, function, ai_tier, and a scores object whose four pillars are each either a bare number (0–100) or an object { value: 0–100 }; both shapes are accepted everywhere. Every initiative is run through the same rule as score_initiative — governance_risk ≥ 70 OR financial_return ≤ 20 → Stop; all of strategic_alignment/financial_return/change_enablement ≥ 60 with governance_risk ≤ 40 → Accelerate; else Fix — and the verdicts are aggregated into portfolio counts. organization.revenue_eur is required to model EUR value; initiatives that cannot be scored (missing revenue, unknown function/ai_tier) appear in skipped_initiatives rather than scored_initiatives. Validate first with validate_portfolio if the document may be malformed. Schema: https://www.aibvf.com/protocol.',
     },
     readiness: {
       type: 'string',
@@ -719,7 +723,7 @@ const TOOLS = [
       properties: {
         portfolio: {
           type: 'object',
-          description: 'The portfolio document as a JSON object following the AI BVF v1.0 schema: a top-level object with bvf_version, organization, and a non-empty "initiatives" array, each initiative carrying the same fields score_initiative expects (industry, revenue_eur, function, ai_tier, readiness, and a scores object with the four 0–100 pillars). Checked structurally only — required fields present, correct types, enum values valid, pillar numbers in range; the pillar values are NOT scored or judged here (use score_initiative or score_portfolio for that). On failure, errors[] names each failing JSON path and the rule it broke.',
+          description: 'The portfolio document as a JSON object following the AI BVF v1.0 schema: a top-level object with bvf_version, organization, and a non-empty "initiatives" array, each initiative carrying the same fields score_initiative expects (industry, revenue_eur, function, ai_tier, readiness, and a scores object with the four 0–100 pillars, each either a bare number or an object { value, confidence? }; both shapes pass). Checked structurally only — required fields present, correct types, enum values valid, pillar numbers in range; the pillar values are NOT scored or judged here (use score_initiative or score_portfolio for that). On failure, errors[] names each failing JSON path and the rule it broke.',
         },
       },
     },
@@ -860,10 +864,10 @@ const CALL_TOOL_HANDLER = async (req: any) => {
             ai_tier: init.ai_tier,
             readiness,
             scores: {
-              strategic_alignment: init.scores.strategic_alignment.value,
-              financial_return:    init.scores.financial_return.value,
-              change_enablement:   init.scores.change_enablement.value,
-              governance_risk:     init.scores.governance_risk.value,
+              strategic_alignment: pillarValue(init.scores.strategic_alignment),
+              financial_return:    pillarValue(init.scores.financial_return),
+              change_enablement:   pillarValue(init.scores.change_enablement),
+              governance_risk:     pillarValue(init.scores.governance_risk),
             },
           });
           scored.push({

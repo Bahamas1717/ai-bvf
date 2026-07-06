@@ -51,8 +51,15 @@ export function validate(doc: unknown): ValidationResult {
       if (!isObj(scores)) push(`${base}.scores`, 'Required object with all four pillar scores.');
       else {
         for (const p of PILLARS) {
+          // Both shapes are valid: a bare number, or { value, confidence? }.
+          // Field reports showed agents naturally write scores: { pillar: 68 };
+          // rejecting that was rigidity, not rigour.
           const ps = scores[p];
-          if (!isObj(ps)) { push(`${base}.scores.${p}`, 'Required pillar score object.'); continue; }
+          if (typeof ps === 'number') {
+            if (ps < 0 || ps > 100) push(`${base}.scores.${p}`, 'Number in [0, 100].');
+            continue;
+          }
+          if (!isObj(ps)) { push(`${base}.scores.${p}`, 'Required. A number in [0, 100], or an object with a value in [0, 100].'); continue; }
           const v = ps.value;
           if (typeof v !== 'number' || v < 0 || v > 100) push(`${base}.scores.${p}.value`, 'Required. Number in [0, 100].');
           if (ps.confidence !== undefined && (typeof ps.confidence !== 'number' || ps.confidence < 0 || ps.confidence > 100)) {
