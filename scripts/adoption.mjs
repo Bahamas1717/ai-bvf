@@ -1,6 +1,8 @@
 // AI BVF adoption snapshot · pulls live numbers from npm, PyPI, and GitHub.
 // Usage: node scripts/adoption.mjs   (or: npm run adoption)
 // Requires Node 18+ (native fetch).
+// Behind an HTTPS proxy, run with NODE_USE_ENV_PROXY=1 (Node >= 22.21) —
+// native fetch ignores HTTPS_PROXY otherwise.
 
 const JS_PKG    = '@aibvf/core';
 const MCP_PKG   = 'aibvf-mcp';
@@ -8,14 +10,21 @@ const CHECK_PKG = 'aibvf-check';
 const PY_PKG    = 'aibvf';
 const GH_REPO   = 'Bahamas1717/ai-bvf';
 
+const unreachable = new Set();
+
 async function json(url) {
   const headers = {};
   if (process.env.GITHUB_TOKEN && url.includes('api.github.com')) {
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
-  const r = await fetch(url, { headers });
-  if (!r.ok) return null;
-  return r.json();
+  try {
+    const r = await fetch(url, { headers });
+    if (!r.ok) return null;
+    return r.json();
+  } catch {
+    unreachable.add(new URL(url).host);
+    return null;
+  }
 }
 
 async function npmDownloads(pkg, period) {
@@ -83,6 +92,11 @@ if (gh) {
   console.log(`  last push: ${gh.updatedAt}`);
 } else {
   console.log('GitHub: rate limited or unreachable.');
+}
+if (unreachable.size) {
+  console.log();
+  console.log(`note: could not reach ${[...unreachable].join(', ')}`);
+  console.log('      (network/proxy block?) — a dash above may mean blocked, not zero.');
 }
 console.log();
 console.log('Dashboards:');
