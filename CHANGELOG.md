@@ -2,6 +2,32 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.11.1 (aibvf-mcp), 5 July 2026
+
+Fixed: `sequence_portfolio` accepts the document `score_portfolio` returns, so the natural two-step (score the portfolio, then sequence it) works without reshaping the payload between calls.
+
+## 0.11.0 (aibvf-mcp) / 0.7.0 (@aibvf/core), 5 July 2026 — the board instrument release
+
+Added, trust and friction: an **audit block on every scoring call** (engine version, rules fired, resolved inputs) so a challenged verdict reproduces months later without asking any model to remember anything — deterministic, no timestamps. **Sensitivity on `score_initiative`**: value at readiness one notch down, revenue minus 20 percent, and the nearest single-pillar movements that flip the verdict, because boards trust ranges with visible assumptions. **`claimed_readiness` on `infer_readiness`**: claimed vs measured compared, the gap returned as a finding — the organisation whose self-image runs ahead of its process data has just told you where the change work starts. **`map_to_taxonomy`**: plain language onto the taxonomy (customer service → cx, banking → financial, autonomous agents → gen3), suggestions instead of guesses on no match.
+
+Added, the Sequencer: **`sequence_portfolio`** brings the Workflow Coroner's three-wave logic into the engine — Stops first (free the budget), quick Accelerates second (buy trust), complex work and Fixes third behind re-score gates, with change capacity enforced per function and every deferral reported as a conflict. Eleven tools. 55/55 tests including determinism, capacity conflicts, gap findings, alias resolution, and the voice rules on all new output text.
+
+## 0.10.0 (aibvf-mcp) / 0.6.0 (@aibvf/core), 5 July 2026
+
+Added: **`infer_readiness`** — measures organisational readiness from process signals (cycle times, rework, handoffs) instead of self-report. Ninth tool. 0.10.1 was a docs pass: nine tools everywhere, connector first on the npm page.
+
+## 0.9.0 / 0.9.1 (aibvf-mcp), 5 July 2026
+
+Added: `aibvf-mcp` served as a **hosted remote MCP connector** — Streamable HTTP at `mcp.aibvf.com/api/mcp`, listed in the MCP registry, with a browser-friendly landing page on the endpoint itself. claude.ai connects via Settings → Connectors → Add custom connector; no local install. 0.9.1 registered the remote in the MCP registry and put the connector on the site.
+
+## 0.8.0 (aibvf-mcp) / 0.5.0 (@aibvf/core), 5 July 2026
+
+Added: **pillar scores optional with deterministic estimation** — `score` accepts partial or absent pillar scores and fills the gaps deterministically from taxonomy and readiness, with `signal_completeness` haircutting confidence accordingly. A fully estimated pass can never return Accelerate.
+
+## 0.7.0 (aibvf-mcp) / 0.4.0 (@aibvf/core), 5 July 2026
+
+Added: **change-leader layer on `recommend_improvements`** — the change plan returned alongside the pillar recommendations when the verdict is Fix, in the change leader's language rather than the analyst's.
+
 ## aibvf-check 0.1.0, 30 June 2026
 
 Added: a new package and the project's first non-MCP surface — **`aibvf-check`**, the AI BVF CI/CD pre-flight gate ("SonarQube for AI"). It reads a declared manifest of AI initiatives (`.aibvf.json`), scores each with the existing deterministic `@aibvf/core` engine, applies a policy, prints a scorecard, and exits non-zero when any initiative trips the gate — so a CI pipeline goes red on AI work that would not survive a board review. The scoring belongs upstream of the slide deck; this puts it in the one place a team already trusts to block bad work.
