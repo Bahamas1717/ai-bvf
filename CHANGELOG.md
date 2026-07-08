@@ -2,6 +2,12 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.12.0 (aibvf-mcp) / 0.8.0 (@aibvf/core), 8 July 2026
+
+Added: **`assemble_portfolio`**, the twelfth tool, closing the one gap Glama's review named (no way to create a portfolio, only validate and score it). It assembles the canonical BVF v1.0 document from loose conversational inputs: aliases resolved through the same taxonomy mapping as `map_to_taxonomy` (pharma → healthcare, accounts payable → finance, agentic → gen3), ids generated from names and deduplicated deterministically, missing pillars estimated from readiness, tier, function and the published benchmarks with the estimation reported per initiative in `estimated_pillars` and carried at low confidence in the document, and the finished document validated before it is returned. The read-only contract holds: the document exists in the response only, nothing is stored, nothing is edited, no state between calls. Core exports `assemblePortfolio()`; the CLI gate can reuse it. 64/64 tests including determinism, alias resolution, id dedupe, estimation provenance, blocked-assembly suggestions, and the voice rules on all new output text.
+
+Also: the hosted endpoint answers 405 to non-POST requests instead of holding a dead SSE stream open until the platform's 300-second timeout (the MCP spec's answer for servers that offer no GET stream), and `vercel.json` caps the function at 30 seconds.
+
 ## 0.11.3 (aibvf-mcp), 8 July 2026
 
 Security: the `@modelcontextprotocol/sdk` dependency floor rises from `^1.0.0` to `^1.26.0`, in the package and in the hosted endpoint's root manifest. The old range admitted SDK versions carrying three published advisories (a high-severity ReDoS, DNS rebinding protection off by default, and a cross-client data leak via shared transport reuse, GHSA-8r9q-7v3j-jr4g, GHSA-w48q-cv73-mx4w, GHSA-345p-7cg4-v4c7); 1.26.0 is the first version clean of all three. No aibvf-mcp release ever shipped a vulnerable resolution (the lockfile resolved 1.29.0), and the hosted endpoint creates a fresh server and transport per request, so the leak pattern never applied. This closes the range on paper the way it was already closed in practice, which is what Snyk scores.

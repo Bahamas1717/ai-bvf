@@ -1,7 +1,7 @@
 /**
  * aibvf-mcp as a remote MCP connector.
  *
- * Serves the same eight AI BVF tools as the npm package, over MCP
+ * Serves the same twelve AI BVF tools as the npm package, over MCP
  * Streamable HTTP, so any claude.ai user (web, mobile, Team) can add it
  * under Settings > Connectors with just this URL — no npx, no Desktop,
  * no config files.
@@ -19,10 +19,41 @@ import { createAibvfServer } from '../packages/mcp/dist/server.js';
 
 export default async function handler(req: any, res: any) {
   // A human clicking the link in a browser sends GET without the MCP Accept
-  // header. Give them a landing page instead of a protocol error; real MCP
-  // clients (POST JSON-RPC, or GET accepting text/event-stream) pass through.
+  // header. Give them a landing page instead of a protocol error.
   const accept = String(req.headers?.accept ?? '');
   if (req.method === 'GET' && !accept.includes('text/event-stream')) {
+    serveLandingPage(res);
+    return;
+  }
+
+  // Stateless JSON mode has no sessions and never sends server-initiated
+  // messages, so a GET stream would hang open with nothing to say until the
+  // platform kills the function at its timeout ceiling, billed the whole way.
+  // The MCP spec's answer for servers that offer no GET stream is 405; the
+  // same applies to DELETE, which terminates sessions this server never
+  // creates. Only POST carries JSON-RPC here.
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    res.statusCode = 405;
+    res.end(JSON.stringify({
+      jsonrpc: '2.0',
+      error: { code: -32000, message: 'Method not allowed. This is a stateless MCP endpoint; send JSON-RPC over POST.' },
+      id: null,
+    }));
+    return;
+  }
+
+  const server = createAibvfServer();
+  const transport = new StreamableHTTPServerTransport({
+    sessionIdGenerator: undefined, // stateless: no sessions, safe behind serverless
+    enableJsonResponse: true,      // plain JSON responses, no SSE stream needed
+  });
+  res.on('close', () => { transport.close(); server.close(); });
+  await server.connect(transport);
+  await transport.handleRequest(req, res, req.body);
+}
+
+function serveLandingPage(res: any) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.statusCode = 200;
     res.end(`<!doctype html>
@@ -40,20 +71,9 @@ export default async function handler(req: any, res: any) {
 </style></head><body><div class="card">
 <div class="mark">BVF</div>
 <h1>This is a live MCP endpoint, built for AI agents rather than browsers.</h1>
-<p>It serves the AI Business Value Framework: eleven deterministic tools that score an AI initiative Stop, Fix or Accelerate before the budget is committed, and return the change plan when the verdict is Fix.</p>
+<p>It serves the AI Business Value Framework: twelve deterministic tools that score an AI initiative Stop, Fix or Accelerate before the budget is committed, and return the change plan when the verdict is Fix.</p>
 <p>To use it on claude.ai (web or mobile): Settings, then Connectors, then Add custom connector, and paste this URL:</p>
 <div class="url">https://mcp.aibvf.com/api/mcp</div>
 <p class="dim">Then ask Claude about any AI initiative you are weighing. The protocol, docs and open-source code live at <a href="https://www.aibvf.com/protocol">aibvf.com/protocol</a>.</p>
 </div></body></html>`);
-    return;
-  }
-
-  const server = createAibvfServer();
-  const transport = new StreamableHTTPServerTransport({
-    sessionIdGenerator: undefined, // stateless: no sessions, safe behind serverless
-    enableJsonResponse: true,      // plain JSON responses, no SSE stream needed
-  });
-  res.on('close', () => { transport.close(); server.close(); });
-  await server.connect(transport);
-  await transport.handleRequest(req, res, req.body);
 }
