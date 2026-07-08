@@ -1,6 +1,6 @@
 {
   "name": "aibvf-check",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SonarQube for AI initiatives \u2014 a CI/CD pre-flight gate that fails the build when an AI initiative would not survive a board review. Deterministic, runs on AI BVF v1.0.",
   "keywords": [
     "ai-bvf",
@@ -35,7 +35,7 @@
     "test": "node --test dist/*.test.js"
   },
   "dependencies": {
-    "@aibvf/core": "^0.3.4"
+    "@aibvf/core": "^0.8.0"
   },
   "devDependencies": {
     "typescript": "^6.0.3",

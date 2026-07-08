@@ -2,6 +2,12 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.8.1 (@aibvf/core) / aibvf-check 0.1.1, 8 July 2026
+
+Fixed: the assembler's id dedupe could loop forever on duplicate names whose slugs sit at the 64-character cap, because appending a suffix and truncating back reproduced the same string. The suffix now gets room inside the cap. Rare input, ugly failure, easy fix; regression test drives three identical 80-character names.
+
+Bumped: `aibvf-check` finally moves its `@aibvf/core` range from `^0.3.4` to `^0.8.0`, five minors of engine behind it, including optional pillars with estimation, the audit block, sensitivity, and the assembler. 7/7 gate tests pass against the new engine.
+
 ## 0.12.0 (aibvf-mcp) / 0.8.0 (@aibvf/core), 8 July 2026
 
 Added: **`assemble_portfolio`**, the twelfth tool, closing the one gap Glama's review named (no way to create a portfolio, only validate and score it). It assembles the canonical BVF v1.0 document from loose conversational inputs: aliases resolved through the same taxonomy mapping as `map_to_taxonomy` (pharma → healthcare, accounts payable → finance, agentic → gen3), ids generated from names and deduplicated deterministically, missing pillars estimated from readiness, tier, function and the published benchmarks with the estimation reported per initiative in `estimated_pillars` and carried at low confidence in the document, and the finished document validated before it is returned. The read-only contract holds: the document exists in the response only, nothing is stored, nothing is edited, no state between calls. Core exports `assemblePortfolio()`; the CLI gate can reuse it. 64/64 tests including determinism, alias resolution, id dedupe, estimation provenance, blocked-assembly suggestions, and the voice rules on all new output text.

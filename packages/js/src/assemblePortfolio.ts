@@ -160,8 +160,14 @@ export function assemblePortfolio(input: AssembleInput): AssembleResult {
     // Id: given and kept, or generated from the name, deduplicated deterministically.
     let id = typeof raw.id === 'string' && /^[a-z0-9-]{1,64}$/.test(raw.id) ? raw.id : slugify(raw.name);
     if (raw.id && id !== raw.id) issues.push({ path: `${base}.id`, msg: `Given id "${raw.id}" is not a valid slug. Replaced with "${id}".` });
+    // Dedupe with the suffix given room inside the 64-char cap: appending
+    // and then truncating back would reproduce the same string on ids
+    // already at the cap, and the loop would never terminate.
     let candidate = id, n = 2;
-    while (usedIds.has(candidate)) candidate = `${id}-${n++}`.slice(0, 64);
+    while (usedIds.has(candidate)) {
+      const suffix = `-${n++}`;
+      candidate = id.slice(0, 64 - suffix.length) + suffix;
+    }
     if (candidate !== id) rules.push('dedupe:id');
     usedIds.add(candidate);
     id = candidate;
