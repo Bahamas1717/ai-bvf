@@ -130,7 +130,7 @@ function Tools() {
   return (
     <section id="mcp-tools" style={{ maxWidth: '980px', margin: '0 auto', padding: '40px 32px' }}>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <Label>MCP Server · 8 tools</Label>
+        <Label>MCP Server · 12 tools</Label>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '30px', color: 'var(--ice)', marginTop: '12px' }}>Callable from any agent</h2>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '12px' }}>

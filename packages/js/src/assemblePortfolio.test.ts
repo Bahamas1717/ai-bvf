@@ -80,6 +80,22 @@ test('unresolvable inputs block assembly with suggestions, never guesses', () =>
   assert.equal(r.validation, null);
 });
 
+test('duplicate names at the 64-char id cap still dedupe and terminate', () => {
+  const long = 'x'.repeat(80);
+  const r = assemblePortfolio({
+    organization: { name: 'X', industry: 'retail' },
+    initiatives: [
+      { name: long, function: 'cx', ai_tier: 'gen2' },
+      { name: long, function: 'cx', ai_tier: 'gen2' },
+      { name: long, function: 'cx', ai_tier: 'gen2' },
+    ],
+  });
+  const ids = r.portfolio!.initiatives.map((i) => i.id);
+  assert.equal(new Set(ids).size, 3, 'ids are unique');
+  for (const id of ids) assert.ok(/^[a-z0-9-]{1,64}$/.test(id), `valid slug: ${id}`);
+  assert.ok(r.validation?.valid);
+});
+
 test('adversarial names slugify fast and clean, no polynomial backtracking', () => {
   const hostile = '-'.repeat(500_000) + 'x';
   const started = process.hrtime.bigint();
