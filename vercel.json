@@ -1,5 +1,8 @@
 {
   "buildCommand": "npm run build -w @aibvf/core -w aibvf-mcp",
+  "functions": {
+    "api/mcp.ts": { "maxDuration": 30 }
+  },
   "outputDirectory": ".",
   "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in dependabot/*) exit 0;; *) exit 1;; esac",
   "crons": [
