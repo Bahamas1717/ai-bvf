@@ -2,6 +2,14 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.11.3 (aibvf-mcp), 8 July 2026
+
+Security: the `@modelcontextprotocol/sdk` dependency floor rises from `^1.0.0` to `^1.26.0`, in the package and in the hosted endpoint's root manifest. The old range admitted SDK versions carrying three published advisories (a high-severity ReDoS, DNS rebinding protection off by default, and a cross-client data leak via shared transport reuse, GHSA-8r9q-7v3j-jr4g, GHSA-w48q-cv73-mx4w, GHSA-345p-7cg4-v4c7); 1.26.0 is the first version clean of all three. No aibvf-mcp release ever shipped a vulnerable resolution (the lockfile resolved 1.29.0), and the hosted endpoint creates a fresh server and transport per request, so the leak pattern never applied. This closes the range on paper the way it was already closed in practice, which is what Snyk scores.
+
+## 0.11.2 (aibvf-mcp) / 0.7.1 (@aibvf/core), 6 July 2026
+
+Fixed: pillar scores accept bare numbers everywhere — `score_initiative`, `score_portfolio`, and the sequencer all take `strategic_alignment: 72` without requiring the object wrapper.
+
 ## 0.11.1 (aibvf-mcp), 5 July 2026
 
 Fixed: `sequence_portfolio` accepts the document `score_portfolio` returns, so the natural two-step (score the portfolio, then sequence it) works without reshaping the payload between calls.
