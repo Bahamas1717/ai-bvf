@@ -49,6 +49,26 @@ test('deterministic: same input, same document', () => {
   assert.deepEqual(assemblePortfolio(loose), assemblePortfolio(loose));
 });
 
+test('read-only: the input object is not mutated', () => {
+  const input = structuredClone(loose);
+  const snapshot = JSON.stringify(input);
+  assemblePortfolio(input);
+  assert.equal(JSON.stringify(input), snapshot);
+});
+
+test('every default is named in assumptions, in plain language', () => {
+  const r = assemblePortfolio(loose);
+  assert.ok(r.assumptions.some((a) => a.includes('Contact Centre Copilot')), 'estimation named per initiative');
+  const noReadiness = assemblePortfolio({ ...structuredClone(loose), readiness: undefined });
+  assert.ok(noReadiness.assumptions.some((a) => a.includes('defaulted to traditional')), 'readiness default named');
+  const fullyGiven = assemblePortfolio({
+    organization: { name: 'X', industry: 'retail' },
+    readiness: 'agile',
+    initiatives: [{ name: 'A', function: 'cx', ai_tier: 'gen2', scores: { strategic_alignment: 70, financial_return: 60, change_enablement: 60, governance_risk: 30 } }],
+  });
+  assert.deepEqual(fullyGiven.assumptions, [], 'nothing assumed when everything is given');
+});
+
 test('unresolvable inputs block assembly with suggestions, never guesses', () => {
   const r = assemblePortfolio({
     organization: { name: 'X', industry: 'floristry' },
@@ -58,6 +78,22 @@ test('unresolvable inputs block assembly with suggestions, never guesses', () =>
   assert.ok(r.issues.some((i) => i.path === 'organization.industry'));
   assert.ok(r.issues.some((i) => i.path.endsWith('.function')));
   assert.equal(r.validation, null);
+});
+
+test('adversarial names slugify fast and clean, no polynomial backtracking', () => {
+  const hostile = '-'.repeat(500_000) + 'x';
+  const started = process.hrtime.bigint();
+  const r = assemblePortfolio({
+    organization: { name: 'X', industry: 'retail' },
+    initiatives: [
+      { name: hostile, function: 'cx', ai_tier: 'gen2' },
+      { name: '---Invoice --- Matching---', function: 'cx', ai_tier: 'gen2' },
+    ],
+  });
+  const elapsedMs = Number(process.hrtime.bigint() - started) / 1e6;
+  assert.ok(elapsedMs < 1000, `slugify took ${elapsedMs}ms on hostile input`);
+  assert.equal(r.portfolio!.initiatives[0].id, 'initiative');
+  assert.equal(r.portfolio!.initiatives[1].id, 'invoice-matching');
 });
 
 test('voice rules hold on all output text', () => {

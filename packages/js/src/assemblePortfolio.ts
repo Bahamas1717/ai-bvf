@@ -63,6 +63,8 @@ export interface AssembleResult {
   resolutions: string[];
   /** Initiative id to the pillars the assembler estimated, so scoring can haircut honestly. */
   estimated_pillars: Record<string, string[]>;
+  /** Every default the assembler applied, in plain language. No hidden judgements: what was not given is named here. */
+  assumptions: string[];
   /** Unresolved or invalid inputs, each with suggestions where the taxonomy has them. */
   issues: AssembleIssue[];
   /** validate() run on the assembled document. Null when assembly failed. */
@@ -74,13 +76,20 @@ export interface AssembleResult {
 }
 
 function slugify(name: string): string {
-  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 64).replace(/-+$/, '');
-  return slug || 'initiative';
+  // Input is uncontrolled tool input: cap it before any regex work, and trim
+  // hyphen runs with index arithmetic rather than unanchored regexes, which
+  // backtrack polynomially on adversarial strings of repeated separators.
+  const slug = name.slice(0, 240).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 64);
+  let start = 0, end = slug.length;
+  while (start < end && slug[start] === '-') start++;
+  while (end > start && slug[end - 1] === '-') end--;
+  return slug.slice(start, end) || 'initiative';
 }
 
 export function assemblePortfolio(input: AssembleInput): AssembleResult {
   const issues: AssembleIssue[] = [];
   const resolutions: string[] = [];
+  const assumptions: string[] = [];
   const estimated: Record<string, string[]> = {};
   const rules: string[] = [];
 
@@ -102,9 +111,11 @@ export function assemblePortfolio(input: AssembleInput): AssembleResult {
       if (m.matched_on !== 'exact') { resolutions.push(`readiness: ${input.readiness} resolved to ${readiness}`); rules.push('alias:readiness'); }
     } else {
       issues.push({ path: 'readiness', msg: `Could not resolve "${input.readiness}". Defaulted to traditional.`, suggestions: m?.suggestions });
+      assumptions.push('Readiness defaulted to traditional because the given value did not resolve. Estimated pillars lean on it.');
       rules.push('default:readiness');
     }
   } else {
+    assumptions.push('Readiness was not given: defaulted to traditional. Estimated pillars lean on it, so confirm it or measure it with infer_readiness.');
     rules.push('default:readiness');
   }
 
@@ -175,7 +186,11 @@ export function assemblePortfolio(input: AssembleInput): AssembleResult {
         estHere.push(p);
       }
     }
-    if (estHere.length) { estimated[id] = estHere; rules.push('estimate:pillars'); }
+    if (estHere.length) {
+      estimated[id] = estHere;
+      assumptions.push(`${raw.name}: ${estHere.join(', ')} estimated from readiness, tier, function and published benchmarks at confidence ${ESTIMATED_CONFIDENCE}. Structure, not evidence.`);
+      rules.push('estimate:pillars');
+    }
 
     const init: Initiative = { id, name: raw.name, function: fn.resolved as Initiative['function'], ai_tier: tier.resolved as Initiative['ai_tier'], scores };
     if (raw.bucket) init.bucket = raw.bucket;
@@ -208,6 +223,7 @@ export function assemblePortfolio(input: AssembleInput): AssembleResult {
   return {
     portfolio,
     resolutions,
+    assumptions,
     estimated_pillars: estimated,
     issues,
     validation,
