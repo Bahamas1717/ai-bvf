@@ -159,7 +159,10 @@ export default async function handler(req: any, res: any) {
     const floor = mandate.act_floor ?? MANDATE.act_floor;
     const top = attention[0];
     if (top && top.net_saving_low_eur >= floor.min_saving_eur && top.decision_confidence >= floor.min_confidence) {
-      const existing = await sb(`bvf_action?verdict_id=eq.${top.verdict_id}&select=id&limit=1`);
+      // One open proposal per PROCESS, not per verdict: every sweep writes a
+      // fresh verdict row, so deduping on verdict_id would re-propose the same
+      // work nightly. A watchman who nags daily is a watchman who gets ignored.
+      const existing = await sb(`bvf_action?select=id,bvf_verdict!inner(process_id)&bvf_verdict.process_id=eq.${top.process_id}&status=in.(proposed,approved,executing)&limit=1`);
       if (!existing.length) {
         const action = (await sb('bvf_action', {
           method: 'POST', prefer: 'return=representation',
