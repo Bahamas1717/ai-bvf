@@ -17,7 +17,7 @@ await server.connect(transport);
 // Opt-out and privacy contracts are identical to tool-call telemetry.
 logCall('server_connect');
 
-console.error(`aibvf-mcp v${VERSION} ready on stdio - 11 tools: score_initiative, score_portfolio, sequence_portfolio, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, map_to_taxonomy, diagnose_process, infer_readiness`);
+console.error(`aibvf-mcp v${VERSION} ready on stdio - 12 tools: score_initiative, score_portfolio, assemble_portfolio, sequence_portfolio, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, map_to_taxonomy, diagnose_process, infer_readiness`);
 console.error('aibvf-mcp: feedback welcome at https://github.com/Bahamas1717/ai-bvf/discussions');
 if (telemetryEnabled) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');

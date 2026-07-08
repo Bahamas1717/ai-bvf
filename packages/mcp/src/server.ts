@@ -11,7 +11,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import {
   score, validate, recommendImprovements, calculatePaceLayerDrag, diagnoseProcess, inferReadiness,
-  sequencePortfolio, mapToTaxonomy,
+  sequencePortfolio, mapToTaxonomy, assemblePortfolio,
   BASE_RATES, IND_MULT,
   INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
 } from '@aibvf/core';
@@ -126,7 +126,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.11.3';
+export const VERSION = '0.12.0';
 
 const scoreInputSchema = {
   type: 'object',
@@ -685,6 +685,65 @@ const mapTaxonomyOutputSchema = {
   },
 };
 
+const assemblePortfolioInputSchema = {
+  type: 'object',
+  required: ['organization', 'initiatives'],
+  properties: {
+    organization: {
+      type: 'object',
+      required: ['name', 'industry'],
+      properties: {
+        name: { type: 'string', description: 'The organisation the portfolio belongs to.' },
+        industry: { type: 'string', description: 'Canonical id or plain language: banking resolves to financial, pharma to healthcare.' },
+        revenue_eur: { type: 'number', description: 'Optional annual revenue in EUR. Needed later for value modelling in score_portfolio.' },
+        region: { type: 'string' },
+        headcount: { type: 'number' },
+      },
+    },
+    initiatives: {
+      type: 'array',
+      description: 'One entry per initiative, from whatever the user gave you. Only name, function and ai_tier are required.',
+      items: {
+        type: 'object',
+        required: ['name', 'function', 'ai_tier'],
+        properties: {
+          name: { type: 'string', description: 'Plain name. Also the source of the generated id when none is given.' },
+          id: { type: 'string', description: 'Optional slug (lowercase letters, digits, hyphens, max 64). Generated from the name when absent, deduplicated deterministically.' },
+          function: { type: 'string', description: 'Canonical id or plain language: customer service resolves to cx, procurement to supply.' },
+          ai_tier: { type: 'string', description: 'Canonical id or plain language: RPA resolves to gen1, copilot to gen2, agentic to gen3.' },
+          scores: {
+            type: 'object',
+            description: 'The pillar scores you have real evidence for, as bare numbers 0 to 100. Do NOT invent the rest: missing pillars are estimated deterministically, carry low confidence in the document, and are reported in estimated_pillars.',
+            properties: {
+              strategic_alignment: { type: 'number' }, financial_return: { type: 'number' },
+              change_enablement: { type: 'number' }, governance_risk: { type: 'number' },
+            },
+          },
+          bucket: { type: 'string', enum: ['Agent-Proof', 'Agent-Augmented', 'Agent-Replaceable'] },
+          compliance: { type: 'array', items: { type: 'string', enum: ['eu_ai_act', 'dora', 'csrd', 'gdpr_ai'] } },
+        },
+      },
+    },
+    readiness: { type: 'string', description: 'Organisational readiness, canonical or plain language (bureaucratic resolves to siloed). Drives estimation of missing pillars. Defaults to traditional.' },
+  },
+};
+
+const assemblePortfolioOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'resolutions', 'estimated_pillars', 'issues', 'readiness_used', 'guidance', 'audit'],
+  properties: {
+    bvf_version: { type: 'string' },
+    portfolio: { type: 'object', description: 'The assembled BVF v1.0 document, ready for validate_portfolio, score_portfolio and sequence_portfolio. Null when assembly is blocked on issues.' },
+    resolutions: { type: 'array', items: { type: 'string' }, description: 'Every alias resolution performed, in plain language.' },
+    estimated_pillars: { type: 'object', description: 'Initiative id to the pillars the assembler estimated. Gather evidence for these, or expect scoring to haircut confidence.' },
+    issues: { type: 'array', items: { type: 'object' }, description: 'Unresolved inputs, each with path, message and suggestions where the taxonomy has them.' },
+    validation: { type: 'object', description: 'validate() run on the assembled document.' },
+    readiness_used: { type: 'string' },
+    guidance: { type: 'string' },
+    audit: auditSchema,
+  },
+};
+
 const TOOLS = [
   {
     name: 'score_initiative',
@@ -778,6 +837,13 @@ const TOOLS = [
     inputSchema: mapTaxonomyInputSchema,
     outputSchema: mapTaxonomyOutputSchema,
     annotations: { title: 'Map language to taxonomy', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  },
+  {
+    name: 'assemble_portfolio',
+    description: 'Assemble a valid AI BVF v1.0 portfolio document from loose inputs, deterministically. Agents arrive with initiative names, plain-language functions and half the pillar scores, then hand-build the portfolio JSON and get the shape wrong; this tool builds it right. Give it the organisation (name plus industry in canonical or everyday language) and one entry per initiative (name, function, ai_tier, plus whatever pillar scores you actually have as bare numbers) and it returns the finished document: aliases resolved through the same mapping as map_to_taxonomy, ids generated from names and deduplicated, missing pillars estimated from readiness, tier, function and the published benchmarks with the estimation reported per initiative in estimated_pillars, and the whole document validated before it is returned. CALL THIS when the user lists several AI initiatives in conversation and you need a portfolio document for validate_portfolio, score_portfolio or sequence_portfolio, instead of composing the JSON by hand. Do NOT invent pillar scores to fill it: pass only the numbers the user gave you and let the estimation carry the rest honestly, the estimated pillars carry low confidence and scoring haircuts accordingly. Unresolvable inputs come back as issues with suggestions; ask the user to choose rather than guessing. This tool creates a document in the response only: nothing is stored, nothing is edited, no state exists between calls. Pure deterministic calculation, no network, auth, or side effects.',
+    inputSchema: assemblePortfolioInputSchema,
+    outputSchema: assemblePortfolioOutputSchema,
+    annotations: { title: 'Assemble portfolio document', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
 ];
 
@@ -1106,6 +1172,19 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const a = args as any;
       const r = mapToTaxonomy(a);
       logCall('map_to_taxonomy', {});
+      const payload = { bvf_version: BVF_VERSION, ...r };
+      return {
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
+      };
+    }
+
+    if (name === 'assemble_portfolio') {
+      const a = args as any;
+      const r = assemblePortfolio(a);
+      logCall('assemble_portfolio', {
+        industry: r.portfolio?.organization?.industry, readiness: r.readiness_used,
+      });
       const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],

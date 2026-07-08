@@ -13,6 +13,7 @@ export {
 export { buildChangePlan } from './changePlan.js';
 export { inferReadiness } from './inferReadiness.js';
 export { sequencePortfolio } from './sequencePortfolio.js';
+export { assemblePortfolio } from './assemblePortfolio.js';
 export { mapToTaxonomy } from './aliases.js';
 export { buildAudit, CORE_VERSION } from './audit.js';
 export { bvfSchema } from './schema.js';

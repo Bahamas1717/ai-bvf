@@ -32,12 +32,13 @@ This is the missing pre-flight check for agentic AI work: not "can we build it?"
 
 ## What It Does
 
-Eleven tools, callable from any MCP-compatible agent over stdio (npx) or as a hosted remote connector at https://mcp.aibvf.com/api/mcp (claude.ai: Settings, Connectors, Add custom connector).
+Twelve tools, callable from any MCP-compatible agent over stdio (npx) or as a hosted remote connector at https://mcp.aibvf.com/api/mcp (claude.ai: Settings, Connectors, Add custom connector).
 
 | Tool | Purpose |
 |---|---|
 | `score_initiative` | Four-pillar score returns Accelerate, Fix, or Stop with EUR value range, decision confidence, applied modules, reasoning. |
 | `score_portfolio` | Scores every initiative in a BVF portfolio in one call and returns the board-level shape: Accelerate/Fix/Stop counts, aggregate EUR value, mean decision confidence, top initiative by value, highest-risk initiative. |
+| `assemble_portfolio` | Assembles a valid BVF v1.0 portfolio document from loose inputs: names, plain-language functions and tiers, and whatever pillar scores exist. Aliases resolved, ids generated, missing pillars estimated with the estimation reported per initiative, document validated before return. Nothing stored, nothing edited. |
 | `recommend_improvements` | For Stop or Fix, returns the specific pillar raises that would flip the call toward Accelerate. |
 | `calculate_pace_layer_drag` | Annual Organisational Drag Cost in EUR from AI-tier vs operating-model misalignment. |
 | `validate_portfolio` | Validates a portfolio JSON document against the BVF v1.0 schema. |
@@ -129,9 +130,9 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.11.3 | MCP server — 11 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
+| [`aibvf-mcp`](packages/mcp) | 0.12.0 | MCP server — 12 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
 | [`aibvf-check`](packages/cli) | 0.1.0 | CI/CD pre-flight gate ("SonarQube for AI") + GitHub Action. |
-| [`@aibvf/core`](packages/js) | 0.7.1 | TypeScript scoring engine, validator, change-leader plans, readiness inference, and Advisor Brain. |
+| [`@aibvf/core`](packages/js) | 0.8.0 | TypeScript scoring engine, validator, change-leader plans, readiness inference, and Advisor Brain. |
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
 
 ## Anonymous Usage Telemetry
