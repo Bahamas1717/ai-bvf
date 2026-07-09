@@ -23,7 +23,7 @@ const ESTATE_KEY = process.env.AIBVF_ESTATE_SERVICE_KEY ?? '';
 const CRON_SECRET = process.env.CRON_SECRET ?? '';
 
 const MANDATE = {
-  name: 'Craig-Horton-estate',
+  name: 'craig-horton-estate', // DB identifier, matches the live bvf_mandate row; not a GitHub handle
   scope: { functions: ['sales', 'it', 'cx'], exclude_processes: [] },
   autonomy_tier: 'T0',
   act_floor: { min_saving_eur: 1000, min_confidence: 0.5 },
