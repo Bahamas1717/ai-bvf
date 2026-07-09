@@ -540,7 +540,7 @@ export default function App(){
       </div>
       <div style={{padding:"12px 48px",borderTop:`1px solid rgba(184,115,51,0.1)`,display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:"8px"}}>
         <div style={{fontSize:"10px",color:C.muted,fontFamily:"'Trebuchet MS',sans-serif"}}>AI BVF v5 · Craig Horton · 2026 · McKinsey · Gartner · Forrester · Deloitte · Prosci benchmarks</div>
-        <div style={{fontSize:"10px",color:C.copper,fontFamily:"'Trebuchet MS',sans-serif"}}>craigmds1@gmail.com · linkedin.com/in/craig-horton-7a27128</div>
+        <div style={{fontSize:"10px",color:C.copper,fontFamily:"'Trebuchet MS',sans-serif"}}>craigmds1@gmail.com · linkedin.com/in/Craig-Horton-7a27128</div>
       </div>
     </div>
   );

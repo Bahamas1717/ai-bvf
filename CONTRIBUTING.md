@@ -4,7 +4,7 @@ The benchmark ranges, industry multipliers, and scoring math in this protocol de
 
 ## What is welcome
 
-- **Calibration disputes.** A benchmark range you think is wrong, with the function, industry, the range the engine returned, what you think it should be, and a citation. File these as a [Discussions](https://github.com/craig-horton/ai-bvf/discussions) thread, not an issue.
+- **Calibration disputes.** A benchmark range you think is wrong, with the function, industry, the range the engine returned, what you think it should be, and a citation. File these as a [Discussions](https://github.com/Craig-Horton/ai-bvf/discussions) thread, not an issue.
 - **Worked examples where the verdict felt off.** Inputs you used, the verdict you got, what you would have expected, why. Counter-examples are how the engine learns where it is over-confident.
 - **Missing industry modules.** A sector the cross-industry default does not land for, with one published reference that would anchor a calibration.
 - **Bug fixes** in the scoring engine, MCP server, or telemetry pipeline.
@@ -26,12 +26,12 @@ The benchmark ranges, industry multipliers, and scoring math in this protocol de
 
 ## How to submit a calibration change
 
-Open a [Discussions](https://github.com/craig-horton/ai-bvf/discussions) thread first, naming the function, industry, range, your proposed value, and the citation. After the dispute resolves in the thread, the change lands in a release with the contributor named in the release notes, by handle or by full name on request.
+Open a [Discussions](https://github.com/Craig-Horton/ai-bvf/discussions) thread first, naming the function, industry, range, your proposed value, and the citation. After the dispute resolves in the thread, the change lands in a release with the contributor named in the release notes, by handle or by full name on request.
 
 ## Local development
 
 ```bash
-git clone https://github.com/craig-horton/ai-bvf
+git clone https://github.com/Craig-Horton/ai-bvf
 cd ai-bvf
 npm install
 npm -w @aibvf/core run build

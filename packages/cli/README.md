@@ -32,7 +32,7 @@ It scores every initiative, prints a scorecard, and **exits non-zero if any trip
 ## GitHub Action
 
 ```yaml
-- uses: craig-horton/ai-bvf@main
+- uses: Craig-Horton/ai-bvf@main
   with:
     manifest: .aibvf.json   # optional, this is the default
 ```

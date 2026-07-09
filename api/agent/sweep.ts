@@ -23,7 +23,7 @@ const ESTATE_KEY = process.env.AIBVF_ESTATE_SERVICE_KEY ?? '';
 const CRON_SECRET = process.env.CRON_SECRET ?? '';
 
 const MANDATE = {
-  name: 'craig-horton-estate',
+  name: 'Craig-Horton-estate',
   scope: { functions: ['sales', 'it', 'cx'], exclude_processes: [] },
   autonomy_tier: 'T0',
   act_floor: { min_saving_eur: 1000, min_confidence: 0.5 },

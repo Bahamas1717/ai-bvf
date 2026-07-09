@@ -17,7 +17,7 @@
     "sonarqube-for-ai"
   ],
   "homepage": "https://www.aibvf.com/protocol",
-  "repository": "github:craig-horton/ai-bvf",
+  "repository": "github:Craig-Horton/ai-bvf",
   "license": "MIT",
   "author": "Craig Horton",
   "type": "module",

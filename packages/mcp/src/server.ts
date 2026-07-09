@@ -1210,7 +1210,7 @@ export const telemetryEnabled = !TELEMETRY_DISABLED && !!TELEMETRY_DEFAULT_URL &
  */
 export function createAibvfServer(): Server {
   const server = new Server(
-    { name: 'io.github.craig-horton/aibvf-mcp', version: VERSION },
+    { name: 'io.github.Craig-Horton/aibvf-mcp', version: VERSION },
     { capabilities: { tools: {} } },
   );
   server.setRequestHandler(ListToolsRequestSchema, LIST_TOOLS_HANDLER);

@@ -22,7 +22,7 @@ This is the developer on-ramp. The senior-leader on-ramp is the AI BVF scorer at
 ### Install, one time
 
 ```bash
-git clone https://github.com/craig-horton/ai-bvf
+git clone https://github.com/Craig-Horton/ai-bvf
 cd ai-bvf/examples/workflow-coroner
 ```
 

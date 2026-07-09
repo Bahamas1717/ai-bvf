@@ -10,7 +10,7 @@ This design system unifies the product surfaces onto **one accent (copper) on de
 
 Built from the public repo (browse for deeper context — the reader is encouraged to explore these to build higher-fidelity work):
 
-- **GitHub — `craig-horton/ai-bvf`**: https://github.com/craig-horton/ai-bvf
+- **GitHub — `Craig-Horton/ai-bvf`**: https://github.com/Craig-Horton/ai-bvf
   - `index.html` — the product app (scoring workspace, portfolio, board readout). Primary source for the unified design tokens.
   - `AI-BVF.html` — long-form product/marketing page.
   - `ai-readiness-blueprint.html` — the six-driver diagnostic marketing page (earlier, lighter palette — superseded here).

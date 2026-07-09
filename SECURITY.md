@@ -4,7 +4,7 @@ The AI BVF scoring engine is deterministic and runs no inbound network path beyo
 
 ## Reporting a vulnerability
 
-Use GitHub's [Security Advisories](https://github.com/craig-horton/ai-bvf/security/advisories) to report any issue you believe has security impact. Advisories are private by default until a fix ships.
+Use GitHub's [Security Advisories](https://github.com/Craig-Horton/ai-bvf/security/advisories) to report any issue you believe has security impact. Advisories are private by default until a fix ships.
 
 For anything that should not sit in a public security advisory, including credential leaks in the telemetry pipeline or anything affecting the proprietary benchmark corpus, email craig@craighortonadvisory.com directly.
 
@@ -18,7 +18,7 @@ For anything that should not sit in a public security advisory, including creden
 
 ## Response window
 
-Acknowledged within 72 hours. A patch released within 7 days for anything meeting the above criteria. Calibration disputes about benchmark accuracy are not security issues and belong in [Discussions](https://github.com/craig-horton/ai-bvf/discussions) instead.
+Acknowledged within 72 hours. A patch released within 7 days for anything meeting the above criteria. Calibration disputes about benchmark accuracy are not security issues and belong in [Discussions](https://github.com/Craig-Horton/ai-bvf/discussions) instead.
 
 ## Scope
 

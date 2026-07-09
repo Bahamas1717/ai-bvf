@@ -18,7 +18,7 @@ await server.connect(transport);
 logCall('server_connect');
 
 console.error(`aibvf-mcp v${VERSION} ready on stdio - 12 tools: score_initiative, score_portfolio, assemble_portfolio, sequence_portfolio, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy, map_to_taxonomy, diagnose_process, infer_readiness`);
-console.error('aibvf-mcp: feedback welcome at https://github.com/craig-horton/ai-bvf/discussions');
+console.error('aibvf-mcp: feedback welcome at https://github.com/Craig-Horton/ai-bvf/discussions');
 if (telemetryEnabled) {
   console.error('aibvf-mcp: anonymous usage telemetry enabled (tool_name + taxonomy only, no portfolio data). Opt out with AIBVF_TELEMETRY_DISABLE=1. Debug with AIBVF_TELEMETRY_DEBUG=1.');
 }
