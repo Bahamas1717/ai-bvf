@@ -2,7 +2,7 @@
 
 MCP server exposing AI BVF v1.0 to any Claude agent, twelve deterministic tools that pre-flight-check AI initiatives before the budget is committed: score honestly from whatever is known (a fully estimated pass can never return Accelerate), return the change plan when the verdict is Fix, and measure organisational readiness from process data instead of self-report.
 
-> **Source:** [github.com/Bahamas1717/ai-bvf](https://github.com/Bahamas1717/ai-bvf) · ⭐ star if this helped · [Issues](https://github.com/Bahamas1717/ai-bvf/issues) · Built by [Craig Horton Advisory](https://craighortonadvisory.com)
+> **Source:** [github.com/craig-horton/ai-bvf](https://github.com/craig-horton/ai-bvf) · ⭐ star if this helped · [Issues](https://github.com/craig-horton/ai-bvf/issues) · Built by [Craig Horton Advisory](https://craighortonadvisory.com)
 
 ## No install: use it on claude.ai
 

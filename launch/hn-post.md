@@ -20,10 +20,10 @@ The four pillars are Strategic Alignment, Financial Return, Change Enablement, G
 
 recommend_improvements is the answer to "what do I do next." It takes a Stop or Fix and returns the pillar raises that would flip classification toward Accelerate, each with a named action and a rationale. calculate_pace_layer_drag returns the annual Organisational Drag Cost in EUR from running an AI tier that outruns your operating model, so a gen3 agent in a siloed org reads back at 4.5 to 8 percent of revenue in annual structural friction, separate from the AI build cost.
 
-Install: npm install -g aibvf-mcp. Or register io.github.Bahamas1717/aibvf-mcp from the MCP registry and your Claude Code or Claude Desktop client picks it up automatically. There is a worked example in docs/worked-example.md with the full math on a healthcare portfolio.
+Install: npm install -g aibvf-mcp. Or register io.github.craig-horton/aibvf-mcp from the MCP registry and your Claude Code or Claude Desktop client picks it up automatically. There is a worked example in docs/worked-example.md with the full math on a healthcare portfolio.
 
 What I want you to tell me I got wrong. The benchmark ranges are directional, they represent published ranges rather than audited figures, and the industry multipliers are a starting calibration. I would rather argue the numbers in public and improve the protocol than ship a quiet tool no one checks. File an issue or push a PR.
 
-Repo: https://github.com/Bahamas1717/ai-bvf
+Repo: https://github.com/craig-horton/ai-bvf
 Registry: https://registry.modelcontextprotocol.io/servers?search=aibvf
 Protocol page: https://www.aibvf.com/protocol

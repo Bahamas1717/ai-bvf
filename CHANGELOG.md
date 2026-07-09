@@ -54,7 +54,7 @@ Added: a new package and the project's first non-MCP surface — **`aibvf-check`
 
 Policy supports `fail_on` (classifications that fail, default `["Stop"]`), `max_governance_risk` (hard ceiling regardless of verdict), and `min_decision_confidence` (floor). Per-initiative `signal_completeness` forwards to `score()`, so estimated inputs honestly haircut confidence and surface a caveat instead of sailing through on a confident-looking number — the 0.6.0 metadata-burden work, now enforceable in CI. Exit codes: `0` pass, `1` gate failed, `2` config error.
 
-Distribution is the point: ships as `npx aibvf-check` and as a composite **GitHub Action** (`uses: Bahamas1717/ai-bvf@<tag>` with an optional `manifest` input) so adoption is a few lines in a workflow, discoverable in the GitHub Marketplace. The gate logic is a pure, unit-tested function (`runCheck`) with side effects isolated in the CLI entry; 7 tests cover pass, each policy lever, default policy, multi-initiative aggregation, and manifest linting. Reuses 100% of the scoring engine — no new scoring maths. Manifest is human/PR-authored JSON (not auto-scraped), keeping the `signal_completeness` honesty discipline. Zero runtime dependencies beyond `@aibvf/core`. A worked example ships at `.aibvf.example.json`.
+Distribution is the point: ships as `npx aibvf-check` and as a composite **GitHub Action** (`uses: craig-horton/ai-bvf@<tag>` with an optional `manifest` input) so adoption is a few lines in a workflow, discoverable in the GitHub Marketplace. The gate logic is a pure, unit-tested function (`runCheck`) with side effects isolated in the CLI entry; 7 tests cover pass, each policy lever, default policy, multi-initiative aggregation, and manifest linting. Reuses 100% of the scoring engine — no new scoring maths. Manifest is human/PR-authored JSON (not auto-scraped), keeping the `signal_completeness` honesty discipline. Zero runtime dependencies beyond `@aibvf/core`. A worked example ships at `.aibvf.example.json`.
 
 
 ## 0.6.0 (aibvf-mcp) / 0.3.4 (@aibvf/core), 30 June 2026
@@ -148,7 +148,7 @@ Six weeks of anonymous usage shape data was not captured (5 May to 29 May 2026).
 
 The 0.2.1 entry below claimed telemetry was "landing cleanly" after the classification-column migration. That verification did not include a 24-hour row-count check. Future telemetry changes will.
 
-Full post-mortem on the project [Discussions](https://github.com/Bahamas1717/ai-bvf/discussions) thread.
+Full post-mortem on the project [Discussions](https://github.com/craig-horton/ai-bvf/discussions) thread.
 
 ## 0.3.1, 27 May 2026
 

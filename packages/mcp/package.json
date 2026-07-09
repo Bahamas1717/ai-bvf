@@ -1,6 +1,6 @@
 {
   "name": "aibvf-mcp",
-  "mcpName": "io.github.Bahamas1717/aibvf-mcp",
+  "mcpName": "io.github.craig-horton/aibvf-mcp",
   "version": "0.12.0",
   "description": "AI BVF: score AI portfolios Stop/Fix/Accelerate with decision confidence and pace-layer drag.",
   "keywords": [
@@ -20,7 +20,7 @@
     "cio"
   ],
   "homepage": "https://www.aibvf.com/protocol",
-  "repository": "github:Bahamas1717/ai-bvf",
+  "repository": "github:craig-horton/ai-bvf",
   "license": "MIT",
   "author": "Craig Horton",
   "type": "module",

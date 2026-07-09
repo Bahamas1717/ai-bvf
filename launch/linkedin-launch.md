@@ -12,11 +12,11 @@ Worked example, a 800M EUR hospital group running an agentic discharge coordinat
 
 The same organisation in gen3 agentic mode with traditional readiness carries an annual Organisational Drag Cost of 20M to 36M EUR, and that is structural friction separate from the AI build. A CFO reads that number and understands the conversation immediately.
 
-Six tools on stdio, score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy. Install with npm install -g aibvf-mcp, or pick up io.github.Bahamas1717/aibvf-mcp from the MCP registry and any Claude client will register it automatically.
+Six tools on stdio, score_initiative, recommend_improvements, calculate_pace_layer_drag, validate_portfolio, get_benchmark, list_taxonomy. Install with npm install -g aibvf-mcp, or pick up io.github.craig-horton/aibvf-mcp from the MCP registry and any Claude client will register it automatically.
 
 The benchmark corpus is directional, the protocol is open, the calibration will improve through public review. If you run AI portfolios in your day job and the numbers look wrong, file an issue or push a PR, I would rather argue the calibration in public than ship a quiet tool no one checks.
 
-Repo: https://github.com/Bahamas1717/ai-bvf
+Repo: https://github.com/craig-horton/ai-bvf
 
 #AIBVF #MCP #AgenticAI #AITransformation #EnterpriseAI #AIGovernance
 

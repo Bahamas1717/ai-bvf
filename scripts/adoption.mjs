@@ -8,7 +8,7 @@ const JS_PKG    = '@aibvf/core';
 const MCP_PKG   = 'aibvf-mcp';
 const CHECK_PKG = 'aibvf-check';
 const PY_PKG    = 'aibvf';
-const GH_REPO   = 'Bahamas1717/ai-bvf';
+const GH_REPO   = 'craig-horton/ai-bvf';
 
 const unreachable = new Set();
 
