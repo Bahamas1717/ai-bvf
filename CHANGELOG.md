@@ -2,6 +2,10 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.12.2 (aibvf-mcp), 13 July 2026
+
+Changed: every MCP tool description now says when to call it, what its inputs change, what its defaults mean and which sibling tool applies when it does not. `calculate_pace_layer_drag` now distinguishes the cost of organisational delay from an AI build cost, directs process questions to `diagnose_process`, investment questions to `score_initiative`, and Fix plans to `recommend_improvements`. The calculation and its output contract are unchanged.
+
 ## 0.8.1 (@aibvf/core) / aibvf-check 0.1.1, 8 July 2026
 
 Fixed: the assembler's id dedupe could loop forever on duplicate names whose slugs sit at the 64-character cap, because appending a suffix and truncating back reproduced the same string. The suffix now gets room inside the cap. Rare input, ugly failure, easy fix; regression test drives three identical 80-character names.
