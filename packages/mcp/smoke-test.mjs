@@ -48,10 +48,16 @@ for (const r of responses) {
   else if (r.id === 2) console.log(`tools/list OK · ${r.result?.tools?.length} tools: ${r.result?.tools?.map(t => t.name).join(', ')}`);
   else if (r.id === 3) {
     const parsed = JSON.parse(r.result?.content?.[0]?.text);
+    if (parsed.classification !== 'Fix' || parsed.feedback?.question !== 'Did this change what you will do next? Tell me in one line.' || !parsed.feedback?.url?.startsWith('mailto:')) {
+      console.error('Fix verdict did not carry the expected feedback route.');
+      process.exitCode = 1;
+    } else {
+      console.log('feedback route OK');
+    }
     console.log(`score_initiative OK · ${parsed.classification} · €${Math.round(parsed.net_value_eur.low/1e6)}M–€${Math.round(parsed.net_value_eur.high/1e6)}M · conf ${parsed.decision_confidence}`);
   } else if (r.id === 4) {
     const parsed = JSON.parse(r.result?.content?.[0]?.text);
     console.log(`list_taxonomy OK · ${parsed.industries.length} industries · ${parsed.functions.length} functions · ${parsed.ai_tiers.length} tiers`);
   } else console.log('? id=' + r.id + ':', JSON.stringify(r).slice(0, 200));
 }
-process.exit(0);
+process.exit(process.exitCode ?? 0);

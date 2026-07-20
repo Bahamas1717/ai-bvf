@@ -2,6 +2,10 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.12.3 (aibvf-mcp), 13 July 2026
+
+Added: `score_initiative`, `score_portfolio` and `recommend_improvements` now return one voluntary question on Fix and Stop verdicts: “Did this change what you will do next? Tell me in one line.” The route is a prefilled email to Craig, no response is recorded unless the user chooses to send it. Accelerate verdicts carry no feedback prompt.
+
 ## 0.12.2 (aibvf-mcp), 13 July 2026
 
 Changed: every MCP tool description now says when to call it, what its inputs change, what its defaults mean and which sibling tool applies when it does not. `calculate_pace_layer_drag` now distinguishes the cost of organisational delay from an AI build cost, directs process questions to `diagnose_process`, investment questions to `score_initiative`, and Fix plans to `recommend_improvements`. The calculation and its output contract are unchanged.

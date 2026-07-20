@@ -76,9 +76,20 @@ const callerHash = () => {
 // the initiatives where a calibrated conversation actually pays.
 const ADVISORY_EMAIL = 'craig@craighortonadvisory.com';
 const ADVISORY_BOOKING = 'https://calendly.com/craigmds1/new-meeting';
+const FEEDBACK_QUESTION = 'Did this change what you will do next? Tell me in one line.';
 function advisoryFor(classification: string): string | undefined {
   if (classification === 'Fix' || classification === 'Stop') {
     return `This ${classification} verdict is worth arguing with the team that has to act on it. Book a 20-minute teardown: ${ADVISORY_BOOKING} (or email ${ADVISORY_EMAIL}).`;
+  }
+  return undefined;
+}
+
+function feedbackFor(classification: string): { question: string; url: string } | undefined {
+  if (classification === 'Fix' || classification === 'Stop') {
+    return {
+      question: FEEDBACK_QUESTION,
+      url: `mailto:${ADVISORY_EMAIL}?subject=${encodeURIComponent('AI BVF feedback')}&body=${encodeURIComponent(`${FEEDBACK_QUESTION}\n\n`)}`,
+    };
   }
   return undefined;
 }
@@ -126,7 +137,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.12.2';
+export const VERSION = '0.12.3';
 
 const scoreInputSchema = {
   type: 'object',
@@ -273,6 +284,12 @@ const scoreOutputSchema = {
     applied_modules:    stringArray('BVF scoring modules that fired for this input.'),
     caveat:             { type: 'string', description: 'Present only when signal_completeness was low: warns the verdict rests on soft inputs and confidence was reduced.' },
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
+    feedback: {
+      type: 'object',
+      description: 'Optional one-question feedback route, present only for Fix/Stop verdicts. The link opens a prefilled email; no response is recorded unless the user chooses to send it.',
+      required: ['question', 'url'],
+      properties: { question: { type: 'string' }, url: { type: 'string', format: 'uri' } },
+    },
   },
 };
 
@@ -337,6 +354,12 @@ const recommendOutputSchema = {
       },
     },
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
+    feedback: {
+      type: 'object',
+      description: 'Optional one-question feedback route, present only for Fix/Stop verdicts. The link opens a prefilled email; no response is recorded unless the user chooses to send it.',
+      required: ['question', 'url'],
+      properties: { question: { type: 'string' }, url: { type: 'string', format: 'uri' } },
+    },
   },
 };
 
@@ -497,6 +520,12 @@ const scorePortfolioOutputSchema = {
       },
     },
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only when any initiative was Fix or Stop.' },
+    feedback: {
+      type: 'object',
+      description: 'Optional one-question feedback route, present only when any initiative was Fix or Stop. The link opens a prefilled email; no response is recorded unless the user chooses to send it.',
+      required: ['question', 'url'],
+      properties: { question: { type: 'string' }, url: { type: 'string', format: 'uri' } },
+    },
   },
 };
 
@@ -857,6 +886,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
     if (name === 'score_initiative') {
       const a = args as any;
       const r = score(a);
+      const feedback = feedbackFor(r.classification);
       logCall('score_initiative', {
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
@@ -877,6 +907,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
         applied_modules: r.applied_modules,
         ...(r.caveat ? { caveat: r.caveat } : {}),
         advisory_next_step: advisoryFor(r.classification),
+        ...(feedback ? { feedback } : {}),
       };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
@@ -1017,6 +1048,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       }
       if (summary.stop > 0 || summary.fix > 0) {
         payload.advisory_next_step = advisoryFor('Fix');
+        payload.feedback = feedbackFor('Fix');
       }
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
@@ -1027,6 +1059,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
     if (name === 'recommend_improvements') {
       const a = args as any;
       const rec = recommendImprovements(a);
+      const feedback = feedbackFor(rec.current_classification);
       logCall('recommend_improvements', {
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
@@ -1042,6 +1075,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
         notes: rec.notes,
         ...(rec.change_plan ? { change_plan: rec.change_plan } : {}),
         advisory_next_step: advisoryFor(rec.current_classification),
+        ...(feedback ? { feedback } : {}),
       };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
