@@ -13,7 +13,10 @@
     "standards"
   ],
   "homepage": "https://www.aibvf.com/protocol",
-  "repository": "github:Craig-Horton/ai-bvf",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Craig-Horton/ai-bvf.git"
+  },
   "license": "MIT",
   "author": "Craig Horton",
   "type": "module",
