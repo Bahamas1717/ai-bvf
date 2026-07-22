@@ -52,7 +52,8 @@ function matchOne(
   canon: readonly string[],
   aliases: Record<string, string[]>,
 ): TaxonomyMatch {
-  const norm = input.trim().toLowerCase().replace(/[_-]+/g, ' ');
+  const normalise = (value: string) => value.trim().toLowerCase().replace(/[_-]+/g, ' ').replace(/\s+/g, ' ');
+  const norm = normalise(input);
   const compact = norm.replace(/\s+/g, '');
 
   for (const c of canon) {
@@ -60,12 +61,13 @@ function matchOne(
   }
   for (const [c, list] of Object.entries(aliases)) {
     for (const a of list) {
-      if (norm === a) return { input, resolved: c, matched_on: a };
+      if (norm === normalise(a)) return { input, resolved: c, matched_on: a };
     }
   }
   for (const [c, list] of Object.entries(aliases)) {
     for (const a of list) {
-      if (norm.includes(a) || a.includes(norm)) return { input, resolved: c, matched_on: a };
+      const alias = normalise(a);
+      if (norm.includes(alias) || alias.includes(norm)) return { input, resolved: c, matched_on: a };
     }
   }
   return { input, resolved: null, suggestions: [...canon] };

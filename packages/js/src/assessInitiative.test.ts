@@ -52,3 +52,16 @@ test('provided values override proposal resolution', () => {
   assert.equal(result.resolved_inputs.readiness, 'agile');
   assert.equal(result.status, 'verdict');
 });
+
+test('hyphenated industry aliases resolve inside a full proposal', () => {
+  const nonprofit = assessInitiative({
+    proposal: 'A traditional non-profit with EUR 100m revenue wants a GenAI assistant for recruiting.',
+  });
+  const universal = assessInitiative({
+    proposal: 'A traditional cross-industry business with EUR 500m revenue wants a GenAI assistant for finance.',
+  });
+  assert.equal(nonprofit.status, 'verdict');
+  assert.equal(nonprofit.resolved_inputs.industry, 'nonprofit');
+  assert.equal(universal.status, 'verdict');
+  assert.equal(universal.resolved_inputs.industry, 'universal');
+});
