@@ -389,6 +389,32 @@ export interface SequenceResult {
   audit: AuditRecord;
 }
 
+export type AssessField = 'industry' | 'revenue_eur' | 'function' | 'ai_tier' | 'readiness';
+
+/** Plain-English front door for one proposed AI investment. */
+export interface AssessInitiativeInput {
+  proposal: string;
+  industry?: string;
+  revenue_eur?: number;
+  function?: string;
+  ai_tier?: string;
+  readiness?: string;
+  scores?: Partial<PillarScores>;
+  signal_completeness?: number;
+}
+
+/** Either the next question needed to score, or the deterministic verdict. */
+export interface AssessInitiativeResult {
+  status: 'needs_input' | 'verdict';
+  proposal: string;
+  resolved_inputs: Partial<ScoreInput>;
+  resolutions: string[];
+  missing_fields: AssessField[];
+  next_question?: string;
+  suggestions?: string[];
+  verdict?: ScoreResult;
+}
+
 /** Result of mapping free text onto the canonical taxonomy. */
 export interface TaxonomyMatch {
   input: string;

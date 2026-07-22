@@ -15,6 +15,7 @@ export { inferReadiness } from './inferReadiness.js';
 export { sequencePortfolio } from './sequencePortfolio.js';
 export { assemblePortfolio } from './assemblePortfolio.js';
 export { mapToTaxonomy } from './aliases.js';
+export { assessInitiative, extractRevenueEur } from './assessInitiative.js';
 export { buildAudit, CORE_VERSION } from './audit.js';
 export { bvfSchema } from './schema.js';
 export { INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, INDUSTRY_LABEL, FUNCTION_LABEL, TIER_LABEL } from './taxonomy.js';

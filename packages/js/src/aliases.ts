@@ -19,19 +19,19 @@ const FUNCTION_ALIASES: Record<string, string[]> = {
 };
 
 const INDUSTRY_ALIASES: Record<string, string[]> = {
-  retail:         ['ecommerce', 'e-commerce', 'consumer goods', 'fmcg', 'grocery', 'fashion', 'shops'],
-  financial:      ['banking', 'bank', 'insurance', 'insurer', 'fintech', 'asset management', 'payments', 'financial services'],
-  healthcare:     ['hospital', 'pharma', 'pharmaceutical', 'medtech', 'life sciences', 'clinical', 'health'],
-  manufacturing:  ['industrial', 'automotive', 'factory', 'production', 'engineering company'],
-  technology:     ['software', 'saas', 'tech', 'it services', 'telecom', 'telecommunications'],
-  logistics:      ['transport', 'shipping', 'freight', 'distribution', 'postal'],
-  energy:         ['utilities', 'utility', 'oil and gas', 'power', 'renewables'],
-  public_sector:  ['government', 'municipality', 'public services', 'civil service', 'defence', 'defense'],
-  professional:   ['consulting', 'consultancy', 'law firm', 'accounting firm', 'agency', 'professional services'],
-  education:      ['university', 'school', 'edtech', 'training provider'],
-  real_estate:    ['property', 'housing', 'construction', 'proptech'],
-  creative:       ['media', 'entertainment', 'publishing', 'advertising', 'gaming'],
-  nonprofit:      ['ngo', 'charity', 'foundation', 'not for profit', 'non-profit'],
+  retail:         ['retail', 'retailer', 'retailers', 'ecommerce', 'e-commerce', 'consumer goods', 'fmcg', 'grocery', 'fashion', 'shops'],
+  financial:      ['financial', 'banking', 'bank', 'insurance', 'insurer', 'fintech', 'asset management', 'payments', 'financial services'],
+  healthcare:     ['healthcare', 'health care', 'hospital', 'pharma', 'pharmaceutical', 'medtech', 'life sciences', 'clinical', 'health'],
+  manufacturing:  ['manufacturing', 'manufacturer', 'industrial', 'automotive', 'factory', 'production', 'engineering company'],
+  technology:     ['technology', 'software', 'saas', 'tech', 'it services', 'telecom', 'telecommunications'],
+  logistics:      ['logistics', 'transport', 'shipping', 'freight', 'distribution', 'postal'],
+  energy:         ['energy', 'utilities', 'utility', 'oil and gas', 'power', 'renewables'],
+  public_sector:  ['public sector', 'government', 'municipality', 'public services', 'civil service', 'defence', 'defense'],
+  professional:   ['professional services', 'consulting', 'consultancy', 'law firm', 'accounting firm', 'agency'],
+  education:      ['education', 'university', 'school', 'edtech', 'training provider'],
+  real_estate:    ['real estate', 'property', 'housing', 'construction', 'proptech'],
+  creative:       ['creative', 'media', 'entertainment', 'publishing', 'advertising', 'gaming'],
+  nonprofit:      ['nonprofit', 'ngo', 'charity', 'foundation', 'not for profit', 'non-profit'],
   universal:      ['general', 'cross-industry', 'any', 'other'],
 };
 
@@ -42,9 +42,9 @@ const TIER_ALIASES: Record<string, string[]> = {
 };
 
 const READINESS_ALIASES: Record<string, string[]> = {
-  agile:       ['cross-functional', 'startup', 'product-led', 'fast-moving', 'collaborative', 'empowered teams', 'change-ready'],
-  traditional: ['hierarchy', 'hierarchical', 'functional', 'corporate', 'committee', 'matrix', 'established'],
-  siloed:      ['bureaucratic', 'territorial', 'rigid', 'slow', 'legacy culture', 'political', 'fragmented'],
+  agile:       ['agile', 'cross-functional', 'startup', 'product-led', 'fast-moving', 'collaborative', 'empowered teams', 'change-ready'],
+  traditional: ['traditional', 'hierarchy', 'hierarchical', 'functional', 'corporate', 'committee', 'matrix', 'established'],
+  siloed:      ['siloed', 'silos', 'bureaucratic', 'territorial', 'rigid', 'slow', 'legacy culture', 'political', 'fragmented'],
 };
 
 function matchOne(

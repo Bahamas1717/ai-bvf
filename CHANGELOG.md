@@ -2,6 +2,16 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.13.0 (aibvf-mcp) / 0.9.0 (@aibvf/core), 22 July 2026
+
+Added: `assess_ai_initiative`, the plain-English front door for one AI investment decision. It resolves industry, revenue, business function, AI tier and organisational readiness from the proposal, names every resolution, and asks one question for the first missing input. When all five inputs exist, it runs the same deterministic score as `score_initiative` and returns Accelerate, Fix or Stop with the value range, confidence, assumptions and audit trail. Explicit corrections override proposal inference, unresolved values are never guessed, and proposal text never enters telemetry.
+
+Added to `@aibvf/core`: `assessInitiative()` and `extractRevenueEur()`, shared by the MCP server and browser experience. Three prepared sector cases cover retail, healthcare and financial services, alongside the missing-input and explicit-override tests.
+
+Changed: the public `/start` page begins with the working plain-English assessment and the three prepared cases. Connector instructions follow the result.
+
+Release rule: the MCP surface is fixed at thirteen tools through 0.15.x. The next two releases will improve activation, output and measurement without adding another tool.
+
 ## 0.12.3 (aibvf-mcp), 13 July 2026
 
 Added: `score_initiative`, `score_portfolio` and `recommend_improvements` now return one voluntary question on Fix and Stop verdicts: “Did this change what you will do next? Tell me in one line.” The route is a prefilled email to Craig, no response is recorded unless the user chooses to send it. Accelerate verdicts carry no feedback prompt.
