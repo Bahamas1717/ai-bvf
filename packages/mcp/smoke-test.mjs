@@ -29,6 +29,12 @@ send({ jsonrpc: '2.0', id: 2, method: 'tools/list' });
 await new Promise(r => setTimeout(r, 200));
 send({ jsonrpc: '2.0', id: 3, method: 'tools/call',
   params: {
+    name: 'assess_ai_initiative',
+    arguments: { proposal: 'We are a 300 million euro retailer, a traditional organisation, considering a GenAI assistant for customer service.' },
+  }});
+await new Promise(r => setTimeout(r, 300));
+send({ jsonrpc: '2.0', id: 4, method: 'tools/call',
+  params: {
     name: 'score_initiative',
     arguments: {
       industry: 'manufacturing', revenue_eur: 2_400_000_000,
@@ -37,7 +43,7 @@ send({ jsonrpc: '2.0', id: 3, method: 'tools/call',
     },
   }});
 await new Promise(r => setTimeout(r, 500));
-send({ jsonrpc: '2.0', id: 4, method: 'tools/call',
+send({ jsonrpc: '2.0', id: 5, method: 'tools/call',
   params: { name: 'list_taxonomy', arguments: {} } });
 await new Promise(r => setTimeout(r, 300));
 server.kill();
@@ -45,8 +51,20 @@ server.kill();
 console.log('\n=== SMOKE TEST RESULTS ===');
 for (const r of responses) {
   if (r.id === 1) console.log(`init OK · protocol ${r.result?.protocolVersion} · ${r.result?.serverInfo?.name}@${r.result?.serverInfo?.version}`);
-  else if (r.id === 2) console.log(`tools/list OK · ${r.result?.tools?.length} tools: ${r.result?.tools?.map(t => t.name).join(', ')}`);
+  else if (r.id === 2) {
+    if (r.result?.tools?.length !== 13 || r.result?.tools?.[0]?.name !== 'assess_ai_initiative') {
+      console.error('Front-door tool is missing or the tool count is not frozen at 13.');
+      process.exitCode = 1;
+    }
+    console.log(`tools/list OK · ${r.result?.tools?.length} tools: ${r.result?.tools?.map(t => t.name).join(', ')}`);
+  }
   else if (r.id === 3) {
+    const parsed = JSON.parse(r.result?.content?.[0]?.text);
+    if (parsed.status !== 'verdict' || parsed.verdict?.classification !== 'Fix' || parsed.resolved_inputs?.industry !== 'retail') {
+      console.error('assess_ai_initiative did not resolve and score the retail example.');
+      process.exitCode = 1;
+    } else console.log(`assess_ai_initiative OK · ${parsed.verdict.classification} · conf ${parsed.verdict.decision_confidence}`);
+  } else if (r.id === 4) {
     const parsed = JSON.parse(r.result?.content?.[0]?.text);
     if (parsed.classification !== 'Fix' || parsed.feedback?.question !== 'Did this change what you will do next? Tell me in one line.' || !parsed.feedback?.url?.startsWith('mailto:')) {
       console.error('Fix verdict did not carry the expected feedback route.');
@@ -55,7 +73,7 @@ for (const r of responses) {
       console.log('feedback route OK');
     }
     console.log(`score_initiative OK · ${parsed.classification} · €${Math.round(parsed.net_value_eur.low/1e6)}M–€${Math.round(parsed.net_value_eur.high/1e6)}M · conf ${parsed.decision_confidence}`);
-  } else if (r.id === 4) {
+  } else if (r.id === 5) {
     const parsed = JSON.parse(r.result?.content?.[0]?.text);
     console.log(`list_taxonomy OK · ${parsed.industries.length} industries · ${parsed.functions.length} functions · ${parsed.ai_tiers.length} tiers`);
   } else console.log('? id=' + r.id + ':', JSON.stringify(r).slice(0, 200));

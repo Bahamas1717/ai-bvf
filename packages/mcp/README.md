@@ -1,12 +1,12 @@
 # aibvf-mcp
 
-MCP server exposing AI BVF v1.0 to any Claude agent, twelve deterministic tools that pre-flight-check AI initiatives before the budget is committed: score honestly from whatever is known (a fully estimated pass can never return Accelerate), return the change plan when the verdict is Fix, and measure organisational readiness from process data instead of self-report.
+MCP server exposing AI BVF v1.0 to any Claude agent, thirteen deterministic tools that pre-flight-check AI initiatives before the budget is committed: start from a plain-English proposal, score from whatever is known (a fully estimated pass can never return Accelerate), return the change plan when the verdict is Fix, and measure organisational readiness from process data instead of self-report. The tool count is fixed through 0.15.x.
 
 > **Source:** [github.com/Craig-Horton/ai-bvf](https://github.com/Craig-Horton/ai-bvf) · ⭐ star if this helped · [Issues](https://github.com/Craig-Horton/ai-bvf/issues) · Built by [Craig Horton Advisory](https://craighortonadvisory.com)
 
 ## No install: use it on claude.ai
 
-Settings, then Connectors, then Add custom connector, and paste the hosted endpoint. Works on web and mobile, all twelve tools, same deterministic engine:
+Settings, then Connectors, then Add custom connector, and paste the hosted endpoint. Works on web and mobile, all thirteen tools, same deterministic engine:
 
 ```
 https://mcp.aibvf.com/api/mcp
@@ -71,7 +71,7 @@ Fully quit and restart the host (on Windows, right-click the Claude tray icon �
 
 > *"Score this AI initiative using AI BVF: we're a €2.4bn manufacturer, planning a GenAI predictive maintenance rollout in our EU plants, we're a traditional hierarchy, strong sponsor, modest change budget."*
 
-Claude will call `score_initiative` and return the classification, euro range, and reasoning.
+Claude will call `assess_ai_initiative`, resolve the proposal, and return the classification, euro range, and reasoning. If one decision input is missing, it asks for that first.
 
 ## Troubleshooting
 
@@ -83,6 +83,7 @@ Claude will call `score_initiative` and return the classification, euro range, a
 
 | Tool | Purpose |
 |---|---|
+| `assess_ai_initiative` | Plain-English front door for one initiative. Resolves industry, revenue, function, AI tier and readiness, asks one question for the first missing input, then returns Accelerate, Fix or Stop from the same scoring engine. |
 | `score_initiative` | Return classification (Accelerate/Fix/Stop), euro range, and reasoning for one initiative. |
 | `score_portfolio` | Score every initiative in a BVF portfolio in one call and return the board-level shape: Accelerate/Fix/Stop counts, aggregate EUR value, mean decision confidence, top initiative by value, highest-risk initiative, per-initiative results. Use instead of looping `score_initiative`. |
 | `assemble_portfolio` | Assembles a valid BVF v1.0 portfolio document from loose inputs: names, plain-language functions and tiers, and whatever pillar scores exist. Aliases resolved, ids generated, missing pillars estimated with the estimation reported per initiative, document validated before return. Nothing stored, nothing edited. |

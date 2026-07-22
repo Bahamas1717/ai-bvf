@@ -42,6 +42,32 @@ jobs:
       - name: Build packages
         run: npm run build
 
+      # Publish the shared engine before packages that depend on its new version.
+      - name: Read @aibvf/core version before dependants
+        id: corepkg_before
+        run: |
+          CV=$(node -p "require('./packages/js/package.json').version")
+          echo "version=$CV" >> "$GITHUB_OUTPUT"
+          echo "@aibvf/core version on disk: $CV"
+
+      - name: Check @aibvf/core before dependants
+        id: core_check_before
+        run: |
+          if npm view "@aibvf/core@${{ steps.corepkg_before.outputs.version }}" version > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "@aibvf/core@${{ steps.corepkg_before.outputs.version }} already on npm, skipping"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish @aibvf/core before dependants
+        if: steps.core_check_before.outputs.exists == 'false'
+        working-directory: packages/js
+        run: |
+          echo "Publishing @aibvf/core@${{ steps.corepkg_before.outputs.version }} with npm $(npm --version)"
+          npm publish --provenance --access public
+          echo "Published @aibvf/core@${{ steps.corepkg_before.outputs.version }} to npm"
+
       - name: Read package version
         id: pkg
         run: |
@@ -69,31 +95,6 @@ jobs:
           echo "Publishing aibvf-mcp@${{ steps.pkg.outputs.version }} with npm $(npm --version)"
           npm publish --provenance --access public
           echo "✅ Published aibvf-mcp@${{ steps.pkg.outputs.version }} to npm"
-
-      - name: Read @aibvf/core version
-        id: corepkg
-        run: |
-          CV=$(node -p "require('./packages/js/package.json').version")
-          echo "version=$CV" >> "$GITHUB_OUTPUT"
-          echo "@aibvf/core version on disk: $CV"
-
-      - name: Check if @aibvf/core version is on npm
-        id: core-check
-        run: |
-          if npm view "@aibvf/core@${{ steps.corepkg.outputs.version }}" version > /dev/null 2>&1; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "@aibvf/core@${{ steps.corepkg.outputs.version }} already on npm, skipping"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Publish @aibvf/core with provenance
-        if: steps.core-check.outputs.exists == 'false'
-        working-directory: packages/js
-        run: |
-          echo "Publishing @aibvf/core@${{ steps.corepkg.outputs.version }} with npm $(npm --version)"
-          npm publish --provenance --access public
-          echo "✅ Published @aibvf/core@${{ steps.corepkg.outputs.version }} to npm"
 
       - name: Read aibvf-check version
         id: clipkg

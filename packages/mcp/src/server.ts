@@ -11,7 +11,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import {
   score, validate, recommendImprovements, calculatePaceLayerDrag, diagnoseProcess, inferReadiness,
-  sequencePortfolio, mapToTaxonomy, assemblePortfolio,
+  sequencePortfolio, mapToTaxonomy, assemblePortfolio, assessInitiative,
   BASE_RATES, IND_MULT,
   INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
 } from '@aibvf/core';
@@ -137,7 +137,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.12.3';
+export const VERSION = '0.13.0';
 
 const scoreInputSchema = {
   type: 'object',
@@ -172,6 +172,24 @@ const scoreInitiativeInputSchema = {
       type: 'number', minimum: 0, maximum: 1,
       description: 'Optional 0–1. How grounded the four pillar scores are in real evidence versus estimated from context. Defaults to 1 (treated as measured). If the organisation lacks formal change-readiness or risk metadata, estimate the pillars from what you know AND set this lower to say so — decision confidence is reduced proportionally and a caveat is attached, instead of returning a falsely confident verdict on soft inputs.',
     },
+  },
+};
+
+const assessInitiativeInputSchema = {
+  type: 'object',
+  required: ['proposal'],
+  properties: {
+    proposal: {
+      type: 'string', minLength: 1,
+      description: 'The AI initiative in ordinary business language. Include the organisation, industry, approximate annual revenue, business function, AI ambition and how the organisation works today when known. The resolver extracts what it can and asks one question for the first missing input; it never guesses an unresolved taxonomy value.',
+    },
+    industry: { type: 'string', description: 'Optional correction or answer in canonical or everyday language, for example retail, hospital, bank or public sector. Overrides anything inferred from proposal.' },
+    revenue_eur: { type: 'number', minimum: 0, description: 'Optional approximate annual revenue in EUR. Overrides any EUR amount extracted from proposal. No currency conversion is performed.' },
+    function: { type: 'string', description: 'Optional correction or answer in canonical or everyday language, for example customer service, procurement, finance or risk. Overrides anything inferred from proposal.' },
+    ai_tier: { type: 'string', description: 'Optional correction or answer: automation/RPA, GenAI/copilot, or agentic/autonomous. Overrides anything inferred from proposal.' },
+    readiness: { type: 'string', description: 'Optional correction or answer: agile, traditional, or siloed, including everyday descriptions such as cross-functional, hierarchical or bureaucratic. Overrides anything inferred from proposal.' },
+    scores: scoreInputSchema.properties.scores,
+    signal_completeness: scoreInitiativeInputSchema.properties.signal_completeness,
   },
 };
 
@@ -290,6 +308,22 @@ const scoreOutputSchema = {
       required: ['question', 'url'],
       properties: { question: { type: 'string' }, url: { type: 'string', format: 'uri' } },
     },
+  },
+};
+
+const assessInitiativeOutputSchema = {
+  type: 'object',
+  required: ['bvf_version', 'status', 'proposal', 'resolved_inputs', 'resolutions', 'missing_fields'],
+  properties: {
+    bvf_version: { type: 'string' },
+    status: { type: 'string', enum: ['needs_input', 'verdict'], description: 'needs_input when one or more required decision inputs remain unresolved; verdict when scoring completed.' },
+    proposal: { type: 'string', description: 'The supplied proposal, returned so the next call can preserve it verbatim.' },
+    resolved_inputs: { type: 'object', description: 'Canonical fields resolved so far. Explicit corrections override proposal inference.' },
+    resolutions: stringArray('Every deterministic resolution, naming the field, canonical value, source and matched phrase.'),
+    missing_fields: { type: 'array', items: { type: 'string', enum: ['industry', 'revenue_eur', 'function', 'ai_tier', 'readiness'] } },
+    next_question: { type: 'string', description: 'The single next question to ask. Present only when status is needs_input.' },
+    suggestions: stringArray('Accepted values for an explicitly supplied field that could not be resolved.'),
+    verdict: { ...scoreOutputSchema, description: 'The AI BVF score. Present only when status is verdict.' },
   },
 };
 
@@ -774,7 +808,16 @@ const assemblePortfolioOutputSchema = {
   },
 };
 
+const SCORE_INITIATIVE_DESCRIPTION = 'Canonical-field scorer for one AI initiative. CALL THIS when industry, revenue_eur, function, ai_tier and readiness are already known, or when re-scoring with measured pillar evidence. For a proposal written in ordinary business language, call assess_ai_initiative first; it resolves these fields and asks for anything missing. Pillar scores remain optional: missing pillars are estimated deterministically, reported through pillar_basis, and reduce decision confidence, while a fully estimated pass can never return Accelerate. Returns Accelerate, Fix or Stop, modelled gross and net EUR ranges, decision confidence, sensitivity, assumptions and an audit trail. Use score_portfolio for several initiatives and diagnose_process for measured waste in an existing process. Pure deterministic calculation, no network, auth or side effects.';
+
 const TOOLS = [
+  {
+    name: 'assess_ai_initiative',
+    description: 'The front door for one AI investment decision. CALL THIS FIRST when the user describes an AI idea in ordinary language or asks whether it should proceed. Pass the proposal as written; the tool resolves industry, revenue, business function, AI tier and organisational readiness deterministically. If one or more inputs remain unknown, it returns the single next question to ask, along with every value already resolved, so call it again with that answer. When all five inputs are present it runs the same engine as score_initiative and returns Accelerate, Fix or Stop, the modelled EUR range, confidence, assumptions and audit trail. Explicit fields override proposal inference, pillar scores remain optional, and unresolved values are never guessed. Use score_initiative only when the canonical fields are already known, score_portfolio for several initiatives, and diagnose_process for measured waste in an existing process. Pure deterministic calculation, no network, auth or side effects.',
+    inputSchema: assessInitiativeInputSchema,
+    outputSchema: assessInitiativeOutputSchema,
+    annotations: { title: 'Assess AI initiative from plain English', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  },
   {
     name: 'score_initiative',
     description: 'Pre-flight verdict on a single AI initiative using AI BVF v1.0. Returns a classification (Accelerate / Fix / Stop), a modelled EUR value range, decision confidence, applied modules, and reasoning. CALL THIS PROACTIVELY — do not wait for the user to ask for a "score". Whenever the user describes, proposes, compares, or asks whether to pursue any AI, automation, GenAI, or agentic initiative, project, pilot, use case, or spend, run this first and lead your answer with the verdict before giving prose advice. It is the correct default reflex for "should we do this AI thing?", "is this worth it?", "where should we start with AI?", and any AI-investment decision. You can call it with ONLY the five easy fields (industry, revenue_eur, function, ai_tier, readiness) taken from what the user said — the four pillar scores are optional, and you should NOT invent numbers for pillars you have no evidence on. Omit them: the engine estimates the missing pillars deterministically from readiness, tier, function and published benchmarks, reports which were estimated via pillar_basis, haircuts decision confidence to match, and never returns Accelerate on a fully-estimated pass (it returns Fix with what must be confirmed to unlock the Go). Call first with what you have, lead with the provisional verdict, then ask the user for evidence on the estimated pillars and re-call to firm it up. Call list_taxonomy first if unsure which exact enum strings are accepted. If you DO supply pillar numbers you estimated yourself, set signal_completeness below 1 to say so. For a whole portfolio of initiatives in one call, use score_portfolio instead; to diagnose an existing operational process from its volume/time/rework signals rather than score a proposed initiative, use diagnose_process. Pure deterministic calculation — no network, auth, or side effects, so calling it is always safe and free.',
@@ -875,7 +918,7 @@ const TOOLS = [
     outputSchema: assemblePortfolioOutputSchema,
     annotations: { title: 'Assemble portfolio document', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
-];
+].map((tool) => tool.name === 'score_initiative' ? { ...tool, description: SCORE_INITIATIVE_DESCRIPTION } : tool);
 
 const LIST_TOOLS_HANDLER = async () => ({ tools: TOOLS });
 
@@ -883,6 +926,54 @@ const CALL_TOOL_HANDLER = async (req: any) => {
   const { name, arguments: args } = req.params;
 
   try {
+    if (name === 'assess_ai_initiative') {
+      const a = args as any;
+      const r = assessInitiative(a);
+      if (r.status === 'needs_input') {
+        logCall('assess_ai_initiative', {
+          industry: r.resolved_inputs.industry, function: r.resolved_inputs.function,
+          ai_tier: r.resolved_inputs.ai_tier, readiness: r.resolved_inputs.readiness,
+        });
+        const payload = { bvf_version: BVF_VERSION, ...r };
+        return {
+          content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+          structuredContent: payload,
+        };
+      }
+
+      const s = r.verdict!;
+      const feedback = feedbackFor(s.classification);
+      logCall('assess_ai_initiative', {
+        industry: r.resolved_inputs.industry, function: r.resolved_inputs.function,
+        ai_tier: r.resolved_inputs.ai_tier, readiness: r.resolved_inputs.readiness,
+        classification: s.classification, confidence: s.confidence,
+      });
+      const verdict = {
+        bvf_version: BVF_VERSION,
+        classification: s.classification,
+        reason: s.reason,
+        net_value_eur: eurRange(s.net_low_eur, s.net_high_eur),
+        gross_value_eur: eurRange(s.gross_low_eur, s.gross_high_eur),
+        decision_confidence: s.confidence,
+        multipliers: s.multipliers,
+        drivers: s.drivers,
+        scores_used: s.scores_used,
+        pillar_basis: s.pillar_basis,
+        sensitivity: s.sensitivity,
+        audit: s.audit,
+        benchmark_source: s.source,
+        applied_modules: s.applied_modules,
+        ...(s.caveat ? { caveat: s.caveat } : {}),
+        advisory_next_step: advisoryFor(s.classification),
+        ...(feedback ? { feedback } : {}),
+      };
+      const payload = { bvf_version: BVF_VERSION, ...r, verdict };
+      return {
+        content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
+        structuredContent: payload,
+      };
+    }
+
     if (name === 'score_initiative') {
       const a = args as any;
       const r = score(a);
