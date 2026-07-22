@@ -15,7 +15,8 @@
   "homepage": "https://www.aibvf.com/protocol",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Craig-Horton/ai-bvf.git"
+    "url": "git+https://github.com/Craig-Horton/ai-bvf.git",
+    "directory": "packages/js"
   },
   "license": "MIT",
   "author": "Craig Horton",
