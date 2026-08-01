@@ -81,6 +81,36 @@ export interface ScoreInput {
    * diagnose_process's signal_completeness.
    */
   signal_completeness?: number;
+  /** Evidence that the work around the AI has been redesigned, not only the technology. */
+  work_architecture?: WorkArchitectureInput;
+}
+
+export interface WorkArchitectureInput {
+  /** The end-to-end workflow has been redesigned around the proposed AI and retained human judgement. */
+  workflow_redesigned?: boolean;
+  /** Affected roles, accountabilities and capability expectations have been rewritten. */
+  roles_redesigned?: boolean;
+  /** Decision, override and escalation rights have named human owners. */
+  decision_rights_defined?: boolean;
+  /** Performance measures and incentives reflect the redesigned work. */
+  measures_updated?: boolean;
+}
+
+export type WorkArchitectureStatus = 'unknown' | 'partial' | 'gap' | 'ready';
+
+export interface WorkArchitectureCheck {
+  id: keyof WorkArchitectureInput;
+  label: string;
+  status: 'met' | 'gap' | 'unknown';
+}
+
+export interface WorkArchitectureAssessment {
+  status: WorkArchitectureStatus;
+  blocks_accelerate: boolean;
+  checks: WorkArchitectureCheck[];
+  gaps: string[];
+  next_question?: string;
+  gate: string;
 }
 
 /** Reproducibility record attached to every scoring call. Deterministic: no timestamps. */
@@ -127,6 +157,8 @@ export interface ScoreResult {
   pillar_basis: PillarBasis;
   sensitivity: ScoreSensitivity;
   audit: AuditRecord;
+  /** Whether workflows, roles, decision rights and measures have been redesigned for the initiative. */
+  work_architecture: WorkArchitectureAssessment;
   /** Present when signal_completeness is low or any pillar was estimated: warns the verdict rests on soft inputs. */
   caveat?: string;
 }
@@ -401,6 +433,7 @@ export interface AssessInitiativeInput {
   readiness?: string;
   scores?: Partial<PillarScores>;
   signal_completeness?: number;
+  work_architecture?: WorkArchitectureInput;
 }
 
 /** Either the next question needed to score, or the deterministic verdict. */

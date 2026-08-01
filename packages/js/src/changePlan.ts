@@ -22,6 +22,7 @@ import type {
 } from './types.js';
 import { PACE_DRAG_RATE } from './score.js';
 import { REGULATED_FUNCTIONS, REGULATED_INDUSTRIES } from './taxonomy.js';
+import { assessWorkArchitecture } from './workArchitecture.js';
 
 const ACCELERATE_FLOOR = 60;
 const GOV_CEILING = 40;
@@ -284,6 +285,39 @@ function paceRealign(ai_tier: string, readiness: string): ChangePlay {
   };
 }
 
+function redesignWorkArchitecture(gaps: string[]): ChangePlay {
+  return {
+    id: 'work-architecture-redesign',
+    pillar: 'change_enablement',
+    diagnosis: `The technology case is ahead of the work design. The stated gaps are ${gaps.join(', ')}, so the initiative would automate into an operating model that has not been rebuilt for it.`,
+    org_move: {
+      method: 'Work architecture redesign',
+      action: 'Redraw the end-to-end workflow, rewrite the affected roles, assign human decision rights and change the measures before approving deployment.',
+    },
+    person_move: {
+      method: 'Role transition',
+      action: 'Show each affected person what leaves their role, what remains theirs, which judgement they retain and how their performance will be measured after the change.',
+    },
+    steps: [
+      'Map the current workflow, including queues, hand-offs, judgement points and rework.',
+      'Design the future workflow around the AI and the human decisions that remain.',
+      'Rewrite affected roles, accountabilities, override rights and escalation routes.',
+      'Replace measures that reward the old work, then test the design with the people who will operate it.',
+    ],
+    diagnostic_questions: [
+      'Which steps disappear, which steps change and which new work appears?',
+      'Whose role loses work, gains judgement or carries a new accountability?',
+      'Who can override the AI, who handles an exception and who can stop its use?',
+      'Which current target or incentive would pull people back into the old workflow?',
+    ],
+    owner: 'Operating-model owner with the initiative owner and affected function leader',
+    timeline_weeks: [3, 6],
+    stop_condition: 'Stop if the organisation will fund the technology but will not change the workflow, roles, decision rights or measures needed to operate it.',
+    provisional: false,
+    source: 'AI BVF work architecture gate',
+  };
+}
+
 // ── plan assembly ──────────────────────────────────────────────────────────
 
 function inferRiskType(input: RecommendInput): RiskType {
@@ -305,6 +339,7 @@ export function buildChangePlan(
   feasible: boolean,
 ): ChangePlan {
   const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = resolved;
+  const workArchitecture = assessWorkArchitecture(input.work_architecture);
 
   // Severity per pillar: distance from the Accelerate thresholds, with the
   // forcing conditions (GR >= 70, FR <= 20) dominating everything else.
@@ -325,14 +360,16 @@ export function buildChangePlan(
   };
 
   const top = shortfalls[0];
-  const binding_constraint = top
+  const binding_constraint = workArchitecture.blocks_accelerate && !top?.forcing
+    ? `Work architecture is the binding constraint. The stated gaps are ${workArchitecture.gaps.join(', ')}, and the initiative cannot move to Accelerate until the work around the technology has been redesigned.`
+    : top
     ? (shortfalls.length === 1
         ? `${PILLAR_NAME[top.pillar]} is the only thing standing between this initiative and a Go; everything else clears. The first play below is where this is won.`
         : `${PILLAR_NAME[top.pillar]} is the binding constraint${top.forcing ? ', and it is currently forcing the verdict on its own' : ''}. The other gaps matter, but nothing moves until this one does, so the plays are sequenced with it first.`)
     : 'No single pillar is failing; the verdict is being shaped by the combination. Work the plays in the order given.';
 
   // Position between Go and Stop.
-  const totalShortfall = shortfalls.reduce((s, x) => s + x.severity, 0);
+  const totalShortfall = shortfalls.reduce((s, x) => s + x.severity, 0) + (workArchitecture.blocks_accelerate ? 20 : 0);
   const nearStop = gr >= 60 || fr <= 30;
   const position: ChangePlan['position'] = nearStop ? 'near_stop' : (totalShortfall <= 20 ? 'near_go' : 'contested');
   const position_detail =
@@ -344,6 +381,7 @@ export function buildChangePlan(
 
   // Select plays, worst pillar first.
   const plays: ChangePlay[] = [];
+  if (workArchitecture.blocks_accelerate) plays.push(redesignWorkArchitecture(workArchitecture.gaps));
   for (const s of shortfalls) {
     if (s.pillar === 'change_enablement') {
       const told = input.resistance_type !== undefined;
@@ -381,7 +419,7 @@ export function buildChangePlan(
     : 'Cost of waiting could not be modelled for this tier and readiness combination.';
 
   const rescore_gate = {
-    clears_when: 'strategic alignment, financial return and change enablement all at or above 60 with governance risk at or below 40, scored honestly, not negotiated',
+    clears_when: 'strategic alignment, financial return and change enablement all at or above 60, governance risk at or below 40, and no stated work architecture gaps across workflow, roles, decision rights and measures, scored honestly, not negotiated',
     deadline_weeks: planWeeks,
   };
 

@@ -102,6 +102,25 @@ test('Accelerate carries no change plan', () => {
   assert.equal(r.change_plan, undefined);
 });
 
+test('work architecture gap adds a redesign play and holds the verdict at Fix', () => {
+  const r = recommendImprovements({
+    ...base,
+    scores: { strategic_alignment: 80, financial_return: 75, change_enablement: 70, governance_risk: 30 },
+    work_architecture: {
+      workflow_redesigned: false,
+      roles_redesigned: false,
+      decision_rights_defined: true,
+      measures_updated: true,
+    },
+  });
+  assert.equal(r.current_classification, 'Fix');
+  assert.equal(r.change_plan?.binding_constraint.startsWith('Work architecture'), true);
+  const play = r.change_plan?.plays.find(p => p.id === 'work-architecture-redesign');
+  assert.equal(play?.owner, 'Operating-model owner with the initiative owner and affected function leader');
+  assert.ok(play?.stop_condition?.includes('Stop'));
+  assert.ok(r.change_plan?.rescore_gate.clears_when.includes('no stated work architecture gaps'));
+});
+
 test('infeasible gaps surface the honest stop', () => {
   const r = recommendImprovements({
     ...base,

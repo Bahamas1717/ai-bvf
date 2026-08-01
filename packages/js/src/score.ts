@@ -10,6 +10,7 @@ import { buildAudit } from './audit.js';
 // Deferred-access import: buildChangePlan is only called inside
 // recommendImprovements, so the score <-> changePlan module cycle is safe.
 import { buildChangePlan } from './changePlan.js';
+import { assessWorkArchitecture } from './workArchitecture.js';
 
 interface BaseRate {
   rev: { lo: number; hi: number };
@@ -234,6 +235,7 @@ export function score(input: ScoreInput): ScoreResult {
   const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = resolved;
   const allEstimated = givenCount === 0;
   const anyEstimated = givenCount < 4;
+  const workArchitecture = assessWorkArchitecture(input.work_architecture);
 
   const grossLo = Math.round(revenue_eur * (base.rev.lo + base.cost.lo) * mult * tAdj);
   const grossHi = Math.round(revenue_eur * (base.rev.hi + base.cost.hi) * mult * tAdj);
@@ -247,6 +249,12 @@ export function score(input: ScoreInput): ScoreResult {
   // priors ever change.
   if (allEstimated && cls.label === 'Accelerate') {
     cls = { label: 'Fix', reason: 'Clears the Accelerate thresholds on estimated pillars only. Confirm the four pillar scores with evidence to unlock the Go.' };
+  }
+  if (workArchitecture.blocks_accelerate && cls.label === 'Accelerate') {
+    cls = {
+      label: 'Fix',
+      reason: `The four pillars clear, but the work architecture does not: ${workArchitecture.gaps.join('; ')}. Redesign the work before scaling.`,
+    };
   }
 
   // Base confidence from the pillar scores themselves.
@@ -273,7 +281,10 @@ export function score(input: ScoreInput): ScoreResult {
   let readinessDown: ScoreSensitivity['readiness_one_notch_down'] = null;
   if (notch) {
     const capDown = READINESS_CAPTURE[notch as Readiness];
-    const clsDown = classify(sa, fr, ce, gr); // pillars unchanged; readiness moves value + confidence context
+    const clsDownBase = classify(sa, fr, ce, gr); // pillars unchanged; readiness moves value + confidence context
+    const clsDown = workArchitecture.blocks_accelerate && clsDownBase.label === 'Accelerate'
+      ? { ...clsDownBase, label: 'Fix' as Classification }
+      : clsDownBase;
     readinessDown = {
       readiness: notch as Readiness,
       classification: clsDown.label,
@@ -286,12 +297,17 @@ export function score(input: ScoreInput): ScoreResult {
     revenue_minus_20pct: { net_value_eur: { low: Math.round(netLo * 0.8), high: Math.round(netHi * 0.8) } },
     verdict_flips: verdictFlips(sa, fr, ce, gr, cls.label),
   };
+  if (workArchitecture.blocks_accelerate && cls.label === 'Fix') {
+    sensitivity.verdict_flips.unshift(`to Accelerate: clear work architecture gaps: ${workArchitecture.gaps.join(', ')}`);
+  }
 
   const estimated = (Object.keys(basis) as Array<keyof PillarBasis>).filter(k => basis[k] === 'estimated');
   const rules = [
     ...(estimated.length ? [`estimate:${estimated.join(',')}`] : []),
     `signal_completeness:${signal}${input.signal_completeness === undefined ? '(defaulted)' : '(given)'}`,
     `classify:${cls.label}`,
+    `work_architecture:${workArchitecture.status}`,
+    ...(workArchitecture.blocks_accelerate ? ['gate:work_architecture_gap'] : []),
     ...(allEstimated && cls.label === 'Fix' && sa >= 60 && fr >= 60 && ce >= 60 && gr <= 40 ? ['downgrade:estimated_accelerate_to_fix'] : []),
     `value:BASE_RATES[${fn}] x IND_MULT[${industry}]=${mult} x TIER_ADJ[${ai_tier}]=${tAdj} x CAPTURE[${readiness}]=${cap.low}-${cap.high}`,
   ];
@@ -307,11 +323,12 @@ export function score(input: ScoreInput): ScoreResult {
     multipliers: { industry: mult, tier: tAdj, capture_low: cap.low, capture_high: cap.high },
     drivers: base.drivers,
     source: base.source,
-    applied_modules: appliedModules(industry, fn, readiness),
+    applied_modules: [...appliedModules(industry, fn, readiness), 'work_architecture_gate'],
     scores_used: resolved,
     pillar_basis: basis,
     sensitivity,
-    audit: buildAudit(rules, { industry, revenue_eur, function: fn, ai_tier, readiness, scores: resolved, pillar_basis: basis }),
+    work_architecture: workArchitecture,
+    audit: buildAudit(rules, { industry, revenue_eur, function: fn, ai_tier, readiness, scores: resolved, pillar_basis: basis, work_architecture: input.work_architecture ?? null }),
     ...(caveat ? { caveat } : {}),
   };
 }
@@ -349,15 +366,22 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
   const { scores: resolved, basis, givenCount } = resolvePillars(input);
   const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = resolved;
 
+  const workArchitecture = assessWorkArchitecture(input.work_architecture);
   let current = classify(sa, fr, ce, gr).label;
   // Same Stop-first invariant as score(): fully-estimated pillars never
   // produce an Accelerate, they produce a Fix pending confirmation.
   if (givenCount === 0 && current === 'Accelerate') current = 'Fix';
+  if (workArchitecture.blocks_accelerate && current === 'Accelerate') current = 'Fix';
   const recs: Recommendation[] = [];
   const notes: string[] = [];
   if (givenCount < 4) {
     const estimated = (Object.keys(basis) as Array<keyof PillarBasis>).filter(k => basis[k] === 'estimated');
     notes.push(`Estimated pillars: ${estimated.join(', ')} (deterministic priors from readiness, tier, function and benchmarks). The plan below is provisional on those pillars; confirm them with evidence and re-run.`);
+  }
+  if (workArchitecture.status !== 'ready') {
+    notes.push(workArchitecture.blocks_accelerate
+      ? `Work architecture gaps: ${workArchitecture.gaps.join(', ')}. These must close before Accelerate.`
+      : `Work architecture evidence is ${workArchitecture.status}. ${workArchitecture.next_question}`);
   }
 
   if (current === 'Accelerate') {
@@ -368,7 +392,7 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
       recommendations: [],
       projected_confidence: Math.round((sa + fr + ce + (100 - gr)) / 4),
       notes: ['Initiative is already classified Accelerate. No flip required.'],
-      audit: buildAudit(['classify:Accelerate', 'no_flip_required'], { function: input.function, ai_tier: input.ai_tier, readiness: input.readiness, scores: resolved }),
+      audit: buildAudit(['classify:Accelerate', `work_architecture:${workArchitecture.status}`, 'no_flip_required'], { function: input.function, ai_tier: input.ai_tier, readiness: input.readiness, scores: resolved, work_architecture: input.work_architecture ?? null }),
     };
   }
 
@@ -400,10 +424,12 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
     audit: buildAudit(
       [
         `classify:${current}`,
+        `work_architecture:${workArchitecture.status}`,
+        ...(workArchitecture.blocks_accelerate ? ['gate:work_architecture_gap'] : []),
         `feasible:${feasible}`,
         ...recs.map(r => `gap:${r.pillar}:${r.current}->${r.target}`),
       ],
-      { industry: input.industry, revenue_eur: input.revenue_eur, function: input.function, ai_tier: input.ai_tier, readiness: input.readiness, scores: resolved },
+      { industry: input.industry, revenue_eur: input.revenue_eur, function: input.function, ai_tier: input.ai_tier, readiness: input.readiness, scores: resolved, work_architecture: input.work_architecture ?? null },
     ),
   };
 }

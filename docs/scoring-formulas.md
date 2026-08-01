@@ -25,6 +25,17 @@ otherwise            then Fix     (reason: specific gaps named in the output)
 
 These thresholds are intentional. A 60 floor on the positive pillars forces the business case to actually clear a bar, and a 40 ceiling on governance risk forces risk exposure to be actively contained rather than ignored.
 
+## Work architecture gate
+
+The four pillars test the investment case, and the work architecture gate tests whether the organisation has redesigned the work needed to capture it. The optional evidence covers four checks:
+
+1. The end-to-end workflow has been redesigned around the AI and retained human judgement.
+2. Affected roles, accountabilities and capability expectations have been rewritten.
+3. Decision, override and escalation rights have named human owners.
+4. Performance measures and incentives support the redesigned work.
+
+Each check returns `met`, `gap` or `unknown`. Any explicit gap changes an otherwise Accelerate verdict to Fix and records `gate:work_architecture_gap` in the audit trail. Unknown evidence stays visible and returns the next question, but it does not silently become a gap or a pass. `recommend_improvements` turns stated gaps into the `work-architecture-redesign` play, with an owner, role transition, sequenced actions, stop condition and re-score gate.
+
 ## Decision Confidence
 
 A single percentage summarising the strength of the call.

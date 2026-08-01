@@ -92,6 +92,7 @@ export function assessInitiative(input: AssessInitiativeInput): AssessInitiative
   }
   if (input.scores) resolved.scores = input.scores;
   if (input.signal_completeness !== undefined) resolved.signal_completeness = input.signal_completeness;
+  if (input.work_architecture) resolved.work_architecture = input.work_architecture;
 
   const missing = REQUIRED_FIELDS.filter((field) => resolved[field] === undefined);
   if (missing.length) {

@@ -137,7 +137,18 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
 }
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.13.0';
+export const VERSION = '0.14.0';
+
+const workArchitectureInputSchema = {
+  type: 'object',
+  description: 'Optional evidence that the work around the AI has been redesigned. Pass only what is known. Any explicit false value blocks Accelerate until the gap is closed; omitted checks remain visible as unknown.',
+  properties: {
+    workflow_redesigned: { type: 'boolean', description: 'True only when the end-to-end workflow has been redesigned around the AI and retained human judgement, false when the existing workflow remains.' },
+    roles_redesigned: { type: 'boolean', description: 'True only when affected roles, accountabilities and capability expectations have been rewritten, false when roles remain unchanged.' },
+    decision_rights_defined: { type: 'boolean', description: 'True only when decision, override and escalation rights have named human owners, false when authority remains unclear.' },
+    measures_updated: { type: 'boolean', description: 'True only when performance measures and incentives reflect the redesigned work, false when the old measures remain.' },
+  },
+};
 
 const scoreInputSchema = {
   type: 'object',
@@ -158,6 +169,7 @@ const scoreInputSchema = {
         governance_risk:     { type: 'number', minimum: 0, maximum: 100, description: 'Optional; when omitted, estimated from tier and regulated context (gen1 30 / gen2 42 / gen3 55, +10 in a regulated function, +8 in a regulated industry — agentic AI in regulated finance estimates at 73 and forces a Stop until governance evidence exists). This pillar is INVERTED: higher means MORE risk. ≥ 70 forces a Stop on its own; must be ≤ 40 for Accelerate.' },
       },
     },
+    work_architecture: workArchitectureInputSchema,
   },
 };
 
@@ -190,6 +202,7 @@ const assessInitiativeInputSchema = {
     readiness: { type: 'string', description: 'Optional correction or answer: agile, traditional, or siloed, including everyday descriptions such as cross-functional, hierarchical or bureaucratic. Overrides anything inferred from proposal.' },
     scores: scoreInputSchema.properties.scores,
     signal_completeness: scoreInitiativeInputSchema.properties.signal_completeness,
+    work_architecture: workArchitectureInputSchema,
   },
 };
 
@@ -253,7 +266,7 @@ const auditSchema = {
 
 const scoreOutputSchema = {
   type: 'object',
-  required: ['bvf_version', 'classification', 'reason', 'net_value_eur', 'gross_value_eur', 'decision_confidence', 'multipliers', 'drivers', 'benchmark_source', 'applied_modules'],
+  required: ['bvf_version', 'classification', 'reason', 'net_value_eur', 'gross_value_eur', 'decision_confidence', 'multipliers', 'drivers', 'benchmark_source', 'applied_modules', 'work_architecture'],
   properties: {
     bvf_version:         { type: 'string', description: 'AI BVF protocol version used.' },
     classification:      { type: 'string', enum: ['Accelerate', 'Fix', 'Stop'], description: 'The verdict for this initiative.' },
@@ -301,6 +314,19 @@ const scoreOutputSchema = {
     benchmark_source:   { type: 'string', description: 'Citation for the benchmark rates applied.' },
     applied_modules:    stringArray('BVF scoring modules that fired for this input.'),
     caveat:             { type: 'string', description: 'Present only when signal_completeness was low: warns the verdict rests on soft inputs and confidence was reduced.' },
+    work_architecture: {
+      type: 'object',
+      description: 'The work architecture gate across workflow, roles, human decision rights and performance measures. Any stated gap blocks Accelerate.',
+      required: ['status', 'blocks_accelerate', 'checks', 'gaps', 'gate'],
+      properties: {
+        status: { type: 'string', enum: ['unknown', 'partial', 'gap', 'ready'] },
+        blocks_accelerate: { type: 'boolean' },
+        checks: { type: 'array', items: { type: 'object' } },
+        gaps: { type: 'array', items: { type: 'string' } },
+        next_question: { type: 'string' },
+        gate: { type: 'string' },
+      },
+    },
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
     feedback: {
       type: 'object',
@@ -809,6 +835,8 @@ const assemblePortfolioOutputSchema = {
 };
 
 const SCORE_INITIATIVE_DESCRIPTION = 'Canonical-field scorer for one AI initiative. CALL THIS when industry, revenue_eur, function, ai_tier and readiness are already known, or when re-scoring with measured pillar evidence. For a proposal written in ordinary business language, call assess_ai_initiative first; it resolves these fields and asks for anything missing. Pillar scores remain optional: missing pillars are estimated deterministically, reported through pillar_basis, and reduce decision confidence, while a fully estimated pass can never return Accelerate. Returns Accelerate, Fix or Stop, modelled gross and net EUR ranges, decision confidence, sensitivity, assumptions and an audit trail. Use score_portfolio for several initiatives and diagnose_process for measured waste in an existing process. Pure deterministic calculation, no network, auth or side effects.';
+const ASSESS_INITIATIVE_DESCRIPTION = 'The front door for one AI investment decision. CALL THIS FIRST when the user describes an AI idea in ordinary language or asks whether it should proceed. It resolves industry, revenue, business function, AI tier and organisational readiness, then returns the next missing question or an Accelerate, Fix or Stop verdict. Use work_architecture to test whether the end-to-end workflow, affected roles, human decision rights and performance measures have been redesigned. Any explicit work architecture gap blocks Accelerate and stays visible in the audit trail. Pillar scores and work architecture evidence remain optional, and unresolved values are never guessed. Use score_initiative when the canonical fields are already known, score_portfolio for several initiatives, and diagnose_process for measured waste in a running process. Pure deterministic calculation, no network, auth or side effects.';
+const RECOMMEND_IMPROVEMENTS_DESCRIPTION = 'Turn a Fix or Stop verdict into the change plan that could earn a re-score, with pillar targets, named plays, owners, stop conditions, cost of waiting and a deadline. CALL THIS after score_initiative returns Fix or Stop. Pass work_architecture when the workflow, roles, decision rights or measures have been tested; any explicit gap adds a work-architecture-redesign play and enters the re-score gate. resistance_type selects the will or skill route, and risk_type selects the regulatory, reputational or operational route. Omitted diagnostics remain provisional and return the question needed to test them. Lead with binding_constraint, surface honest_stop when present, and use rescore_gate to decide whether this remains Fix or becomes Stop. Pure deterministic calculation, no network, auth or side effects.';
 
 const TOOLS = [
   {
@@ -918,7 +946,12 @@ const TOOLS = [
     outputSchema: assemblePortfolioOutputSchema,
     annotations: { title: 'Assemble portfolio document', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
-].map((tool) => tool.name === 'score_initiative' ? { ...tool, description: SCORE_INITIATIVE_DESCRIPTION } : tool);
+].map((tool) => {
+  if (tool.name === 'score_initiative') return { ...tool, description: SCORE_INITIATIVE_DESCRIPTION };
+  if (tool.name === 'assess_ai_initiative') return { ...tool, description: ASSESS_INITIATIVE_DESCRIPTION };
+  if (tool.name === 'recommend_improvements') return { ...tool, description: RECOMMEND_IMPROVEMENTS_DESCRIPTION };
+  return tool;
+});
 
 const LIST_TOOLS_HANDLER = async () => ({ tools: TOOLS });
 
@@ -960,6 +993,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
         scores_used: s.scores_used,
         pillar_basis: s.pillar_basis,
         sensitivity: s.sensitivity,
+        work_architecture: s.work_architecture,
         audit: s.audit,
         benchmark_source: s.source,
         applied_modules: s.applied_modules,
@@ -996,6 +1030,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
         pillar_basis: r.pillar_basis,
         benchmark_source: r.source,
         applied_modules: r.applied_modules,
+        work_architecture: r.work_architecture,
         ...(r.caveat ? { caveat: r.caveat } : {}),
         advisory_next_step: advisoryFor(r.classification),
         ...(feedback ? { feedback } : {}),

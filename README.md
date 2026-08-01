@@ -1,6 +1,6 @@
 # AI BVF MCP: Stop Bad AI Projects Before Agents Recommend Them
 
-The scoring tool your Claude agent calls before it recommends an AI deployment. It checks the business case, operating-model readiness, change enablement, and governance exposure first, then returns **Accelerate**, **Fix**, or **Stop** with modelled EUR value, decision confidence, and a specific list of what to do next.
+The scoring tool your Claude agent calls before it recommends an AI deployment. It checks the business case, operating-model readiness, change enablement, governance exposure and whether the work itself has been redesigned, then returns **Accelerate**, **Fix**, or **Stop** with modelled EUR value, decision confidence, and a specific list of what to do next.
 
 [![npm](https://img.shields.io/npm/v/aibvf-mcp?color=111&label=npm)](https://www.npmjs.com/package/aibvf-mcp)
 [![mcp registry](https://img.shields.io/badge/mcp--registry-active-111)](https://registry.modelcontextprotocol.io/v0/servers?search=aibvf)
@@ -36,11 +36,11 @@ Thirteen tools, callable from any MCP-compatible agent over stdio (npx) or as a 
 
 | Tool | Purpose |
 |---|---|
-| `assess_ai_initiative` | Plain-English front door for one AI decision: resolves the five scoring inputs, asks one question when something is missing, then returns the verdict. |
-| `score_initiative` | Four-pillar score returns Accelerate, Fix, or Stop with EUR value range, decision confidence, applied modules, reasoning. |
+| `assess_ai_initiative` | Plain-English front door for one AI decision: resolves the five scoring inputs, tests the work architecture, asks one question when something is missing, then returns the verdict. |
+| `score_initiative` | Four-pillar score plus a work architecture gate returns Accelerate, Fix, or Stop with EUR value range, decision confidence, applied modules and reasoning. |
 | `score_portfolio` | Scores every initiative in a BVF portfolio in one call and returns the board-level shape: Accelerate/Fix/Stop counts, aggregate EUR value, mean decision confidence, top initiative by value, highest-risk initiative. |
 | `assemble_portfolio` | Assembles a valid BVF v1.0 portfolio document from loose inputs: names, plain-language functions and tiers, and whatever pillar scores exist. Aliases resolved, ids generated, missing pillars estimated with the estimation reported per initiative, document validated before return. Nothing stored, nothing edited. |
-| `recommend_improvements` | For Stop or Fix, returns the specific pillar raises that would flip the call toward Accelerate. |
+| `recommend_improvements` | For Stop or Fix, returns the pillar raises and named change plays, including workflow and role redesign when the work architecture has a gap. |
 | `calculate_pace_layer_drag` | Annual Organisational Drag Cost in EUR from AI-tier vs operating-model misalignment. |
 | `validate_portfolio` | Validates a portfolio JSON document against the BVF v1.0 schema. |
 | `get_benchmark` | Looks up published benchmark rates for a business function and industry. |
@@ -101,6 +101,8 @@ Every initiative is scored on four pillars, 0 to 100, honest self-assessment.
 
 Rules are deterministic, no network, no dependencies. `GR >= 70` or `FR <= 20` returns Stop, all four pillars at or above 60 with `GR <= 40` returns Accelerate, anything else returns Fix with a specific gap list.
 
+The work architecture gate then tests four questions: has the end-to-end workflow been redesigned, have affected roles and accountabilities changed, are human decision and override rights named, and do the measures support the new work? Any explicit gap holds an otherwise green initiative at Fix until the work has been redesigned and re-scored.
+
 See `docs/scoring-formulas.md` for every formula and `docs/worked-example.md` for a full run on a healthcare portfolio.
 
 ## Example: Scoring an Agentic Healthcare Initiative
@@ -133,9 +135,9 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.13.0 | MCP server — 13 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
+| [`aibvf-mcp`](packages/mcp) | 0.14.0 | MCP server — 13 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
 | [`aibvf-check`](packages/cli) | 0.1.1 | CI/CD pre-flight gate ("SonarQube for AI") + GitHub Action. |
-| [`@aibvf/core`](packages/js) | 0.9.0 | TypeScript scoring engine, plain-English assessment, validator, change-leader plans, readiness inference, and Advisor Brain. |
+| [`@aibvf/core`](packages/js) | 0.10.0 | TypeScript scoring engine, plain-English assessment, work architecture gate, change-leader plans, readiness inference, and Advisor Brain. |
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
 
 ## Anonymous Usage Telemetry

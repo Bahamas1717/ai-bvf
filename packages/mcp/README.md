@@ -1,6 +1,6 @@
 # aibvf-mcp
 
-MCP server exposing AI BVF v1.0 to any Claude agent, thirteen deterministic tools that pre-flight-check AI initiatives before the budget is committed: start from a plain-English proposal, score from whatever is known (a fully estimated pass can never return Accelerate), return the change plan when the verdict is Fix, and measure organisational readiness from process data instead of self-report. The tool count is fixed through 0.15.x.
+MCP server exposing AI BVF v1.0 to any Claude agent, thirteen deterministic tools that pre-flight-check AI initiatives before the budget is committed: start from a plain-English proposal, score from whatever is known, test whether workflows, roles, decision rights and measures have been redesigned, return the change plan when the verdict is Fix, and measure organisational readiness from process data instead of self-report. The tool count is fixed through 0.15.x.
 
 > **Source:** [github.com/Craig-Horton/ai-bvf](https://github.com/Craig-Horton/ai-bvf) · ⭐ star if this helped · [Issues](https://github.com/Craig-Horton/ai-bvf/issues) · Built by [Craig Horton Advisory](https://craighortonadvisory.com)
 
@@ -83,11 +83,11 @@ Claude will call `assess_ai_initiative`, resolve the proposal, and return the cl
 
 | Tool | Purpose |
 |---|---|
-| `assess_ai_initiative` | Plain-English front door for one initiative. Resolves industry, revenue, function, AI tier and readiness, asks one question for the first missing input, then returns Accelerate, Fix or Stop from the same scoring engine. |
-| `score_initiative` | Return classification (Accelerate/Fix/Stop), euro range, and reasoning for one initiative. |
+| `assess_ai_initiative` | Plain-English front door for one initiative. Resolves industry, revenue, function, AI tier and readiness, tests the work architecture, asks one question for the first missing input, then returns Accelerate, Fix or Stop from the same scoring engine. |
+| `score_initiative` | Return classification, euro range, reasoning and the work architecture gate for one initiative. |
 | `score_portfolio` | Score every initiative in a BVF portfolio in one call and return the board-level shape: Accelerate/Fix/Stop counts, aggregate EUR value, mean decision confidence, top initiative by value, highest-risk initiative, per-initiative results. Use instead of looping `score_initiative`. |
 | `assemble_portfolio` | Assembles a valid BVF v1.0 portfolio document from loose inputs: names, plain-language functions and tiers, and whatever pillar scores exist. Aliases resolved, ids generated, missing pillars estimated with the estimation reported per initiative, document validated before return. Nothing stored, nothing edited. |
-| `recommend_improvements` | For a Stop or Fix initiative, return concrete pillar-level actions that would flip its classification toward Accelerate. The "what do I do next" after `score_initiative`. |
+| `recommend_improvements` | For a Stop or Fix initiative, return concrete pillar actions and named change plays, including workflow and role redesign when the work architecture has a gap. |
 | `calculate_pace_layer_drag` | Return the annual Organisational Drag Cost in EUR from misalignment between AI tier and organisational readiness — the cost of *not* changing the operating model. |
 | `validate_portfolio` | Check a BVF portfolio JSON against the v1.0 schema. |
 | `get_benchmark` | Return the published benchmark base-rate and industry multiplier for a function + industry. Use when the caller wants the raw rates without an initiative-level verdict. |

@@ -65,3 +65,46 @@ test('hyphenated industry aliases resolve inside a full proposal', () => {
   assert.equal(universal.status, 'verdict');
   assert.equal(universal.resolved_inputs.industry, 'universal');
 });
+
+test('returns the work architecture question when evidence is absent', () => {
+  const result = assessInitiative({ proposal: examples[0].proposal });
+  assert.equal(result.status, 'verdict');
+  assert.equal(result.verdict?.work_architecture.status, 'unknown');
+  assert.ok(result.verdict?.work_architecture.next_question?.includes('affected roles'));
+});
+
+test('a stated work architecture gap blocks an otherwise Accelerate verdict', () => {
+  const result = assessInitiative({
+    proposal: examples[0].proposal,
+    scores: { strategic_alignment: 80, financial_return: 75, change_enablement: 70, governance_risk: 30 },
+    work_architecture: {
+      workflow_redesigned: true,
+      roles_redesigned: false,
+      decision_rights_defined: true,
+      measures_updated: false,
+    },
+  });
+  assert.equal(result.status, 'verdict');
+  assert.equal(result.verdict?.classification, 'Fix');
+  assert.deepEqual(result.verdict?.work_architecture.gaps, [
+    'affected roles and accountabilities redesigned',
+    'performance measures and incentives updated',
+  ]);
+  assert.ok(result.verdict?.audit.rules_fired.includes('gate:work_architecture_gap'));
+});
+
+test('evidenced work architecture allows the four pillars to return Accelerate', () => {
+  const result = assessInitiative({
+    proposal: examples[0].proposal,
+    scores: { strategic_alignment: 80, financial_return: 75, change_enablement: 70, governance_risk: 30 },
+    work_architecture: {
+      workflow_redesigned: true,
+      roles_redesigned: true,
+      decision_rights_defined: true,
+      measures_updated: true,
+    },
+  });
+  assert.equal(result.verdict?.classification, 'Accelerate');
+  assert.equal(result.verdict?.work_architecture.status, 'ready');
+  assert.equal(result.verdict?.work_architecture.next_question, undefined);
+});

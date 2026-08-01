@@ -2,6 +2,14 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.14.0 (aibvf-mcp) / 0.10.0 (@aibvf/core), 1 August 2026
+
+Added: a deterministic work architecture gate inside the existing assessment and improvement tools, with no increase in the thirteen-tool surface. `assess_ai_initiative` and `score_initiative` now test four pieces of evidence: the end-to-end workflow has been redesigned, affected roles and accountabilities have been rewritten, human decision and override rights are named, and performance measures support the new work.
+
+Changed: any explicit work architecture gap holds an otherwise green initiative at Fix. The verdict reports every check as met, gap or unknown, names the gaps, returns the next question and records the gate in the audit trail. Omitted evidence remains visible as unknown and does not silently become a pass.
+
+Added: `recommend_improvements` turns a stated gap into a `work-architecture-redesign` play with an operating-model owner, role transition, sequenced steps, diagnostic questions, a stop condition and a re-score gate. The organisation now has to redesign the work around the technology before the verdict can become Accelerate.
+
 ## 0.13.0 (aibvf-mcp) / 0.9.0 (@aibvf/core), 22 July 2026
 
 Added: `assess_ai_initiative`, the plain-English front door for one AI investment decision. It resolves industry, revenue, business function, AI tier and organisational readiness from the proposal, names every resolution, and asks one question for the first missing input. When all five inputs exist, it runs the same deterministic score as `score_initiative` and returns Accelerate, Fix or Stop with the value range, confidence, assumptions and audit trail. Explicit corrections override proposal inference, unresolved values are never guessed, and proposal text never enters telemetry.

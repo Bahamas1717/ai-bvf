@@ -34,12 +34,21 @@ const r = score({
     change_enablement: 48,
     governance_risk: 35,
   },
+  work_architecture: {
+    workflow_redesigned: true,
+    roles_redesigned: false,
+    decision_rights_defined: true,
+    measures_updated: false,
+  },
 });
 
 console.log(r.classification);   // 'Fix'
+console.log(r.work_architecture.gaps); // roles and measures still need redesign
 console.log(r.net_low_eur);      // ~75.6M
 console.log(r.net_high_eur);     // ~247M
 ```
+
+The work architecture fields are optional and accept only evidence the organisation has. Any explicit `false` value holds an otherwise green initiative at Fix, while omitted checks return as unknown with the next question to ask.
 
 ## Spec
 

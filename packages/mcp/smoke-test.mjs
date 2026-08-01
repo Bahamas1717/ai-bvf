@@ -46,6 +46,33 @@ await new Promise(r => setTimeout(r, 500));
 send({ jsonrpc: '2.0', id: 5, method: 'tools/call',
   params: { name: 'list_taxonomy', arguments: {} } });
 await new Promise(r => setTimeout(r, 300));
+const architectureGap = {
+  workflow_redesigned: true,
+  roles_redesigned: false,
+  decision_rights_defined: true,
+  measures_updated: false,
+};
+const greenPillars = { strategic_alignment: 80, financial_return: 75, change_enablement: 70, governance_risk: 30 };
+send({ jsonrpc: '2.0', id: 6, method: 'tools/call',
+  params: {
+    name: 'score_initiative',
+    arguments: {
+      industry: 'retail', revenue_eur: 300_000_000, function: 'cx',
+      ai_tier: 'gen2', readiness: 'traditional', scores: greenPillars,
+      work_architecture: architectureGap,
+    },
+  }});
+await new Promise(r => setTimeout(r, 300));
+send({ jsonrpc: '2.0', id: 7, method: 'tools/call',
+  params: {
+    name: 'recommend_improvements',
+    arguments: {
+      industry: 'retail', revenue_eur: 300_000_000, function: 'cx',
+      ai_tier: 'gen2', readiness: 'traditional', scores: greenPillars,
+      work_architecture: architectureGap,
+    },
+  }});
+await new Promise(r => setTimeout(r, 500));
 server.kill();
 
 console.log('\n=== SMOKE TEST RESULTS ===');
@@ -76,6 +103,19 @@ for (const r of responses) {
   } else if (r.id === 5) {
     const parsed = JSON.parse(r.result?.content?.[0]?.text);
     console.log(`list_taxonomy OK · ${parsed.industries.length} industries · ${parsed.functions.length} functions · ${parsed.ai_tiers.length} tiers`);
+  } else if (r.id === 6) {
+    const parsed = JSON.parse(r.result?.content?.[0]?.text);
+    if (parsed.classification !== 'Fix' || parsed.work_architecture?.status !== 'gap' || parsed.work_architecture?.gaps?.length !== 2) {
+      console.error('Work architecture gap did not hold the green pillars at Fix.');
+      process.exitCode = 1;
+    } else console.log(`work architecture gate OK: ${parsed.work_architecture.gaps.length} gaps, verdict ${parsed.classification}`);
+  } else if (r.id === 7) {
+    const parsed = JSON.parse(r.result?.content?.[0]?.text);
+    const play = parsed.change_plan?.plays?.find(p => p.id === 'work-architecture-redesign');
+    if (!play || !play.owner || !play.stop_condition) {
+      console.error('Work architecture redesign play is incomplete.');
+      process.exitCode = 1;
+    } else console.log(`work architecture play OK: owner ${play.owner}`);
   } else console.log('? id=' + r.id + ':', JSON.stringify(r).slice(0, 200));
 }
 process.exit(process.exitCode ?? 0);
