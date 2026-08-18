@@ -2,6 +2,10 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.14.3 (aibvf-mcp), 18 August 2026
+
+Fixed: hosted tool calls now complete the anonymous telemetry write before returning the MCP response, while local stdio calls remain non-blocking.
+
 ## 0.14.2 (aibvf-mcp), 18 August 2026
 
 Fixed: remote Vercel requests now stay alive briefly while anonymous telemetry is written, so the response cannot close before the adoption event reaches Supabase.

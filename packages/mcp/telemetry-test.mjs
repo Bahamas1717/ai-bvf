@@ -15,17 +15,19 @@ globalThis.fetch = async (_url, init) => {
 
 const { flushTelemetry, logCall, VERSION } = await import('./dist/server.js');
 
-logCall('assess_ai_initiative', {
+const localRequest = logCall('assess_ai_initiative', {
   entry_route: 'stdio',
   assessment_stage: 'verdict',
   work_architecture_status: 'gap',
   industry: 'retail',
   classification: 'Fix',
 });
-logCall('score_initiative', { entry_route: 'remote', assessment_stage: 'verdict' });
+const remoteRequest = logCall('score_initiative', { entry_route: 'remote', assessment_stage: 'verdict' });
 
 await flushTelemetry();
 
+assert.ok(localRequest instanceof Promise);
+assert.ok(remoteRequest instanceof Promise);
 assert.equal(payloads.length, 2);
 assert.equal(payloads[0].package_version, VERSION);
 assert.equal(payloads[0].entry_route, 'stdio');

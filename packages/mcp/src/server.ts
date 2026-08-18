@@ -18,7 +18,7 @@ import {
 import type { Classification } from '@aibvf/core';
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.2';
+export const VERSION = '0.14.3';
 
 export type EntryRoute = 'stdio' | 'remote' | 'unknown';
 
@@ -153,6 +153,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
     });
   pendingTelemetry.add(request);
   void request.finally(() => pendingTelemetry.delete(request));
+  return request;
 }
 
 /** Keep a serverless invocation alive long enough for pending telemetry to finish. */
@@ -983,14 +984,18 @@ const LIST_TOOLS_HANDLER = async () => ({ tools: TOOLS });
 
 const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
   const { name, arguments: args } = req.params;
+  const recordCall = async (toolName: string, meta: Record<string, unknown> = {}) => {
+    const request = logCall(toolName, { ...meta, entry_route: entryRoute });
+    if (entryRoute === 'remote') await request;
+  };
 
   try {
     if (name === 'assess_ai_initiative') {
       const a = args as any;
       const r = assessInitiative(a);
       if (r.status === 'needs_input') {
-        logCall('assess_ai_initiative', {
-          entry_route: entryRoute, assessment_stage: 'needs_input',
+        await recordCall('assess_ai_initiative', {
+          assessment_stage: 'needs_input',
           industry: r.resolved_inputs.industry, function: r.resolved_inputs.function,
           ai_tier: r.resolved_inputs.ai_tier, readiness: r.resolved_inputs.readiness,
         });
@@ -1003,8 +1008,8 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
 
       const s = r.verdict!;
       const feedback = feedbackFor(s.classification);
-      logCall('assess_ai_initiative', {
-        entry_route: entryRoute, assessment_stage: 'verdict',
+      await recordCall('assess_ai_initiative', {
+        assessment_stage: 'verdict',
         work_architecture_status: s.work_architecture?.status,
         industry: r.resolved_inputs.industry, function: r.resolved_inputs.function,
         ai_tier: r.resolved_inputs.ai_tier, readiness: r.resolved_inputs.readiness,
@@ -1041,8 +1046,8 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
       const a = args as any;
       const r = score(a);
       const feedback = feedbackFor(r.classification);
-      logCall('score_initiative', {
-        entry_route: entryRoute, assessment_stage: 'verdict',
+      await recordCall('score_initiative', {
+        assessment_stage: 'verdict',
         work_architecture_status: r.work_architecture?.status,
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
@@ -1076,7 +1081,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
       const a = args as any;
       const portfolio = a.portfolio;
       const readiness = a.readiness;
-      logCall('score_portfolio', { entry_route: entryRoute, readiness });
+      await recordCall('score_portfolio', { readiness });
 
       const v = validate(portfolio);
       if (!v.valid) {
@@ -1217,8 +1222,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
       const a = args as any;
       const rec = recommendImprovements(a);
       const feedback = feedbackFor(rec.current_classification);
-      logCall('recommend_improvements', {
-        entry_route: entryRoute,
+      await recordCall('recommend_improvements', {
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
         classification: rec.current_classification,
@@ -1243,8 +1247,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
 
     if (name === 'calculate_pace_layer_drag') {
       const a = args as any;
-      logCall('calculate_pace_layer_drag', {
-        entry_route: entryRoute,
+      await recordCall('calculate_pace_layer_drag', {
         industry: a.industry, ai_tier: a.ai_tier, readiness: a.readiness,
       });
       const d = calculatePaceLayerDrag(a);
@@ -1263,7 +1266,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     }
 
     if (name === 'validate_portfolio') {
-      logCall('validate_portfolio', { entry_route: entryRoute });
+      await recordCall('validate_portfolio');
       const result = validate((args as any).portfolio);
       const payload = { bvf_version: BVF_VERSION, ...result };
       return {
@@ -1274,7 +1277,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
 
     if (name === 'get_benchmark') {
       const { function: fn, industry } = args as any;
-      logCall('get_benchmark', { entry_route: entryRoute, industry, function: fn });
+      await recordCall('get_benchmark', { industry, function: fn });
       const base = BASE_RATES[fn];
       const mult = (IND_MULT[industry] ?? IND_MULT.universal)[fn];
       const payload = {
@@ -1293,7 +1296,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     }
 
     if (name === 'list_taxonomy') {
-      logCall('list_taxonomy', { entry_route: entryRoute });
+      await recordCall('list_taxonomy');
       const payload = {
         bvf_version: BVF_VERSION,
         industries: INDUSTRIES,
@@ -1310,8 +1313,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     if (name === 'diagnose_process') {
       const a = args as any;
       const v = diagnoseProcess(a);
-      logCall('diagnose_process', {
-        entry_route: entryRoute,
+      await recordCall('diagnose_process', {
         function: v.function,
         classification: v.verdict,
         confidence: Math.round(v.decision_confidence * 100),
@@ -1344,7 +1346,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     if (name === 'infer_readiness') {
       const a = args as any;
       const r = inferReadiness(a);
-      logCall('infer_readiness', { entry_route: entryRoute, function: a.function, readiness: r.readiness });
+      await recordCall('infer_readiness', { function: a.function, readiness: r.readiness });
       const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
@@ -1355,7 +1357,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     if (name === 'sequence_portfolio') {
       const a = args as any;
       const r = sequencePortfolio(a);
-      logCall('sequence_portfolio', { entry_route: entryRoute, industry: a.organization?.industry, readiness: a.readiness });
+      await recordCall('sequence_portfolio', { industry: a.organization?.industry, readiness: a.readiness });
       const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
@@ -1366,7 +1368,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     if (name === 'map_to_taxonomy') {
       const a = args as any;
       const r = mapToTaxonomy(a);
-      logCall('map_to_taxonomy', { entry_route: entryRoute });
+      await recordCall('map_to_taxonomy');
       const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
@@ -1377,8 +1379,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     if (name === 'assemble_portfolio') {
       const a = args as any;
       const r = assemblePortfolio(a);
-      logCall('assemble_portfolio', {
-        entry_route: entryRoute,
+      await recordCall('assemble_portfolio', {
         industry: r.portfolio?.organization?.industry, readiness: r.readiness_used,
       });
       const payload = { bvf_version: BVF_VERSION, ...r };

@@ -26,7 +26,7 @@ comment on column public.mcp_calls.assessment_stage is
 comment on column public.mcp_calls.work_architecture_status is
   'ready, gap or unknown when an initiative verdict includes the work architecture gate.';
 
--- Verification after the first 0.14.2 calls arrive:
+-- Verification after the first 0.14.3 calls arrive:
 -- select package_version, entry_route, assessment_stage,
 --        work_architecture_status, count(*) as events
 -- from public.mcp_calls
