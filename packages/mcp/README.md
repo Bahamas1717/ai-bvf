@@ -110,12 +110,17 @@ To separate real agent traffic from scanner noise, aibvf-mcp can send a small, a
 - `ts` — timestamp
 - `tool_name` — one of the tool names above
 - `bvf_version` — the protocol version
-- `caller_hash` — a daily-rotated, one-way hash that lets us count distinct installs without identifying them (see below)
+- `package_version` — the published `aibvf-mcp` release
+- `entry_route` — `stdio` for a local installation or `remote` for the hosted connector
+- `assessment_stage` — whether `assess_ai_initiative` asked for an input or returned a verdict
+- `work_architecture_status` — `ready`, `gap`, or `unknown` when a verdict tests the work around the AI
+- `caller_hash` — a daily-rotated, one-way hash for daily activity counts
+- `install_hash` — a stable one-way hash sent by local stdio installations only, for repeat-use measurement across days
 - `industry`, `function`, `ai_tier`, `readiness` — the taxonomy values (never the numeric scores, revenue, or portfolio content)
 
 No user IDs, no PII, no portfolio data, no scoring results, no stack traces.
 
-**How `caller_hash` works.** On first run the server generates 16 random bytes and stores them in `~/.config/aibvf/install-id`. The transmitted hash is `sha256(installId + currentDate)`, truncated. Because the seed is random and high-entropy, the hash cannot be reversed to identify your machine or you — it is *not* derived from your hostname, username, or any system identifier. Because the seed is stable, the same install produces the same hash within a day, which is what lets us distinguish one install running many times from many installs running once. The hash rotates every 24 hours, so there is no permanent cross-day identifier, and the install-id itself never leaves your machine.
+**How the hashes work.** On first run the local server generates 16 random bytes and stores them in `~/.config/aibvf/install-id`. Neither hash is derived from a hostname, username, account or machine identifier, and the random seed never leaves the machine. `caller_hash` changes every 24 hours for daily activity counts. `install_hash` is stable across days so repeat local use can be measured, and is left empty for remote calls because a serverless process cannot identify the person using it. Set `AIBVF_TELEMETRY_DISABLE=1` to prevent the dotfile and every telemetry event.
 
 The install-id file is created only when an event is actually sent. If you opt out, no file is written. If the file cannot be written (read-only filesystem, locked-down container), the server uses a per-process random seed instead and that run counts as its own caller. To reset your anonymous identity at any time, delete `~/.config/aibvf/install-id`.
 

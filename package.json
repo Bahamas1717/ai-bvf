@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "npm -w @aibvf/core run build && npm -w aibvf-mcp run build && npm -w aibvf-check run build",
-    "test": "npm -w @aibvf/core test && npm -w aibvf-check test",
+    "test": "npm -w @aibvf/core test && npm -w aibvf-mcp test && npm -w aibvf-check test",
     "adoption": "node scripts/adoption.mjs"
   },
   "repository": "https://github.com/Craig-Horton/ai-bvf",

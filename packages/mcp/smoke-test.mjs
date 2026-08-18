@@ -1,8 +1,14 @@
 // Local smoke test: spawn the MCP server, send a real tool-call, print the result.
 // Run from packages/mcp after `npm run build`.
 import { spawn } from 'node:child_process';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const server = spawn('node', ['dist/index.js'], { stdio: ['pipe', 'pipe', 'pipe'] });
+const here = dirname(fileURLToPath(import.meta.url));
+const server = spawn('node', [join(here, 'dist', 'index.js')], {
+  stdio: ['pipe', 'pipe', 'pipe'],
+  env: { ...process.env, AIBVF_TELEMETRY_DISABLE: '1' },
+});
 let buf = '';
 const responses = [];
 server.stdout.on('data', (chunk) => {
@@ -76,6 +82,10 @@ await new Promise(r => setTimeout(r, 500));
 server.kill();
 
 console.log('\n=== SMOKE TEST RESULTS ===');
+if (responses.length === 0) {
+  console.error('The MCP server returned no JSON-RPC responses.');
+  process.exitCode = 1;
+}
 for (const r of responses) {
   if (r.id === 1) console.log(`init OK · protocol ${r.result?.protocolVersion} · ${r.result?.serverInfo?.name}@${r.result?.serverInfo?.version}`);
   else if (r.id === 2) {

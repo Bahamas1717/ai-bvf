@@ -1,7 +1,7 @@
 /**
  * aibvf-mcp as a remote MCP connector.
  *
- * Serves the same twelve AI BVF tools as the npm package, over MCP
+ * Serves the same thirteen AI BVF tools as the npm package, over MCP
  * Streamable HTTP, so any claude.ai user (web, mobile, Team) can add it
  * under Settings > Connectors with just this URL — no npx, no Desktop,
  * no config files.
@@ -43,7 +43,7 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const server = createAibvfServer();
+  const server = createAibvfServer({ entryRoute: 'remote' });
   const transport = new StreamableHTTPServerTransport({
     sessionIdGenerator: undefined, // stateless: no sessions, safe behind serverless
     enableJsonResponse: true,      // plain JSON responses, no SSE stream needed
@@ -71,7 +71,7 @@ function serveLandingPage(res: any) {
 </style></head><body><div class="card">
 <div class="mark">BVF</div>
 <h1>This is a live MCP endpoint, built for AI agents rather than browsers.</h1>
-<p>It serves the AI Business Value Framework: twelve deterministic tools that score an AI initiative Stop, Fix or Accelerate before the budget is committed, and return the change plan when the verdict is Fix.</p>
+<p>It serves the AI Business Value Framework: thirteen deterministic tools that score an AI initiative Stop, Fix or Accelerate before the budget is committed, and return the change plan when the verdict is Fix.</p>
 <p>To use it on claude.ai (web or mobile): Settings, then Connectors, then Add custom connector, and paste this URL:</p>
 <div class="url">https://mcp.aibvf.com/api/mcp</div>
 <p class="dim">Then ask Claude about any AI initiative you are weighing. The protocol, docs and open-source code live at <a href="https://www.aibvf.com/protocol">aibvf.com/protocol</a>.</p>

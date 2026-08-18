@@ -17,10 +17,16 @@ import {
 } from '@aibvf/core';
 import type { Classification } from '@aibvf/core';
 
+/** Single source of truth for the server version, shared by both transports. */
+export const VERSION = '0.14.1';
+
+export type EntryRoute = 'stdio' | 'remote' | 'unknown';
+
 // ---------------------------------------------------------------------------
 // Anonymous usage telemetry.
-// Collects: tool_name, industry, function, ai_tier, readiness, daily-rotated
-// caller hash. Never collects: scores, portfolio content, revenue, user IDs.
+// Collects: tool name, package/protocol version, entry route, assessment stage,
+// work-architecture status, taxonomy and privacy-preserving install hashes.
+// Never collects: proposals, scores, portfolio content, revenue or user IDs.
 // Opt out with AIBVF_TELEMETRY_DISABLE=1.
 // Redirect to your own backend with AIBVF_TELEMETRY_URL + AIBVF_TELEMETRY_KEY.
 //
@@ -69,6 +75,10 @@ const callerHash = () => {
   if (installSeed === undefined) installSeed = loadOrCreateInstallId();
   return createHash('sha256').update(`${installSeed} ${daySalt()}`).digest('hex').slice(0, 16);
 };
+const installHash = () => {
+  if (installSeed === undefined) installSeed = loadOrCreateInstallId();
+  return createHash('sha256').update(`aibvf-install ${installSeed}`).digest('hex').slice(0, 24);
+};
 
 // Advisory CTA: emitted only when the verdict warrants a human-in-the-room
 // conversation. The agent surfaces this in whatever way fits the host. Free
@@ -100,7 +110,12 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
     ts: new Date().toISOString(),
     tool_name,
     bvf_version: BVF_VERSION,
+    package_version: VERSION,
     caller_hash: callerHash(),
+    install_hash: meta.entry_route === 'stdio' ? installHash() : null,
+    entry_route: meta.entry_route ?? 'unknown',
+    assessment_stage: meta.assessment_stage ?? null,
+    work_architecture_status: meta.work_architecture_status ?? null,
     industry: meta.industry ?? null,
     function: meta.function ?? null,
     ai_tier: meta.ai_tier ?? null,
@@ -135,9 +150,6 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
       }
     });
 }
-
-/** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.0';
 
 const workArchitectureInputSchema = {
   type: 'object',
@@ -955,7 +967,7 @@ const TOOLS = [
 
 const LIST_TOOLS_HANDLER = async () => ({ tools: TOOLS });
 
-const CALL_TOOL_HANDLER = async (req: any) => {
+const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
   const { name, arguments: args } = req.params;
 
   try {
@@ -964,6 +976,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const r = assessInitiative(a);
       if (r.status === 'needs_input') {
         logCall('assess_ai_initiative', {
+          entry_route: entryRoute, assessment_stage: 'needs_input',
           industry: r.resolved_inputs.industry, function: r.resolved_inputs.function,
           ai_tier: r.resolved_inputs.ai_tier, readiness: r.resolved_inputs.readiness,
         });
@@ -977,6 +990,8 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const s = r.verdict!;
       const feedback = feedbackFor(s.classification);
       logCall('assess_ai_initiative', {
+        entry_route: entryRoute, assessment_stage: 'verdict',
+        work_architecture_status: s.work_architecture?.status,
         industry: r.resolved_inputs.industry, function: r.resolved_inputs.function,
         ai_tier: r.resolved_inputs.ai_tier, readiness: r.resolved_inputs.readiness,
         classification: s.classification, confidence: s.confidence,
@@ -1013,6 +1028,8 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const r = score(a);
       const feedback = feedbackFor(r.classification);
       logCall('score_initiative', {
+        entry_route: entryRoute, assessment_stage: 'verdict',
+        work_architecture_status: r.work_architecture?.status,
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
         classification: r.classification, confidence: r.confidence,
@@ -1045,7 +1062,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const a = args as any;
       const portfolio = a.portfolio;
       const readiness = a.readiness;
-      logCall('score_portfolio', { readiness });
+      logCall('score_portfolio', { entry_route: entryRoute, readiness });
 
       const v = validate(portfolio);
       if (!v.valid) {
@@ -1187,6 +1204,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const rec = recommendImprovements(a);
       const feedback = feedbackFor(rec.current_classification);
       logCall('recommend_improvements', {
+        entry_route: entryRoute,
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
         classification: rec.current_classification,
@@ -1212,6 +1230,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
     if (name === 'calculate_pace_layer_drag') {
       const a = args as any;
       logCall('calculate_pace_layer_drag', {
+        entry_route: entryRoute,
         industry: a.industry, ai_tier: a.ai_tier, readiness: a.readiness,
       });
       const d = calculatePaceLayerDrag(a);
@@ -1230,7 +1249,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
     }
 
     if (name === 'validate_portfolio') {
-      logCall('validate_portfolio');
+      logCall('validate_portfolio', { entry_route: entryRoute });
       const result = validate((args as any).portfolio);
       const payload = { bvf_version: BVF_VERSION, ...result };
       return {
@@ -1241,7 +1260,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
 
     if (name === 'get_benchmark') {
       const { function: fn, industry } = args as any;
-      logCall('get_benchmark', { industry, function: fn });
+      logCall('get_benchmark', { entry_route: entryRoute, industry, function: fn });
       const base = BASE_RATES[fn];
       const mult = (IND_MULT[industry] ?? IND_MULT.universal)[fn];
       const payload = {
@@ -1260,7 +1279,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
     }
 
     if (name === 'list_taxonomy') {
-      logCall('list_taxonomy');
+      logCall('list_taxonomy', { entry_route: entryRoute });
       const payload = {
         bvf_version: BVF_VERSION,
         industries: INDUSTRIES,
@@ -1278,6 +1297,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const a = args as any;
       const v = diagnoseProcess(a);
       logCall('diagnose_process', {
+        entry_route: entryRoute,
         function: v.function,
         classification: v.verdict,
         confidence: Math.round(v.decision_confidence * 100),
@@ -1310,7 +1330,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
     if (name === 'infer_readiness') {
       const a = args as any;
       const r = inferReadiness(a);
-      logCall('infer_readiness', { function: a.function, readiness: r.readiness });
+      logCall('infer_readiness', { entry_route: entryRoute, function: a.function, readiness: r.readiness });
       const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
@@ -1321,7 +1341,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
     if (name === 'sequence_portfolio') {
       const a = args as any;
       const r = sequencePortfolio(a);
-      logCall('sequence_portfolio', { industry: a.organization?.industry, readiness: a.readiness });
+      logCall('sequence_portfolio', { entry_route: entryRoute, industry: a.organization?.industry, readiness: a.readiness });
       const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
@@ -1332,7 +1352,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
     if (name === 'map_to_taxonomy') {
       const a = args as any;
       const r = mapToTaxonomy(a);
-      logCall('map_to_taxonomy', {});
+      logCall('map_to_taxonomy', { entry_route: entryRoute });
       const payload = { bvf_version: BVF_VERSION, ...r };
       return {
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }],
@@ -1344,6 +1364,7 @@ const CALL_TOOL_HANDLER = async (req: any) => {
       const a = args as any;
       const r = assemblePortfolio(a);
       logCall('assemble_portfolio', {
+        entry_route: entryRoute,
         industry: r.portfolio?.organization?.industry, readiness: r.readiness_used,
       });
       const payload = { bvf_version: BVF_VERSION, ...r };
@@ -1368,12 +1389,12 @@ export const telemetryEnabled = !TELEMETRY_DISABLED && !!TELEMETRY_DEFAULT_URL &
  * connection: stdio creates one for the process lifetime, the remote
  * Streamable HTTP endpoint creates one per request (stateless mode).
  */
-export function createAibvfServer(): Server {
+export function createAibvfServer(options: { entryRoute?: EntryRoute } = {}): Server {
   const server = new Server(
     { name: 'io.github.Craig-Horton/aibvf-mcp', version: VERSION },
     { capabilities: { tools: {} } },
   );
   server.setRequestHandler(ListToolsRequestSchema, LIST_TOOLS_HANDLER);
-  server.setRequestHandler(CallToolRequestSchema, CALL_TOOL_HANDLER);
+  server.setRequestHandler(CallToolRequestSchema, callToolHandler(options.entryRoute ?? 'unknown'));
   return server;
 }

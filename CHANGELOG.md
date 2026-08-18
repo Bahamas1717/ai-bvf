@@ -2,6 +2,14 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.14.1 (aibvf-mcp), 18 August 2026
+
+Changed: anonymous telemetry now separates the published package release from the AI BVF protocol version, records whether a call came through a local stdio installation or the remote connector, and records whether `assess_ai_initiative` asked for evidence or returned a verdict. Work architecture status is recorded with the verdict, while proposal text, organisation names, revenue, scores and portfolio content remain outside telemetry.
+
+Added: local stdio installations send a stable one-way hash derived from the existing random installation seed, so repeat use can be measured across days without collecting a machine, account or user identifier. Remote calls leave this field empty because a serverless process cannot identify the person calling it.
+
+Fixed: the hosted endpoint copy now reports the current thirteen-tool surface.
+
 ## 0.14.0 (aibvf-mcp) / 0.10.0 (@aibvf/core), 1 August 2026
 
 Added: a deterministic work architecture gate inside the existing assessment and improvement tools, with no increase in the thirteen-tool surface. `assess_ai_initiative` and `score_initiative` now test four pieces of evidence: the end-to-end workflow has been redesigned, affected roles and accountabilities have been rewritten, human decision and override rights are named, and performance measures support the new work.

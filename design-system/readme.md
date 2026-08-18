@@ -2,7 +2,7 @@
 
 The brand and UI system for **AI BVF (the AI Business Value Framework)** by **Craig Horton Advisory** — an open, deterministic toolchain that scores AI initiatives **Accelerate / Fix / Stop** before budget is committed. Board-review discipline for enterprise AI investment.
 
-One engine, three surfaces: `@aibvf/core` (TypeScript scoring engine), `aibvf-mcp` (MCP server, twelve tools for agents, hosted connector at mcp.aibvf.com), and `aibvf-check` (CI/CD pre-flight gate — "SonarQube for AI").
+One engine, three surfaces: `@aibvf/core` (TypeScript scoring engine), `aibvf-mcp` (MCP server, thirteen tools for agents, hosted connector at mcp.aibvf.com), and `aibvf-check` (CI/CD pre-flight gate — "SonarQube for AI").
 
 This design system unifies the product surfaces onto **one accent (copper) on deep navy**, correcting the multi-colour drift that had crept into the live pages. Serif display, executive/advisory tone.
 
@@ -15,7 +15,7 @@ Built from the public repo (browse for deeper context — the reader is encourag
   - `AI-BVF.html` — long-form product/marketing page.
   - `ai-readiness-blueprint.html` — the six-driver diagnostic marketing page (earlier, lighter palette — superseded here).
   - `assets/bvf-logo.svg` — the brand mark (imported into `assets/`).
-  - `README.md` — product copy, the four pillars, the twelve MCP tools, scoring rules.
+  - `README.md` — product copy, the four pillars, the thirteen MCP tools, scoring rules.
 - Live product: bvf.craighortonadvisory.com · Protocol: www.aibvf.com/protocol · The Transformation Brief: brief.craighortonadvisory.com
 
 Brand seed (from the logo): deep navy `#0F1E35` + copper `#B87333`, serif display, executive tone.

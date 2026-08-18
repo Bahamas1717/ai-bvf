@@ -1,7 +1,7 @@
 {
   "name": "aibvf-mcp",
   "mcpName": "io.github.Craig-Horton/aibvf-mcp",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "AI BVF: score AI portfolios Stop/Fix/Accelerate with decision confidence and pace-layer drag.",
   "keywords": [
     "mcp",
@@ -35,7 +35,8 @@
   ],
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('dist/index.js', 0o755)\"",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "test": "npm run build && node telemetry-test.mjs"
   },
   "dependencies": {
     "@aibvf/core": "0.10.0",
