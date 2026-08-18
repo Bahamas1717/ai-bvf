@@ -2,6 +2,10 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.14.2 (aibvf-mcp), 18 August 2026
+
+Fixed: remote Vercel requests now stay alive briefly while anonymous telemetry is written, so the response cannot close before the adoption event reaches Supabase.
+
 ## 0.14.1 (aibvf-mcp), 18 August 2026
 
 Changed: anonymous telemetry now separates the published package release from the AI BVF protocol version, records whether a call came through a local stdio installation or the remote connector, and records whether `assess_ai_initiative` asked for evidence or returned a verdict. Work architecture status is recorded with the verdict, while proposal text, organisation names, revenue, scores and portfolio content remain outside telemetry.

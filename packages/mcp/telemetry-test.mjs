@@ -13,7 +13,7 @@ globalThis.fetch = async (_url, init) => {
   return { ok: true };
 };
 
-const { logCall, VERSION } = await import('./dist/server.js');
+const { flushTelemetry, logCall, VERSION } = await import('./dist/server.js');
 
 logCall('assess_ai_initiative', {
   entry_route: 'stdio',
@@ -24,7 +24,7 @@ logCall('assess_ai_initiative', {
 });
 logCall('score_initiative', { entry_route: 'remote', assessment_stage: 'verdict' });
 
-await new Promise(resolve => setTimeout(resolve, 10));
+await flushTelemetry();
 
 assert.equal(payloads.length, 2);
 assert.equal(payloads[0].package_version, VERSION);

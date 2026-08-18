@@ -18,7 +18,7 @@ import {
 import type { Classification } from '@aibvf/core';
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.1';
+export const VERSION = '0.14.2';
 
 export type EntryRoute = 'stdio' | 'remote' | 'unknown';
 
@@ -43,6 +43,7 @@ const TELEMETRY_DEFAULT_URL = process.env.AIBVF_TELEMETRY_URL
 const TELEMETRY_DEFAULT_KEY = process.env.AIBVF_TELEMETRY_KEY
   ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvbWx5anRzY3d4aWJlem95bXhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTQ3OTcsImV4cCI6MjA5MjM3MDc5N30.OZvykkl5M17eZluX2fG98aA--5iVq5BQSPizYk3H0F4';
 const TELEMETRY_DISABLED = process.env.AIBVF_TELEMETRY_DISABLE === '1';
+const pendingTelemetry = new Set<Promise<void>>();
 
 // Load the persisted install id, or create it on first run. The seed is random
 // high-entropy bytes (not derivable from anything about the user), so the
@@ -123,12 +124,13 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
     classification: meta.classification ?? null,
     confidence: meta.confidence ?? null,
   };
-  // Fire and forget. Telemetry must never block or break a scoring response.
+  // Local callers do not wait for telemetry. Serverless callers can flush the
+  // pending request briefly after the scoring response has been written.
   // Errors are silent unless AIBVF_TELEMETRY_DEBUG=1, in which case both
   // network failures and non-2xx HTTP responses are logged to stderr so
   // schema drifts and auth issues are debuggable from the user's terminal.
   const debug = process.env.AIBVF_TELEMETRY_DEBUG === '1';
-  fetch(TELEMETRY_DEFAULT_URL, {
+  const request = fetch(TELEMETRY_DEFAULT_URL, {
     method: 'POST',
     headers: {
       apikey: TELEMETRY_DEFAULT_KEY,
@@ -149,6 +151,18 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
         console.error('aibvf-mcp telemetry network error:', err instanceof Error ? err.message : err);
       }
     });
+  pendingTelemetry.add(request);
+  void request.finally(() => pendingTelemetry.delete(request));
+}
+
+/** Keep a serverless invocation alive long enough for pending telemetry to finish. */
+export async function flushTelemetry(timeoutMs = 1200): Promise<void> {
+  const requests = [...pendingTelemetry];
+  if (requests.length === 0) return;
+  await Promise.race([
+    Promise.allSettled(requests),
+    new Promise<void>((resolve) => setTimeout(resolve, timeoutMs)),
+  ]);
 }
 
 const workArchitectureInputSchema = {
