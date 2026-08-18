@@ -4,7 +4,7 @@ All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, i
 
 ## 0.14.3 (aibvf-mcp), 18 August 2026
 
-Fixed: hosted tool calls now complete the anonymous telemetry write before returning the MCP response, while local stdio calls remain non-blocking.
+Fixed: hosted tool calls now complete the anonymous telemetry write before returning the MCP response, while local stdio calls remain non-blocking. The database allowlist now covers the complete thirteen-tool surface, including `assess_ai_initiative` and `assemble_portfolio`.
 
 ## 0.14.2 (aibvf-mcp), 18 August 2026
 

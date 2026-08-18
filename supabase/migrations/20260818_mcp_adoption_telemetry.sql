@@ -26,6 +26,28 @@ comment on column public.mcp_calls.assessment_stage is
 comment on column public.mcp_calls.work_architecture_status is
   'ready, gap or unknown when an initiative verdict includes the work architecture gate.';
 
+-- Keep the database allowlist aligned with the complete public tool surface.
+alter table public.mcp_calls
+  drop constraint if exists mcp_calls_tool_name_allowlist;
+
+alter table public.mcp_calls
+  add constraint mcp_calls_tool_name_allowlist check (tool_name = any (array[
+    'server_connect',
+    'assess_ai_initiative',
+    'score_initiative',
+    'score_portfolio',
+    'assemble_portfolio',
+    'sequence_portfolio',
+    'recommend_improvements',
+    'calculate_pace_layer_drag',
+    'validate_portfolio',
+    'get_benchmark',
+    'list_taxonomy',
+    'map_to_taxonomy',
+    'diagnose_process',
+    'infer_readiness'
+  ]));
+
 -- Verification after the first 0.14.3 calls arrive:
 -- select package_version, entry_route, assessment_stage,
 --        work_architecture_status, count(*) as events
