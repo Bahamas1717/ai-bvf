@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aibvf.dev/spec/veteran-capital.schema.json",
+  "title": "Veteran Capital Protocol v0.1",
+  "description": "A portable, model-agnostic artifact that encodes a firm's accumulated AI judgment (its token capital) independently of any base model. Hand this file to any generalist model and the company-veteran expertise comes with it. This is the sovereignty object: the thing a firm owns, versions, and audits, and the thing it must not lose when it swaps out a base model.",
+  "type": "object",
+  "required": ["protocol_version", "firm", "calibration_policy", "eval_suite", "provenance"],
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "type": "string",
+      "const": "0.1",
+      "description": "Veteran Capital Protocol version."
+    },
+    "firm": {
+      "type": "object",
+      "required": ["name", "domain"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "The owning organisation." },
+        "domain": {
+          "type": "string",
+          "description": "The judgment task this veteran is calibrated for, e.g. 'bvf-pillar-derivation'."
+        },
+        "base_model_fit_on": {
+          "type": "string",
+          "description": "The base model whose outputs the calibration policy was fit against. Informational only: the artifact is intended to lift any base model (the Veteran Test)."
+        }
+      }
+    },
+    "institutional_memory": {
+      "type": "object",
+      "description": "The queryable knowledge base: firm notes plus high-reward exemplars accumulated by the learning loop. Token capital in its retrievable form.",
+      "additionalProperties": false,
+      "properties": {
+        "notes": {
+          "type": "array",
+          "description": "Durable, human-authored or distilled firm rules (e.g. 'ceremonial regulatory keywords should not inflate governance_risk').",
+          "items": {
+            "type": "object",
+            "required": ["id", "text"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "text": { "type": "string" },
+              "source": { "type": "string" }
+            }
+          }
+        },
+        "exemplars": {
+          "type": "array",
+          "description": "Past traces whose reward exceeded the promotion threshold. Retrieved as in-context guidance for similar new cases.",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "calibration_policy": {
+      "type": "object",
+      "description": "The learned, model-external adjustment layer. Plain numeric parameters, not model weights. For each business outcome (pillar) it maps firm-specific features to a correction applied on top of the base model's derivation. This is the learned core of token capital and the reason expertise survives a model swap.",
+      "required": ["kind", "feature_names", "weights"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["ridge_linear"],
+          "description": "Policy family. v0 ships a transparent ridge-linear residual model; the interface admits richer families without changing the artifact shape."
+        },
+        "ridge_lambda": { "type": "number", "minimum": 0 },
+        "feature_names": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ordered firm-feature names. The feature vector is reproducible from a candidate via the documented featuriser."
+        },
+        "feature_mean": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "Per-feature mean used to standardise inputs before applying weights (aligned to feature_names; index 0 is the bias identity)."
+        },
+        "feature_std": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "Per-feature standard deviation used to standardise inputs before applying weights (aligned to feature_names; index 0 is the bias identity)."
+        },
+        "weights": {
+          "type": "object",
+          "description": "Per-target weight vectors. Each key is a business-outcome target (pillar); each value is a weight vector aligned to feature_names.",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "number" }
+          }
+        }
+      }
+    },
+    "eval_suite": {
+      "type": "object",
+      "description": "The firm's PRIVATE evals: held-out cases scored against business outcomes the firm defines, not public benchmarks. Travels inside the artifact so sovereignty is testable anywhere.",
+      "required": ["reward_spec", "holdout_case_ids"],
+      "additionalProperties": false,
+      "properties": {
+        "reward_spec": {
+          "type": "object",
+          "description": "How a derivation is scored against the firm's gold judgment.",
+          "required": ["ruling_match_weight", "pillar_proximity_weight"],
+          "additionalProperties": false,
+          "properties": {
+            "ruling_match_weight": { "type": "number", "minimum": 0, "maximum": 1 },
+            "pillar_proximity_weight": { "type": "number", "minimum": 0, "maximum": 1 },
+            "confidence_proximity_weight": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "holdout_case_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Case ids reserved for evaluation and never used to fit the policy."
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "The compounding record: how this veteran was built and how its private-eval score moved over loop iterations. The audit trail of token capital.",
+      "required": ["created_at", "iterations", "reward_history"],
+      "additionalProperties": false,
+      "properties": {
+        "created_at": { "type": "string", "format": "date-time" },
+        "iterations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of completed learning-loop iterations encoded in this artifact."
+        },
+        "train_case_count": { "type": "integer", "minimum": 0 },
+        "reward_history": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "Mean private-eval reward after each iteration. A rising series is the hill-climb."
+        }
+      }
+    }
+  }
+}

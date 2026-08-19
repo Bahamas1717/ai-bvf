@@ -139,6 +139,9 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 | [`aibvf-check`](packages/cli) | 0.1.1 | CI/CD pre-flight gate ("SonarQube for AI") + GitHub Action. |
 | [`@aibvf/core`](packages/js) | 0.10.0 | TypeScript scoring engine, plain-English assessment, work architecture gate, change-leader plans, readiness inference, and Advisor Brain. |
 | [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
+| [`bvf-learning-loop`](learning-loop) | 0.1.0 (experimental) | Reference implementation of the learning loop ("The Compounding Firm"): a firm-owned, model-agnostic Veteran Capital artifact that compounds on top of BVF. Research, not part of the certified protocol. |
+
+BVF is the deterministic judge a firm trusts. The experimental [learning-loop](learning-loop) is the veteran apprentice that gets better at briefing it over time, while BVF's no-LLM scoring path stays untouched.
 
 ## Anonymous Usage Telemetry
 

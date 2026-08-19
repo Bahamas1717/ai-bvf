@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="980" font-family="Tahoma,Geneva,sans-serif">
+  <defs>
+    <marker id="aw" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#C47A2B"/></marker>
+    <marker id="an" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1B3A5C"/></marker>
+    <marker id="af" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9aa6b2"/></marker>
+  </defs>
+  <rect width="1100" height="980" fill="#F7F5F0"/>
+
+  <text x="60" y="50" font-size="27" fill="#1B3A5C" font-weight="bold">The end of the org chart</text>
+  <text x="60" y="73" font-size="13" fill="#C47A2B">Craig Horton Advisory runs as a loop, not a ladder. The goal summons capability; nobody reports to anybody.</text>
+  <text x="60" y="91" font-size="11" fill="#5b6772">The loop's engine is three motions: verbalize (Claude), document (Boswell), review (Strunk). The desks orbit and are pulled in by the work.</text>
+
+  <!-- connectors desk -> loop -->
+  <g stroke="#C9D3DE" stroke-width="1.4">
+    <line x1="622" y1="394" x2="700" y2="258"/>
+    <line x1="695" y1="520" x2="803" y2="520"/>
+    <line x1="622" y1="646" x2="700" y2="782"/>
+    <line x1="478" y1="646" x2="400" y2="782"/>
+    <line x1="405" y1="520" x2="297" y2="520"/>
+    <line x1="478" y1="394" x2="400" y2="258"/>
+  </g>
+
+  <!-- the loop: three clockwise arcs forming the ring -->
+  <g fill="none" stroke="#C47A2B" stroke-width="3">
+    <path d="M550,390 A130,130 0 0,1 663,585" marker-end="url(#aw)"/>
+    <path d="M663,585 A130,130 0 0,1 437,585" marker-end="url(#aw)"/>
+    <path d="M437,585 A130,130 0 0,1 550,390" marker-end="url(#aw)"/>
+  </g>
+  <text x="550" y="514" font-size="13" fill="#1B3A5C" font-weight="bold" text-anchor="middle">THE LOOP</text>
+  <text x="550" y="532" font-size="10" fill="#5b6772" text-anchor="middle">goals, context, decisions</text>
+  <text x="550" y="546" font-size="9" fill="#9aa6b2" text-anchor="middle">verbalized, documented, reviewed</text>
+
+  <!-- Craig intent enters the loop (not from the top of a hierarchy) -->
+  <text x="550" y="128" font-size="12" fill="#1B3A5C" text-anchor="middle" font-weight="bold">Craig</text>
+  <text x="550" y="144" font-size="10.5" fill="#5b6772" text-anchor="middle">a goal, or just a feeling</text>
+  <line x1="550" y1="152" x2="550" y2="360" stroke="#1B3A5C" stroke-width="1.6" marker-end="url(#an)"/>
+
+  <!-- horizontal handoff (no chain of command) -->
+  <path d="M455,806 Q550,872 645,806" fill="none" stroke="#9aa6b2" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#af)"/>
+  <text x="550" y="892" font-size="10.5" fill="#5b6772" text-anchor="middle">desks hand off to each other directly, no chain of command</text>
+
+  <!-- DESK NODES (peers on the orbit) -->
+  <!-- Bly top-left -->
+  <rect x="308" y="202" width="154" height="64" rx="10" fill="#fff" stroke="#C9D3DE"/>
+  <text x="385" y="226" font-size="14" fill="#1B3A5C" font-weight="bold" text-anchor="middle">Bly</text>
+  <text x="385" y="241" font-size="9.5" fill="#C47A2B" text-anchor="middle">Research Desk</text>
+  <text x="385" y="255" font-size="8.5" fill="#9aa6b2" text-anchor="middle">Opus</text>
+  <!-- Didion top-right -->
+  <rect x="638" y="202" width="154" height="64" rx="10" fill="#fff" stroke="#C9D3DE"/>
+  <text x="715" y="226" font-size="14" fill="#1B3A5C" font-weight="bold" text-anchor="middle">Didion</text>
+  <text x="715" y="241" font-size="9.5" fill="#C47A2B" text-anchor="middle">Editorial Desk</text>
+  <text x="715" y="255" font-size="8.5" fill="#9aa6b2" text-anchor="middle">Opus</text>
+  <!-- Pepys left -->
+  <rect x="143" y="488" width="154" height="64" rx="10" fill="#fff" stroke="#C9D3DE"/>
+  <text x="220" y="512" font-size="14" fill="#1B3A5C" font-weight="bold" text-anchor="middle">Pepys</text>
+  <text x="220" y="527" font-size="9.5" fill="#C47A2B" text-anchor="middle">Diary Desk</text>
+  <text x="220" y="541" font-size="8.5" fill="#9aa6b2" text-anchor="middle">Sonnet</text>
+  <!-- Lex right -->
+  <rect x="803" y="488" width="154" height="64" rx="10" fill="#fff" stroke="#C9D3DE"/>
+  <text x="880" y="512" font-size="14" fill="#1B3A5C" font-weight="bold" text-anchor="middle">Lex</text>
+  <text x="880" y="527" font-size="9.5" fill="#C47A2B" text-anchor="middle">Business Desk</text>
+  <text x="880" y="541" font-size="8.5" fill="#9aa6b2" text-anchor="middle">Opus</text>
+  <!-- Reuter bottom-left -->
+  <rect x="308" y="774" width="154" height="64" rx="10" fill="#fff" stroke="#C9D3DE"/>
+  <text x="385" y="798" font-size="14" fill="#1B3A5C" font-weight="bold" text-anchor="middle">Reuter</text>
+  <text x="385" y="813" font-size="9.5" fill="#C47A2B" text-anchor="middle">Correspondence</text>
+  <text x="385" y="827" font-size="8.5" fill="#9aa6b2" text-anchor="middle">Sonnet</text>
+  <!-- Ross bottom-right -->
+  <rect x="638" y="774" width="154" height="64" rx="10" fill="#fff" stroke="#C9D3DE"/>
+  <text x="715" y="798" font-size="14" fill="#1B3A5C" font-weight="bold" text-anchor="middle">Ross</text>
+  <text x="715" y="813" font-size="9.5" fill="#C47A2B" text-anchor="middle">Production Desk</text>
+  <text x="715" y="827" font-size="8.5" fill="#9aa6b2" text-anchor="middle">Opus</text>
+
+  <!-- LOOP HUBS (the engine, on the ring) -->
+  <rect x="483" y="365" width="134" height="52" rx="12" fill="#1B3A5C" stroke="#C47A2B" stroke-width="2"/>
+  <text x="550" y="388" font-size="15" fill="#fff" font-weight="bold" text-anchor="middle">Claude</text>
+  <text x="550" y="403" font-size="8.5" fill="#E0A45A" text-anchor="middle">Chief of Staff · verbalize</text>
+  <rect x="603" y="563" width="120" height="46" rx="12" fill="#1B3A5C"/>
+  <text x="663" y="584" font-size="12.5" fill="#fff" font-weight="bold" text-anchor="middle">Boswell</text>
+  <text x="663" y="598" font-size="8" fill="#E0A45A" text-anchor="middle">the Archive · document</text>
+  <rect x="377" y="563" width="120" height="46" rx="12" fill="#1B3A5C"/>
+  <text x="437" y="584" font-size="12.5" fill="#fff" font-weight="bold" text-anchor="middle">Strunk</text>
+  <text x="437" y="598" font-size="8" fill="#E0A45A" text-anchor="middle">Copydesk · review</text>
+
+  <!-- stringers: elastic, ephemeral -->
+  <g fill="none" stroke="#9aa6b2" stroke-width="1.2" stroke-dasharray="3 3">
+    <circle cx="930" cy="590" r="9"/><circle cx="958" cy="606" r="9"/><circle cx="940" cy="628" r="9"/>
+  </g>
+  <line x1="903" y1="552" x2="930" y2="581" stroke="#C9D3DE" stroke-width="1.2" stroke-dasharray="3 3"/>
+  <text x="945" y="654" font-size="10" fill="#5b6772" text-anchor="middle">stringers: spawned per task, then gone</text>
+
+  <text x="550" y="938" font-size="11.5" fill="#1B3A5C" text-anchor="middle" font-weight="bold">Not a ladder, a flywheel. Work pulls capability; headcount is elastic.</text>
+  <text x="550" y="958" font-size="10" fill="#9aa6b2" text-anchor="middle">The operating model behind The End of the Org Chart. Craig Horton Advisory.</text>
+</svg>
