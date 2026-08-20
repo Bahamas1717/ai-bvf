@@ -2,6 +2,10 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.14.4 (aibvf-mcp), 20 August 2026
+
+Changed: the voluntary Fix and Stop feedback route now asks whether the verdict changed the next decision, what AI BVF should do more of, and what it should stop doing. The prefilled email carries only those questions, with no proposal, organisation, revenue, score or portfolio data added automatically.
+
 ## 0.14.3 (aibvf-mcp), 18 August 2026
 
 Fixed: hosted tool calls now complete the anonymous telemetry write before returning the MCP response, while local stdio calls remain non-blocking. The database allowlist now covers the complete thirteen-tool surface, including `assess_ai_initiative` and `assemble_portfolio`.

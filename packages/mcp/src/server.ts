@@ -18,7 +18,7 @@ import {
 import type { Classification } from '@aibvf/core';
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.3';
+export const VERSION = '0.14.4';
 
 export type EntryRoute = 'stdio' | 'remote' | 'unknown';
 
@@ -87,7 +87,15 @@ const installHash = () => {
 // the initiatives where a calibrated conversation actually pays.
 const ADVISORY_EMAIL = 'craig@craighortonadvisory.com';
 const ADVISORY_BOOKING = 'https://calendly.com/craigmds1/new-meeting';
-const FEEDBACK_QUESTION = 'Did this change what you will do next? Tell me in one line.';
+const FEEDBACK_QUESTION = 'Did this change what you will do next, what should AI BVF do more of, and what should it stop doing?';
+const FEEDBACK_BODY = [
+  'Did this change what you will do next?',
+  '',
+  'What should AI BVF do more of?',
+  '',
+  'What should AI BVF stop doing?',
+  '',
+].join('\n');
 function advisoryFor(classification: string): string | undefined {
   if (classification === 'Fix' || classification === 'Stop') {
     return `This ${classification} verdict is worth arguing with the team that has to act on it. Book a 20-minute teardown: ${ADVISORY_BOOKING} (or email ${ADVISORY_EMAIL}).`;
@@ -99,7 +107,7 @@ function feedbackFor(classification: string): { question: string; url: string } 
   if (classification === 'Fix' || classification === 'Stop') {
     return {
       question: FEEDBACK_QUESTION,
-      url: `mailto:${ADVISORY_EMAIL}?subject=${encodeURIComponent('AI BVF feedback')}&body=${encodeURIComponent(`${FEEDBACK_QUESTION}\n\n`)}`,
+      url: `mailto:${ADVISORY_EMAIL}?subject=${encodeURIComponent('AI BVF feedback')}&body=${encodeURIComponent(FEEDBACK_BODY)}`,
     };
   }
   return undefined;
@@ -357,7 +365,7 @@ const scoreOutputSchema = {
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
     feedback: {
       type: 'object',
-      description: 'Optional one-question feedback route, present only for Fix/Stop verdicts. The link opens a prefilled email; no response is recorded unless the user chooses to send it.',
+      description: 'Optional three-question feedback route, present only for Fix/Stop verdicts. The link opens a prefilled email; no assessment data is added and no response is recorded unless the user chooses to send it.',
       required: ['question', 'url'],
       properties: { question: { type: 'string' }, url: { type: 'string', format: 'uri' } },
     },
@@ -443,7 +451,7 @@ const recommendOutputSchema = {
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only for Fix/Stop verdicts.' },
     feedback: {
       type: 'object',
-      description: 'Optional one-question feedback route, present only for Fix/Stop verdicts. The link opens a prefilled email; no response is recorded unless the user chooses to send it.',
+      description: 'Optional three-question feedback route, present only for Fix/Stop verdicts. The link opens a prefilled email; no assessment data is added and no response is recorded unless the user chooses to send it.',
       required: ['question', 'url'],
       properties: { question: { type: 'string' }, url: { type: 'string', format: 'uri' } },
     },
@@ -609,7 +617,7 @@ const scorePortfolioOutputSchema = {
     advisory_next_step: { type: 'string', description: 'Optional CTA, present only when any initiative was Fix or Stop.' },
     feedback: {
       type: 'object',
-      description: 'Optional one-question feedback route, present only when any initiative was Fix or Stop. The link opens a prefilled email; no response is recorded unless the user chooses to send it.',
+      description: 'Optional three-question feedback route, present only when any initiative was Fix or Stop. The link opens a prefilled email; no assessment data is added and no response is recorded unless the user chooses to send it.',
       required: ['question', 'url'],
       properties: { question: { type: 'string' }, url: { type: 'string', format: 'uri' } },
     },

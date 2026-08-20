@@ -103,7 +103,11 @@ for (const r of responses) {
     } else console.log(`assess_ai_initiative OK · ${parsed.verdict.classification} · conf ${parsed.verdict.decision_confidence}`);
   } else if (r.id === 4) {
     const parsed = JSON.parse(r.result?.content?.[0]?.text);
-    if (parsed.classification !== 'Fix' || parsed.feedback?.question !== 'Did this change what you will do next? Tell me in one line.' || !parsed.feedback?.url?.startsWith('mailto:')) {
+    if (parsed.classification !== 'Fix'
+      || parsed.feedback?.question !== 'Did this change what you will do next, what should AI BVF do more of, and what should it stop doing?'
+      || !parsed.feedback?.url?.startsWith('mailto:')
+      || !parsed.feedback.url.includes('What%20should%20AI%20BVF%20do%20more%20of%3F')
+      || !parsed.feedback.url.includes('What%20should%20AI%20BVF%20stop%20doing%3F')) {
       console.error('Fix verdict did not carry the expected feedback route.');
       process.exitCode = 1;
     } else {
