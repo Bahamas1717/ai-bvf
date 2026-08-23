@@ -18,7 +18,7 @@ import {
 import type { Classification } from '@aibvf/core';
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.8';
+export const VERSION = '0.14.9';
 
 export type EntryRoute = 'stdio' | 'remote' | 'unknown';
 
@@ -182,7 +182,7 @@ const scoreInputSchema = {
   required: ['industry', 'revenue_eur', 'function', 'ai_tier', 'readiness'],
   properties: {
     industry:    { type: 'string', enum: INDUSTRIES, description: 'Your industry, as one of the accepted enum values — used to select the benchmark rate multiplier applied to the modelled EUR value. Call list_taxonomy for the exact strings if unsure.' },
-    revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR (must be ≥ 0). Scales the whole output: the benchmark rates are applied as fractions of this figure, so the modelled EUR value range grows with it. A rough order-of-magnitude estimate is fine.' },
+    revenue_eur: { type: 'number', minimum: 0, description: 'Approximate annual revenue in EUR (must be ≥ 0). Scales the whole output: the disclosed AI BVF planning rates are applied as fractions of this figure, so the modelled EUR value range grows with it. A rough order-of-magnitude estimate is fine.' },
     function:    { type: 'string', enum: FUNCTIONS, description: 'Business function where the AI will operate, as one of the accepted enum values — selects which benchmark value drivers and rate ranges apply. Call list_taxonomy for the exact strings if unsure.' },
     ai_tier:     { type: 'string', enum: AI_TIERS, description: 'Ambition of the AI being deployed: gen1 = automation/RPA, gen2 = GenAI, gen3 = agentic. Interacts with readiness — a more ambitious tier running on lower readiness widens the pace-layer gap, which discounts the modelled EUR value even when the four pillar scores are strong.' },
     readiness:   { type: 'string', enum: READINESS, description: 'Organisational readiness, honest self-assessment: agile = cross-functional, fast decisions; traditional = functional hierarchy; siloed = rigid, hand-off heavy. Sets the value-capture rate and, paired with ai_tier, the pace-layer drag — lower readiness against a higher tier reduces the captured value. Self-report is gameable: when the user has real process numbers, call infer_readiness first and pass its measured classification here instead.' },
@@ -264,7 +264,7 @@ const paceLayerInputSchema = {
 };
 
 // Reusable output-schema fragments. Two range shapes exist in the wire format:
-// {low,high} for modelled EUR/value ranges, {lo,hi} for raw benchmark rates.
+// {low,high} for modelled EUR/value ranges, {lo,hi} for raw planning rates.
 const rangeLowHigh = (description: string) => ({
   type: 'object', description, required: ['low', 'high'],
   properties: { low: { type: 'number' }, high: { type: 'number' } },
@@ -339,7 +339,7 @@ const scoreOutputSchema = {
       },
     },
     audit: auditSchema,
-    benchmark_source:   { type: 'string', description: 'Citation for the benchmark rates applied.' },
+    benchmark_source:   { type: 'string', description: 'Provenance and evidence status for the AI BVF planning rates applied.' },
     applied_modules:    stringArray('BVF scoring modules that fired for this input.'),
     caveat:             { type: 'string', description: 'Present only when signal_completeness was low: warns the verdict rests on soft inputs and confidence was reduced.' },
     work_architecture: {
@@ -936,7 +936,7 @@ const TOOLS = [
       },
     },
     outputSchema: benchmarkOutputSchema,
-    annotations: { title: 'Get benchmark rates', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    annotations: { title: 'Get planning rates', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   {
     name: 'list_taxonomy',

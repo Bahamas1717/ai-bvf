@@ -105,7 +105,7 @@ PACE_DRAG_SOURCE = "AI BVF pace-layer planning model. External research informs 
 PILLAR_ACTIONS = {
     "strategic_alignment": {
         "action": "Tie this initiative to a named board-level KPI with a written success metric and a single accountable executive owner.",
-        "rationale": "Initiatives without a named KPI and owner consistently stall at the pilot stage. Evidence: McKinsey State of AI, Gartner AI-in-the-Enterprise.",
+        "rationale": "The initiative has no named KPI and owner, so the value case cannot yet be governed. Name both and test them before funding.",
     },
     "financial_return": {
         "action": "Rebuild the business case with itemised gross benefit (revenue uplift + cost take-out), a change cost line, and a capture rate tied to current readiness.",

@@ -326,7 +326,7 @@ export function score(input: ScoreInput): ScoreResult {
   const caveatParts: string[] = [];
   if (anyEstimated) {
     const estimated = (Object.keys(basis) as Array<keyof PillarBasis>).filter(k => basis[k] === 'estimated');
-    caveatParts.push(`Estimated pillars: ${estimated.join(', ')} (deterministic priors from readiness, tier, function and benchmarks, see pillar_basis). Confirm them with evidence before committing budget.`);
+    caveatParts.push(`Estimated pillars: ${estimated.join(', ')} (deterministic AI BVF priors from readiness, tier and function, see pillar_basis). Confirm them with evidence before committing budget.`);
   }
   if (signal < SIGNAL_CAVEAT_THRESHOLD) {
     caveatParts.push(`Verdict rests on soft inputs (signal_completeness ${signal}). Decision confidence has been reduced accordingly; treat this as directional.`);
@@ -393,7 +393,7 @@ export function score(input: ScoreInput): ScoreResult {
 const PILLAR_ACTIONS: Record<Recommendation['pillar'], { action: string; rationale: string }> = {
   strategic_alignment: {
     action: 'Tie this initiative to a named board-level KPI with a written success metric and a single accountable executive owner.',
-    rationale: 'Initiatives without a named KPI and owner consistently stall at the pilot stage. Evidence: McKinsey State of AI, Gartner AI-in-the-Enterprise.',
+    rationale: 'The initiative has no named KPI and owner, so the value case cannot yet be governed. Name both and test them before funding.',
   },
   financial_return: {
     action: 'Rebuild the business case with itemised gross benefit (revenue uplift + cost take-out), a change cost line, and a capture rate tied to current readiness.',
@@ -433,7 +433,7 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
   const notes: string[] = [];
   if (givenCount < 4) {
     const estimated = (Object.keys(basis) as Array<keyof PillarBasis>).filter(k => basis[k] === 'estimated');
-    notes.push(`Estimated pillars: ${estimated.join(', ')} (deterministic priors from readiness, tier, function and benchmarks). The plan below is provisional on those pillars; confirm them with evidence and re-run.`);
+    notes.push(`Estimated pillars: ${estimated.join(', ')} (deterministic AI BVF priors from readiness, tier and function). The plan below is provisional on those pillars; confirm them with evidence and re-run.`);
   }
   if (workArchitecture.status !== 'ready') {
     notes.push(workArchitecture.blocks_accelerate

@@ -59,7 +59,7 @@ function coalitionFirst(readiness: string, provisional: boolean): ChangePlay {
     timeline_weeks: [4, 6],
     stop_condition: 'If no executive will chair the coalition after two direct asks, the initiative has a sponsorship vacuum, and the honest verdict is Stop until a sponsor exists.',
     provisional,
-    source: 'Kotter, Leading Change (steps 1 to 2); Prosci ADKAR (Awareness, Desire); Prosci change benchmark',
+    source: 'Kotter, Leading Change (steps 1 to 2); Prosci ADKAR (Awareness, Desire); AI BVF funding review point',
   };
 }
 
@@ -208,7 +208,7 @@ function valueRescope(fr: number): ChangePlay {
     steps: [
       'Rank every scope element by modelled value contribution.',
       'Cut the bottom half of the scope, deliberately and in writing.',
-      'Re-model the slice with benchmark rates and an honest capture rate.',
+      'Re-model the slice with disclosed planning rates and an evidenced capture rate.',
       'Re-score the slice on its own numbers.',
       'Scale only after the slice has paid.',
     ],
@@ -220,7 +220,7 @@ function valueRescope(fr: number): ChangePlay {
     timeline_weeks: [2, 4],
     stop_condition: 'If no slice clears on its own numbers, the initiative does not have a thin case, it has no case, and the verdict is Stop.',
     provisional: false,
-    source: 'AI BVF benchmark rates; McKinsey State of AI',
+    source: 'AI BVF planning rates; published research provides context only',
   };
 }
 
