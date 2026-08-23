@@ -171,7 +171,7 @@ as the one-pager; gate `offer_to_execute` behind human approval.
   process-mining distributions (Celonis/Signavio public benchmarks, APQC) before
   any figure is shown to a paying client. Until then the Brain runs in
   *advisory-only* mode and says so.
-- **Effectiveness bands (§3.3)** should be sourced the way `BASE_RATES` already
+- **Effectiveness bands (§3.3)** should disclose their evidence status the way `BASE_RATES` already
   are (McKinsey/Gartner/BCG/Deloitte/Forrester) and cited inline.
 - **`intervention_evidence`** needs a small evidence table per (function ×
   intervention). That table is the next concrete build.

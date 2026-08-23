@@ -57,12 +57,12 @@ net_low    = gross_low  * readiness_capture.low
 net_high   = gross_high * readiness_capture.high
 ```
 
-- `rev.lo/hi, cost.lo/hi` come from `BASE_RATES[function]` (McKinsey, Gartner, BCG, Deloitte, Forrester, Accenture, ServiceNow).
-- `industry_mult` comes from `IND_MULT[industry][function]`. Universal is 1.0.
+- `rev.lo/hi, cost.lo/hi` come from `BASE_RATES[function]`. They are AI BVF planning assumptions, not function-specific rates published or endorsed by an external source.
+- `industry_mult` comes from `IND_MULT[industry][function]`. Universal is 1.0, and every other multiplier is a directional AI BVF assumption.
 - `tier_adj` is 0.55 for gen1 (RPA / classical automation), 1.00 for gen2 (GenAI), 1.35 for gen3 (agentic).
 - `readiness_capture` pulls value through the organisational operating model. Agile captures 85 to 100 percent of modelled benefit, Traditional 50 to 70 percent, Siloed 25 to 40 percent.
 
-The gap between gross and net is the real story. An initiative with 100m EUR of gross benefit and a siloed operating model nets 25 to 40m. The remaining 60 to 75m is the cost of not changing how the organisation runs, not the cost of the AI.
+The gap between gross and net is model sensitivity, not an accounting loss. Replace the starting range with an operating baseline, addressable volume, unit economics and an explicit capture rate before using it in a funding decision.
 
 ## Pace Layer Diagnostic
 

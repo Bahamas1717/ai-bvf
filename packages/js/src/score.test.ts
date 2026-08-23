@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { score } from './score.js';
+import { BASE_RATES, score } from './score.js';
 import type { ScoreInput } from './types.js';
 
 // Manufacturing GenAI predictive-maintenance case — the canonical smoke fixture.
@@ -17,6 +17,15 @@ const base: ScoreInput = {
     governance_risk: 35,
   },
 };
+
+test('base rates disclose that they are planning assumptions', () => {
+  for (const rate of Object.values(BASE_RATES)) {
+    assert.equal(rate.evidence_status, 'modelled_planning_assumption');
+    assert.equal(rate.reviewed_at, '2026-08-23');
+    assert.match(rate.source, /AI BVF modelled planning range/);
+    assert.match(rate.use_guidance, /Replace the range with measured baseline/);
+  }
+});
 
 test('default (no signal_completeness) leaves confidence at the pre-0.3.4 value', () => {
   const v = score(base);

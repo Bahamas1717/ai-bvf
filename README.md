@@ -135,10 +135,10 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.14.6 | MCP server — 13 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
+| [`aibvf-mcp`](packages/mcp) | 0.14.7 | MCP server — 13 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
 | [`aibvf-check`](packages/cli) | 0.1.1 | CI/CD pre-flight gate ("SonarQube for AI") + GitHub Action. |
-| [`@aibvf/core`](packages/js) | 0.10.0 | TypeScript scoring engine, plain-English assessment, work architecture gate, change-leader plans, readiness inference, and Advisor Brain. |
-| [`aibvf`](packages/py) | 0.2.0 | Python scoring engine and validator. |
+| [`@aibvf/core`](packages/js) | 0.10.1 | TypeScript scoring engine, plain-English assessment, work architecture gate, change-leader plans, readiness inference, and Advisor Brain. |
+| [`aibvf`](packages/py) | 0.2.1 | Python scoring engine and validator. |
 
 ## Anonymous Usage Telemetry
 

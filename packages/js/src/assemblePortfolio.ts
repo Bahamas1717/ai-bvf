@@ -194,7 +194,7 @@ export function assemblePortfolio(input: AssembleInput): AssembleResult {
     }
     if (estHere.length) {
       estimated[id] = estHere;
-      assumptions.push(`${raw.name}: ${estHere.join(', ')} estimated from readiness, tier, function and published benchmarks at confidence ${ESTIMATED_CONFIDENCE}. Structure, not evidence.`);
+      assumptions.push(`${raw.name}: ${estHere.join(', ')} estimated from readiness, tier, function and disclosed AI BVF planning assumptions at confidence ${ESTIMATED_CONFIDENCE}. Structure, not evidence.`);
       rules.push('estimate:pillars');
     }
 

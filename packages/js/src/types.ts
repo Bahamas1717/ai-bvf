@@ -68,7 +68,7 @@ export interface ScoreInput {
   /**
    * Optional, and each pillar inside it is optional. Give the pillars you
    * have evidence for; any missing pillar is estimated deterministically
-   * from readiness, tier, function and the published benchmarks, the result
+   * from readiness, tier, function and disclosed AI BVF planning assumptions, the result
    * reports which were estimated via pillar_basis, and a fully-estimated
    * pass can never return Accelerate.
    */

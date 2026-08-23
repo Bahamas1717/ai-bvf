@@ -5,7 +5,7 @@ from .score import (
     score,
     recommend_improvements,
     calculate_pace_layer_drag,
-    BASE_RATES, IND_MULT, TIER_ADJ, READINESS_CAPTURE, PACE_DRAG_RATE,
+    BASE_RATES, BENCHMARK_EVIDENCE_REGISTER, IND_MULT, TIER_ADJ, READINESS_CAPTURE, PACE_DRAG_RATE,
 )
 from .taxonomy import INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS
 from .schema import load_schema
@@ -18,6 +18,7 @@ __all__ = [
     "recommend_improvements",
     "calculate_pace_layer_drag",
     "BASE_RATES",
+    "BENCHMARK_EVIDENCE_REGISTER",
     "IND_MULT",
     "TIER_ADJ",
     "READINESS_CAPTURE",

@@ -132,7 +132,7 @@ specific cell above is Low maturity:
 - Supply: [Gartner supply chain inventory](https://www.gartner.com/en/documents/3882883) · [Gartner AI strategy survey 2025](https://www.gartner.com/en/newsroom/2025-06-11-gartner-survey-shows-just-23-percent-of-supply-chain-organizations-have-a-formal-ai-strategy)
 - IT: [IR.com reduce MTTR with AI 2026](https://www.ir.com/guides/how-to-reduce-mttr-with-ai-a-2026-guide-for-enterprise-it-teams) · [AIOps MTTR −40% case](https://medium.com/@alexendrascott01/case-study-how-enterprises-use-aiops-to-cut-mttr-by-40-576600a4215a)
 - Process mining (cross-cutting): [QPR process mining examples](https://www.qpr.com/blog/5-process-mining-examples) · [AIMultiple process mining use cases](https://research.aimultiple.com/process-mining-use-cases/) · [APQC benchmarking + process mining](https://www.apqc.org/resource-library/resource-listing/partners-performance-benchmarking-and-process-mining)
-- Kernel baselines: `@aibvf/core` `BASE_RATES` (McKinsey, Gartner, BCG, Deloitte, Forrester, Accenture, ServiceNow)
+- Kernel baselines: `@aibvf/core` `BASE_RATES`, disclosed AI BVF planning assumptions. External studies provide context but do not publish these function-specific rates.
 
 ---
 *v0.1 — calibration data, DRAFT. Conservative bands, visible haircuts, honest

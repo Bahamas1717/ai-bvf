@@ -1,15 +1,58 @@
 """AI BVF v1.0 scoring engine. Deterministic, no dependencies."""
 from __future__ import annotations
 
+PLANNING_SOURCE = "AI BVF modelled planning range; external research provides context but does not publish this function-specific rate."
+PLANNING_GUIDANCE = "Use for an initial hypothesis only. Replace the range with measured baseline, addressable volume, unit economics and an explicit capture rate before committing budget."
+REVIEWED_AT = "2026-08-23"
+BENCHMARK_EVIDENCE_REGISTER = [
+    {
+        "title": "McKinsey, The state of AI 2025",
+        "url": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai/",
+        "finding": "88% reported regular AI use in at least one function; 39% reported enterprise-level EBIT impact.",
+        "boundary": "Survey context only; it does not publish the AI BVF function rates.",
+    },
+    {
+        "title": "Deloitte, AI ROI 2025",
+        "url": "https://www.deloitte.com/global/en/issues/generative-ai/ai-roi-the-paradox-of-rising-investment-and-elusive-returns.html",
+        "finding": "Most respondents reported satisfactory ROI in two to four years; 6% reported payback inside one year.",
+        "boundary": "Survey context only; it does not publish AI BVF tier payback values.",
+    },
+    {
+        "title": "Gartner, GenAI project failure 2026",
+        "url": "https://www.gartner.com/en/articles/genai-project-failure",
+        "finding": "At least 50% of GenAI projects had been abandoned after proof of concept because of data quality, risk controls, cost or unclear value.",
+        "boundary": "Diagnostic context only; it does not define an AI BVF change-funding percentage.",
+    },
+    {
+        "title": "Prosci, How to budget for change management",
+        "url": "https://www.prosci.com/blog/how-to-budget-for-change-management",
+        "finding": "10% was the most common allocation for adoption and change management.",
+        "boundary": "A planning reference to tailor to the work, not a minimum, compliance test or outcome guarantee.",
+    },
+]
+
+
+def _planning_rate(rev, cost, drivers):
+    return {
+        "rev": rev,
+        "cost": cost,
+        "drivers": drivers,
+        "source": PLANNING_SOURCE,
+        "evidence_status": "modelled_planning_assumption",
+        "reviewed_at": REVIEWED_AT,
+        "use_guidance": PLANNING_GUIDANCE,
+    }
+
+
 BASE_RATES = {
-    "finance": {"rev": {"lo": 0.010, "hi": 0.030}, "cost": {"lo": 0.030, "hi": 0.060}, "drivers": ["Automated financial close (-40% cycle time)", "AI FP&A & forecasting", "Anomaly detection reducing write-offs"], "source": "McKinsey Global Institute — Finance AI benchmark"},
-    "hr":      {"rev": {"lo": 0.005, "hi": 0.015}, "cost": {"lo": 0.020, "hi": 0.040}, "drivers": ["Attrition reduction (-15-25% replacement cost)", "GenAI HR service desk (-30% AHT)", "Skills-based talent deployment"], "source": "Deloitte Future of Work 2024"},
-    "sales":   {"rev": {"lo": 0.030, "hi": 0.080}, "cost": {"lo": 0.010, "hi": 0.025}, "drivers": ["Hyper-personalisation at scale", "Predictive lead scoring & pipeline accuracy", "AI deal coaching"], "source": "McKinsey — AI personalisation drives up to 40% revenue uplift"},
-    "supply":  {"rev": {"lo": 0.005, "hi": 0.015}, "cost": {"lo": 0.040, "hi": 0.090}, "drivers": ["Predictive maintenance (-10-25% unplanned downtime)", "Inventory optimisation (-15% holding cost)", "Quality defect AI (-20% rework)"], "source": "Gartner Supply Chain AI Benchmark 2024"},
-    "cx":      {"rev": {"lo": 0.020, "hi": 0.050}, "cost": {"lo": 0.020, "hi": 0.050}, "drivers": ["GenAI deflection (up to 87% self-service)", "AHT reduction -20-35%", "Retention uplift from personalisation"], "source": "Forrester CX AI Impact 2024"},
-    "risk":    {"rev": {"lo": 0.005, "hi": 0.010}, "cost": {"lo": 0.020, "hi": 0.040}, "drivers": ["AML false-positive reduction -30-50%", "Automated CSRD / EU AI Act reporting", "Continuous compliance monitoring"], "source": "Accenture Regulatory AI Report 2024"},
-    "it":      {"rev": {"lo": 0.005, "hi": 0.015}, "cost": {"lo": 0.030, "hi": 0.070}, "drivers": ["MTTR reduction -20-40%", "AIOps incident prevention", "GenAI ITSM auto-resolution"], "source": "ServiceNow Platform Value Report 2024"},
-    "rd":      {"rev": {"lo": 0.010, "hi": 0.040}, "cost": {"lo": 0.010, "hi": 0.030}, "drivers": ["Compressed time-to-market (-20-35% dev cycle)", "AI-assisted design & simulation", "IP analysis"], "source": "BCG — AI in R&D: The Next Frontier 2024"},
+    "finance": _planning_rate({"lo": 0.010, "hi": 0.030}, {"lo": 0.030, "hi": 0.060}, ["Close cycle reduction", "FP&A and forecasting", "Anomaly detection and write-off prevention"]),
+    "hr":      _planning_rate({"lo": 0.005, "hi": 0.015}, {"lo": 0.020, "hi": 0.040}, ["Attrition and replacement cost", "HR service operations", "Skills-based workforce deployment"]),
+    "sales":   _planning_rate({"lo": 0.030, "hi": 0.080}, {"lo": 0.010, "hi": 0.025}, ["Personalisation", "Lead and pipeline quality", "Deal coaching and sales operations"]),
+    "supply":  _planning_rate({"lo": 0.005, "hi": 0.015}, {"lo": 0.040, "hi": 0.090}, ["Unplanned downtime", "Inventory holding cost", "Quality, rework and service levels"]),
+    "cx":      _planning_rate({"lo": 0.020, "hi": 0.050}, {"lo": 0.020, "hi": 0.050}, ["Self-service and containment", "Handling time and first-contact resolution", "Retention and customer lifetime value"]),
+    "risk":    _planning_rate({"lo": 0.005, "hi": 0.010}, {"lo": 0.020, "hi": 0.040}, ["False positives and case handling", "Regulatory reporting effort", "Continuous control monitoring"]),
+    "it":      _planning_rate({"lo": 0.005, "hi": 0.015}, {"lo": 0.030, "hi": 0.070}, ["Incident volume and resolution time", "AIOps prevention", "Service automation and platform throughput"]),
+    "rd":      _planning_rate({"lo": 0.010, "hi": 0.040}, {"lo": 0.010, "hi": 0.030}, ["Development cycle time", "Design and simulation", "Research and IP analysis"]),
 }
 
 IND_MULT = {
