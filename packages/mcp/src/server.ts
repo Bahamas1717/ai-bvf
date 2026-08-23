@@ -18,7 +18,7 @@ import {
 import type { Classification } from '@aibvf/core';
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.5';
+export const VERSION = '0.14.6';
 
 export type EntryRoute = 'stdio' | 'remote' | 'unknown';
 

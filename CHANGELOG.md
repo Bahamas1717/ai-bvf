@@ -2,6 +2,10 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.14.6 (aibvf-mcp), 23 August 2026
+
+Changed: every tool input now explains its intent, accepted ranges, defaults and interaction with neighbouring tools. `recommend_improvements` names when it should and should not be called, while `sequence_portfolio` and `assemble_portfolio` now describe every input field. The tool count, scoring rules and verdicts are unchanged.
+
 ## 0.14.5 (aibvf-mcp), 23 August 2026
 
 Changed: Fix and Stop verdicts now open the shared AI BVF feedback page, where a user can answer Yes, Partly or No and optionally say what the framework should do more of or stop doing. Responses are anonymous, no assessment content is attached, and the tool count remains frozen at thirteen.
