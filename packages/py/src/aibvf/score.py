@@ -29,6 +29,12 @@ BENCHMARK_EVIDENCE_REGISTER = [
         "finding": "10% was the most common allocation for adoption and change management.",
         "boundary": "A planning reference to tailor to the work, not a minimum, compliance test or outcome guarantee.",
     },
+    {
+        "title": "EY and Oxford Saïd, Humans at the centre of transformation",
+        "url": "https://www.ey.com/en_uk/insights/consulting/how-transformations-with-humans-at-the-center-can-double-your-success",
+        "finding": "Above-average practice across six human factors increased the predicted likelihood of transformation success from 28% to 73% in the study.",
+        "boundary": "Supports the six diagnostic questions; it does not validate AI BVF weights, drag rates or financial ranges.",
+    },
 ]
 
 
@@ -80,10 +86,8 @@ READINESS_CAPTURE = {
     "siloed":      {"low": 0.25, "high": 0.40, "label": "Siloed & Bureaucratic"},
 }
 
-# Pace Layer Diagnostic. Annual Organisational Drag Cost as a fraction of revenue,
-# driven by misalignment between AI tier being deployed and organisational readiness.
-# Grounded in EY/Oxford six-drivers research and BCG/MIT pace-layer misalignment work.
-# Directional, not audited.
+# AI BVF pace-layer planning assumptions. External research informs the questions,
+# but does not publish or validate these rates. Replace them with organisation data.
 PACE_DRAG_RATE = {
     "gen1": {"agile": {"lo": 0.001, "hi": 0.003}, "traditional": {"lo": 0.003, "hi": 0.008}, "siloed": {"lo": 0.008, "hi": 0.015}},
     "gen2": {"agile": {"lo": 0.002, "hi": 0.005}, "traditional": {"lo": 0.010, "hi": 0.020}, "siloed": {"lo": 0.020, "hi": 0.035}},
@@ -96,7 +100,7 @@ PACE_DRAG_DRIVERS = {
     "siloed":      ["Functional ownership blocks horizontal data flow", "Shadow AI proliferates outside governance", "Duplicated spend across silos on overlapping models", "Change-management budget absent or symbolic"],
 }
 
-PACE_DRAG_SOURCE = "AI BVF Pace Layer Diagnostic, calibrated to EY/Oxford change-success six-drivers and BCG/MIT pace-layer misalignment research."
+PACE_DRAG_SOURCE = "AI BVF pace-layer planning model. External research informs the questions, but does not publish or validate these drag rates."
 
 PILLAR_ACTIONS = {
     "strategic_alignment": {
@@ -109,7 +113,7 @@ PILLAR_ACTIONS = {
     },
     "change_enablement": {
         "action": "Fund a dedicated change-management budget at 15 to 25 percent of total initiative spend, and assign a named product owner with capacity.",
-        "rationale": "Prosci and EY/Oxford both find that initiatives with funded CM and a named owner are several times more likely to hit benefit case. Without this, the scoring is theoretical.",
+        "rationale": "Funding alone does not prove readiness. Name the owner, cost the change work and replace this planning assumption with adoption evidence before funding.",
     },
     "governance_risk": {
         "action": "Commission a pre-deployment governance review covering data lineage, model risk, EU AI Act classification, and human-in-the-loop design.",

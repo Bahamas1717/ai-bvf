@@ -43,7 +43,7 @@ Thirteen tools, callable from any MCP-compatible agent over stdio (npx) or as a 
 | `recommend_improvements` | For Stop or Fix, returns the pillar raises and named change plays, including workflow and role redesign when the work architecture has a gap. |
 | `calculate_pace_layer_drag` | Annual Organisational Drag Cost in EUR from AI-tier vs operating-model misalignment. |
 | `validate_portfolio` | Validates a portfolio JSON document against the BVF v1.0 schema. |
-| `get_benchmark` | Looks up published benchmark rates for a business function and industry. |
+| `get_benchmark` | Looks up the disclosed AI BVF planning rates for a business function and industry, with evidence status and use guidance. |
 | `list_taxonomy` | Returns valid values for industries, functions, AI tiers, readiness levels. |
 | `diagnose_process` | AI BVF Advisor Brain: diagnoses one business process from observed signals (volume, labour, cycle time, handoffs, rework, automation, spend) and returns heaviness, intervention, net EUR saving, efficiency gain, verdict, and decision confidence. |
 | `infer_readiness` | Measures organisational readiness from process signals (hand-offs, rework, touch ratio, automation, cycle time vs function medians) instead of accepting self-report. Returns the classification the data supports, per-signal reasoning, and a confidence set by coverage and agreement. When the measured answer is lower than the claimed one, that gap is itself a change-readiness finding. |
@@ -135,10 +135,10 @@ Same inputs through `recommendImprovements` return three pillar raises, each wit
 
 | Package | Version | Purpose |
 |---|---|---|
-| [`aibvf-mcp`](packages/mcp) | 0.14.7 | MCP server — 13 tools, stdio + hosted Streamable HTTP at mcp.aibvf.com. |
+| [`aibvf-mcp`](packages/mcp) | 0.14.8 | MCP server, 13 tools, stdio plus hosted Streamable HTTP at mcp.aibvf.com. |
 | [`aibvf-check`](packages/cli) | 0.1.1 | CI/CD pre-flight gate ("SonarQube for AI") + GitHub Action. |
-| [`@aibvf/core`](packages/js) | 0.10.1 | TypeScript scoring engine, plain-English assessment, work architecture gate, change-leader plans, readiness inference, and Advisor Brain. |
-| [`aibvf`](packages/py) | 0.2.1 | Python scoring engine and validator. |
+| [`@aibvf/core`](packages/js) | 0.10.2 | TypeScript scoring engine, plain-English assessment, work architecture gate, change-leader plans, readiness inference, and Advisor Brain. |
+| [`aibvf`](packages/py) | 0.2.2 | Python scoring engine and validator. |
 
 ## Anonymous Usage Telemetry
 

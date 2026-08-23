@@ -7,7 +7,7 @@
  * the same gaming surface every maturity model carries. This module closes
  * that surface: it reads the operational signals an organisation cannot
  * easily flatter, hand-offs, rework, wait time, automation coverage and
- * cycle time against the published function medians, and returns the
+ * cycle time against the disclosed AI BVF function reference points, and returns the
  * readiness classification the process data supports, with a confidence
  * governed by how many signals were provided and how well they agree.
  *

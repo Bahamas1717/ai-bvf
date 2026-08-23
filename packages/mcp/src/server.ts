@@ -18,7 +18,7 @@ import {
 import type { Classification } from '@aibvf/core';
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.7';
+export const VERSION = '0.14.8';
 
 export type EntryRoute = 'stdio' | 'remote' | 'unknown';
 
@@ -191,7 +191,7 @@ const scoreInputSchema = {
       description: 'OPTIONAL, and each pillar inside it is optional. The four AI BVF pillars, each an honest 0–100 self-assessment, combining deterministically into the verdict: governance_risk ≥ 70 OR financial_return ≤ 20 returns Stop; strategic_alignment, financial_return and change_enablement all ≥ 60 with governance_risk ≤ 40 returns Accelerate; everything else returns Fix. Pass ONLY the pillars the user has real evidence for — do NOT invent numbers for the rest. Missing pillars are estimated deterministically by the engine from disclosed AI BVF planning assumptions, the response reports which via pillar_basis and scores_used, decision confidence is haircut by how much was estimated, and a fully-estimated pass can never return Accelerate (it returns Fix pending confirmation). So call immediately with whatever the user gave you, then ask for evidence on the estimated pillars and re-call to firm the verdict up.',
       properties: {
         strategic_alignment: { type: 'number', minimum: 0, maximum: 100, description: 'Optional; estimated at 50 (unproven) when omitted, since alignment to a board KPI cannot be read from context. How clearly this moves a board-level KPI (0–100, higher is better). Must be ≥ 60 — together with financial_return ≥ 60, change_enablement ≥ 60 and governance_risk ≤ 40 — for an Accelerate verdict.' },
-        financial_return:    { type: 'number', minimum: 0, maximum: 100, description: 'Optional; when omitted, estimated from the published benchmark upside for the function (40–52, never enough to clear 60 unmodelled, never low enough to force a Stop). Strength of the modelled return (0–100, higher is better). A value ≤ 20 forces a Stop on its own; ≥ 60 is one of the four conditions required for Accelerate.' },
+        financial_return:    { type: 'number', minimum: 0, maximum: 100, description: 'Optional; when omitted, estimated from the disclosed AI BVF planning range for the function (40–52, never enough to clear 60 unmodelled, never low enough to force a Stop). Strength of the modelled return (0–100, higher is better). A value ≤ 20 forces a Stop on its own; ≥ 60 is one of the four conditions required for Accelerate.' },
         change_enablement:   { type: 'number', minimum: 0, maximum: 100, description: 'Optional; when omitted, estimated from readiness (agile 55, traditional 45, siloed 32 — always below the 60 floor, because an unevidenced change capability is unproven). Sponsor in place, owner named, change budget funded (0–100, higher is better). Must be ≥ 60 for an Accelerate verdict.' },
         governance_risk:     { type: 'number', minimum: 0, maximum: 100, description: 'Optional; when omitted, estimated from tier and regulated context (gen1 30 / gen2 42 / gen3 55, +10 in a regulated function, +8 in a regulated industry — agentic AI in regulated finance estimates at 73 and forces a Stop until governance evidence exists). This pillar is INVERTED: higher means MORE risk. ≥ 70 forces a Stop on its own; must be ≤ 40 for Accelerate.' },
       },
@@ -674,7 +674,7 @@ const inferReadinessInputSchema = {
   type: 'object',
   required: ['function'],
   properties: {
-    function: { type: 'string', enum: FUNCTIONS, description: 'Business function the process belongs to. Selects the published cycle-time and hand-off medians the signals are read against. Call list_taxonomy if unsure.' },
+    function: { type: 'string', enum: FUNCTIONS, description: 'Business function the process belongs to. Selects the disclosed AI BVF cycle-time and hand-off reference points used to interpret the signals. Call list_taxonomy if unsure.' },
     handoffs: { type: 'number', minimum: 0, description: 'Distinct owners or systems an instance passes through. Read against the function median: 1.5x or more the median reads siloed, at or above the median reads traditional, below it reads agile.' },
     rework_rate: { type: 'number', minimum: 0, maximum: 1, description: 'Fraction of instances reopened or reworked (0-1). 15% or more reads siloed, 5-15% traditional, under 5% agile.' },
     touch_ratio: { type: 'number', minimum: 0, maximum: 1, description: 'Touch-time divided by cycle-time (0-1); the remainder is waiting. Under 0.15 reads siloed (the process lives in queues), 0.15-0.4 traditional, above 0.4 agile.' },
@@ -926,7 +926,7 @@ const TOOLS = [
   },
   {
     name: 'get_benchmark',
-    description: 'Look up the published raw benchmark rates behind the value model for one business function and industry. CALL THIS when the user wants to inspect the revenue-uplift and cost-takeout assumptions before scoring, or to compare the value drivers across functions. function selects the base rate range and named drivers; industry applies the multiplier, while universal returns the unadjusted base rate. The output is a rate, expressed as a fraction of revenue, not an initiative verdict or EUR business case. Use score_initiative for an Accelerate/Fix/Stop decision, score_portfolio for several initiatives and diagnose_process for measured operational waste. Pure deterministic lookup — no network, auth, or side effects.',
+    description: 'Look up the disclosed AI BVF planning rates behind the value model for one business function and industry. CALL THIS when the user wants to inspect the revenue-uplift and cost-takeout assumptions before scoring, or to compare the value drivers across functions. function selects the base rate range and named drivers; industry applies the multiplier, while universal returns the unadjusted base rate. External research in the evidence register frames the adoption and value problem but does not publish these function rates. The output is a rate, expressed as a fraction of revenue, not an initiative verdict or EUR business case. Replace it with measured organisation evidence before funding. Use score_initiative for an Accelerate/Fix/Stop decision, score_portfolio for several initiatives and diagnose_process for measured operational waste. Pure deterministic lookup, with no network, auth or side effects.',
     inputSchema: {
       type: 'object',
       required: ['function', 'industry'],
