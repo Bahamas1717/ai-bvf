@@ -238,6 +238,7 @@ const assessInitiativeInputSchema = {
 // infers them from readiness / tier / function and marks the play provisional.
 const recommendInputSchema = {
   ...scoreInputSchema,
+  description: 'Inputs for a change plan after a Fix or Stop verdict. industry, revenue_eur, function, ai_tier and readiness must match the scoring call so the plan is built against the same case. scores and work_architecture may be copied from score_initiative; omitted pillars are estimated and make the plan provisional. resistance_type and risk_type are optional diagnostics that select the play, and omission triggers a named inference plus the next question to ask.',
   properties: {
     ...scoreInputSchema.properties,
     resistance_type: {
@@ -711,10 +712,11 @@ const inferReadinessOutputSchema = {
 
 const sequenceInputSchema = {
   type: 'object',
+  description: 'Sequence one scored portfolio by passing either portfolio, or organization plus initiatives, never both. readiness is always required because it sets pacing. constraints are optional and default to two concurrent initiatives per function across a 90-day horizon.',
   required: ['readiness'],
   properties: {
     organization: {
-      type: 'object', required: ['industry', 'revenue_eur'],
+      type: 'object', description: 'Organisation context used when initiatives are passed at the top level. Required with top-level initiatives and ignored when portfolio is supplied.', required: ['industry', 'revenue_eur'],
       properties: {
         name: { type: 'string', description: 'Optional organisation name.' },
         industry: { type: 'string', enum: INDUSTRIES, description: 'Industry for benchmark multipliers. Call map_to_taxonomy for everyday-language mapping.' },
@@ -727,16 +729,17 @@ const sequenceInputSchema = {
       items: {
         type: 'object', required: ['id', 'name', 'function', 'ai_tier', 'scores'],
         properties: {
-          id: { type: 'string' }, name: { type: 'string' },
-          function: { type: 'string', enum: FUNCTIONS },
-          ai_tier: { type: 'string', enum: AI_TIERS },
+          id: { type: 'string', description: 'Stable initiative identifier used in waves, conflicts and deferrals.' },
+          name: { type: 'string', description: 'Initiative name shown in the sequenced plan.' },
+          function: { type: 'string', enum: FUNCTIONS, description: 'Business function absorbing the change. Capacity limits are enforced against this field.' },
+          ai_tier: { type: 'string', enum: AI_TIERS, description: 'AI ambition, gen1, gen2 or gen3. Higher tiers are treated as more complex when wave placement is decided.' },
           scores: {
-            type: 'object', required: ['strategic_alignment', 'financial_return', 'change_enablement', 'governance_risk'],
+            type: 'object', description: 'The four flat 0-100 pillar values used to classify and place the initiative. Pass the score_initiative scores_used values, not nested score objects.', required: ['strategic_alignment', 'financial_return', 'change_enablement', 'governance_risk'],
             properties: {
-              strategic_alignment: { type: 'number', minimum: 0, maximum: 100 },
-              financial_return: { type: 'number', minimum: 0, maximum: 100 },
-              change_enablement: { type: 'number', minimum: 0, maximum: 100 },
-              governance_risk: { type: 'number', minimum: 0, maximum: 100 },
+              strategic_alignment: { type: 'number', minimum: 0, maximum: 100, description: 'Strategic-alignment score from score_initiative, 0-100.' },
+              financial_return: { type: 'number', minimum: 0, maximum: 100, description: 'Financial-return score from score_initiative, 0-100.' },
+              change_enablement: { type: 'number', minimum: 0, maximum: 100, description: 'Change-enablement score from score_initiative, 0-100.' },
+              governance_risk: { type: 'number', minimum: 0, maximum: 100, description: 'Governance-risk score from score_initiative, 0-100, where higher means more risk.' },
             },
           },
         },
@@ -803,17 +806,19 @@ const mapTaxonomyOutputSchema = {
 
 const assemblePortfolioInputSchema = {
   type: 'object',
+  description: 'Build a valid portfolio document from loose organisation and initiative inputs. organization and at least one initiative are required. readiness defaults to traditional; missing pillar scores are estimated and reported, while unresolved taxonomy values return issues instead of guesses.',
   required: ['organization', 'initiatives'],
   properties: {
     organization: {
       type: 'object',
+      description: 'Organisation identity and context shared by every initiative in the assembled portfolio.',
       required: ['name', 'industry'],
       properties: {
         name: { type: 'string', description: 'The organisation the portfolio belongs to.' },
         industry: { type: 'string', description: 'Canonical id or plain language: banking resolves to financial, pharma to healthcare.' },
         revenue_eur: { type: 'number', description: 'Optional annual revenue in EUR. Needed later for value modelling in score_portfolio.' },
-        region: { type: 'string' },
-        headcount: { type: 'number' },
+        region: { type: 'string', description: 'Optional operating region retained as portfolio context; it does not alter scoring today.' },
+        headcount: { type: 'number', minimum: 0, description: 'Optional employee count retained as portfolio context; it does not alter scoring today.' },
       },
     },
     initiatives: {
@@ -831,12 +836,14 @@ const assemblePortfolioInputSchema = {
             type: 'object',
             description: 'The pillar scores you have real evidence for, as bare numbers 0 to 100. Do NOT invent the rest: missing pillars are estimated deterministically, carry low confidence in the document, and are reported in estimated_pillars.',
             properties: {
-              strategic_alignment: { type: 'number' }, financial_return: { type: 'number' },
-              change_enablement: { type: 'number' }, governance_risk: { type: 'number' },
+              strategic_alignment: { type: 'number', minimum: 0, maximum: 100, description: 'Optional evidenced strategic-alignment score, 0-100; omitted values are estimated.' },
+              financial_return: { type: 'number', minimum: 0, maximum: 100, description: 'Optional evidenced financial-return score, 0-100; omitted values are estimated.' },
+              change_enablement: { type: 'number', minimum: 0, maximum: 100, description: 'Optional evidenced change-enablement score, 0-100; omitted values are estimated.' },
+              governance_risk: { type: 'number', minimum: 0, maximum: 100, description: 'Optional evidenced governance-risk score, 0-100, where higher means more risk; omitted values are estimated.' },
             },
           },
-          bucket: { type: 'string', enum: ['Agent-Proof', 'Agent-Augmented', 'Agent-Replaceable'] },
-          compliance: { type: 'array', items: { type: 'string', enum: ['eu_ai_act', 'dora', 'csrd', 'gdpr_ai'] } },
+          bucket: { type: 'string', enum: ['Agent-Proof', 'Agent-Augmented', 'Agent-Replaceable'], description: 'Optional workforce-impact label retained in the document; it does not change the verdict today.' },
+          compliance: { type: 'array', items: { type: 'string', enum: ['eu_ai_act', 'dora', 'csrd', 'gdpr_ai'] }, description: 'Optional known compliance regimes retained in the document; governance risk still comes from the supplied or estimated pillar score.' },
         },
       },
     },
@@ -863,7 +870,7 @@ const assemblePortfolioOutputSchema = {
 
 const SCORE_INITIATIVE_DESCRIPTION = 'Canonical-field scorer for one AI initiative. CALL THIS when industry, revenue_eur, function, ai_tier and readiness are already known, or when re-scoring with measured pillar evidence. For a proposal written in ordinary business language, call assess_ai_initiative first; it resolves these fields and asks for anything missing. Pillar scores remain optional: missing pillars are estimated deterministically, reported through pillar_basis, and reduce decision confidence, while a fully estimated pass can never return Accelerate. Returns Accelerate, Fix or Stop, modelled gross and net EUR ranges, decision confidence, sensitivity, assumptions and an audit trail. Use score_portfolio for several initiatives and diagnose_process for measured waste in an existing process. Pure deterministic calculation, no network, auth or side effects.';
 const ASSESS_INITIATIVE_DESCRIPTION = 'The front door for one AI investment decision. CALL THIS FIRST when the user describes an AI idea in ordinary language or asks whether it should proceed. It resolves industry, revenue, business function, AI tier and organisational readiness, then returns the next missing question or an Accelerate, Fix or Stop verdict. Use work_architecture to test whether the end-to-end workflow, affected roles, human decision rights and performance measures have been redesigned. Any explicit work architecture gap blocks Accelerate and stays visible in the audit trail. Pillar scores and work architecture evidence remain optional, and unresolved values are never guessed. Use score_initiative when the canonical fields are already known, score_portfolio for several initiatives, and diagnose_process for measured waste in a running process. Pure deterministic calculation, no network, auth or side effects.';
-const RECOMMEND_IMPROVEMENTS_DESCRIPTION = 'Turn a Fix or Stop verdict into the change plan that could earn a re-score, with pillar targets, named plays, owners, stop conditions, cost of waiting and a deadline. CALL THIS after score_initiative returns Fix or Stop. Pass work_architecture when the workflow, roles, decision rights or measures have been tested; any explicit gap adds a work-architecture-redesign play and enters the re-score gate. resistance_type selects the will or skill route, and risk_type selects the regulatory, reputational or operational route. Omitted diagnostics remain provisional and return the question needed to test them. Lead with binding_constraint, surface honest_stop when present, and use rescore_gate to decide whether this remains Fix or becomes Stop. Pure deterministic calculation, no network, auth or side effects.';
+const RECOMMEND_IMPROVEMENTS_DESCRIPTION = 'Turn a Fix or Stop verdict into the change plan that could earn a re-score, with pillar targets, named plays, owners, stop conditions, cost of waiting and a deadline. CALL THIS after score_initiative returns Fix or Stop, using the same five context fields and any scores or work-architecture evidence from that call. Do not use it to produce the initial verdict, sequence several initiatives or diagnose measured process waste; use score_initiative, sequence_portfolio or diagnose_process for those jobs. Do not call it for Accelerate unless a specific delivery risk needs testing before commitment. resistance_type selects the will or skill route, risk_type selects the regulatory, reputational or operational route, and omitted diagnostics remain provisional with the next question returned. Lead with binding_constraint, surface honest_stop when present, and use rescore_gate to decide whether this remains Fix or becomes Stop. Pure deterministic calculation, no network, auth or side effects.';
 
 const TOOLS = [
   {
