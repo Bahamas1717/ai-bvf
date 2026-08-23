@@ -289,7 +289,7 @@ function redesignWorkArchitecture(gaps: string[]): ChangePlay {
   return {
     id: 'work-architecture-redesign',
     pillar: 'change_enablement',
-    diagnosis: `The technology case is ahead of the work design. The stated gaps are ${gaps.join(', ')}, so the initiative would automate into an operating model that has not been rebuilt for it.`,
+    diagnosis: `The technology case is ahead of the work design. The unresolved items are ${gaps.join(', ')}, so the initiative would automate into an operating model that has not been proved ready for it.`,
     org_move: {
       method: 'Work architecture redesign',
       action: 'Redraw the end-to-end workflow, rewrite the affected roles, assign human decision rights and change the measures before approving deployment.',
@@ -360,8 +360,12 @@ export function buildChangePlan(
   };
 
   const top = shortfalls[0];
+  const workArchitectureBlockers = [
+    ...workArchitecture.gaps,
+    ...workArchitecture.unknowns.map(item => `${item} not evidenced`),
+  ];
   const binding_constraint = workArchitecture.blocks_accelerate && !top?.forcing
-    ? `Work architecture is the binding constraint. The stated gaps are ${workArchitecture.gaps.join(', ')}, and the initiative cannot move to Accelerate until the work around the technology has been redesigned.`
+    ? `Work architecture is the binding constraint. The unresolved items are ${workArchitectureBlockers.join(', ')}, and the initiative cannot move to Accelerate until the work around the technology has been redesigned and evidenced.`
     : top
     ? (shortfalls.length === 1
         ? `${PILLAR_NAME[top.pillar]} is the only thing standing between this initiative and a Go; everything else clears. The first play below is where this is won.`
@@ -381,7 +385,7 @@ export function buildChangePlan(
 
   // Select plays, worst pillar first.
   const plays: ChangePlay[] = [];
-  if (workArchitecture.blocks_accelerate) plays.push(redesignWorkArchitecture(workArchitecture.gaps));
+  if (workArchitecture.blocks_accelerate) plays.push(redesignWorkArchitecture(workArchitectureBlockers));
   for (const s of shortfalls) {
     if (s.pillar === 'change_enablement') {
       const told = input.resistance_type !== undefined;
@@ -419,7 +423,7 @@ export function buildChangePlan(
     : 'Cost of waiting could not be modelled for this tier and readiness combination.';
 
   const rescore_gate = {
-    clears_when: 'strategic alignment, financial return and change enablement all at or above 60, governance risk at or below 40, and no stated work architecture gaps across workflow, roles, decision rights and measures, scored honestly, not negotiated',
+    clears_when: 'strategic alignment, financial return and change enablement all at or above 60, governance risk at or below 40, with workflow, roles, decision rights and measures all evidenced and no stated work architecture gaps, scored from named evidence',
     deadline_weeks: planWeeks,
   };
 

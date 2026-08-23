@@ -70,7 +70,21 @@ test('returns the work architecture question when evidence is absent', () => {
   const result = assessInitiative({ proposal: examples[0].proposal });
   assert.equal(result.status, 'verdict');
   assert.equal(result.verdict?.work_architecture.status, 'unknown');
+  assert.equal(result.verdict?.work_architecture.blocks_accelerate, true);
+  assert.equal(result.verdict?.work_architecture.unknowns.length, 4);
   assert.ok(result.verdict?.work_architecture.next_question?.includes('affected roles'));
+});
+
+test('unknown work architecture blocks an otherwise Accelerate verdict', () => {
+  const result = assessInitiative({
+    proposal: examples[0].proposal,
+    scores: { strategic_alignment: 80, financial_return: 75, change_enablement: 70, governance_risk: 30 },
+  });
+  assert.equal(result.status, 'verdict');
+  assert.equal(result.verdict?.classification, 'Fix');
+  assert.equal(result.verdict?.work_architecture.status, 'unknown');
+  assert.ok(result.verdict?.reason.includes('not evidenced'));
+  assert.ok(result.verdict?.audit.rules_fired.includes('gate:work_architecture_gap'));
 });
 
 test('a stated work architecture gap blocks an otherwise Accelerate verdict', () => {
@@ -90,6 +104,7 @@ test('a stated work architecture gap blocks an otherwise Accelerate verdict', ()
     'affected roles and accountabilities redesigned',
     'performance measures and incentives updated',
   ]);
+  assert.deepEqual(result.verdict?.work_architecture.unknowns, []);
   assert.ok(result.verdict?.audit.rules_fired.includes('gate:work_architecture_gap'));
 });
 
@@ -106,5 +121,6 @@ test('evidenced work architecture allows the four pillars to return Accelerate',
   });
   assert.equal(result.verdict?.classification, 'Accelerate');
   assert.equal(result.verdict?.work_architecture.status, 'ready');
+  assert.deepEqual(result.verdict?.work_architecture.unknowns, []);
   assert.equal(result.verdict?.work_architecture.next_question, undefined);
 });

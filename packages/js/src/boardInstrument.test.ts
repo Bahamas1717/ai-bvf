@@ -11,6 +11,12 @@ import type { ScoreInput, SequenceInput } from './types.js';
 const base: ScoreInput = {
   industry: 'retail', revenue_eur: 300_000_000, function: 'cx', ai_tier: 'gen2', readiness: 'traditional',
   scores: { strategic_alignment: 70, financial_return: 64, change_enablement: 48, governance_risk: 35 },
+  work_architecture: {
+    workflow_redesigned: true,
+    roles_redesigned: true,
+    decision_rights_defined: true,
+    measures_updated: true,
+  },
 };
 
 // ── audit ──────────────────────────────────────────────────────────────────

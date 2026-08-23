@@ -18,6 +18,7 @@ export function assessWorkArchitecture(input?: WorkArchitectureInput): WorkArchi
     status: input?.[id] === true ? 'met' : input?.[id] === false ? 'gap' : 'unknown',
   }));
   const gaps = checks.filter(check => check.status === 'gap').map(check => check.label);
+  const unknowns = checks.filter(check => check.status === 'unknown').map(check => check.label);
   const known = checks.filter(check => check.status !== 'unknown').length;
   const status: WorkArchitectureAssessment['status'] = gaps.length
     ? 'gap'
@@ -27,12 +28,13 @@ export function assessWorkArchitecture(input?: WorkArchitectureInput): WorkArchi
 
   return {
     status,
-    blocks_accelerate: gaps.length > 0,
+    blocks_accelerate: status !== 'ready',
     checks,
     gaps,
+    unknowns,
     ...(status !== 'ready' ? {
       next_question: 'What changes in the end-to-end workflow, affected roles, human decision rights and performance measures before this AI goes live?',
     } : {}),
-    gate: 'Accelerate requires no stated work architecture gaps, with the workflow, affected roles, human decision rights and performance measures evidenced before deployment.',
+    gate: 'Accelerate requires the workflow, affected roles, human decision rights and performance measures to be evidenced, with no stated gaps, before deployment.',
   };
 }

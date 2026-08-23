@@ -10,6 +10,12 @@ const base: RecommendInput = {
   ai_tier: 'gen2',
   readiness: 'traditional',
   scores: { strategic_alignment: 70, financial_return: 65, change_enablement: 45, governance_risk: 35 },
+  work_architecture: {
+    workflow_redesigned: true,
+    roles_redesigned: true,
+    decision_rights_defined: true,
+    measures_updated: true,
+  },
 };
 
 test('CE-low on traditional readiness selects coalition-first, provisional, with a stop condition', () => {
@@ -98,8 +104,25 @@ test('Accelerate carries no change plan', () => {
   const r = recommendImprovements({
     ...base,
     scores: { strategic_alignment: 80, financial_return: 75, change_enablement: 70, governance_risk: 30 },
+    work_architecture: {
+      workflow_redesigned: true,
+      roles_redesigned: true,
+      decision_rights_defined: true,
+      measures_updated: true,
+    },
   });
   assert.equal(r.change_plan, undefined);
+});
+
+test('unknown work architecture returns a usable redesign plan', () => {
+  const r = recommendImprovements({
+    ...base,
+    scores: { strategic_alignment: 80, financial_return: 75, change_enablement: 70, governance_risk: 30 },
+    work_architecture: undefined,
+  });
+  assert.equal(r.current_classification, 'Fix');
+  assert.ok(r.change_plan?.binding_constraint.includes('not evidenced'));
+  assert.equal(r.change_plan?.plays[0]?.id, 'work-architecture-redesign');
 });
 
 test('work architecture gap adds a redesign play and holds the verdict at Fix', () => {
@@ -118,7 +141,7 @@ test('work architecture gap adds a redesign play and holds the verdict at Fix', 
   const play = r.change_plan?.plays.find(p => p.id === 'work-architecture-redesign');
   assert.equal(play?.owner, 'Operating-model owner with the initiative owner and affected function leader');
   assert.ok(play?.stop_condition?.includes('Stop'));
-  assert.ok(r.change_plan?.rescore_gate.clears_when.includes('no stated work architecture gaps'));
+  assert.ok(r.change_plan?.rescore_gate.clears_when.includes('all evidenced'));
 });
 
 test('infeasible gaps surface the honest stop', () => {

@@ -18,7 +18,7 @@ import {
 import type { Classification } from '@aibvf/core';
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.9';
+export const VERSION = '0.14.10';
 
 export type EntryRoute = 'stdio' | 'remote' | 'unknown';
 
@@ -344,13 +344,14 @@ const scoreOutputSchema = {
     caveat:             { type: 'string', description: 'Present only when signal_completeness was low: warns the verdict rests on soft inputs and confidence was reduced.' },
     work_architecture: {
       type: 'object',
-      description: 'The work architecture gate across workflow, roles, human decision rights and performance measures. Any stated gap blocks Accelerate.',
-      required: ['status', 'blocks_accelerate', 'checks', 'gaps', 'gate'],
+      description: 'The work architecture gate across workflow, roles, human decision rights and performance measures. A stated gap or missing evidence blocks Accelerate.',
+      required: ['status', 'blocks_accelerate', 'checks', 'gaps', 'unknowns', 'gate'],
       properties: {
         status: { type: 'string', enum: ['unknown', 'partial', 'gap', 'ready'] },
         blocks_accelerate: { type: 'boolean' },
         checks: { type: 'array', items: { type: 'object' } },
         gaps: { type: 'array', items: { type: 'string' } },
+        unknowns: { type: 'array', items: { type: 'string' } },
         next_question: { type: 'string' },
         gate: { type: 'string' },
       },
@@ -869,7 +870,7 @@ const assemblePortfolioOutputSchema = {
 };
 
 const SCORE_INITIATIVE_DESCRIPTION = 'Canonical-field scorer for one AI initiative. CALL THIS when industry, revenue_eur, function, ai_tier and readiness are already known, or when re-scoring with measured pillar evidence. For a proposal written in ordinary business language, call assess_ai_initiative first; it resolves these fields and asks for anything missing. Pillar scores remain optional: missing pillars are estimated deterministically, reported through pillar_basis, and reduce decision confidence, while a fully estimated pass can never return Accelerate. Returns Accelerate, Fix or Stop, modelled gross and net EUR ranges, decision confidence, sensitivity, assumptions and an audit trail. Use score_portfolio for several initiatives and diagnose_process for measured waste in an existing process. Pure deterministic calculation, no network, auth or side effects.';
-const ASSESS_INITIATIVE_DESCRIPTION = 'The front door for one AI investment decision. CALL THIS FIRST when the user describes an AI idea in ordinary language or asks whether it should proceed. It resolves industry, revenue, business function, AI tier and organisational readiness, then returns the next missing question or an Accelerate, Fix or Stop verdict. Use work_architecture to test whether the end-to-end workflow, affected roles, human decision rights and performance measures have been redesigned. Any explicit work architecture gap blocks Accelerate and stays visible in the audit trail. Pillar scores and work architecture evidence remain optional, and unresolved values are never guessed. Use score_initiative when the canonical fields are already known, score_portfolio for several initiatives, and diagnose_process for measured waste in a running process. Pure deterministic calculation, no network, auth or side effects.';
+const ASSESS_INITIATIVE_DESCRIPTION = 'The front door for one AI investment decision. CALL THIS FIRST when the user describes an AI idea in ordinary language or asks whether it should proceed. It resolves industry, revenue, business function, AI tier and organisational readiness, then returns the next missing question or an Accelerate, Fix or Stop verdict. Use work_architecture to test whether the end-to-end workflow, affected roles, human decision rights and performance measures have been redesigned. A stated gap or missing work architecture evidence blocks Accelerate and stays visible in the audit trail. Pillar scores and work architecture evidence remain optional inputs, but unresolved values are never guessed and cannot unlock Accelerate. Use score_initiative when the canonical fields are already known, score_portfolio for several initiatives, and diagnose_process for measured waste in a running process. Pure deterministic calculation, no network, auth or side effects.';
 const RECOMMEND_IMPROVEMENTS_DESCRIPTION = 'Turn a Fix or Stop verdict into the change plan that could earn a re-score, with pillar targets, named plays, owners, stop conditions, cost of waiting and a deadline. CALL THIS after score_initiative returns Fix or Stop, using the same five context fields and any scores or work-architecture evidence from that call. Do not use it to produce the initial verdict, sequence several initiatives or diagnose measured process waste; use score_initiative, sequence_portfolio or diagnose_process for those jobs. Do not call it for Accelerate unless a specific delivery risk needs testing before commitment. resistance_type selects the will or skill route, risk_type selects the regulatory, reputational or operational route, and omitted diagnostics remain provisional with the next question returned. Lead with binding_constraint, surface honest_stop when present, and use rescore_gate to decide whether this remains Fix or becomes Stop. Pure deterministic calculation, no network, auth or side effects.';
 
 const TOOLS = [

@@ -48,7 +48,7 @@ console.log(r.net_low_eur);      // ~75.6M
 console.log(r.net_high_eur);     // ~247M
 ```
 
-The work architecture fields are optional and accept only evidence the organisation has. Any explicit `false` value holds an otherwise green initiative at Fix, while omitted checks return as unknown with the next question to ask.
+The work architecture fields are optional inputs and accept only evidence the organisation has. An explicit `false` value or an omitted check holds an otherwise green initiative at Fix, while the response names each gap or unknown and returns the next question to ask. Accelerate requires all four checks to be evidenced as complete.
 
 ## Spec
 

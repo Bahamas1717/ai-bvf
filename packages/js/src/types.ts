@@ -109,6 +109,7 @@ export interface WorkArchitectureAssessment {
   blocks_accelerate: boolean;
   checks: WorkArchitectureCheck[];
   gaps: string[];
+  unknowns: string[];
   next_question?: string;
   gate: string;
 }

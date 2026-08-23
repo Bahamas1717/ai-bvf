@@ -293,6 +293,10 @@ export function score(input: ScoreInput): ScoreResult {
   const allEstimated = givenCount === 0;
   const anyEstimated = givenCount < 4;
   const workArchitecture = assessWorkArchitecture(input.work_architecture);
+  const workArchitectureBlockers = [
+    ...workArchitecture.gaps,
+    ...workArchitecture.unknowns.map(item => `${item} not evidenced`),
+  ];
 
   const grossLo = Math.round(revenue_eur * (base.rev.lo + base.cost.lo) * mult * tAdj);
   const grossHi = Math.round(revenue_eur * (base.rev.hi + base.cost.hi) * mult * tAdj);
@@ -310,7 +314,7 @@ export function score(input: ScoreInput): ScoreResult {
   if (workArchitecture.blocks_accelerate && cls.label === 'Accelerate') {
     cls = {
       label: 'Fix',
-      reason: `The four pillars clear, but the work architecture does not: ${workArchitecture.gaps.join('; ')}. Redesign the work before scaling.`,
+      reason: `The four pillars clear, but the work architecture does not: ${workArchitectureBlockers.join('; ')}. Complete and evidence the work design before scaling.`,
     };
   }
 
@@ -355,7 +359,7 @@ export function score(input: ScoreInput): ScoreResult {
     verdict_flips: verdictFlips(sa, fr, ce, gr, cls.label),
   };
   if (workArchitecture.blocks_accelerate && cls.label === 'Fix') {
-    sensitivity.verdict_flips.unshift(`to Accelerate: clear work architecture gaps: ${workArchitecture.gaps.join(', ')}`);
+    sensitivity.verdict_flips.unshift(`to Accelerate: resolve the work architecture gate: ${workArchitectureBlockers.join(', ')}`);
   }
 
   const estimated = (Object.keys(basis) as Array<keyof PillarBasis>).filter(k => basis[k] === 'estimated');
@@ -424,6 +428,10 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
   const { strategic_alignment: sa, financial_return: fr, change_enablement: ce, governance_risk: gr } = resolved;
 
   const workArchitecture = assessWorkArchitecture(input.work_architecture);
+  const workArchitectureBlockers = [
+    ...workArchitecture.gaps,
+    ...workArchitecture.unknowns.map(item => `${item} not evidenced`),
+  ];
   let current = classify(sa, fr, ce, gr).label;
   // Same Stop-first invariant as score(): fully-estimated pillars never
   // produce an Accelerate, they produce a Fix pending confirmation.
@@ -437,7 +445,7 @@ export function recommendImprovements(input: RecommendInput): RecommendResult {
   }
   if (workArchitecture.status !== 'ready') {
     notes.push(workArchitecture.blocks_accelerate
-      ? `Work architecture gaps: ${workArchitecture.gaps.join(', ')}. These must close before Accelerate.`
+      ? `Work architecture blockers: ${workArchitectureBlockers.join(', ')}. These must be resolved before Accelerate.`
       : `Work architecture evidence is ${workArchitecture.status}. ${workArchitecture.next_question}`);
   }
 

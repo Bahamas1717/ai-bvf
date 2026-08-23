@@ -6,6 +6,12 @@ import type { ScoreInput } from './types.js';
 const bare = {
   industry: 'manufacturing', revenue_eur: 500_000_000,
   function: 'cx', ai_tier: 'gen2', readiness: 'agile',
+  work_architecture: {
+    workflow_redesigned: true,
+    roles_redesigned: true,
+    decision_rights_defined: true,
+    measures_updated: true,
+  },
 } as ScoreInput;
 
 test('score runs with no pillar scores at all and reports every pillar estimated', () => {
