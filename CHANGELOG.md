@@ -2,6 +2,10 @@
 
 All notable changes to `aibvf-mcp`, `@aibvf/core`, `aibvf-check`, and `aibvf`, in reverse chronological order.
 
+## 0.14.5 (aibvf-mcp), 23 August 2026
+
+Changed: Fix and Stop verdicts now open the shared AI BVF feedback page, where a user can answer Yes, Partly or No and optionally say what the framework should do more of or stop doing. Responses are anonymous, no assessment content is attached, and the tool count remains frozen at thirteen.
+
 ## 0.14.4 (aibvf-mcp), 20 August 2026
 
 Changed: the voluntary Fix and Stop feedback route now asks whether the verdict changed the next decision, what AI BVF should do more of, and what it should stop doing. The prefilled email carries only those questions, with no proposal, organisation, revenue, score or portfolio data added automatically.
