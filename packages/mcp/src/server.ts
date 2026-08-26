@@ -11,7 +11,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import {
   score, validate, recommendImprovements, calculatePaceLayerDrag, diagnoseProcess, inferReadiness,
-  sequencePortfolio, mapToTaxonomy, assemblePortfolio, assessInitiative,
+  sequencePortfolio, mapToTaxonomy, assemblePortfolio, assessInitiative, assessWorkArchitecture,
   BASE_RATES, BENCHMARK_EVIDENCE_REGISTER, IND_MULT,
   INDUSTRIES, FUNCTIONS, AI_TIERS, READINESS, BVF_VERSION,
 } from '@aibvf/core';
@@ -1233,6 +1233,11 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
       const rec = recommendImprovements(a);
       const feedback = feedbackFor(rec.current_classification);
       await recordCall('recommend_improvements', {
+        // Same pure assessment the engine runs on this input. Without it this
+        // tool logged a classification with no work-architecture status, and
+        // since it fires on nearly every score the field read as mostly null
+        // across the whole table, which hid how often the gate is the blocker.
+        work_architecture_status: assessWorkArchitecture(a.work_architecture).status,
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
         classification: rec.current_classification,
