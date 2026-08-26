@@ -70,3 +70,42 @@ test('caveat appears at the threshold boundary, not above it', () => {
   assert.equal(score({ ...base, signal_completeness: 0.7 }).caveat, undefined); // 0.7 is not < 0.7
   assert.ok(score({ ...base, signal_completeness: 0.69 }).caveat);
 });
+
+// Regression: the readiness sensitivity used to reuse the resolved pillars and
+// report the base decision_confidence unchanged. On the estimated path
+// change_enablement is derived from readiness, so a notch down has to move the
+// pillars, the confidence and, where it applies, the classification.
+test('readiness_one_notch_down matches an actual score at that readiness', () => {
+  const estimated = {
+    industry: 'retail',
+    revenue_eur: 500_000_000,
+    function: 'cx',
+    ai_tier: 'gen2',
+    readiness: 'agile',
+  } as ScoreInput;
+
+  const agile = score(estimated);
+  const down = agile.sensitivity.readiness_one_notch_down;
+  assert.ok(down, 'agile has a notch down');
+
+  const actual = score({ ...estimated, readiness: down.readiness });
+
+  assert.equal(down.decision_confidence, actual.confidence);
+  assert.equal(down.classification, actual.classification);
+  assert.equal(down.net_value_eur.low, actual.net_low_eur);
+  assert.equal(down.net_value_eur.high, actual.net_high_eur);
+  // The whole point: the confidence actually moved.
+  assert.ok(down.decision_confidence < agile.confidence);
+});
+
+// Given pillars are evidence, so a readiness notch must not rewrite them. Only
+// the capture rate moves the money.
+test('readiness_one_notch_down leaves given pillars alone', () => {
+  const given = score(base);
+  const down = given.sensitivity.readiness_one_notch_down;
+  assert.ok(down, 'traditional has a notch down');
+
+  const actual = score({ ...base, readiness: down.readiness });
+  assert.equal(down.decision_confidence, actual.confidence);
+  assert.equal(down.decision_confidence, given.confidence, 'all pillars given, so confidence holds');
+});
