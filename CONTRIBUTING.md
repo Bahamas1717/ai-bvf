@@ -22,7 +22,7 @@ The benchmark ranges, industry multipliers, and scoring math in this protocol de
 2. Branch from `main`, named descriptively (`fix/...`, `feat/...`, `docs/...`).
 3. Keep the PR scoped to one concern.
 4. Include a test plan in the PR description.
-5. CI runs CodeQL plus the analyse jobs. Both must be green before merge.
+5. CI runs CodeQL plus the analyse jobs, and the Test workflow, which builds every workspace and runs the full suite. All must be green before merge.
 
 ## How to submit a calibration change
 

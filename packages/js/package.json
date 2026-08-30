@@ -40,7 +40,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "node --test dist/*.test.js"
+    "test": "ls dist/*.test.js > /dev/null && node --test dist/*.test.js",
+    "pretest": "npm run build"
   },
   "devDependencies": {
     "typescript": "^6.0.3",

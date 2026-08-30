@@ -342,15 +342,25 @@ export function score(input: ScoreInput): ScoreResult {
   let readinessDown: ScoreSensitivity['readiness_one_notch_down'] = null;
   if (notch) {
     const capDown = READINESS_CAPTURE[notch as Readiness];
-    const clsDownBase = classify(sa, fr, ce, gr); // pillars unchanged; readiness moves value + confidence context
-    const clsDown = workArchitecture.blocks_accelerate && clsDownBase.label === 'Accelerate'
-      ? { ...clsDownBase, label: 'Fix' as Classification }
-      : clsDownBase;
+    // Re-resolve the pillars at the lower readiness. Estimated pillars move
+    // with it, because change_enablement is derived from readiness; given
+    // pillars are evidence and stay put. Reusing the original pillars here
+    // reported the base confidence unchanged, which understated the cost of
+    // an over-claimed readiness on the estimated path.
+    const down = resolvePillars({ ...input, readiness: notch as Readiness });
+    const { strategic_alignment: dsa, financial_return: dfr, change_enablement: dce, governance_risk: dgr } = down.scores;
+    let clsDown = classify(dsa, dfr, dce, dgr);
+    if (down.givenCount === 0 && clsDown.label === 'Accelerate') {
+      clsDown = { ...clsDown, label: 'Fix' as Classification };
+    }
+    if (workArchitecture.blocks_accelerate && clsDown.label === 'Accelerate') {
+      clsDown = { ...clsDown, label: 'Fix' as Classification };
+    }
     readinessDown = {
       readiness: notch as Readiness,
       classification: clsDown.label,
       net_value_eur: { low: Math.round(grossLo * capDown.low), high: Math.round(grossHi * capDown.high) },
-      decision_confidence: confidence,
+      decision_confidence: Math.round(((dsa + dfr + dce + (100 - dgr)) / 4) * (0.5 + 0.5 * signal)),
     };
   }
   const sensitivity: ScoreSensitivity = {
