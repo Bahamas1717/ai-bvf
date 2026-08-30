@@ -12,6 +12,7 @@ on:
   push:
     branches: [main]
     paths:
+      - '.github/workflows/publish-mcp-registry.yml'
       - 'server.json'
       - 'packages/mcp/package.json'
       - 'packages/js/package.json'
@@ -96,6 +97,19 @@ jobs:
           npm publish --provenance --access public
           echo "✅ Published aibvf-mcp@${{ steps.pkg.outputs.version }} to npm"
 
+      - name: Wait for npm registry propagation
+        run: |
+          for attempt in {1..12}; do
+            if npm view "aibvf-mcp@${{ steps.pkg.outputs.version }}" version > /dev/null 2>&1; then
+              echo "aibvf-mcp@${{ steps.pkg.outputs.version }} is visible on npm"
+              exit 0
+            fi
+            echo "npm has not exposed the new version yet, retrying in 10 seconds"
+            sleep 10
+          done
+          echo "aibvf-mcp@${{ steps.pkg.outputs.version }} did not become visible on npm"
+          exit 1
+
       - name: Read aibvf-check version
         id: clipkg
         run: |
@@ -134,18 +148,25 @@ jobs:
 
       - name: Publish server.json to MCP Registry
         run: |
-          set +e
-          OUTPUT=$(./mcp-publisher publish 2>&1)
-          EXIT_CODE=$?
-          echo "$OUTPUT"
-          if [ $EXIT_CODE -eq 0 ]; then
-            echo "::notice::MCP registry publish succeeded"
-            exit 0
-          fi
-          if echo "$OUTPUT" | grep -q "duplicate version"; then
-            echo "::notice::Version ${{ steps.pkg.outputs.version }} already in MCP registry, treating as success"
-            exit 0
-          fi
+          for attempt in 1 2 3; do
+            set +e
+            OUTPUT=$(./mcp-publisher publish 2>&1)
+            EXIT_CODE=$?
+            set -e
+            echo "$OUTPUT"
+            if [ $EXIT_CODE -eq 0 ]; then
+              echo "::notice::MCP registry publish succeeded"
+              exit 0
+            fi
+            if echo "$OUTPUT" | grep -q "duplicate version"; then
+              echo "::notice::Version ${{ steps.pkg.outputs.version }} already in MCP registry, treating as success"
+              exit 0
+            fi
+            if [ $attempt -lt 3 ]; then
+              echo "MCP registry publish failed, retrying in 15 seconds"
+              sleep 15
+            fi
+          done
           exit $EXIT_CODE
 
       - name: Confirm listing
