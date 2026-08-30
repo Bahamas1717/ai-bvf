@@ -117,12 +117,15 @@ To separate real agent traffic from scanner noise, aibvf-mcp can send a small, a
 - `caller_hash` — a daily-rotated, one-way hash for daily activity counts
 - `install_hash` — a stable one-way hash sent by local stdio installations only, for repeat-use measurement across days
 - `industry`, `function`, `ai_tier`, `readiness` — the taxonomy values (never the numeric scores, revenue, or portfolio content)
+- `user_role` — an optional broad role sent only when a local user explicitly sets `AIBVF_USAGE_ROLE`; it is never inferred
 
 No user IDs, no PII, no portfolio data, no scoring results, no stack traces.
 
 **How the hashes work.** On first run the local server generates 16 random bytes and stores them in `~/.config/aibvf/install-id`. Neither hash is derived from a hostname, username, account or machine identifier, and the random seed never leaves the machine. `caller_hash` changes every 24 hours for daily activity counts. `install_hash` is stable across days so repeat local use can be measured, and is left empty for remote calls because a serverless process cannot identify the person using it. Set `AIBVF_TELEMETRY_DISABLE=1` to prevent the dotfile and every telemetry event.
 
 The install-id file is created only when an event is actually sent. If you opt out, no file is written. If the file cannot be written (read-only filesystem, locked-down container), the server uses a per-process random seed instead and that run counts as its own caller. To reset your anonymous identity at any time, delete `~/.config/aibvf/install-id`.
+
+To add a broad role, set `AIBVF_USAGE_ROLE` to one of `board_executive`, `ai_data_leader`, `business_function_leader`, `transformation_change`, `technology_delivery`, `risk_governance`, `finance_commercial`, `consultant_adviser`, `research_education`, or `other`. For example, add `"env": { "AIBVF_USAGE_ROLE": "ai_data_leader" }` to the local MCP server configuration. Leaving it unset records no role.
 
 **Opt out** by setting `AIBVF_TELEMETRY_DISABLE=1` in your environment — no events are sent and no install-id file is created. **Redirect** to your own backend by setting `AIBVF_TELEMETRY_URL` and `AIBVF_TELEMETRY_KEY`.
 

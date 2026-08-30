@@ -18,14 +18,16 @@ import {
 import type { Classification } from '@aibvf/core';
 
 /** Single source of truth for the server version, shared by both transports. */
-export const VERSION = '0.14.10';
+export const VERSION = '0.14.11';
 
 export type EntryRoute = 'stdio' | 'remote' | 'unknown';
 
 // ---------------------------------------------------------------------------
 // Anonymous usage telemetry.
 // Collects: tool name, package/protocol version, entry route, assessment stage,
-// work-architecture status, taxonomy and privacy-preserving install hashes.
+// work-architecture status, taxonomy, an optional broad role and privacy-
+// preserving install hashes. A role is accepted only when the local user sets
+// AIBVF_USAGE_ROLE; it is never inferred from identity or proposal content.
 // Never collects: proposals, scores, portfolio content, revenue or user IDs.
 // Opt out with AIBVF_TELEMETRY_DISABLE=1.
 // Redirect to your own backend with AIBVF_TELEMETRY_URL + AIBVF_TELEMETRY_KEY.
@@ -44,6 +46,23 @@ const TELEMETRY_DEFAULT_KEY = process.env.AIBVF_TELEMETRY_KEY
   ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvbWx5anRzY3d4aWJlem95bXhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTQ3OTcsImV4cCI6MjA5MjM3MDc5N30.OZvykkl5M17eZluX2fG98aA--5iVq5BQSPizYk3H0F4';
 const TELEMETRY_DISABLED = process.env.AIBVF_TELEMETRY_DISABLE === '1';
 const pendingTelemetry = new Set<Promise<void>>();
+const USAGE_ROLES = new Set([
+  'board_executive',
+  'ai_data_leader',
+  'business_function_leader',
+  'transformation_change',
+  'technology_delivery',
+  'risk_governance',
+  'finance_commercial',
+  'consultant_adviser',
+  'research_education',
+  'other',
+]);
+
+function configuredUsageRole(): string | null {
+  const role = process.env.AIBVF_USAGE_ROLE?.trim().toLowerCase();
+  return role && USAGE_ROLES.has(role) ? role : null;
+}
 
 // Load the persisted install id, or create it on first run. The seed is random
 // high-entropy bytes (not derivable from anything about the user), so the
@@ -95,11 +114,12 @@ function advisoryFor(classification: string): string | undefined {
   return undefined;
 }
 
-function feedbackFor(classification: string): { question: string; url: string } | undefined {
+function feedbackFor(classification: string, industry?: string): { question: string; url: string } | undefined {
   if (classification === 'Fix' || classification === 'Stop') {
+    const industryQuery = industry ? `&industry=${encodeURIComponent(industry)}` : '';
     return {
       question: FEEDBACK_QUESTION,
-      url: `https://www.aibvf.com/feedback?classification=${encodeURIComponent(classification)}&route=mcp`,
+      url: `https://www.aibvf.com/feedback?classification=${encodeURIComponent(classification)}&route=mcp${industryQuery}`,
     };
   }
   return undefined;
@@ -114,6 +134,7 @@ export function logCall(tool_name: string, meta: Record<string, unknown> = {}) {
     package_version: VERSION,
     caller_hash: callerHash(),
     install_hash: meta.entry_route === 'stdio' ? installHash() : null,
+    user_role: meta.entry_route === 'stdio' ? configuredUsageRole() : null,
     entry_route: meta.entry_route ?? 'unknown',
     assessment_stage: meta.assessment_stage ?? null,
     work_architecture_status: meta.work_architecture_status ?? null,
@@ -1015,7 +1036,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
       }
 
       const s = r.verdict!;
-      const feedback = feedbackFor(s.classification);
+      const feedback = feedbackFor(s.classification, r.resolved_inputs.industry);
       await recordCall('assess_ai_initiative', {
         assessment_stage: 'verdict',
         work_architecture_status: s.work_architecture?.status,
@@ -1053,7 +1074,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     if (name === 'score_initiative') {
       const a = args as any;
       const r = score(a);
-      const feedback = feedbackFor(r.classification);
+      const feedback = feedbackFor(r.classification, a.industry);
       await recordCall('score_initiative', {
         assessment_stage: 'verdict',
         work_architecture_status: r.work_architecture?.status,
@@ -1229,7 +1250,7 @@ const callToolHandler = (entryRoute: EntryRoute) => async (req: any) => {
     if (name === 'recommend_improvements') {
       const a = args as any;
       const rec = recommendImprovements(a);
-      const feedback = feedbackFor(rec.current_classification);
+      const feedback = feedbackFor(rec.current_classification, a.industry);
       await recordCall('recommend_improvements', {
         industry: a.industry, function: a.function,
         ai_tier: a.ai_tier, readiness: a.readiness,
